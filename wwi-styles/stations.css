@@ -1,0 +1,9 @@
+.scrollable-menu {
+  height: auto;
+  max-height: 500px;
+  overflow-x: hidden;
+}
+
+h2.dropdown-header {
+  font-size: 1.125rem;
+}

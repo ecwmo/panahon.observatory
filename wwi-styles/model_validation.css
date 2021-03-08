@@ -1,0 +1,87 @@
+/* .btn-block {
+    width: 90%;
+    margin-left: 5%;
+} */
+
+body {
+  font-family: Tahoma, 'Lucida Grande', Arial, sans-serif;
+  font-size: 100%;
+  background-color: #666;
+}
+
+header {
+  background-color: #446f90;
+  border-style: solid;
+  border-width: 1px;
+}
+
+header div p {
+  font-size: 0.55em;
+  font-style: normal;
+  margin: 0 5px;
+  text-indent: 0;
+}
+
+.head-contact {
+  border-left: 1px solid #000000;
+  margin: 6px 0;
+  padding: 4px 0 0 0;
+}
+
+a {
+  color: #e5e5e5;
+  text-decoration: none;
+}
+
+.navbar-custom {
+  background-color: #446f90;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: #091923;
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+  color: #091923;
+  border-style: solid;
+  border-width: 0 1px 0 0;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-variant: small-caps;
+}
+
+.navbar-custom .navbar-nav.ml-auto .nav-link {
+  border-style: none !important;
+}
+
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  background-color: #5d89ab;
+}
+
+.contents {
+  background-color: #e5e5e5;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+}
+
+.center-cropped img {
+    object-fit: contain;
+    /* Do not scale the image */
+    object-position: left;
+    /* Center the image within the element */
+    width: 150%;
+    max-height: 700px;
+}
+.scorr img {
+    object-fit: contain;
+    /* Do not scale the image */
+    object-position: left;
+    /* Center the image within the element */
+    width: 100%;
+    max-height: 500px;
+}

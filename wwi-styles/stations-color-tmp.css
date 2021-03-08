@@ -1,0 +1,451 @@
+
+#<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> {
+  background-color: ;
+}
+#<html><head> {
+  background-color: ;
+}
+#<meta type="copyright" content="Copyright (C) 1996-2016 The Squid Software Foundation and contributors"> {
+  background-color: ;
+}
+#<meta http-equiv="Content-Type" CONTENT="text/html; charset=utf-8"> {
+  background-color: ;
+}
+#<title>ERROR: The requested URL could not be retrieved</title> {
+  background-color: ;
+}
+#<style type="text/css"><!--  {
+  background-color: ;
+}
+# /* {
+  background-color: ;
+}
+# * Copyright (C) 1996-2016 The Squid Software Foundation and contributors {
+  background-color: ;
+}
+# * {
+  background-color: ;
+}
+# * Squid software is distributed under GPLv2+ license and includes {
+  background-color: ;
+}
+# * contributions from numerous individuals and organizations. {
+  background-color: ;
+}
+# * Please see the COPYING and CONTRIBUTORS files for details. {
+  background-color: ;
+}
+# */ {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* {
+  background-color: ;
+}
+# Stylesheet for Squid Error pages {
+  background-color: ;
+}
+# Adapted from design by Free CSS Templates {
+  background-color: ;
+}
+# http://www.freecsstemplates.org {
+  background-color: ;
+}
+# Released for free under a Creative Commons Attribution 2.5 License {
+  background-color: ;
+}
+#*/ {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* Page basics */ {
+  background-color: ;
+}
+#* { {
+  background-color: ;
+}
+#	font-family: verdana {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#html body { {
+  background-color: ;
+}
+#	margin: 0; {
+  background-color: ;
+}
+#	padding: 0; {
+  background-color: ;
+}
+#	background: #efefef; {
+  background-color: ;
+}
+#	font-size: 12px; {
+  background-color: ;
+}
+#	color: #1e1e1e; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* Page displayed title area */ {
+  background-color: ;
+}
+##titles { {
+  background-color: ;
+}
+#	margin-left: 15px; {
+  background-color: ;
+}
+#	padding: 10px; {
+  background-color: ;
+}
+#	padding-left: 100px; {
+  background-color: ;
+}
+#	background: url('/squid-internal-static/icons/SN.png') no-repeat left; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* initial title */ {
+  background-color: ;
+}
+##titles h1 { {
+  background-color: ;
+}
+#	color: #000000; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+##titles h2 { {
+  background-color: ;
+}
+#	color: #000000; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* special event: FTP success page titles */ {
+  background-color: ;
+}
+##titles ftpsuccess { {
+  background-color: ;
+}
+#	background-color:#00ff00; {
+  background-color: ;
+}
+#	width:100%; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* Page displayed body content area */ {
+  background-color: ;
+}
+##content { {
+  background-color: ;
+}
+#	padding: 10px; {
+  background-color: ;
+}
+#	background: #ffffff; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* General text */ {
+  background-color: ;
+}
+#p { {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* error brief description */ {
+  background-color: ;
+}
+##error p { {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* some data which may have caused the problem */ {
+  background-color: ;
+}
+##data { {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* the error message received from the system or other software */ {
+  background-color: ;
+}
+##sysmsg { {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#pre { {
+  background-color: ;
+}
+#    font-family:sans-serif; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* special event: FTP / Gopher directory listing */ {
+  background-color: ;
+}
+##dirmsg { {
+  background-color: ;
+}
+#    font-family: courier; {
+  background-color: ;
+}
+#    color: black; {
+  background-color: ;
+}
+#    font-size: 10pt; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+##dirlisting { {
+  background-color: ;
+}
+#    margin-left: 2%; {
+  background-color: ;
+}
+#    margin-right: 2%; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+##dirlisting tr.entry td.icon {
+  background-color: ;
+}
+#    border-bottom: groove; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+##dirlisting td.size { {
+  background-color: ;
+}
+#    width: 50px; {
+  background-color: ;
+}
+#    text-align: right; {
+  background-color: ;
+}
+#    padding-right: 5px; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* horizontal lines */ {
+  background-color: ;
+}
+#hr { {
+  background-color: ;
+}
+#	margin: 0; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#/* page displayed footer area */ {
+  background-color: ;
+}
+##footer { {
+  background-color: ;
+}
+#	font-size: 9px; {
+  background-color: ;
+}
+#	padding-left: 10px; {
+  background-color: ;
+}
+#} {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#body {
+  background-color: ;
+}
+#:lang(fa) { direction: rtl; font-size: 100%; font-family: Tahoma {
+  background-color: ;
+}
+#:lang(he) { direction: rtl; } {
+  background-color: ;
+}
+# --></style> {
+  background-color: ;
+}
+#</head><body id=ERR_CONNECT_FAIL> {
+  background-color: ;
+}
+#<div id="titles"> {
+  background-color: ;
+}
+#<h1>ERROR</h1> {
+  background-color: ;
+}
+#<h2>The requested URL could not be retrieved</h2> {
+  background-color: ;
+}
+#</div> {
+  background-color: ;
+}
+#<hr> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<div id="content"> {
+  background-color: ;
+}
+#<p>The following error was encountered while trying to retrieve the URL: <a href="http://10.8.6.67/summary/latest.csv">http://10.8.6.67/summary/latest {
+  background-color: ;
+}
+#.csv</a></p> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<blockquote id="error"> {
+  background-color: ;
+}
+#<p><b>Connection to 10.8.6.67 failed.</b></p> {
+  background-color: ;
+}
+#</blockquote> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<p id="sysmsg">The system returned: <i>(113) No route to host</i></p> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<p>The remote host or network may be down. Please try the request again.</p> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<p>Your cache administrator is <a href="mailto:admin@ateneo.edu?subject=CacheErrorInfo%20-%20ERR_CONNECT_FAIL&amp;body=CacheHost%3A%20proxy.admu.edu.p {
+  background-color: ;
+}
+#h%0D%0AErrPage%3A%20ERR_CONNECT_FAIL%0D%0AErr%3A%20(113)%20No%20route%20to%20host%0D%0ATimeStamp%3A%20Mon {
+  background-color: ;
+}
+#A%0D%0AClientIP%3A%2010.8.0.8%0D%0AServerIP%3A%2010.8.6.67%0D%0A%0D%0AHTTP%20Request%3A%0D%0AGET%20%2Fsummary%2Flatest.csv%20HTTP%2F1.0%0AUser-Agent%3 {
+  background-color: ;
+}
+#A%20Python-urllib%2F1.17%0D%0AHost%3A%2010.8.6.67%0D%0A%0D%0A%0D%0A">admin@ateneo.edu</a>.</p> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<br> {
+  background-color: ;
+}
+#</div> {
+  background-color: ;
+}
+# {
+  background-color: ;
+}
+#<hr> {
+  background-color: ;
+}
+#<div id="footer"> {
+  background-color: ;
+}
+#<p>Generated Mon {
+  background-color: ;
+}
+#<!-- ERR_CONNECT_FAIL --> {
+  background-color: ;
+}
+#</div> {
+  background-color: ;
+}
+#</body></html> {
+  background-color: ;
+}

@@ -1,0 +1,38 @@
+ *  Temperature
+
+At (date, time), the temperature at (station) is (hourly? temp) deg C but feels like (heat index) deg C because
+
+of the current (humidity).
+
+
+This temperature is {greater than/less than/equivalent to} the (climatological monthly temp), the average 
+
+temperature for this month.
+
+In the past 24 hours, the highest temperature is (tmax) and the lowest temperature is (tmin).
+
+
+* Rainfall
+
+At (date, time), there was (hourly? rainfall) mm rainfall received at (station).  There have been (24-hr accum rainfall) mm
+
+for the past 24 hours.  This rainfall is {greater than/less than/equivalent to} the (maximum 24-hr rainfall for this month,
+
+as related to an extreme rainfall event).
+
+- Add comment on the daily average rainfall for the past 3 days/week or consecutive wet/dry days?
+
+
+* Winds
+At (date, time), there is (wind) m/s flow from (wind direction). These winds are {greater than/less than/equivalent to} 
+the strongest wind for this month at (maximum daily wind for this month).
+
+
+- Add comment on the trend for the past hours? 
+
+
+* Pressure
+At (date, time), the pressure is currently (pressure) mb at (station).  There has been a {declining/rising/steady trend} 
+of (trend) in the past 6 hours.  
+
+- Add comment if there is probability of rain, associated with drop in pressure?

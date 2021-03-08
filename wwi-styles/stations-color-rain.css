@@ -1,0 +1,451 @@
+
+#<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> {
+  background-color: #ffffff;
+}
+#<html><head> {
+  background-color: #ffffff;
+}
+#<meta type="copyright" content="Copyright (C) 1996-2016 The Squid Software Foundation and contributors"> {
+  background-color: #ffffff;
+}
+#<meta http-equiv="Content-Type" CONTENT="text/html; charset=utf-8"> {
+  background-color: #ffffff;
+}
+#<title>ERROR: The requested URL could not be retrieved</title> {
+  background-color: #ffffff;
+}
+#<style type="text/css"><!--  {
+  background-color: #ffffff;
+}
+# /* {
+  background-color: #ffffff;
+}
+# * Copyright (C) 1996-2016 The Squid Software Foundation and contributors {
+  background-color: #ffffff;
+}
+# * {
+  background-color: #ffffff;
+}
+# * Squid software is distributed under GPLv2+ license and includes {
+  background-color: #ffffff;
+}
+# * contributions from numerous individuals and organizations. {
+  background-color: #ffffff;
+}
+# * Please see the COPYING and CONTRIBUTORS files for details. {
+  background-color: #ffffff;
+}
+# */ {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* {
+  background-color: #ffffff;
+}
+# Stylesheet for Squid Error pages {
+  background-color: #ffffff;
+}
+# Adapted from design by Free CSS Templates {
+  background-color: #ffffff;
+}
+# http://www.freecsstemplates.org {
+  background-color: #ffffff;
+}
+# Released for free under a Creative Commons Attribution 2.5 License {
+  background-color: #ffffff;
+}
+#*/ {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* Page basics */ {
+  background-color: #ffffff;
+}
+#* { {
+  background-color: #ffffff;
+}
+#	font-family: verdana {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#html body { {
+  background-color: #ffffff;
+}
+#	margin: 0; {
+  background-color: #ffffff;
+}
+#	padding: 0; {
+  background-color: #ffffff;
+}
+#	background: #efefef; {
+  background-color: #ffffff;
+}
+#	font-size: 12px; {
+  background-color: #ffffff;
+}
+#	color: #1e1e1e; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* Page displayed title area */ {
+  background-color: #ffffff;
+}
+##titles { {
+  background-color: #ffffff;
+}
+#	margin-left: 15px; {
+  background-color: #ffffff;
+}
+#	padding: 10px; {
+  background-color: #ffffff;
+}
+#	padding-left: 100px; {
+  background-color: #ffffff;
+}
+#	background: url('/squid-internal-static/icons/SN.png') no-repeat left; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* initial title */ {
+  background-color: #ffffff;
+}
+##titles h1 { {
+  background-color: #ffffff;
+}
+#	color: #000000; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+##titles h2 { {
+  background-color: #ffffff;
+}
+#	color: #000000; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* special event: FTP success page titles */ {
+  background-color: #ffffff;
+}
+##titles ftpsuccess { {
+  background-color: #ffffff;
+}
+#	background-color:#00ff00; {
+  background-color: #ffffff;
+}
+#	width:100%; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* Page displayed body content area */ {
+  background-color: #ffffff;
+}
+##content { {
+  background-color: #ffffff;
+}
+#	padding: 10px; {
+  background-color: #ffffff;
+}
+#	background: #ffffff; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* General text */ {
+  background-color: #ffffff;
+}
+#p { {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* error brief description */ {
+  background-color: #ffffff;
+}
+##error p { {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* some data which may have caused the problem */ {
+  background-color: #ffffff;
+}
+##data { {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* the error message received from the system or other software */ {
+  background-color: #ffffff;
+}
+##sysmsg { {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#pre { {
+  background-color: #ffffff;
+}
+#    font-family:sans-serif; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* special event: FTP / Gopher directory listing */ {
+  background-color: #ffffff;
+}
+##dirmsg { {
+  background-color: #ffffff;
+}
+#    font-family: courier; {
+  background-color: #ffffff;
+}
+#    color: black; {
+  background-color: #ffffff;
+}
+#    font-size: 10pt; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+##dirlisting { {
+  background-color: #ffffff;
+}
+#    margin-left: 2%; {
+  background-color: #ffffff;
+}
+#    margin-right: 2%; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+##dirlisting tr.entry td.icon {
+  background-color: #ffffff;
+}
+#    border-bottom: groove; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+##dirlisting td.size { {
+  background-color: #ffffff;
+}
+#    width: 50px; {
+  background-color: #ffffff;
+}
+#    text-align: right; {
+  background-color: #ffffff;
+}
+#    padding-right: 5px; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* horizontal lines */ {
+  background-color: #ffffff;
+}
+#hr { {
+  background-color: #ffffff;
+}
+#	margin: 0; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#/* page displayed footer area */ {
+  background-color: #ffffff;
+}
+##footer { {
+  background-color: #ffffff;
+}
+#	font-size: 9px; {
+  background-color: #ffffff;
+}
+#	padding-left: 10px; {
+  background-color: #ffffff;
+}
+#} {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#body {
+  background-color: #ffffff;
+}
+#:lang(fa) { direction: rtl; font-size: 100%; font-family: Tahoma {
+  background-color: #ffffff;
+}
+#:lang(he) { direction: rtl; } {
+  background-color: #ffffff;
+}
+# --></style> {
+  background-color: #ffffff;
+}
+#</head><body id=ERR_CONNECT_FAIL> {
+  background-color: #ffffff;
+}
+#<div id="titles"> {
+  background-color: #ffffff;
+}
+#<h1>ERROR</h1> {
+  background-color: #ffffff;
+}
+#<h2>The requested URL could not be retrieved</h2> {
+  background-color: #ffffff;
+}
+#</div> {
+  background-color: #ffffff;
+}
+#<hr> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<div id="content"> {
+  background-color: #ffffff;
+}
+#<p>The following error was encountered while trying to retrieve the URL: <a href="http://10.8.6.67/summary/latest.csv">http://10.8.6.67/summary/latest {
+  background-color: #ffffff;
+}
+#.csv</a></p> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<blockquote id="error"> {
+  background-color: #ffffff;
+}
+#<p><b>Connection to 10.8.6.67 failed.</b></p> {
+  background-color: #ffffff;
+}
+#</blockquote> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<p id="sysmsg">The system returned: <i>(113) No route to host</i></p> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<p>The remote host or network may be down. Please try the request again.</p> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<p>Your cache administrator is <a href="mailto:admin@ateneo.edu?subject=CacheErrorInfo%20-%20ERR_CONNECT_FAIL&amp;body=CacheHost%3A%20proxy.admu.edu.p {
+  background-color: #ffffff;
+}
+#h%0D%0AErrPage%3A%20ERR_CONNECT_FAIL%0D%0AErr%3A%20(113)%20No%20route%20to%20host%0D%0ATimeStamp%3A%20Mon {
+  background-color: #ffffff;
+}
+#A%0D%0AClientIP%3A%2010.8.0.8%0D%0AServerIP%3A%2010.8.6.67%0D%0A%0D%0AHTTP%20Request%3A%0D%0AGET%20%2Fsummary%2Flatest.csv%20HTTP%2F1.0%0AUser-Agent%3 {
+  background-color: #ffffff;
+}
+#A%20Python-urllib%2F1.17%0D%0AHost%3A%2010.8.6.67%0D%0A%0D%0A%0D%0A">admin@ateneo.edu</a>.</p> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<br> {
+  background-color: #ffffff;
+}
+#</div> {
+  background-color: #ffffff;
+}
+# {
+  background-color: #ffffff;
+}
+#<hr> {
+  background-color: #ffffff;
+}
+#<div id="footer"> {
+  background-color: #ffffff;
+}
+#<p>Generated Mon {
+  background-color: #ffffff;
+}
+#<!-- ERR_CONNECT_FAIL --> {
+  background-color: #ffffff;
+}
+#</div> {
+  background-color: #ffffff;
+}
+#</body></html> {
+  background-color: #ffffff;
+}
