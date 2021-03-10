@@ -18,16 +18,14 @@ $pages = array(
 );
 
 ?>
-<nav class="navbar navbar-light navbar-expand-lg navbar-custom p-0">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="bg-blue-900 border border-black flex justify-between">
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <?php buildMenu($curPage, $pages); ?>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
-        </ul>
-    </div>
+    </button> -->
+    <ul class="flex">
+        <?php buildMenu($curPage, $pages); ?>
+    </ul>
+    <ul class="flex">
+        <li class="py-1 px-2 border-l border-black uppercase hover:bg-blue-600"><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
+    </ul>
 </nav>

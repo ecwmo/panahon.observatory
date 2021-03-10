@@ -17,11 +17,11 @@ function buildMenu($curPage, $pages)
   for ($p = 0; $p < $npage; $p++) {
     $href = './' . $pages[$p][0] . '.php';
     if ($curPage == $pages[$p][0] . '.php') {
-      $class = "nav-item active";
+      $class = "bg-blue-600";
     } else {
-      $class = "nav-item";
+      $class = "";
     }
-    echo '<li class="' . $class . '"><a class="nav-link" href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
+    echo '<li class="py-1 px-2 border-r border-black uppercase hover:bg-blue-600 ' . $class . '"><a href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
   }
 }
 
