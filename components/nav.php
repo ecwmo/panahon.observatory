@@ -17,15 +17,34 @@ $pages = array(
     array("reports", "Tropical Cyclone Report", "Reports", "Tropical Cyclone - Weather Watch Initiative (Manila Observatory)")
 );
 
+function buildMenu($curPage, $pages)
+{
+  $npage = count($pages);
+  for ($p = 0; $p < $npage; $p++) {
+    $href = './' . $pages[$p][0] . '.php';
+    if ($curPage == $pages[$p][0] . '.php') {
+      $class = "text-gray-100 bg-blue-600";
+    } else {
+      $class = "";
+    }
+    echo '<li class="py-1 px-2 border-b border-gray-300 md:border-r md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600 ' . $class . '"><a href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
+  }
+}
+
 ?>
-<nav class="bg-blue-900 border border-black flex justify-between">
-    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button> -->
-    <ul class="flex">
+<button @click="mobileMenuOpen = !mobileMenuOpen"
+    class="md:hidden my-auto mr-2 w-8 h-8 bg-gray-200 text-gray-600 p-1">
+    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd"
+        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+        clip-rule="evenodd"></path>
+    </svg>
+</button>
+<nav class="absolute md:relative top-14 right-14 md:top-0 md:right-0 md:flex flex-col md:flex-row md:justify-between bg-blue-900 border md:border-t md:border-l-0 md:border-r-0 md:border-b-0 border-black" :class="{ 'flex' : mobileMenuOpen , 'hidden' : !mobileMenuOpen}" @click.away="mobileMenuOpen = false">
+    <ul class="md:flex flex-col md:flex-row">
         <?php buildMenu($curPage, $pages); ?>
     </ul>
-    <ul class="flex">
-        <li class="py-1 px-2 border-l border-black uppercase hover:bg-blue-600"><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
+    <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l md:border-black border-gray-100">
+        <li class="py-1 px-2  uppercase hover:bg-blue-600"><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
     </ul>
 </nav>

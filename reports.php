@@ -6,7 +6,6 @@
 
 <body class="bg-gray-600 w-4/5 mx-auto">
     <?php include_once('./components/header.php'); ?>
-    <?php include_once('./components/nav.php'); ?>
     <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
         <div class="mx-2">
             <div id="report-img" class="mx-auto p-3"></div>
