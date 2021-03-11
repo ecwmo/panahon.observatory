@@ -1,4 +1,5 @@
 resources/reports
+resources/model
 node_modules
 dist
 yarn.lock
