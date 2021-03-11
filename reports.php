@@ -8,7 +8,7 @@
         <div class="m-4">
             <?php
             $imgs = glob('./resources/reports/img/'. $imgSrc  .'/*.png');
-            foreach($imgs as $img) {
+            foreach ($imgs as $img) {
                 print '<img class="mb-2 border border-black" src="'. $img. '" />';
             }
             ?>
@@ -17,9 +17,9 @@
             <h1 class="col-lg-12 p-3 display-6"><strong>Additional Information</strong></h1>
         </div>
         <div class="m-4">
-        <?php
+            <?php
             $imgs = glob('./resources/reports/img/'. $simgSrc  .'/*.png');
-            foreach($imgs as $img) {
+            foreach ($imgs as $img) {
                 print '<img class="mb-2 border border-black" src="'. $img. '" />';
             }
             ?>

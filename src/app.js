@@ -1,7 +1,7 @@
-import './styles.css';
+import "./styles.css";
 
-import 'alpinejs';
-import { metFields, fcstTimes, modelSelect } from './js/ModelPage';
+import "alpinejs";
+import { metFields, fcstTimes, modelSelect } from "./js/ModelPage";
 
 window.metFields = metFields;
 window.fcstTimes = fcstTimes;

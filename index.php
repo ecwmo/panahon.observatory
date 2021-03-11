@@ -4,28 +4,25 @@
 
 <body class="bg-gray-600 w-4/5 mx-auto">
     <?php include_once('./components/header.php'); ?>
-    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col-reverse md:flex-row py-4 justify-center" x-data="modelSelect()">
+    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col-reverse md:flex-row py-4 justify-center"
+        x-data="modelSelect()">
         <div class="flex flex-col items-center space-y-4 px-6">
             <h3 class="text-center text-3xl font-semibold mt-4 mb-2">Fields</h3>
             <template x-for="mf in metFields" :key="mf.varName">
-                <div 
-                    class="w-full sm:w-3/5 md:w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
+                <div class="w-full sm:w-3/5 md:w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
                     :class="{'bg-blue-600': mf.varName === varName, 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': mf.varName !== varName}"
-                    @click="setVarName(mf.varName)"
-                    x-text="mf.text">
+                    @click="setVarName(mf.varName)" x-text="mf.text">
                 </div>
             </template>
         </div>
         <div class="flex flex-col space-y-2">
             <h2 class="text-center font-semibold text-4xl">Model Forecast Maps</h2>
             <div class="flex flex-row text-xs font-semibold justify-center">
-            <h5 class="text-lg mr-2">Forecast Length: </h5>
+                <h5 class="text-lg mr-2">Forecast Length: </h5>
                 <template x-for="(ft, i) in fcstTimes" :key="i">
-                    <div
-                        class="flex text-gray-200 justify-center p-2"
+                    <div class="flex text-gray-200 justify-center p-2"
                         :class="{'rounded-l-lg pl-3': i === 0, 'rounded-r-lg pr-3': i === 2, 'border-l border-r border-gray-200': (i > 0) && (i < 2), 'bg-blue-600': ft.val === fcstTime, 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': ft.val !== fcstTime}"
-                        @click="setFcstTime(ft.val)"
-                        x-text="ft.text">
+                        @click="setFcstTime(ft.val)" x-text="ft.text">
                     </div>
                 </template>
             </div>
