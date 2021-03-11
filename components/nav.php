@@ -17,17 +17,21 @@ $pages = array(
     array("reports", "Tropical Cyclone Report", "Reports", "Tropical Cyclone - Weather Watch Initiative (Manila Observatory)")
 );
 
-function buildMenu($curPage, $pages)
+$pages2 = array(
+  array("faq", "Frequently Asked Questions", "FAQ", "FAQ - Weather Watch Initiative - Manila Observatory")
+);
+
+function buildMenu($curPage, $pages, $class0)
 {
   $npage = count($pages);
   for ($p = 0; $p < $npage; $p++) {
     $href = './' . $pages[$p][0] . '.php';
     if ($curPage == $pages[$p][0] . '.php') {
-      $class = "text-gray-100 bg-blue-600";
+      $class = $class0 . 'text-gray-100 bg-blue-600';
     } else {
-      $class = "";
+      $class = $class0;
     }
-    echo '<li class="py-1 px-2 border-b border-gray-300 md:border-r md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600 ' . $class . '"><a href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
+    echo '<li class="' . $class . '"><a href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
   }
 }
 
@@ -42,9 +46,9 @@ function buildMenu($curPage, $pages)
 </button>
 <nav class="absolute md:relative top-14 right-14 md:top-0 md:right-0 md:flex flex-col md:flex-row md:justify-between bg-blue-900 border md:border-t md:border-l-0 md:border-r-0 md:border-b-0 border-black" :class="{ 'flex' : mobileMenuOpen , 'hidden' : !mobileMenuOpen}" @click.away="mobileMenuOpen = false">
     <ul class="md:flex flex-col md:flex-row">
-        <?php buildMenu($curPage, $pages); ?>
+        <?php buildMenu($curPage, $pages, "py-1 px-2 border-b border-gray-300 md:border-r md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
     </ul>
     <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l md:border-black border-gray-100">
-        <li class="py-1 px-2  uppercase hover:bg-blue-600"><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
+        <?php buildMenu($curPage, $pages2, "py-1 px-2 text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
     </ul>
 </nav>
