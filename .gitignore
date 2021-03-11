@@ -1,4 +1,4 @@
-api/resources/reports
+resources/reports
 node_modules
 dist
 yarn.lock
