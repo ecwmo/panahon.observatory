@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include_once('./components/head.php'); ?>
 
-<body class="bg-gray-600 w-4/5 mx-auto">
+<body class="bg-gray-600 w-full md:w-4/5 mx-auto">
     <?php include_once('./components/header.php'); ?>
     <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
         <div class="m-4">
