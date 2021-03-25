@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.model-caption a {
+  @apply underline text-blue-600;
+}
+
+.model-caption a:hover {
+  @apply underline text-blue-400;
+}

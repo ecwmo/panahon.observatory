@@ -17,7 +17,8 @@
     <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col-reverse md:flex-row py-4 justify-center"
         x-data="modelSelect()">
         <div class="flex flex-col">
-            <div class="flex flex-col items-center space-y-4 px-6">
+            <!-- Forecast Length -->
+            <div class="flex flex-col items-center space-y-4 px-6" x-show="isFcstTimeVisible">
                 <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
                 <div class="flex flex-row text-sm">
                     <template x-for="(ft, i) in fcstTimes" :key="i">
@@ -28,10 +29,11 @@
                     </template>
                 </div>
             </div>
-            <div class="flex flex-col items-center space-y-4 px-6">
+            <!-- Fields -->
+            <div class="flex flex-col items-center space-y-4 px-6 min-w-max w-2/5 md:w-full mx-auto">
                 <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
                 <template x-for="mf in metFields" :key="mf.varName">
-                    <div class="w-full sm:w-3/5 md:w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
+                    <div class="w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
                         :class="{'bg-blue-600': mf.varName === varName, 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': mf.varName !== varName}"
                         @click="setVarName(mf.varName)" x-text="mf.text">
                     </div>
@@ -43,8 +45,10 @@
                 <?php print $modelPageHeader; ?>
             </h2>
             <div class="flex flex-col justify-center px-4">
-                <img class="object-center" :src="`resources/model/img/wrf-${fcstTime}hr_${varName}.png`" />
+                <img class="object-center" :src="`resources/model/img/${getImgName()}`" />
             </div>
+            <div class="text-sm mx-5 font-semibold text-justify break-words md:break-normal model-caption"
+                x-html="caption" x-show="caption"></div>
         </div>
     </div>
 
