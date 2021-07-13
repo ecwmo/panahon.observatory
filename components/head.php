@@ -2,16 +2,7 @@
 // set the default timezone to use. Available since PHP 5.1
 date_default_timezone_set('Asia/Manila');
 
-function getTitle($curPage, $pages)
-{
-    $npage = count($pages);
-    for ($p = 0; $p < $npage; $p++) {
-        if ($curPage == $pages[$p][0] . '.php') {
-            return $pages[$p][3];
-        }
-    }
-    return "Weather Watch Initiative - Manila Observatory";
-}
+$pages = array('reports' => "Extreme Weather Report");
 
 $curPage = basename($_SERVER['PHP_SELF']);
 $curStyle = './wwi-styles/' . str_replace(".php", ".css", $curPage);
@@ -25,16 +16,28 @@ if ($_GET['view']=="draft") {
     $simgSrc = "static";
 }
 
+function getTitle($curPage, $pages)
+{
+    foreach ($pages as $pageName => $pageTitle) {
+        if ($curPage == $pageName . '.php') {
+            echo $pageTitle . " - ";
+        }
+    }
+    echo "Weather and Climate Reasearch - Manila Observatory";
+}
+
 ?>
 
 <head>
+    <title>
+        <?php getTitle($curPage, $pages); ?>
+    </title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Experimental model forecasts for the Philippine" />
 
-    <link href="./dist/styles.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="static/img/logo.png">
 
-    <title><?php getTitle($curPage, $pages); ?>
-    </title>
+    <link href="./dist/styles.css" rel="stylesheet" type="text/css" />
 </head>
