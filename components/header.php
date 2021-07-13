@@ -8,8 +8,8 @@
             <p>Loyola Heights, Quezon City, Philippines</p>
         </div>
         <div class="hidden md:inline border-l border-black px-2">
-            <p>Tel: (632) 426-5921 / 426-0837 / 426-6495</p>
-            <p>Fax: (632) 426-0847 / 426-6141</p>
+            <p>Tel: (632) 8426-5921 / 8426-0837 / 8426-6495</p>
+            <p>Fax: (632) 8426-0847 / 8426-6141</p>
             <p>Email: <a href="mailto:manila@observatory.ph" title="Manila Observatory email address" class="text-gray-200">manila@observatory.ph</a></p>
         </div>
     </div>
