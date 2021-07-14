@@ -4,8 +4,8 @@
   "description": "MO Panahon Website",
   "main": "app.js",
   "scripts": {
-    "build:dev": "webpack --mode development",
-    "build:prod": "export NODE_ENV=production && webpack --mode production"
+    "dev": "webpack --mode development --watch",
+    "build": "export NODE_ENV=production && webpack --mode production"
   },
   "author": "Emilio Gozo",
   "license": "ISC",
