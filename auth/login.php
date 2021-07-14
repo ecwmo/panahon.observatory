@@ -21,6 +21,7 @@
             $_SESSION['timeout'] = time();
             $_SESSION['username'] = $username;
             @ldap_close($ldap);
+            header("Location: ".$_GET['prev']);
         } else {
             $loginError = true;
         }
