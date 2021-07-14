@@ -41,9 +41,9 @@
             </div>
         </div>
         <div class="flex flex-col space-y-2 mx-12 md:w-full">
-            <h2 class="text-center font-semibold text-3xl" , x-text="headerName"></h2>
+            <h2 class="text-center font-semibold text-4xl" , x-text="headerName"></h2>
             <div class="flex flex-col justify-center px-4">
-                <img class="object-center" :src="`resources/model/img/${getImgName()}`" />
+                <img class="object-center shadow-md rounded-2xl" :src="`resources/model/img/${getImgName()}`" />
             </div>
             <div class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
                 x-html="caption" x-show="caption"></div>

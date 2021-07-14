@@ -1,4 +1,4 @@
-<header class="bg-blue-900 pt-1 border border-black md:flex-col flex flex-row justify-between" x-data="{mobileMenuOpen : false}">
+<header class="bg-blue-900 pt-1 border border-black md:flex-col flex flex-row justify-between shadow-lg" x-data="{mobileMenuOpen : false}">
     <div class="flex text-xs m-1 mb-2">
         <img alt="Manila Observatory Logo" class="h-12 ml-1" src="/resources/static/logo.png" />
         <p class="md:hidden font-bold text-2xl ml-3 my-auto text-gray-200">Manila Observatory</p>
