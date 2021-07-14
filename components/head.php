@@ -37,7 +37,7 @@ function getTitle($curPage, $pages)
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Experimental model forecasts for the Philippine" />
 
-    <link rel="shortcut icon" href="static/img/logo.png">
+    <link rel="shortcut icon" href="./resources/static/logo.png">
 
     <link href="./dist/styles.css" rel="stylesheet" type="text/css" />
 </head>

@@ -6,14 +6,14 @@
     <?php include_once('./components/header.php'); ?>
     <div class="bg-gray-400 px-8 py-6">
         <div class="bg-white flex-col md:flex md:flex-row md:justify-between p-2 md:p-3 mb-8">
-            <img class="h-32" src="./static/img/metroweather_w.png" />
+            <img class="h-32" src="./resources/static/img/metroweather_w.png" />
             <div class="flex flex-wrap md:space-x-3 mt-auto">
-                <img class="h-14" src="./static/img/admu.png" />
-                <img class="h-14" src="./static/img/caltex_new.png" />
-                <img class="h-14" src="./static/img/globe_full.png" />
-                <img class="h-14" src="./static/img/chevron.png" />
-                <img class="h-14" src="./static/img/logo.png" />
-                <img class="h-14" src="./static/img/mmda.png" />
+                <img class="h-14" src="./resources/static/img/admu.png" />
+                <img class="h-14" src="./resources/static/img/caltex_new.png" />
+                <img class="h-14" src="./resources/static/img/globe_full.png" />
+                <img class="h-14" src="./resources/static/img/chevron.png" />
+                <img class="h-14" src="./resources/static/logo.png" />
+                <img class="h-14" src="./resources/static/img/mmda.png" />
             </div>
         </div>
         <h3 class="text-white font-semibold text-lg">What is the Metro Weather – Automated Weather Station (AWS)

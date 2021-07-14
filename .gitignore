@@ -1,6 +1,7 @@
-resources/reports
-resources/model
-node_modules
-dist
+/resources/reports/
+resources/model/
+/node_modules/
+/dist/
 yarn.lock
-.vscode
+/.vscode/
+/.bak/
