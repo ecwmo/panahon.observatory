@@ -1,31 +1,33 @@
 <?php
-// set the default timezone to use. Available since PHP 5.1
-date_default_timezone_set('Asia/Manila');
+    session_start();
+    // set the default timezone to use. Available since PHP 5.1
+    date_default_timezone_set('Asia/Manila');
 
-$pages = array('reports' => "Extreme Weather Report");
+    include_once(__DIR__.'/../config/config.php');
 
-$curPage = basename($_SERVER['PHP_SELF']);
-$curStyle = './wwi-styles/' . str_replace(".php", ".css", $curPage);
-$curScript = './wwi-scripts/' . str_replace(".php", ".js", $curPage);
+    $pages = array('reports' => "Extreme Weather Report");
 
-if ($_GET['view']=="draft") {
-    $imgSrc = "draft";
-    $simgSrc = "sdraft";
-} else {
-    $imgSrc = "public";
-    $simgSrc = "static";
-}
+    $curPage = basename($_SERVER['PHP_SELF']);
+    $curStyle = './wwi-styles/' . str_replace(".php", ".css", $curPage);
+    $curScript = './wwi-scripts/' . str_replace(".php", ".js", $curPage);
 
-function getTitle($curPage, $pages)
-{
-    foreach ($pages as $pageName => $pageTitle) {
-        if ($curPage == $pageName . '.php') {
-            echo $pageTitle . " - ";
-        }
+    if ($_GET['view']=="draft") {
+        $imgSrc = "draft";
+        $simgSrc = "sdraft";
+    } else {
+        $imgSrc = "public";
+        $simgSrc = "static";
     }
-    echo "Weather and Climate Reasearch - Manila Observatory";
-}
 
+    function getTitle($curPage, $pages)
+    {
+        foreach ($pages as $pageName => $pageTitle) {
+            if ($curPage == $pageName . '.php') {
+                echo $pageTitle . " - ";
+            }
+        }
+        echo "Weather and Climate Reasearch - Manila Observatory";
+    }
 ?>
 
 <head>
@@ -37,7 +39,7 @@ function getTitle($curPage, $pages)
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Experimental model forecasts for the Philippine" />
 
-    <link rel="shortcut icon" href="./resources/static/logo.png">
+    <link rel="shortcut icon" href="/resources/static/logo.png">
 
-    <link href="./dist/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/dist/styles.css" rel="stylesheet" type="text/css" />
 </head>

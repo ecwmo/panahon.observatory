@@ -26,7 +26,25 @@ function buildMenu($curPage, $pages, $class0)
 {
     $npage = count($pages);
     for ($p = 0; $p < $npage; $p++) {
-        $href = './' . $pages[$p][0] . '.php';
+        $href = '/' . $pages[$p][0] . '.php';
+        if ($curPage == $pages[$p][0] . '.php') {
+            $class = $class0 . 'text-gray-100 bg-blue-600';
+        } else {
+            $class = $class0;
+        }
+        echo '<li class="' . $class . '"><a href="' . $href . '" title="' . $pages[$p][1] . '">' . $pages[$p][2] . '</a></li>';
+    }
+}
+
+function buildRMenu($curPage, $pages, $class0)
+{
+    if (isset($_SESSION['username'])) {
+        $href = "/auth/logout.php";
+        echo '<li class="' . $class0 . '"><a href="' . $href . '" title="Logout">Logout</a></li>';
+    }
+    $npage = count($pages);
+    for ($p = 0; $p < $npage; $p++) {
+        $href = '/' . $pages[$p][0] . '.php';
         if ($curPage == $pages[$p][0] . '.php') {
             $class = $class0 . 'text-gray-100 bg-blue-600';
         } else {
@@ -49,7 +67,7 @@ function buildMenu($curPage, $pages, $class0)
     <ul class="md:flex flex-col md:flex-row">
         <?php buildMenu($curPage, $pages, "py-1 px-2 border-b border-gray-300 md:border-r md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
     </ul>
-    <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l md:border-black border-gray-100">
-        <?php buildMenu($curPage, $pages2, "py-1 px-2 text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
+    <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l-0 md:border-black border-gray-100">
+        <?php buildRMenu($curPage, $pages2, "py-1 px-2 border-b border-gray-300 md:border-l md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
     </ul>
 </nav>

@@ -1,6 +1,6 @@
 <header class="bg-blue-900 pt-1 border border-black md:flex-col flex flex-row justify-between" x-data="{mobileMenuOpen : false}">
     <div class="flex text-xs m-1 mb-2">
-        <img alt="Manila Observatory Logo" class="h-12 ml-1" src="./resources/static/logo.png" />
+        <img alt="Manila Observatory Logo" class="h-12 ml-1" src="/resources/static/logo.png" />
         <p class="md:hidden font-bold text-2xl ml-3 my-auto text-gray-200">Manila Observatory</p>
         <div class="hidden md:inline px-2">
             <p class="font-bold">Manila Observatory</p>
@@ -13,5 +13,5 @@
             <p>Email: <a href="mailto:manila@observatory.ph" title="Manila Observatory email address" class="text-gray-200">manila@observatory.ph</a></p>
         </div>
     </div>
-    <?php include_once('./components/nav.php'); ?>
+    <?php include_once(__DIR__.'/../components/nav.php'); ?>
 </header>
