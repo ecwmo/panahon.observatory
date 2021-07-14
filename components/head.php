@@ -3,21 +3,11 @@
     // set the default timezone to use. Available since PHP 5.1
     date_default_timezone_set('Asia/Manila');
 
-    include_once(__DIR__.'/../config/config.php');
+    include_once(__DIR__.'/../config.php');
 
     $pages = array('reports' => "Extreme Weather Report");
 
     $curPage = basename($_SERVER['PHP_SELF']);
-    $curStyle = './wwi-styles/' . str_replace(".php", ".css", $curPage);
-    $curScript = './wwi-scripts/' . str_replace(".php", ".js", $curPage);
-
-    if ($_GET['view']=="draft") {
-        $imgSrc = "draft";
-        $simgSrc = "sdraft";
-    } else {
-        $imgSrc = "public";
-        $simgSrc = "static";
-    }
 
     function getTitle($curPage, $pages)
     {
