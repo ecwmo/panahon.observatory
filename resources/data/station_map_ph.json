@@ -1,298 +1,296 @@
-{
-  "data": [
-    {
-      "name": "MOIP",
-      "address": "Manila Observatory, Quezon City",
-      "desc": "Ateneo de Manila",
-      "top": 188.709,
-      "left": 172.002
-    },
-    {
-      "name": "MOD",
-      "address": "Matina Hills, Davao City",
-      "desc": "Matina Hills",
-      "top": 386.673,
-      "left": 289.857
-    },
-    {
-      "name": "xuws1",
-      "address": "Xavier University, Cagayan de Oro",
-      "desc": "Xavier University",
-      "top": 349.865,
-      "left": 265.417
-    },
-    {
-      "name": "mo001",
-      "address": "Nangka, Marikina City",
-      "desc": "Nangka",
-      "top": 187.843,
-      "left": 172.844
-    },
-    {
-      "name": "mo002",
-      "address": "Ateneo de Zamboanga, Zamboanga City",
-      "desc": "Ateneo de Zamboanga",
-      "top": 390.855,
-      "left": 198.142
-    },
-    {
-      "name": "mo003",
-      "address": "Notre Dame of Marbel, Koronadal",
-      "desc": "Notre Dame of Marbel",
-      "top": 401.704,
-      "left": 270.516
-    },
-    {
-      "name": "zipzone",
-      "address": "Dahilayan Adventure Park, Bukidnon",
-      "desc": "Dahilayan",
-      "top": 356.237,
-      "left": 269.563
-    },
-    {
-      "name": "mo004",
-      "address": "Guadalupe, Makati City",
-      "desc": "Guadalupe",
-      "top": 190.672,
-      "left": 171.116
-    },
-    {
-      "name": "makati01",
-      "address": "Brgy San Lorenzo, Makati City",
-      "desc": "San Lorenzo (Brgy.)",
-      "top": 191.089,
-      "left": 170.451
-    },
-    {
-      "name": "makati02",
-      "address": "Makati City Hall, Makati City",
-      "desc": "Makati City Hall",
-      "top": 190.427,
-      "left": 170.687
-    },
-    {
-      "name": "makati03",
-      "address": "Brgy San Antonio, Makati City",
-      "desc": "San Antonio (Brgy.)",
-      "top": 190.644,
-      "left": 170.189
-    },
-    {
-      "name": "makati04",
-      "address": "Brgy West Rembo, Makati City",
-      "desc": "West Rembo (Brgy.)",
-      "top": 190.699,
-      "left": 171.633
-    },
-    {
-      "name": "makati05",
-      "address": "Brgy Forbes Park, Makati City",
-      "desc": "Forbes Park (Brgy.)",
-      "top": 190.904,
-      "left": 170.869
-    },
-    {
-      "name": "makati06",
-      "address": "Brgy Pembo, Makati City",
-      "desc": "Pembo (Brgy.)",
-      "top": 191.053,
-      "left": 171.599
-    },
-    {
-      "name": "makati07",
-      "address": "Brgy Pinagkaisahan, Makati City",
-      "desc": "Pinagkaisahan (Brgy.)",
-      "top": 190.743,
-      "left": 171.047
-    },
-    {
-      "name": "mw001",
-      "address": "Southland, Las Pinas",
-      "desc": "Southland, Talon Uno",
-      "top": 193.838,
-      "left": 170.113
-    },
-    {
-      "name": "mw002",
-      "address": "Brgy Holy Spirit, Quezon City",
-      "desc": "Holy Spirit (Caltex)",
-      "top": 187.73,
-      "left": 172.049
-    },
-    {
-      "name": "mw003",
-      "address": "Brgy Kamuning, Quezon City",
-      "desc": "Kamuning (Caltex)",
-      "top": 188.911,
-      "left": 170.981
-    },
-    {
-      "name": "mw004",
-      "address": "Mindanao Avenue, Quezon City",
-      "desc": "Mindanao Avenue (Caltex)",
-      "top": 187.839,
-      "left": 170.849
-    },
-    {
-      "name": "mw005",
-      "address": "Sumulong Avenue, Antipolo",
-      "desc": "Sumulong Avenue (Caltex)",
-      "top": 189.169,
-      "left": 173.387
-    },
-    {
-      "name": "mw006",
-      "address": "Manggahan Floodway, Pasig City",
-      "desc": "Manggahan Floodway (Caltex)",
-      "top": 190.093,
-      "left": 172.522
-    },
-    {
-      "name": "mw007",
-      "address": "U Plata, Caloocan",
-      "desc": "U. Plata (Caltex)",
-      "top": 188.165,
-      "left": 169.777
-    },
-    {
-      "name": "mw008",
-      "address": "Navotas",
-      "desc": "Navotas City (Caltex)",
-      "top": 188.681,
-      "left": 168.837
-    },
-    {
-      "name": "mw009",
-      "address": "Malinta, Valenzuela",
-      "desc": "Malinta (Caltex)",
-      "top": 187.218,
-      "left": 169.169
-    },
-    {
-      "name": "mw010",
-      "address": "Gov Forbes, Tayuman, Manila",
-      "desc": "Tayuman (Caltex)",
-      "top": 189.215,
-      "left": 169.602
-    },
-    {
-      "name": "mw011",
-      "address": "F Blumentrit, San Juan",
-      "desc": "F. Blumentrit (Caltex)",
-      "top": 189.661,
-      "left": 170.72
-    },
-    {
-      "name": "mw012",
-      "address": "Kaybiga, Caloocan",
-      "desc": "Kaybiga",
-      "top": 186.51,
-      "left": 170.417
-    },
-    {
-      "name": "mw013",
-      "address": "Kabihasnan, Paranaque",
-      "desc": "Kabihasnan (Caltex)",
-      "top": 192.488,
-      "left": 169.432
-    },
-    {
-      "name": "mw014",
-      "address": "Pamplona, Las Pinas",
-      "desc": "Pamplona (Caltex)",
-      "top": 193.546,
-      "left": 169.432
-    },
-    {
-      "name": "mw015",
-      "address": "San Isidro, Paranaque",
-      "desc": "San Isidro (Caltex)",
-      "top": 193.036,
-      "left": 170.211
-    },
-    {
-      "name": "mw016",
-      "address": "Merville, Pasay City",
-      "desc": "Merville (Caltex)",
-      "top": 192.022,
-      "left": 170.836
-    },
-    {
-      "name": "mw017",
-      "address": "Quirino Avenue, Manila",
-      "desc": "Quirino Avenue (Caltex)",
-      "top": 190.559,
-      "left": 169.631
-    },
-    {
-      "name": "mw018",
-      "address": "Brgy Payatas B, Quezon City",
-      "desc": "Payatas B (Brgy.)",
-      "top": 186.737,
-      "left": 172.511
-    },
-    {
-      "name": "mw019",
-      "address": "Brgy San Jose, Rodriguez",
-      "desc": "San Jose (Brgy.)",
-      "top": 186.15,
-      "left": 173.344
-    },
-    {
-      "name": "mw020",
-      "address": "Brgy Ampid, San Mateo",
-      "desc": "Ampid (Brgy.)",
-      "top": 187.524,
-      "left": 173.077
-    },
-    {
-      "name": "mw021",
-      "address": "Brgy San Roque, Antipolo",
-      "desc": "San Roque (Brgy.)",
-      "top": 190.188,
-      "left": 174.361
-    },
-    {
-      "name": "mw022",
-      "address": "Tapayan Pumping Station, Taytay",
-      "desc": "Tapayan Pumping Station",
-      "top": 191.185,
-      "left": 173.001
-    },
-    {
-      "name": "mw023",
-      "address": "Brgy Malaya, Pililla",
-      "desc": "Malaya (Brgy.)",
-      "top": 194.901,
-      "left": 178.837
-    },
-    {
-      "name": "mw024",
-      "address": "Brgy San Vicente, Angono",
-      "desc": "San Vicente (Brgy.)",
-      "top": 191.63,
-      "left": 173.761
-    },
-    {
-      "name": "mw026",
-      "address": "Corregidor Island, Cavite City",
-      "desc": "Corregidor Island",
-      "top": 195.225,
-      "left": 159.189
-    },
-    {
-      "name": "mw027",
-      "address": "Brgy San Luis, Antipolo",
-      "desc": "San Luis (Brgy.)",
-      "top": 189.37,
-      "left": 175.193
-    },
-    {
-      "name": "mw028",
-      "address": "Brgy dela Paz, Pasig City",
-      "desc": "dela Paz (Brgy.)",
-      "top": 189.434,
-      "left": 172.695
-    }
-  ]
-}
+[
+  {
+    "name": "MOIP",
+    "address": "Manila Observatory, Quezon City",
+    "desc": "Ateneo de Manila",
+    "top": 188.709,
+    "left": 172.002
+  },
+  {
+    "name": "MOD",
+    "address": "Matina Hills, Davao City",
+    "desc": "Matina Hills",
+    "top": 386.673,
+    "left": 289.857
+  },
+  {
+    "name": "xuws1",
+    "address": "Xavier University, Cagayan de Oro",
+    "desc": "Xavier University",
+    "top": 349.865,
+    "left": 265.417
+  },
+  {
+    "name": "mo001",
+    "address": "Nangka, Marikina City",
+    "desc": "Nangka",
+    "top": 187.843,
+    "left": 172.844
+  },
+  {
+    "name": "mo002",
+    "address": "Ateneo de Zamboanga, Zamboanga City",
+    "desc": "Ateneo de Zamboanga",
+    "top": 390.855,
+    "left": 198.142
+  },
+  {
+    "name": "mo003",
+    "address": "Notre Dame of Marbel, Koronadal",
+    "desc": "Notre Dame of Marbel",
+    "top": 401.704,
+    "left": 270.516
+  },
+  {
+    "name": "zipzone",
+    "address": "Dahilayan Adventure Park, Bukidnon",
+    "desc": "Dahilayan",
+    "top": 356.237,
+    "left": 269.563
+  },
+  {
+    "name": "mo004",
+    "address": "Guadalupe, Makati City",
+    "desc": "Guadalupe",
+    "top": 190.672,
+    "left": 171.116
+  },
+  {
+    "name": "makati01",
+    "address": "Brgy San Lorenzo, Makati City",
+    "desc": "San Lorenzo (Brgy.)",
+    "top": 191.089,
+    "left": 170.451
+  },
+  {
+    "name": "makati02",
+    "address": "Makati City Hall, Makati City",
+    "desc": "Makati City Hall",
+    "top": 190.427,
+    "left": 170.687
+  },
+  {
+    "name": "makati03",
+    "address": "Brgy San Antonio, Makati City",
+    "desc": "San Antonio (Brgy.)",
+    "top": 190.644,
+    "left": 170.189
+  },
+  {
+    "name": "makati04",
+    "address": "Brgy West Rembo, Makati City",
+    "desc": "West Rembo (Brgy.)",
+    "top": 190.699,
+    "left": 171.633
+  },
+  {
+    "name": "makati05",
+    "address": "Brgy Forbes Park, Makati City",
+    "desc": "Forbes Park (Brgy.)",
+    "top": 190.904,
+    "left": 170.869
+  },
+  {
+    "name": "makati06",
+    "address": "Brgy Pembo, Makati City",
+    "desc": "Pembo (Brgy.)",
+    "top": 191.053,
+    "left": 171.599
+  },
+  {
+    "name": "makati07",
+    "address": "Brgy Pinagkaisahan, Makati City",
+    "desc": "Pinagkaisahan (Brgy.)",
+    "top": 190.743,
+    "left": 171.047
+  },
+  {
+    "name": "mw001",
+    "address": "Southland, Las Pinas",
+    "desc": "Southland, Talon Uno",
+    "top": 193.838,
+    "left": 170.113
+  },
+  {
+    "name": "mw002",
+    "address": "Brgy Holy Spirit, Quezon City",
+    "desc": "Holy Spirit (Caltex)",
+    "top": 187.73,
+    "left": 172.049
+  },
+  {
+    "name": "mw003",
+    "address": "Brgy Kamuning, Quezon City",
+    "desc": "Kamuning (Caltex)",
+    "top": 188.911,
+    "left": 170.981
+  },
+  {
+    "name": "mw004",
+    "address": "Mindanao Avenue, Quezon City",
+    "desc": "Mindanao Avenue (Caltex)",
+    "top": 187.839,
+    "left": 170.849
+  },
+  {
+    "name": "mw005",
+    "address": "Sumulong Avenue, Antipolo",
+    "desc": "Sumulong Avenue (Caltex)",
+    "top": 189.169,
+    "left": 173.387
+  },
+  {
+    "name": "mw006",
+    "address": "Manggahan Floodway, Pasig City",
+    "desc": "Manggahan Floodway (Caltex)",
+    "top": 190.093,
+    "left": 172.522
+  },
+  {
+    "name": "mw007",
+    "address": "U Plata, Caloocan",
+    "desc": "U. Plata (Caltex)",
+    "top": 188.165,
+    "left": 169.777
+  },
+  {
+    "name": "mw008",
+    "address": "Navotas",
+    "desc": "Navotas City (Caltex)",
+    "top": 188.681,
+    "left": 168.837
+  },
+  {
+    "name": "mw009",
+    "address": "Malinta, Valenzuela",
+    "desc": "Malinta (Caltex)",
+    "top": 187.218,
+    "left": 169.169
+  },
+  {
+    "name": "mw010",
+    "address": "Gov Forbes, Tayuman, Manila",
+    "desc": "Tayuman (Caltex)",
+    "top": 189.215,
+    "left": 169.602
+  },
+  {
+    "name": "mw011",
+    "address": "F Blumentrit, San Juan",
+    "desc": "F. Blumentrit (Caltex)",
+    "top": 189.661,
+    "left": 170.72
+  },
+  {
+    "name": "mw012",
+    "address": "Kaybiga, Caloocan",
+    "desc": "Kaybiga",
+    "top": 186.51,
+    "left": 170.417
+  },
+  {
+    "name": "mw013",
+    "address": "Kabihasnan, Paranaque",
+    "desc": "Kabihasnan (Caltex)",
+    "top": 192.488,
+    "left": 169.432
+  },
+  {
+    "name": "mw014",
+    "address": "Pamplona, Las Pinas",
+    "desc": "Pamplona (Caltex)",
+    "top": 193.546,
+    "left": 169.432
+  },
+  {
+    "name": "mw015",
+    "address": "San Isidro, Paranaque",
+    "desc": "San Isidro (Caltex)",
+    "top": 193.036,
+    "left": 170.211
+  },
+  {
+    "name": "mw016",
+    "address": "Merville, Pasay City",
+    "desc": "Merville (Caltex)",
+    "top": 192.022,
+    "left": 170.836
+  },
+  {
+    "name": "mw017",
+    "address": "Quirino Avenue, Manila",
+    "desc": "Quirino Avenue (Caltex)",
+    "top": 190.559,
+    "left": 169.631
+  },
+  {
+    "name": "mw018",
+    "address": "Brgy Payatas B, Quezon City",
+    "desc": "Payatas B (Brgy.)",
+    "top": 186.737,
+    "left": 172.511
+  },
+  {
+    "name": "mw019",
+    "address": "Brgy San Jose, Rodriguez",
+    "desc": "San Jose (Brgy.)",
+    "top": 186.15,
+    "left": 173.344
+  },
+  {
+    "name": "mw020",
+    "address": "Brgy Ampid, San Mateo",
+    "desc": "Ampid (Brgy.)",
+    "top": 187.524,
+    "left": 173.077
+  },
+  {
+    "name": "mw021",
+    "address": "Brgy San Roque, Antipolo",
+    "desc": "San Roque (Brgy.)",
+    "top": 190.188,
+    "left": 174.361
+  },
+  {
+    "name": "mw022",
+    "address": "Tapayan Pumping Station, Taytay",
+    "desc": "Tapayan Pumping Station",
+    "top": 191.185,
+    "left": 173.001
+  },
+  {
+    "name": "mw023",
+    "address": "Brgy Malaya, Pililla",
+    "desc": "Malaya (Brgy.)",
+    "top": 194.901,
+    "left": 178.837
+  },
+  {
+    "name": "mw024",
+    "address": "Brgy San Vicente, Angono",
+    "desc": "San Vicente (Brgy.)",
+    "top": 191.63,
+    "left": 173.761
+  },
+  {
+    "name": "mw026",
+    "address": "Corregidor Island, Cavite City",
+    "desc": "Corregidor Island",
+    "top": 195.225,
+    "left": 159.189
+  },
+  {
+    "name": "mw027",
+    "address": "Brgy San Luis, Antipolo",
+    "desc": "San Luis (Brgy.)",
+    "top": 189.37,
+    "left": 175.193
+  },
+  {
+    "name": "mw028",
+    "address": "Brgy dela Paz, Pasig City",
+    "desc": "dela Paz (Brgy.)",
+    "top": 189.434,
+    "left": 172.695
+  }
+]
