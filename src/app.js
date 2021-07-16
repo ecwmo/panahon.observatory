@@ -1,5 +1,4 @@
 import "./styles.css";
-import "@fortawesome/fontawesome-free/js/all";
 
 import Alpine from "alpinejs";
 
