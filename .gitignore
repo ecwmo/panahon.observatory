@@ -1,5 +1,6 @@
-/resources/reports/
-resources/model/
+/resources/reports/*
+!/resources/reports/sample-report.ini
+/resources/model/
 /node_modules/
 /dist/
 yarn.lock
