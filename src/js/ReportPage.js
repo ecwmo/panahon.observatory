@@ -1,20 +1,19 @@
-function report() {
+function reportCtrl(imgSrcs, sImgSrcs) {
+  imgSrcs = imgSrcs.map((imgSrc, idx) => ({
+    loaded: idx < 2 ? true : false,
+    imgSrc,
+  }));
+
+  sImgSrcs = sImgSrcs.map((imgSrc) => ({
+    loaded: false,
+    imgSrc,
+  }));
   return {
-    imgSrcs: [],
-    sImgSrcs: [],
+    imgSrcs: imgSrcs,
+    sImgSrcs: sImgSrcs,
     lazyloadThrottleTimeout: null,
     lazyloadImages: [],
-    init(imgSrcs, sImgSrcs) {
-      this.imgSrcs = imgSrcs.map((imgSrc, idx) => ({
-        loaded: idx < 2 ? true : false,
-        imgSrc,
-      }));
-
-      this.sImgSrcs = sImgSrcs.map((imgSrc) => ({
-        loaded: false,
-        imgSrc,
-      }));
-
+    init() {
       document.addEventListener("scroll", this.lazyload);
       window.addEventListener("resize", this.lazyload);
       window.addEventListener("orientationChange", this.lazyload);
@@ -45,4 +44,4 @@ function report() {
   };
 }
 
-export { report };
+export { reportCtrl };

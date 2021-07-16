@@ -1,15 +1,20 @@
 import "./styles.css";
 import "@fortawesome/fontawesome-free/js/all";
 
-import "alpinejs";
+import Alpine from "alpinejs";
+
 import { stationSelect } from "./js/QuickViewPage";
 import { metFields, fcstTimes, modelSelect } from "./js/ModelPage";
-import { report } from "./js/ReportPage";
+import { reportCtrl } from "./js/ReportPage";
 import { newReport } from "./js/NewReportPage";
 
-window.stationSelect = stationSelect;
 window.metFields = metFields;
 window.fcstTimes = fcstTimes;
-window.modelSelect = modelSelect;
-window.report = report;
-window.newReport = newReport;
+
+Alpine.data("stationSelect", stationSelect);
+Alpine.data("metFields", metFields);
+Alpine.data("modelSelect", modelSelect);
+Alpine.data("reportCtrl", reportCtrl);
+Alpine.data("newReport", newReport);
+
+Alpine.start();

@@ -29,7 +29,7 @@
 
 <body class="bg-gray-600 w-full md:w-4/5 mx-auto">
     <?php include_once('./components/header.php'); ?>
-    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col" x-data="report()" x-init="init(<?php alpine($reportImgs); ?>, <?php alpine($reportSImgs); ?>)">
+    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col" x-data="reportCtrl(<?php alpine($reportImgs); ?>, <?php alpine($reportSImgs); ?>)">
         <div class="m-6 space-y-6">
             <template x-for="(img, idx) in imgSrcs">
                 <img 
