@@ -1,1 +1,0 @@
-# Panahon Observatory Website API
