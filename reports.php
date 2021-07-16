@@ -16,6 +16,9 @@
         $imgSrc = $ROOT_IMG_DIR.'/'.$tccode .'/'.$repnum .'/img';
         $simgSrc = $ROOT_IMG_DIR.'/img/static';
     }
+    $reportImgs = glob($imgSrc  .'/*.{jpg,png}', GLOB_BRACE);
+    $reportSImgs = glob($simgSrc  .'/*.{jpg,png}', GLOB_BRACE);
+
     if (array_key_exists('new', $_GET)) {
         header("Location: /new-report.php");
     }
@@ -26,26 +29,28 @@
 
 <body class="bg-gray-600 w-full md:w-4/5 mx-auto">
     <?php include_once('./components/header.php'); ?>
-    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
+    <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col" x-data="report()" x-init="init(<?php alpine($reportImgs); ?>, <?php alpine($reportSImgs); ?>)">
         <div class="m-6 space-y-6">
-            <?php
-                $imgs = glob($imgSrc  .'/*.{jpg,png}', GLOB_BRACE);
-                foreach ($imgs as $img) { 
-            ?>
-                <img class="border border-black shadow-md rounded-2xl" src="<?php echo $img; ?>" />
-            <?php } ?>
+            <template x-for="(img, idx) in imgSrcs">
+                <img 
+                    class="border border-black shadow-md rounded-2xl"
+                    :class="img.loaded ? '' : 'lazy'"
+                    :data-src="img.imgSrc"
+                    :src="img.loaded && img.imgSrc" />
+            </template>
         </div>
         <?php 
-            $imgs = glob($simgSrc  .'/*.{jpg,png}', GLOB_BRACE);
-            if(count($imgs) > 0) { 
+            if(count($reportSImgs) > 0) { 
         ?>
         <div class="mx-6 border border-black shadow-md rounded-2xl bg-white">
             <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
         </div>
         <div class="m-6 space-y-6">
-            <?php foreach ($imgs as $img) { ?>
-                <img class="border border-black shadow-md rounded-2xl" src="<?php echo $img; ?>" />
-            <?php } ?>
+            <template x-for="img in sImgSrcs">
+                <img 
+                    class="border border-black shadow-md rounded-2xl lazy"
+                    :data-src="img.imgSrc" />
+            </template>
         </div>
         <?php } ?>
     </div>

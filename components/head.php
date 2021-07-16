@@ -18,6 +18,10 @@
         }
         echo "Weather and Climate Reasearch - Manila Observatory";
     }
+
+    function alpine($var) {
+        echo str_replace(["'", '"'], ["\'", "'"], json_encode($var));
+    }
 ?>
 
 <head>
