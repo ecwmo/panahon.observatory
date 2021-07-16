@@ -3,15 +3,24 @@
 <?php include_once('./components/head.php'); ?>
 
 <?php
+    require_once 'Config/Lite.php';
+    $cfg = new Config_Lite(RES_REPORTS_DIR.'/report.ini', LOCK_EX);
+
+    $ROOT_IMG_DIR = './resources/reports';
     if ($_GET['view']=="draft") {
-        $imgSrc = "draft";
-        $simgSrc = "sdraft";
+        $imgSrc = $ROOT_IMG_DIR.'/img/draft';
+        $simgSrc = $ROOT_IMG_DIR.'/img/sdraft';
     } else {
-        $imgSrc = "public";
-        $simgSrc = "static";
+        $tccode = $cfg->get("public", "tccode");
+        $repnum = $cfg->get("public", "reportnum");
+        $imgSrc = $ROOT_IMG_DIR.'/'.$tccode .'/'.$repnum .'/img';
+        $simgSrc = $ROOT_IMG_DIR.'/img/static';
     }
     if (array_key_exists('new', $_GET)) {
         header("Location: /new-report.php");
+    }
+    if (array_key_exists('publish', $_GET)) {
+        header("Location: /new-report.php?uploaded");
     }
 ?>
 
@@ -20,14 +29,14 @@
     <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
         <div class="m-6 space-y-6">
             <?php
-                $imgs = glob('./resources/reports/img/'. $imgSrc  .'/*.png');
+                $imgs = glob($imgSrc  .'/*.{jpg,png}', GLOB_BRACE);
                 foreach ($imgs as $img) { 
             ?>
                 <img class="border border-black shadow-md rounded-2xl" src="<?php echo $img; ?>" />
             <?php } ?>
         </div>
         <?php 
-            $imgs = glob('./resources/reports/img/'. $simgSrc  .'/*.png');
+            $imgs = glob($simgSrc  .'/*.{jpg,png}', GLOB_BRACE);
             if(count($imgs) > 0) { 
         ?>
         <div class="mx-6 border border-black shadow-md rounded-2xl bg-white">
