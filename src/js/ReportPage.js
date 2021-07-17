@@ -1,45 +1,39 @@
-function reportCtrl(imgSrcs, sImgSrcs) {
-  imgSrcs = imgSrcs.map((imgSrc, idx) => ({
-    loaded: idx < 2 ? true : false,
+function reportCtrl(reportImgs, staticImgs) {
+  reportImgs = reportImgs.map((imgSrc, idx) => ({
+    lazyLoad: idx < 2 ? false : true,
+    show: idx < 2 ? true : false,
     imgSrc,
   }));
 
-  sImgSrcs = sImgSrcs.map((imgSrc) => ({
-    loaded: false,
+  staticImgs = staticImgs.map((imgSrc) => ({
+    lazyLoad: true,
+    show: false,
     imgSrc,
   }));
+
+  const imgSrcs = {
+    reportImgs,
+    staticImgs,
+  };
   return {
     imgSrcs: imgSrcs,
-    sImgSrcs: sImgSrcs,
-    lazyloadThrottleTimeout: null,
-    lazyloadImages: [],
-    init() {
-      document.addEventListener("scroll", this.lazyload);
-      window.addEventListener("resize", this.lazyload);
-      window.addEventListener("orientationChange", this.lazyload);
-    },
-    lazyload() {
-      if (this.lazyloadThrottleTimeout) {
-        clearTimeout(this.lazyloadThrottleTimeout);
-      }
+    loadImage(imgSrcGrpName, imgIdx) {
+      const prevIdx = imgIdx - 1;
+      let prevImgIsShown = true;
 
-      this.lazyloadThrottleTimeout = setTimeout(function () {
-        let scrollTop = window.pageYOffset;
-        if (!this.lazyloadImages) {
-          this.lazyloadImages = document.querySelectorAll("img.lazy");
-        }
-        this.lazyloadImages.forEach((img) => {
-          if (img.offsetTop < window.innerHeight + scrollTop) {
-            img.src = img.dataset.src;
-            img.classList.remove("lazy");
-          }
-        });
-        if (this.lazyloadImages.length == 0) {
-          document.removeEventListener("scroll", this.lazyload);
-          window.removeEventListener("resize", this.lazyload);
-          window.removeEventListener("orientationChange", this.lazyload);
-        }
-      }, 20);
+      if (imgSrcGrpName === "staticImgs")
+        prevImgIsShown =
+          prevIdx < 0
+            ? this.imgSrcs["reportImgs"][this.imgSrcs["reportImgs"].length - 1]
+                .show
+            : this.imgSrcs[imgSrcGrpName][prevIdx].show;
+      else
+        prevImgIsShown =
+          prevIdx < 0 ? true : this.imgSrcs[imgSrcGrpName][prevIdx].show;
+
+      if (prevImgIsShown) {
+        this.imgSrcs[imgSrcGrpName][imgIdx].show = true;
+      }
     },
   };
 }

@@ -1,6 +1,7 @@
 import "./styles.css";
 
 import Alpine from "alpinejs";
+import intersect from "@alpinejs/intersect";
 
 import { stationSelect } from "./js/QuickViewPage";
 import { metFields, fcstTimes, modelSelect } from "./js/ModelPage";
@@ -9,6 +10,8 @@ import { newReport } from "./js/NewReportPage";
 
 window.metFields = metFields;
 window.fcstTimes = fcstTimes;
+
+Alpine.plugin(intersect);
 
 Alpine.data("stationSelect", stationSelect);
 Alpine.data("metFields", metFields);

@@ -28,6 +28,7 @@
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
+    "@alpinejs/intersect": "^3.2.1",
     "alpinejs": "^3.2.2"
   }
 }

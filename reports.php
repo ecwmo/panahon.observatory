@@ -31,12 +31,12 @@
     <?php include_once('./components/header.php'); ?>
     <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col" x-data="reportCtrl(<?php alpine($reportImgs); ?>, <?php alpine($reportSImgs); ?>)">
         <div class="m-6 space-y-6">
-            <template x-for="(img, idx) in imgSrcs">
+            <template x-for="(img, idx) in imgSrcs.reportImgs">
                 <img 
                     class="border border-black shadow-md rounded-2xl"
-                    :class="img.loaded ? '' : 'lazy'"
-                    :data-src="img.imgSrc"
-                    :src="img.loaded && img.imgSrc" />
+                    x-intersect="loadImage('reportImgs', idx)"
+                    :src="img.show ? img.imgSrc : ''"
+                    />
             </template>
         </div>
         <?php 
@@ -46,10 +46,12 @@
             <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
         </div>
         <div class="m-6 space-y-6">
-            <template x-for="img in sImgSrcs">
+            <template x-for="(img, idx) in imgSrcs.staticImgs">
                 <img 
-                    class="border border-black shadow-md rounded-2xl lazy"
-                    :data-src="img.imgSrc" />
+                    class="border border-black shadow-md rounded-2xl"
+                    x-intersect="loadImage('staticImgs', idx)"
+                    :src="img.show ? img.imgSrc : ''"
+                    />
             </template>
         </div>
         <?php } ?>
