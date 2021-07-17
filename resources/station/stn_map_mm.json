@@ -1,0 +1,875 @@
+{
+  "989007":{
+    "name":"mw001",
+    "lat":14.4399895202,
+    "lon":121.0052847862,
+    "elevation":29.0,
+    "address":"Southland,Talon Uno, Las PInas City (Caltex)",
+    "top":328.8468379031,
+    "left":110.953137633
+  },
+  "989008":{
+    "name":"mw002",
+    "lat":14.6734054521,
+    "lon":121.079254746,
+    "elevation":82.0,
+    "address":"Brgy. Holy Spirit, Quezon City (Caltex)",
+    "top":158.7286384005,
+    "left":164.8846353086
+  },
+  "989063":{
+    "name":"Shell048",
+    "lat":14.3877033,
+    "lon":120.963819,
+    "elevation":43.5,
+    "address":"Daang Hari Imus Cavite, Paso Blas",
+    "top":366.954080894,
+    "left":80.7204329
+  },
+  "989003":{
+    "name":"MOIP",
+    "lat":14.636002,
+    "lon":121.077445,
+    "elevation":90.0,
+    "address":"Loyola Heights, Quezon City (Manila Observatory)",
+    "top":185.98902236,
+    "left":163.5651495
+  },
+  "980983":{
+    "name":"Brgy.Dasmarinas, Makati City",
+    "lat":14.541113,
+    "lon":121.027546,
+    "elevation":30.0,
+    "address":"Brgy.Dasmarinas, Makati City",
+    "top":255.14602334,
+    "left":127.1837886
+  },
+  "980043":{
+    "name":"Manila (ICTSI)",
+    "lat":14.5966,
+    "lon":120.9496,
+    "elevation":16.0,
+    "address":"Manila (ICTSI)",
+    "top":214.705988,
+    "left":70.35336
+  },
+  "980315":{
+    "name":"Mandaluyong City (LCP)",
+    "lat":14.5779,
+    "lon":121.0338,
+    "elevation":29.0,
+    "address":"Mandaluyong City (LCP)",
+    "top":228.334922,
+    "left":131.74358
+  },
+  "980055":{
+    "name":"DOST ASTI, Quezon City",
+    "lat":14.6472,
+    "lon":121.0719,
+    "elevation":17.0,
+    "address":"DOST ASTI, Quezon City",
+    "top":177.827696,
+    "left":159.52229
+  },
+  "980343":{
+    "name":"San Lazaro, Manila (SM)",
+    "lat":14.6186,
+    "lon":120.9859,
+    "elevation":24.0,
+    "address":"San Lazaro, Manila (SM)",
+    "top":198.671948,
+    "left":96.81969
+  },
+  "980324":{
+    "name":"Marikina City (SM)",
+    "lat":14.6264,
+    "lon":121.0853,
+    "elevation":37.0,
+    "address":"Marikina City (SM)",
+    "top":192.987152,
+    "left":169.29223
+  },
+  "980362":{
+    "name":"Manila (SM)",
+    "lat":14.5894,
+    "lon":120.9826,
+    "elevation":34.0,
+    "address":"Manila (SM)",
+    "top":219.953492,
+    "left":94.41366
+  },
+  "980354":{
+    "name":"North EDSA, Quezon City (SM)",
+    "lat":14.6576,
+    "lon":121.0297,
+    "elevation":63.0,
+    "address":"North EDSA, Quezon City (SM)",
+    "top":170.247968,
+    "left":128.75427
+  },
+  "980303":{
+    "name":"Manila (LCP)",
+    "lat":14.5992,
+    "lon":120.9653,
+    "elevation":20.0,
+    "address":"Manila (LCP)",
+    "top":212.811056,
+    "left":81.80023
+  },
+  "980305":{
+    "name":"Quezon City (LCP)",
+    "lat":14.725,
+    "lon":121.0433,
+    "elevation":305.0,
+    "address":"Quezon City (LCP)",
+    "top":121.1255,
+    "left":138.67003
+  },
+  "980309":{
+    "name":"Pasay City (LCP)",
+    "lat":14.5438,
+    "lon":120.9949,
+    "elevation":16.0,
+    "address":"Pasay City (LCP)",
+    "top":253.187684,
+    "left":103.38159
+  },
+  "980326":{
+    "name":"Muntinlupa City (SM)",
+    "lat":14.377,
+    "lon":121.0451,
+    "elevation":24.0,
+    "address":"Muntinlupa City (SM)",
+    "top":374.75486,
+    "left":139.98241
+  },
+  "980328":{
+    "name":"Fairview, Quezon City (SM)",
+    "lat":14.7342,
+    "lon":121.0567,
+    "elevation":121.0,
+    "address":"Fairview, Quezon City (SM)",
+    "top":114.420356,
+    "left":148.43997
+  },
+  "980331":{
+    "name":"Sucat, Paranaque City (SM)",
+    "lat":14.4788,
+    "lon":120.9922,
+    "elevation":15.0,
+    "address":"Sucat, Paranaque City (SM)",
+    "top":300.560984,
+    "left":101.41302
+  },
+  "980336":{
+    "name":"Novaliches, Quezon City (SM)",
+    "lat":14.7083,
+    "lon":121.0364,
+    "elevation":63.0,
+    "address":"Novaliches, Quezon City (SM)",
+    "top":133.296794,
+    "left":133.63924
+  },
+  "980337":{
+    "name":"Pasig City (SM)",
+    "lat":14.5842,
+    "lon":121.0776,
+    "elevation":25.0,
+    "address":"Pasig City (SM)",
+    "top":223.743356,
+    "left":163.67816
+  },
+  "980339":{
+    "name":"Taytay (SM)",
+    "lat":14.565,
+    "lon":121.1408,
+    "elevation":66.0,
+    "address":"Taytay (SM)",
+    "top":237.7367,
+    "left":209.75728
+  },
+  "980322":{
+    "name":"Marilao, Bulacan (SM)",
+    "lat":14.7548,
+    "lon":120.9553,
+    "elevation":22.0,
+    "address":"Marilao, Bulacan (SM)",
+    "top":99.406664,
+    "left":74.50923
+  },
+  "980323":{
+    "name":"Bicutan, Paranaque City (SM)",
+    "lat":14.4861,
+    "lon":121.0432,
+    "elevation":51.0,
+    "address":"Bicutan, Paranaque City (SM)",
+    "top":295.240598,
+    "left":138.59712
+  },
+  "980355":{
+    "name":"Las Pinas City (SM)",
+    "lat":14.4486,
+    "lon":120.9813,
+    "elevation":29.0,
+    "address":"Las Pinas City (SM)",
+    "top":322.571348,
+    "left":93.46583
+  },
+  "980544":{
+    "name":"Navotas City (LCP)",
+    "lat":14.6508,
+    "lon":120.9474,
+    "elevation":10.0,
+    "address":"Navotas City (LCP)",
+    "top":175.203944,
+    "left":68.74934
+  },
+  "980535":{
+    "name":"Marikina City (LCP)",
+    "lat":14.636,
+    "lon":121.094,
+    "elevation":80.0,
+    "address":"Marikina City (LCP)",
+    "top":185.99048,
+    "left":175.6354
+  },
+  "980536":{
+    "name":"Malabon City (LCP)",
+    "lat":14.657,
+    "lon":120.951,
+    "elevation":95.0,
+    "address":"Malabon City (LCP)",
+    "top":170.68526,
+    "left":71.3741
+  },
+  "980539":{
+    "name":"Valenzuela City (LCP)",
+    "lat":14.699,
+    "lon":120.995,
+    "elevation":41.0,
+    "address":"Valenzuela City (LCP)",
+    "top":140.07482,
+    "left":103.4545
+  },
+  "980549":{
+    "name":"Makati City (SM)",
+    "lat":14.5494,
+    "lon":121.0277,
+    "elevation":30.0,
+    "address":"Makati City (SM)",
+    "top":249.106292,
+    "left":127.29607
+  },
+  "980551":{
+    "name":"Bonifacio Global, Taguig (SM)",
+    "lat":14.5452,
+    "lon":121.0532,
+    "elevation":154.0,
+    "address":"Bonifacio Global, Taguig (SM)",
+    "top":252.167336,
+    "left":145.88812
+  },
+  "980747":{
+    "name":"San Jose del Monte, Bulacan (LCP)",
+    "lat":14.8386,
+    "lon":121.0453,
+    "elevation":74.0,
+    "address":"San Jose del Monte, Bulacan (LCP)",
+    "top":38.331548,
+    "left":140.12823
+  },
+  "980816":{
+    "name":"Lower Bicutan, Taguig City (LCP)",
+    "lat":14.4891,
+    "lon":121.0623,
+    "elevation":19.0,
+    "address":"Lower Bicutan, Taguig City (LCP)",
+    "top":293.054138,
+    "left":152.52293
+  },
+  "980913":{
+    "name":"Pililla, Rizal (PSFI)",
+    "lat":14.3923,
+    "lon":121.337,
+    "elevation":26.0,
+    "address":"Pililla, Rizal (PSFI)",
+    "top":363.603914,
+    "left":352.8067
+  },
+  "980942":{
+    "name":"Teresa, Rizal (RCBM)",
+    "lat":14.5443,
+    "lon":121.2058,
+    "elevation":50.0,
+    "address":"Teresa, Rizal (RCBM)",
+    "top":252.823274,
+    "left":257.14878
+  },
+  "980318":{
+    "name":"Rosario, Cavite (SM)",
+    "lat":14.4093,
+    "lon":120.8577,
+    "elevation":24.0,
+    "address":"Rosario, Cavite (SM)",
+    "top":351.213974,
+    "left":3.34907
+  },
+  "980542":{
+    "name":"BF Homes, Paranaque City (SM)",
+    "lat":14.4579,
+    "lon":121.0323,
+    "elevation":57.0,
+    "address":"BF Homes, Paranaque City (SM)",
+    "top":315.793322,
+    "left":130.64993
+  },
+  "980327":{
+    "name":"Masinag, Antipolo City (SM)",
+    "lat":14.6251,
+    "lon":121.1197,
+    "elevation":35.0,
+    "address":"Masinag, Antipolo City (SM)",
+    "top":193.934618,
+    "left":194.37327
+  },
+  "980821":{
+    "name":"Imus, Cavite (LBC)",
+    "lat":14.4044,
+    "lon":120.9402,
+    "elevation":29.0,
+    "address":"Imus, Cavite (LBC)",
+    "top":354.785192,
+    "left":63.49982
+  },
+  "980671":{
+    "name":"Pasig City (LCP)",
+    "lat":14.612,
+    "lon":121.0867,
+    "elevation":23.0,
+    "address":"Pasig City (LCP)",
+    "top":203.48216,
+    "left":170.31297
+  },
+  "980699":{
+    "name":"Angono, Rizal (SM)",
+    "lat":14.531,
+    "lon":121.1537,
+    "elevation":8.0,
+    "address":"Angono, Rizal (SM)",
+    "top":262.51658,
+    "left":219.16267
+  },
+  "980725":{
+    "name":"Meycauayan, Bulacan (LCP)",
+    "lat":14.7749,
+    "lon":120.9988,
+    "elevation":51.0,
+    "address":"Meycauayan, Bulacan (LCP)",
+    "top":84.757382,
+    "left":106.22508
+  },
+  "981006":{
+    "name":"Brgy.NBBS Proper, Navotas City ( TMI )",
+    "lat":14.643995,
+    "lon":120.95074,
+    "elevation":28.0,
+    "address":"Brgy.NBBS Proper, Navotas City ( TMI )",
+    "top":180.1635641,
+    "left":71.184534
+  },
+  "980319":{
+    "name":"Mandaluyong City (SM)",
+    "lat":14.5842,
+    "lon":121.0572,
+    "elevation":71.0,
+    "address":"Mandaluyong City (SM)",
+    "top":223.743356,
+    "left":148.80452
+  },
+  "980317":{
+    "name":"Manila (SM)",
+    "lat":14.6042,
+    "lon":121.0186,
+    "elevation":25.0,
+    "address":"Manila (SM)",
+    "top":209.166956,
+    "left":120.66126
+  },
+  "980619":{
+    "name":"Manila Domestic Airport Complex (Cebu Pacific)",
+    "lat":14.5225,
+    "lon":121.0013,
+    "elevation":20.0,
+    "address":"Manila Domestic Airport Complex (Cebu Pacific)",
+    "top":268.71155,
+    "left":108.04783
+  },
+  "980325":{
+    "name":"City of Bacoor (SM)",
+    "lat":14.3847,
+    "lon":120.9766,
+    "elevation":65.0,
+    "address":"City of Bacoor (SM)",
+    "top":369.142946,
+    "left":90.03906
+  },
+  "980038":{
+    "name":"Antipolo City (LPP)",
+    "lat":14.5861,
+    "lon":121.1692,
+    "elevation":193.0,
+    "address":"Antipolo City (LPP)",
+    "top":222.358598,
+    "left":230.46372
+  },
+  "980459":{
+    "name":"Antipolo City (LCP)",
+    "lat":14.6416,
+    "lon":121.2233,
+    "elevation":376.0,
+    "address":"Antipolo City (LCP)",
+    "top":181.909088,
+    "left":269.90803
+  },
+  "980377":{
+    "name":"Cubao, Quezon City (SM)",
+    "lat":14.6138,
+    "lon":121.0558,
+    "elevation":68.0,
+    "address":"Cubao, Quezon City (SM)",
+    "top":202.170284,
+    "left":147.78378
+  },
+  "980172":{
+    "name":"Imus City (LCP)",
+    "lat":14.4293,
+    "lon":120.9366,
+    "elevation":16.0,
+    "address":"Imus City (LCP)",
+    "top":336.637574,
+    "left":60.87506
+  },
+  "980177":{
+    "name":"Cavite City (LCP)",
+    "lat":14.4832,
+    "lon":120.9088,
+    "elevation":7.0,
+    "address":"Cavite City (LCP)",
+    "top":297.354176,
+    "left":40.60608
+  },
+  "980021":{
+    "name":"Imus City (LPP)",
+    "lat":14.4328,
+    "lon":120.9458,
+    "elevation":21.0,
+    "address":"Imus City (LPP)",
+    "top":334.086704,
+    "left":67.58278
+  },
+  "980368":{
+    "name":"Bacoor (SM)",
+    "lat":14.445,
+    "lon":120.95,
+    "elevation":51.0,
+    "address":"Bacoor (SM)",
+    "top":325.1951,
+    "left":70.645
+  },
+  "980372":{
+    "name":"Valenzuela City (SM)",
+    "lat":14.6864,
+    "lon":120.9765,
+    "elevation":28.0,
+    "address":"Valenzuela City (SM)",
+    "top":149.257952,
+    "left":89.96615
+  },
+  "980166":{
+    "name":"Bacoor City (LCP)",
+    "lat":14.4617,
+    "lon":120.9599,
+    "elevation":31.0,
+    "address":"Bacoor City (LCP)",
+    "top":313.023806,
+    "left":77.86309
+  },
+  "980441":{
+    "name":"San Pedro City, Laguna (Pilmico)",
+    "lat":14.362642,
+    "lon":121.054695,
+    "elevation":21.0,
+    "address":"San Pedro City, Laguna (Pilmico)",
+    "top":385.21925756,
+    "left":146.9781245
+  },
+  "980399":{
+    "name":"Sta. Maria, Bulacan (Pilmico)",
+    "lat":14.85,
+    "lon":120.9797,
+    "elevation":43.0,
+    "address":"Sta. Maria, Bulacan (Pilmico)",
+    "top":30.023,
+    "left":92.29927
+  },
+  "980329":{
+    "name":"Southmall, Las Pinas City (SM)",
+    "lat":14.4332,
+    "lon":121.0108,
+    "elevation":63.0,
+    "address":"Southmall, Las Pinas City (SM)",
+    "top":333.795176,
+    "left":114.97428
+  },
+  "980575":{
+    "name":"Manila (CEMEX)",
+    "lat":14.6304,
+    "lon":120.9458,
+    "elevation":20.0,
+    "address":"Manila (CEMEX)",
+    "top":190.071872,
+    "left":67.58278
+  },
+  "980641":{
+    "name":"Bonifacio Global, Taguig (Net Plaza)",
+    "lat":14.5551,
+    "lon":121.0433,
+    "elevation":99.0,
+    "address":"Bonifacio Global, Taguig (Net Plaza)",
+    "top":244.952018,
+    "left":138.67003
+  },
+  "989018":{
+    "name":"mw028",
+    "lat":14.6082982881,
+    "lon":121.1039328773,
+    "elevation":20.0,
+    "address":"Bgy. Dela Paz, Pasig City (Caltex); Castle Resources Inc, Felix Avenue",
+    "top":206.1800416968,
+    "left":182.877460854
+  },
+  "989009":{
+    "name":"mw005",
+    "lat":14.6184317972,
+    "lon":121.130358875,
+    "elevation":60.0,
+    "address":"Sumulong Avenue, Antipolo, Rizal (Caltex)",
+    "top":198.7945375574,
+    "left":202.1446557625
+  },
+  "989016":{
+    "name":"mw016",
+    "lat":14.50937,
+    "lon":121.032897,
+    "elevation":34.0,
+    "address":"Merville, Pasay City (Caltex)",
+    "top":278.2809566,
+    "left":131.0852027
+  },
+  "989017":{
+    "name":"mw017",
+    "lat":14.56531,
+    "lon":120.98684,
+    "elevation":17.0,
+    "address":"Quirino Ave, Manila (Caltex)",
+    "top":237.5107658,
+    "left":97.505044
+  },
+  "989067":{
+    "name":"mw007",
+    "lat":14.6568089303,
+    "lon":120.992449075,
+    "elevation":20.0,
+    "address":"U. Plata, Caloocan City (Caltex)",
+    "top":170.8245154188,
+    "left":101.5946205825
+  },
+  "989068":{
+    "name":"mw009",
+    "lat":14.6929792188,
+    "lon":120.9692037106,
+    "elevation":20.0,
+    "address":"Malinta, Valenzuela (Caltex)",
+    "top":144.4628857593,
+    "left":84.6464253693
+  },
+  "989078":{
+    "name":"mw023",
+    "lat":14.3993676569,
+    "lon":121.338557303,
+    "elevation":21.0,
+    "address":"Brgy. Malaya, Pililla, Rizal",
+    "top":358.4528642981,
+    "left":353.9421296173
+  },
+  "989079":{
+    "name":"mw024",
+    "lat":14.5243810715,
+    "lon":121.1446604133,
+    "elevation":4.0,
+    "address":"Brgy. San Vicente, Angono Rizal",
+    "top":267.340587481,
+    "left":212.5719073152
+  },
+  "989082":{
+    "name":"mw027",
+    "lat":14.6107493362,
+    "lon":121.199337244,
+    "elevation":164.0,
+    "address":"Brgy. San Luis, Antipolo, Rizal",
+    "top":204.3936688009,
+    "left":252.4367846223
+  },
+  "989090":{
+    "name":"makati07",
+    "lat":14.55826,
+    "lon":121.04095,
+    "elevation":null,
+    "address":"Bgy. Pinagkaisahan, Makati City",
+    "top":242.6489468,
+    "left":136.956645
+  },
+  "989066":{
+    "name":"mo004",
+    "lat":14.56097,
+    "lon":121.0436,
+    "elevation":22.0,
+    "address":"Guadalupe, Makati City (MMDA-MO Station)",
+    "top":240.6738446,
+    "left":138.88876
+  },
+  "989069":{
+    "name":"mw012",
+    "lat":14.72003,
+    "lon":121.01688,
+    "elevation":49.0,
+    "address":"Kaybiga, Caloocan City (Caltex)",
+    "top":124.7477354,
+    "left":119.407208
+  },
+  "989070":{
+    "name":"mw014",
+    "lat":14.4511454011,
+    "lon":120.979243219,
+    "elevation":24.0,
+    "address":"Pamplona, Las Pinas City (Caltex)",
+    "top":320.7162087703,
+    "left":91.9662309729
+  },
+  "989071":{
+    "name":"mw018",
+    "lat":14.7113526784,
+    "lon":121.096883565,
+    "elevation":78.0,
+    "address":"Brgy. Payatas B, Quezon City",
+    "top":131.0719409285,
+    "left":177.7378072415
+  },
+  "989072":{
+    "name":"mw019",
+    "lat":14.7338101988,
+    "lon":121.128717363,
+    "elevation":33.0,
+    "address":"Brgy. San Jose, Rodriguez, Rizal",
+    "top":114.7044509106,
+    "left":200.9478293633
+  },
+  "989073":{
+    "name":"mw020",
+    "lat":14.6812997755,
+    "lon":121.1184954643,
+    "elevation":41.0,
+    "address":"Brgy. Ampid, San Mateo, Rizal ",
+    "top":152.9750976266,
+    "left":193.4950430357
+  },
+  "989074":{
+    "name":"mw003",
+    "lat":14.6342578579,
+    "lon":121.0587143898,
+    "elevation":44.0,
+    "address":"Brgy. Anonas, Quezon City (Caltex)",
+    "top":187.2601880024,
+    "left":149.9086616032
+  },
+  "989075":{
+    "name":"mw004",
+    "lat":14.6692486553,
+    "lon":121.033394337,
+    "elevation":48.0,
+    "address":"Mindanao Avenue, Quezon City (Caltex)",
+    "top":161.7581950443,
+    "left":131.4478111067
+  },
+  "989076":{
+    "name":"mw021",
+    "lat":14.5794898533,
+    "lon":121.167547703,
+    "elevation":250.0,
+    "address":"Brgy. San Roque, Antipolo City, Rizal",
+    "top":227.1762051179,
+    "left":229.2590302573
+  },
+  "989077":{
+    "name":"mw022",
+    "lat":14.5413874158,
+    "lon":121.1155959964,
+    "elevation":15.0,
+    "address":"Tapayan Pumping Station, Taytay, Rizal",
+    "top":254.9460236166,
+    "left":191.3810409607
+  },
+  "989084":{
+    "name":"makati01",
+    "lat":14.545027,
+    "lon":121.018201,
+    "elevation":null,
+    "address":"Bgy. San Lorenzo, Makati City",
+    "top":252.29342186,
+    "left":120.3703491
+  },
+  "989085":{
+    "name":"makati02",
+    "lat":14.57036,
+    "lon":121.02722,
+    "elevation":null,
+    "address":"Makati City Hall, Makati City",
+    "top":233.8302248,
+    "left":126.946102
+  },
+  "989086":{
+    "name":"makati03",
+    "lat":14.5620580975,
+    "lon":121.008172184,
+    "elevation":26.0,
+    "address":"Bgy. San Antonio, Makati City",
+    "top":239.88081738,
+    "left":113.0583393544
+  },
+  "989087":{
+    "name":"makati04",
+    "lat":14.5599526946,
+    "lon":121.063349247,
+    "elevation":27.0,
+    "address":"Bgy. West Rembo, Makati City",
+    "top":241.4152771216,
+    "left":153.2879359877
+  },
+  "989088":{
+    "name":"makati05",
+    "lat":14.5521007406,
+    "lon":121.034135967,
+    "elevation":29.0,
+    "address":"Bgy. Forbes Park, Makati City",
+    "top":247.1379382359,
+    "left":131.9885335397
+  },
+  "989089":{
+    "name":"makati06",
+    "lat":14.5464007921,
+    "lon":121.0620389879,
+    "elevation":null,
+    "address":"Bgy. Pembo, Makati City (OSMAK)",
+    "top":251.2921746966,
+    "left":152.332626056
+  },
+  "989001":{
+    "name":"mo001",
+    "lat":14.6691,
+    "lon":121.1096,
+    "elevation":21.0,
+    "address":"Nangka, Marikina City (Manila Observatory)",
+    "top":161.866538,
+    "left":187.00936
+  },
+  "989010":{
+    "name":"mw006",
+    "lat":14.5831058289,
+    "lon":121.097303331,
+    "elevation":10.0,
+    "address":"Manggahan Floodway, Pasig City (Caltex)",
+    "top":224.5408097811,
+    "left":178.0438586321
+  },
+  "989011":{
+    "name":"mw008",
+    "lat":14.6370749224,
+    "lon":120.956516862,
+    "elevation":22.0,
+    "address":"Navotas City (Caltex)",
+    "top":185.2070550564,
+    "left":75.3964440842
+  },
+  "980063":{
+    "name":"Makati City (Manila Polo Club)",
+    "lat":14.544,
+    "lon":121.0395,
+    "elevation":37.0,
+    "address":"Makati City (Manila Polo Club)",
+    "top":253.04192,
+    "left":135.89945
+  },
+  "989012":{
+    "name":"mw010",
+    "lat":14.6166721221,
+    "lon":120.985736847,
+    "elevation":12.0,
+    "address":"Gov. Forbes Tayuman, Manila (Caltex)",
+    "top":200.0770239711,
+    "left":96.7007351477
+  },
+  "989013":{
+    "name":"mw011",
+    "lat":14.5996170776,
+    "lon":121.028461754,
+    "elevation":22.0,
+    "address":"F. Blumentritt, San Juan (Caltex)",
+    "top":212.5070815036,
+    "left":127.8514648414
+  },
+  "989014":{
+    "name":"mw013",
+    "lat":14.4915746068,
+    "lon":120.991460681,
+    "elevation":12.0,
+    "address":"Kabihasnan, Paranaque (Caltex)",
+    "top":291.250595072,
+    "left":100.8739824879
+  },
+  "989015":{
+    "name":"mw015",
+    "lat":14.47062,
+    "lon":121.00902,
+    "elevation":3.0,
+    "address":"San Isidro, Sucat, Paranaque (Caltex)",
+    "top":306.5227316,
+    "left":113.676482
+  },
+  "989056":{
+    "name":"mw030",
+    "lat":14.7361479293,
+    "lon":121.1520534149,
+    "elevation":30.0,
+    "address":"San Rafael Rodriguez Rizal",
+    "top":113.0006661581,
+    "left":217.9621448036
+  },
+  "989035":{
+    "name":"Shell023",
+    "lat":14.5957859,
+    "lon":121.0037292,
+    "elevation":5.3,
+    "address":"Pandacan Manila",
+    "top":215.299320362,
+    "left":109.81895972
+  },
+  "989057":{
+    "name":"Shell041",
+    "lat":14.8308440569,
+    "lon":120.9085111583,
+    "elevation":7.0,
+    "address":"Balagtas Bulacan",
+    "top":43.984234456,
+    "left":40.3954855457
+  }
+}

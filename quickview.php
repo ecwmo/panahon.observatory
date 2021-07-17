@@ -21,9 +21,10 @@
         <div class="relative shadow-lg" style="width:400px;">
           <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
           <div class="absolute left-0 top-0" id="ph-map">
-            <template x-for="(st, i) in stationPts" :key="i">
+            <template x-for="(st, id) in activeLayer" :key="id">
               <div class="absolute border border-black rounded-full h-2 w-2 cursor-pointer"
-                :style="`top:${st.top}px;left:${st.left}px;`"></div>
+                :style="`top:${st.top}px;left:${st.left}px;`"
+                @click="setActiveStation(id)"></div>
             </template>
           </div>
         </div>
@@ -88,11 +89,11 @@
             class="flex flex-col cursor-pointer py-3 border border-black" id="prain" @click="setActiveVarPanel('rain')">
             <div>
               <p>Rainfall Rate (mm/hr)</p>
-              <h3 class="text-3xl font-semibold">22.3</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.rr">22.3</h3>
             </div>
             <div>
               <p>Accumulated (mm/24hr)</p>
-              <h3 class="text-3xl font-semibold">100</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.rain24h">100</h3>
             </div>
           </div>
           <div :class="activeVarPanel === 'temp' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
@@ -100,11 +101,11 @@
             @click="setActiveVarPanel('temp')">
             <div>
               <p>Temperature (&deg;C)</p>
-              <h3 class="text-3xl font-semibold">33.7</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.temp">33.7</h3>
             </div>
             <div>
-              <p>24hr Max (&deg;C): <span class="tmpval">39.9</span></p>
-              <p>24hr Min (&deg;C): <span class="tmpval">22.5</span></p>
+              <p>24hr Max (&deg;C): <span class="text-xl font-semibold" x-text="activeStationObs.tx">39.9</span></p>
+              <p>24hr Min (&deg;C): <span class="text-xl font-semibold" x-text="activeStationObs.tn">22.5</span></p>
             </div>
           </div>
           <div :class="activeVarPanel === 'wind' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
@@ -112,11 +113,11 @@
             @click="setActiveVarPanel('wind')">
             <div>
               <p>Windspeed (m/s)</p>
-              <h3 class="text-3xl font-semibold">3.6</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.wspd">3.6</h3>
             </div>
             <div>
               <p>Wind Direction (&deg;)</p>
-              <h3 class="text-3xl font-semibold">120</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.wdir">120</h3>
             </div>
           </div>
           <div :class="activeVarPanel === 'pres' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
@@ -124,40 +125,40 @@
             @click="setActiveVarPanel('pres')">
             <div>
               <p>Air Pressure (mbar)</p>
-              <h3 class="text-3xl font-semibold">1002.6</h3>
+              <h3 class="text-3xl font-semibold" x-text="activeStationObs.pres">1002.6</h3>
             </div>
           </div>
         </div>
         <div class="flex text-lg w-1/2">
           <div x-show="activeVarPanel === 'rain'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="highlight">{station}</span>, there was <span class="highlight">{rain} mm</span>
+            At <span class="font-semibold" x-text="activeStation.name"></span>, there was <span class="font-semibold" x-text="`${(activeStationObs.rr * 10.)} mm`">0 mm</span>
             rainfall
-            received at <span class="highlight">{time}</span>. There have been <span class="highlight">{rain accum}
+            received at <span class="font-semibold" x-text="timeStr">12 nn</span>. There have been <span class="font-semibold" x-text="`${activeStationObs.rain24h} mm`">0
               mm</span>
             accumulated
-            rainfall for the past 24 hours. This is <span class="highlight">{ratio}%</span> of the historical maximum
+            rainfall for the past 24 hours. This is <span class="font-semibold">{ratio}%</span> of the historical maximum
             24hr rainfall for this
-            area which was <span class="highlight">{rain} mm</span>.
+            area which was <span class="font-semibold">{rain} mm</span>.
           </div>
           <div x-show="activeVarPanel === 'temp'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="highlight">{station}</span>, the temperature at <span class="highlight">{time}</span> was
-            <span class="highlight">{temp} &deg;C</span> but feels like <span class="highlight">{hi} &deg;C</span>
+            At <span class="font-semibold" x-text="activeStation.name"></span>, the temperature at <span class="font-semibold" x-text="timeStr">12 nn</span> was
+            <span class="font-semibold" x-text="`${activeStationObs.temp} &deg;C`">32 &deg;C</span> but feels like <span class="font-semibold" x-text="`${activeStationObs.hi} &deg;C`">58 &deg;C</span>
             because of the
-            humidity. In the past 24 hours, local temperature got up to <span class="highlight">{tx} &deg;C</span> and
+            humidity. In the past 24 hours, local temperature got up to <span class="font-semibold" x-text="`${activeStationObs.tx} &deg;C`">100 &deg;C</span> and
             got
-            as low as <span class="highlight">{tn} &deg;C</span>.
+            as low as <span class="font-semibold" x-text="`${activeStationObs.tn} &deg;C`">-10 &deg;C</span>.
           </div>
           <div x-show="activeVarPanel === 'wind'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="highlight">{station}</span>, the wind at <span class="highlight">{time}</span> was blowing
-            from <span class="highlight">{wdir} &deg;</span> at <span class="highlight">{wspd}</span> m/s.
+            At <span class="font-semibold" x-text="activeStation.name"></span>, the wind at <span class="font-semibold" x-text="timeStr">12 nn</span> was blowing
+            from <span class="font-semibold" x-text="`${activeStationObs.wdir}&deg;`">0&deg;</span> at <span class="font-semibold" x-text="`${activeStationObs.wspd} m/s`">0 m/s</span>.
           </div>
           <div x-show="activeVarPanel === 'pres'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="highlight">{station}</span>, the air pressure was <span class="highlight">{pres} mb</span>
-            at <span class="highlight">{time}</span>.
+            At <span class="font-semibold" x-text="activeStation.name"></span>, the air pressure was <span class="font-semibold" x-text="`${activeStationObs.pres} mb`">0 mb</span>
+            at <span class="font-semibold" x-text="timeStr">12 nn</span>.
           </div>
         </div>
       </div>

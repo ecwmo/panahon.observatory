@@ -1,0 +1,7958 @@
+{
+  "989036":{
+    "name":"Shell024",
+    "lat":13.503911,
+    "lon":123.034821,
+    "elevation":31.0,
+    "address":"Pasacao Camarines Sur",
+    "top":218.330168685,
+    "left":223.236439675
+  },
+  "989037":{
+    "name":"Shell025",
+    "lat":11.259772,
+    "lon":124.986745,
+    "elevation":0.0,
+    "address":"Anibong Tacloban",
+    "top":277.04806562,
+    "left":274.328050375
+  },
+  "989038":{
+    "name":"Shell028",
+    "lat":12.362402,
+    "lon":123.607482,
+    "elevation":3.0,
+    "address":"Masbate Masbate",
+    "top":248.19775167,
+    "left":238.22584135
+  },
+  "989048":{
+    "name":"Shell038",
+    "lat":8.478869,
+    "lon":124.638101,
+    "elevation":9.8,
+    "address":"Vamenta Blvd  Carmen Cagayan de Oro City",
+    "top":349.810392615,
+    "left":265.202293675
+  },
+  "989061":{
+    "name":"Shell046",
+    "lat":14.24229,
+    "lon":121.1142964,
+    "elevation":42.3,
+    "address":"Pulo Cabuyao Laguna",
+    "top":199.01048215,
+    "left":172.96670827
+  },
+  "980091":{
+    "name":"Punta Duamalag, Davao City (Davao Light)",
+    "lat":7.0252,
+    "lon":125.5749,
+    "elevation":9.0,
+    "address":"Punta Duamalag, Davao City (Davao Light)",
+    "top":387.845642,
+    "left":289.7230075
+  },
+  "980106":{
+    "name":"Balanga City (LCP)",
+    "lat":14.6817,
+    "lon":120.5383,
+    "elevation":20.0,
+    "address":"Balanga City (LCP)",
+    "top":187.5133195,
+    "left":157.8900025
+  },
+  "980112":{
+    "name":"Laoag City (LCP)",
+    "lat":18.2068,
+    "lon":120.582,
+    "elevation":15.0,
+    "address":"Laoag City (LCP)",
+    "top":95.279078,
+    "left":159.03385
+  },
+  "980137":{
+    "name":"Dapitan City LCP)",
+    "lat":8.6382,
+    "lon":123.4145,
+    "elevation":5.0,
+    "address":"Dapitan City LCP)",
+    "top":345.641497,
+    "left":233.1745375
+  },
+  "980143":{
+    "name":"City of Samal (LCP)",
+    "lat":12.0397,
+    "lon":123.1918,
+    "elevation":100.0,
+    "address":"City of Samal (LCP)",
+    "top":256.6412495,
+    "left":227.345365
+  },
+  "980151":{
+    "name":"Batangas City (LCP)",
+    "lat":13.7555,
+    "lon":121.0584,
+    "elevation":10.0,
+    "address":"Batangas City (LCP)",
+    "top":211.7473425,
+    "left":171.50362
+  },
+  "980159":{
+    "name":"Masbate City (LCP)",
+    "lat":12.3717,
+    "lon":123.6222,
+    "elevation":44.0,
+    "address":"Masbate City (LCP)",
+    "top":247.9544695,
+    "left":238.611085
+  },
+  "980167":{
+    "name":"San Pablo City (LCP)",
+    "lat":14.0684,
+    "lon":121.3237,
+    "elevation":116.0,
+    "address":"San Pablo City (LCP)",
+    "top":203.560314,
+    "left":178.4478475
+  },
+  "980168":{
+    "name":"Calamba City, Laguna (LCP)",
+    "lat":14.1935,
+    "lon":121.1603,
+    "elevation":30.0,
+    "address":"Calamba City, Laguna (LCP)",
+    "top":200.2870725,
+    "left":174.1708525
+  },
+  "980176":{
+    "name":"Trece Martires City (LCP)",
+    "lat":14.2811,
+    "lon":120.8697,
+    "elevation":129.0,
+    "address":"Trece Martires City (LCP)",
+    "top":197.9950185,
+    "left":166.5643975
+  },
+  "980185":{
+    "name":"Lapu-lapu City (LCP)",
+    "lat":10.3164,
+    "lon":123.9652,
+    "elevation":19.0,
+    "address":"Lapu-lapu City (LCP)",
+    "top":301.731394,
+    "left":247.58911
+  },
+  "980193":{
+    "name":"Puerto Princesa City (LCP)",
+    "lat":9.7861,
+    "lon":118.7344,
+    "elevation":72.0,
+    "address":"Puerto Princesa City (LCP)",
+    "top":315.6066935,
+    "left":110.67292
+  },
+  "980199":{
+    "name":"Himamaylan City (LCP)",
+    "lat":10.099,
+    "lon":122.8715,
+    "elevation":4.0,
+    "address":"Himamaylan City (LCP)",
+    "top":307.419665,
+    "left":218.9615125
+  },
+  "980202":{
+    "name":"La Carlota City (LCP)",
+    "lat":10.4266,
+    "lon":122.9214,
+    "elevation":29.0,
+    "address":"La Carlota City (LCP)",
+    "top":298.848011,
+    "left":220.267645
+  },
+  "980209":{
+    "name":"Victorias City, Negros Oriental (LCP)",
+    "lat":10.8931,
+    "lon":123.0474,
+    "elevation":35.0,
+    "address":"Victorias City, Negros Oriental (LCP)",
+    "top":286.6420385,
+    "left":223.565695
+  },
+  "989052":{
+    "name":"Mati, Davao Oriental (SHELL-MO-GLOBE-MATI DIOCESE)",
+    "lat":6.992478,
+    "lon":126.282347,
+    "elevation":16.0,
+    "address":"Mati, Davao Oriental (SHELL-MO-GLOBE-MATI DIOCESE)",
+    "top":388.70181313,
+    "left":308.240432725
+  },
+  "980001":{
+    "name":"Pamalican (Amanpulo)",
+    "lat":11.3581,
+    "lon":120.7242,
+    "elevation":26.0,
+    "address":"Pamalican (Amanpulo)",
+    "top":274.4753135,
+    "left":162.755935
+  },
+  "980002":{
+    "name":"Pamalican (Amanpulo)",
+    "lat":11.37,
+    "lon":120.72,
+    "elevation":26.0,
+    "address":"Pamalican (Amanpulo)",
+    "top":274.16395,
+    "left":162.646
+  },
+  "980004":{
+    "name":"Claver (Taganito Mining)",
+    "lat":9.544,
+    "lon":125.8181,
+    "elevation":3.0,
+    "address":"Claver (Taganito Mining)",
+    "top":321.94124,
+    "left":296.0887675
+  },
+  "980009":{
+    "name":"Davao City",
+    "lat":7.0943,
+    "lon":125.6122,
+    "elevation":23.0,
+    "address":"Davao City",
+    "top":386.0376405,
+    "left":290.699335
+  },
+  "980017":{
+    "name":"Boac, Marinduque (LPP)",
+    "lat":13.4426,
+    "lon":121.8269,
+    "elevation":11.0,
+    "address":"Boac, Marinduque (LPP)",
+    "top":219.934371,
+    "left":191.6191075
+  },
+  "989005":{
+    "name":"xuws2",
+    "lat":8.4768,
+    "lon":124.6463,
+    "elevation":15.2,
+    "address":"Cagayan de Oro City (Xavier University)",
+    "top":349.864528,
+    "left":265.4169025
+  },
+  "989007":{
+    "name":"mw001",
+    "lat":14.4399895202,
+    "lon":121.0052847862,
+    "elevation":29.0,
+    "address":"Southland,Talon Uno, Las PInas City (Caltex)",
+    "top":193.8376742045,
+    "left":170.1133292793
+  },
+  "989008":{
+    "name":"mw002",
+    "lat":14.6734054521,
+    "lon":121.079254746,
+    "elevation":82.0,
+    "address":"Brgy. Holy Spirit, Quezon City (Caltex)",
+    "top":187.7303463458,
+    "left":172.0494929766
+  },
+  "989050":{
+    "name":"Shell040",
+    "lat":8.503659,
+    "lon":124.59481,
+    "elevation":5.5,
+    "address":"Iponan Cagayan de Oro City",
+    "top":349.161762265,
+    "left":264.06915175
+  },
+  "989063":{
+    "name":"Shell048",
+    "lat":14.3877033,
+    "lon":120.963819,
+    "elevation":43.5,
+    "address":"Daang Hari Imus Cavite, Paso Blas",
+    "top":195.2057431555,
+    "left":169.027962325
+  },
+  "989064":{
+    "name":"Shell050",
+    "lat":14.875361,
+    "lon":120.235204,
+    "elevation":14.5,
+    "address":"Calapandayan Subic Zambales",
+    "top":182.446179435,
+    "left":149.9564647
+  },
+  "989003":{
+    "name":"MOIP",
+    "lat":14.636002,
+    "lon":121.077445,
+    "elevation":90.0,
+    "address":"Loyola Heights, Quezon City (Manila Observatory)",
+    "top":188.70900767,
+    "left":172.002122875
+  },
+  "989051":{
+    "name":"Shell021",
+    "lat":6.466603,
+    "lon":126.155871,
+    "elevation":23.8,
+    "address":"Matiao Mati Davao Oriental",
+    "top":402.461332505,
+    "left":304.929923425
+  },
+  "989060":{
+    "name":"Shell044",
+    "lat":11.1491447217,
+    "lon":125.6629940645,
+    "elevation":20.0,
+    "address":"Salcedo Eastern Samar",
+    "top":279.9426283558,
+    "left":292.0288696388
+  },
+  "980688":{
+    "name":"Sablayan, Occidental Mindoro",
+    "lat":12.8895,
+    "lon":120.7947,
+    "elevation":24.0,
+    "address":"Sablayan, Occidental Mindoro",
+    "top":234.4062325,
+    "left":164.6012725
+  },
+  "980698":{
+    "name":"Brgy. Callawa, Davao City (Syngenta)",
+    "lat":7.2173,
+    "lon":125.549,
+    "elevation":37.0,
+    "address":"Brgy. Callawa, Davao City (Syngenta)",
+    "top":382.8193455,
+    "left":289.045075
+  },
+  "980716":{
+    "name":"Siaton, Negros Oriental",
+    "lat":9.0627,
+    "lon":123.035,
+    "elevation":25.0,
+    "address":"Siaton, Negros Oriental",
+    "top":334.5344545,
+    "left":223.241125
+  },
+  "980791":{
+    "name":"Burgos, Ilocos Norte",
+    "lat":18.5113,
+    "lon":120.6447,
+    "elevation":76.0,
+    "address":"Burgos, Ilocos Norte",
+    "top":87.3118355,
+    "left":160.6750225
+  },
+  "980813":{
+    "name":"Lupao, Nueva Ecija (Pilmico)",
+    "lat":15.8754,
+    "lon":120.8954,
+    "elevation":149.0,
+    "address":"Lupao, Nueva Ecija (Pilmico)",
+    "top":156.280159,
+    "left":167.237095
+  },
+  "980868":{
+    "name":"Irosin, Sorsogon",
+    "lat":12.702875,
+    "lon":124.6572388,
+    "elevation":15.0,
+    "address":"Irosin, Sorsogon",
+    "top":239.289275625,
+    "left":265.70322559
+  },
+  "980904":{
+    "name":"Aguinaldo, Ifugao (SNAP)",
+    "lat":16.9789,
+    "lon":121.3263,
+    "elevation":873.0,
+    "address":"Aguinaldo, Ifugao (SNAP)",
+    "top":127.4070815,
+    "left":178.5159025
+  },
+  "980928":{
+    "name":"Port Barton, San Vicente, Palawan (PSFI)",
+    "lat":10.4116,
+    "lon":119.1783,
+    "elevation":5.0,
+    "address":"Port Barton, San Vicente, Palawan (PSFI)",
+    "top":299.240486,
+    "left":122.2920025
+  },
+  "980983":{
+    "name":"Brgy.Dasmarinas, Makati City",
+    "lat":14.541113,
+    "lon":121.027546,
+    "elevation":30.0,
+    "address":"Brgy.Dasmarinas, Makati City",
+    "top":191.191778355,
+    "left":170.69601655
+  },
+  "980043":{
+    "name":"Manila (ICTSI)",
+    "lat":14.5966,
+    "lon":120.9496,
+    "elevation":16.0,
+    "address":"Manila (ICTSI)",
+    "top":189.739961,
+    "left":168.65578
+  },
+  "980315":{
+    "name":"Mandaluyong City (LCP)",
+    "lat":14.5779,
+    "lon":121.0338,
+    "elevation":29.0,
+    "address":"Mandaluyong City (LCP)",
+    "top":190.2292465,
+    "left":170.859715
+  },
+  "980939":{
+    "name":"Santa Rosa, Laguna (Ayala Nuvali)",
+    "lat":14.2351,
+    "lon":121.059,
+    "elevation":1.0,
+    "address":"Santa Rosa, Laguna (Ayala Nuvali)",
+    "top":199.1986085,
+    "left":171.519325
+  },
+  "980798":{
+    "name":"San Narciso, Quezon",
+    "lat":13.5716,
+    "lon":122.5643,
+    "elevation":27.0,
+    "address":"San Narciso, Quezon",
+    "top":216.559086,
+    "left":210.9205525
+  },
+  "980848":{
+    "name":"Tinambac, Camarines Sur",
+    "lat":13.8161,
+    "lon":123.3376,
+    "elevation":51.0,
+    "address":"Tinambac, Camarines Sur",
+    "top":210.1617435,
+    "left":231.16168
+  },
+  "980851":{
+    "name":"Dingras, Ilocos Norte (Pilmico)",
+    "lat":18.102838,
+    "lon":120.699918,
+    "elevation":36.0,
+    "address":"Dingras, Ilocos Norte (Pilmico)",
+    "top":97.99924373,
+    "left":162.12035365
+  },
+  "980853":{
+    "name":"Magsingal, Ilocos Sur",
+    "lat":17.681271,
+    "lon":120.361642,
+    "elevation":24.0,
+    "address":"Magsingal, Ilocos Sur",
+    "top":109.029544285,
+    "left":153.26597935
+  },
+  "980862":{
+    "name":"Tagum CIty (ICTSI)",
+    "lat":7.3632,
+    "lon":125.8196,
+    "elevation":232.0,
+    "address":"Tagum CIty (ICTSI)",
+    "top":379.001872,
+    "left":296.12803
+  },
+  "980916":{
+    "name":"Maasim, Sarangani (SEC)",
+    "lat":5.8659,
+    "lon":125.081,
+    "elevation":4.0,
+    "address":"Maasim, Sarangani (SEC)",
+    "top":418.1787265,
+    "left":276.795175
+  },
+  "980055":{
+    "name":"DOST ASTI, Quezon City",
+    "lat":14.6472,
+    "lon":121.0719,
+    "elevation":17.0,
+    "address":"DOST ASTI, Quezon City",
+    "top":188.416012,
+    "left":171.8569825
+  },
+  "980089":{
+    "name":"Sorsogon City (LPP)",
+    "lat":12.9713,
+    "lon":124.0025,
+    "elevation":14.0,
+    "address":"Sorsogon City (LPP)",
+    "top":232.2659355,
+    "left":248.5654375
+  },
+  "980922":{
+    "name":"Kauswagan, Lanao del Norte (GNPower)",
+    "lat":8.1815,
+    "lon":124.1092,
+    "elevation":0.0,
+    "address":"Kauswagan, Lanao del Norte (GNPower)",
+    "top":357.5910525,
+    "left":251.35831
+  },
+  "980075":{
+    "name":"Roxas City, Capiz (LPP)",
+    "lat":11.5751,
+    "lon":122.7573,
+    "elevation":10.0,
+    "address":"Roxas City, Capiz (LPP)",
+    "top":268.7975085,
+    "left":215.9723275
+  },
+  "980925":{
+    "name":"San Vicente, Palawan (PSFI)",
+    "lat":10.5179,
+    "lon":119.268,
+    "elevation":10.0,
+    "address":"San Vicente, Palawan (PSFI)",
+    "top":296.4591465,
+    "left":124.6399
+  },
+  "980311":{
+    "name":"Caticlan, Aklan (CebuPacific)",
+    "lat":11.925,
+    "lon":121.9519,
+    "elevation":16.0,
+    "address":"Caticlan, Aklan (CebuPacific)",
+    "top":259.642375,
+    "left":194.8909825
+  },
+  "980343":{
+    "name":"San Lazaro, Manila (SM)",
+    "lat":14.6186,
+    "lon":120.9859,
+    "elevation":24.0,
+    "address":"San Lazaro, Manila (SM)",
+    "top":189.164331,
+    "left":169.6059325
+  },
+  "980312":{
+    "name":"Ramon, Isabela (SNAP Magat)",
+    "lat":16.8279,
+    "lon":121.453,
+    "elevation":15.0,
+    "address":"Ramon, Isabela (SNAP Magat)",
+    "top":131.3579965,
+    "left":181.832275
+  },
+  "980344":{
+    "name":"Calamba City (SM)",
+    "lat":14.2039,
+    "lon":121.1551,
+    "elevation":72.0,
+    "address":"Calamba City (SM)",
+    "top":200.0149565,
+    "left":174.0347425
+  },
+  "980345":{
+    "name":"Cagayan de Oro City (SM)",
+    "lat":8.4566,
+    "lon":124.6224,
+    "elevation":113.0,
+    "address":"Cagayan de Oro City (SM)",
+    "top":350.393061,
+    "left":264.79132
+  },
+  "980346":{
+    "name":"Olongapo City (SM)",
+    "lat":14.8261,
+    "lon":120.283,
+    "elevation":25.0,
+    "address":"Olongapo City (SM)",
+    "top":183.7350935,
+    "left":151.207525
+  },
+  "980349":{
+    "name":"Iloilo City (SM)",
+    "lat":10.7144,
+    "lon":122.5513,
+    "elevation":27.0,
+    "address":"Iloilo City (SM)",
+    "top":291.317724,
+    "left":210.5802775
+  },
+  "980351":{
+    "name":"Davao City (SM)",
+    "lat":7.0498,
+    "lon":125.5901,
+    "elevation":35.0,
+    "address":"Davao City (SM)",
+    "top":387.201983,
+    "left":290.1208675
+  },
+  "980324":{
+    "name":"Marikina City (SM)",
+    "lat":14.6264,
+    "lon":121.0853,
+    "elevation":37.0,
+    "address":"Marikina City (SM)",
+    "top":188.960244,
+    "left":172.2077275
+  },
+  "980356":{
+    "name":"Lucena City (SM)",
+    "lat":13.9414,
+    "lon":121.626,
+    "elevation":27.0,
+    "address":"Lucena City (SM)",
+    "top":206.883269,
+    "left":186.36055
+  },
+  "980357":{
+    "name":"Rosales, Pangasinan (SM)",
+    "lat":15.8784,
+    "lon":120.6006,
+    "elevation":54.0,
+    "address":"Rosales, Pangasinan (SM)",
+    "top":156.201664,
+    "left":159.520705
+  },
+  "980358":{
+    "name":"Downtown City of San Fernando, Pampanga (SM)",
+    "lat":15.0278,
+    "lon":120.6922,
+    "elevation":77.0,
+    "address":"Downtown City of San Fernando, Pampanga (SM)",
+    "top":178.457613,
+    "left":161.918335
+  },
+  "980359":{
+    "name":"Consolacion, Cebu (SM)",
+    "lat":10.381,
+    "lon":123.9637,
+    "elevation":30.0,
+    "address":"Consolacion, Cebu (SM)",
+    "top":300.041135,
+    "left":247.5498475
+  },
+  "980362":{
+    "name":"Manila (SM)",
+    "lat":14.5894,
+    "lon":120.9826,
+    "elevation":34.0,
+    "address":"Manila (SM)",
+    "top":189.928349,
+    "left":169.519555
+  },
+  "980363":{
+    "name":"Sorsogon City (LCP)",
+    "lat":13.041,
+    "lon":124.043,
+    "elevation":11.0,
+    "address":"Sorsogon City (LCP)",
+    "top":230.442235,
+    "left":249.625525
+  },
+  "980365":{
+    "name":"Asuncion, Davao Del Norte (Syngenta)",
+    "lat":7.6001,
+    "lon":125.7427,
+    "elevation":25.0,
+    "address":"Asuncion, Davao Del Norte (Syngenta)",
+    "top":372.8033835,
+    "left":294.1151725
+  },
+  "980366":{
+    "name":"San Luis, Pampanga (Pilmico)",
+    "lat":15.0118,
+    "lon":120.8657,
+    "elevation":14.0,
+    "address":"San Luis, Pampanga (Pilmico)",
+    "top":178.876253,
+    "left":166.4596975
+  },
+  "980354":{
+    "name":"North EDSA, Quezon City (SM)",
+    "lat":14.6576,
+    "lon":121.0297,
+    "elevation":63.0,
+    "address":"North EDSA, Quezon City (SM)",
+    "top":188.143896,
+    "left":170.7523975
+  },
+  "980303":{
+    "name":"Manila (LCP)",
+    "lat":14.5992,
+    "lon":120.9653,
+    "elevation":20.0,
+    "address":"Manila (LCP)",
+    "top":189.671932,
+    "left":169.0667275
+  },
+  "980305":{
+    "name":"Quezon City (LCP)",
+    "lat":14.725,
+    "lon":121.0433,
+    "elevation":305.0,
+    "address":"Quezon City (LCP)",
+    "top":186.380375,
+    "left":171.1083775
+  },
+  "980309":{
+    "name":"Pasay City (LCP)",
+    "lat":14.5438,
+    "lon":120.9949,
+    "elevation":16.0,
+    "address":"Pasay City (LCP)",
+    "top":191.121473,
+    "left":169.8415075
+  },
+  "980326":{
+    "name":"Muntinlupa City (SM)",
+    "lat":14.377,
+    "lon":121.0451,
+    "elevation":24.0,
+    "address":"Muntinlupa City (SM)",
+    "top":195.485795,
+    "left":171.1554925
+  },
+  "980328":{
+    "name":"Fairview, Quezon City (SM)",
+    "lat":14.7342,
+    "lon":121.0567,
+    "elevation":121.0,
+    "address":"Fairview, Quezon City (SM)",
+    "top":186.139657,
+    "left":171.4591225
+  },
+  "980331":{
+    "name":"Sucat, Paranaque City (SM)",
+    "lat":14.4788,
+    "lon":120.9922,
+    "elevation":15.0,
+    "address":"Sucat, Paranaque City (SM)",
+    "top":192.822198,
+    "left":169.770835
+  },
+  "980333":{
+    "name":"Santa Rosa City (SM)",
+    "lat":14.313,
+    "lon":121.0986,
+    "elevation":24.0,
+    "address":"Santa Rosa City (SM)",
+    "top":197.160355,
+    "left":172.555855
+  },
+  "980335":{
+    "name":"City of San Fernando, Pampanga (SM)",
+    "lat":15.0523,
+    "lon":120.7017,
+    "elevation":31.0,
+    "address":"City of San Fernando, Pampanga (SM)",
+    "top":177.8165705,
+    "left":162.1669975
+  },
+  "980336":{
+    "name":"Novaliches, Quezon City (SM)",
+    "lat":14.7083,
+    "lon":121.0364,
+    "elevation":63.0,
+    "address":"Novaliches, Quezon City (SM)",
+    "top":186.8173305,
+    "left":170.92777
+  },
+  "980337":{
+    "name":"Pasig City (SM)",
+    "lat":14.5842,
+    "lon":121.0776,
+    "elevation":25.0,
+    "address":"Pasig City (SM)",
+    "top":190.064407,
+    "left":172.00618
+  },
+  "980338":{
+    "name":"Lanang, Davao City (SM)",
+    "lat":7.0989,
+    "lon":125.6312,
+    "elevation":39.0,
+    "address":"Lanang, Davao City (SM)",
+    "top":385.9172815,
+    "left":291.19666
+  },
+  "980339":{
+    "name":"Taytay (SM)",
+    "lat":14.565,
+    "lon":121.1408,
+    "elevation":66.0,
+    "address":"Taytay (SM)",
+    "top":190.566775,
+    "left":173.66044
+  },
+  "980341":{
+    "name":"San Pablo City (SM)",
+    "lat":14.0703,
+    "lon":121.3006,
+    "elevation":120.0,
+    "address":"San Pablo City (SM)",
+    "top":203.5106005,
+    "left":177.843205
+  },
+  "980348":{
+    "name":"Tarlac City (SM)",
+    "lat":15.4786,
+    "lon":120.5941,
+    "elevation":58.0,
+    "address":"Tarlac City (SM)",
+    "top":166.662431,
+    "left":159.3505675
+  },
+  "980927":{
+    "name":"Dumaran, Palawan (PSFI)",
+    "lat":10.5281,
+    "lon":119.7701,
+    "elevation":10.0,
+    "address":"Dumaran, Palawan (PSFI)",
+    "top":296.1922635,
+    "left":137.7823675
+  },
+  "980322":{
+    "name":"Marilao, Bulacan (SM)",
+    "lat":14.7548,
+    "lon":120.9553,
+    "elevation":22.0,
+    "address":"Marilao, Bulacan (SM)",
+    "top":185.600658,
+    "left":168.8049775
+  },
+  "980323":{
+    "name":"Bicutan, Paranaque City (SM)",
+    "lat":14.4861,
+    "lon":121.0432,
+    "elevation":51.0,
+    "address":"Bicutan, Paranaque City (SM)",
+    "top":192.6311935,
+    "left":171.10576
+  },
+  "980355":{
+    "name":"Las Pinas City (SM)",
+    "lat":14.4486,
+    "lon":120.9813,
+    "elevation":29.0,
+    "address":"Las Pinas City (SM)",
+    "top":193.612381,
+    "left":169.4855275
+  },
+  "980321":{
+    "name":"Baliwag, Bulacan (SM)",
+    "lat":14.962,
+    "lon":120.8909,
+    "elevation":30.0,
+    "address":"Baliwag, Bulacan (SM)",
+    "top":180.17927,
+    "left":167.1193075
+  },
+  "980503":{
+    "name":"Puerto Princesa Airport (Cebu Pacific)",
+    "lat":9.7405,
+    "lon":118.7557,
+    "elevation":39.0,
+    "address":"Puerto Princesa Airport (Cebu Pacific)",
+    "top":316.7998175,
+    "left":111.2304475
+  },
+  "980504":{
+    "name":"Sibulan, Negros Oriental",
+    "lat":9.33285,
+    "lon":123.295242,
+    "elevation":29.0,
+    "address":"Sibulan, Negros Oriental",
+    "top":327.46597975,
+    "left":230.05295935
+  },
+  "980505":{
+    "name":"Coron-Busuanga Airport (Cebu Pacific)",
+    "lat":12.12,
+    "lon":120.0995,
+    "elevation":45.0,
+    "address":"Coron-Busuanga Airport (Cebu Pacific)",
+    "top":254.5402,
+    "left":146.4044125
+  },
+  "980507":{
+    "name":"Batangas City (CEMEX)",
+    "lat":13.6782,
+    "lon":121.0513,
+    "elevation":8.0,
+    "address":"Batangas City (CEMEX)",
+    "top":213.769897,
+    "left":171.3177775
+  },
+  "980508":{
+    "name":"Pagadian City Airport (Cebu Pacific)",
+    "lat":7.83,
+    "lon":123.4627,
+    "elevation":17.0,
+    "address":"Pagadian City Airport (Cebu Pacific)",
+    "top":366.78805,
+    "left":234.4361725
+  },
+  "980933":{
+    "name":"Legazpi City, Albay (Ayala Malls)",
+    "lat":13.1475,
+    "lon":123.7519,
+    "elevation":21.0,
+    "address":"Legazpi City, Albay (Ayala Malls)",
+    "top":227.6556625,
+    "left":242.0059825
+  },
+  "980593":{
+    "name":"Tuguegarao City Airport (PAL)",
+    "lat":17.642,
+    "lon":121.7354,
+    "elevation":36.0,
+    "address":"Tuguegarao City Airport (PAL)",
+    "top":110.05707,
+    "left":189.224095
+  },
+  "980595":{
+    "name":"Ozamiz City Airport (PAL)",
+    "lat":8.1809,
+    "lon":123.8448,
+    "elevation":15.0,
+    "address":"Ozamiz City Airport (PAL)",
+    "top":357.6067515,
+    "left":244.43764
+  },
+  "980596":{
+    "name":"Tandag City Airport (Cebu Pacific)",
+    "lat":9.0667,
+    "lon":126.1667,
+    "elevation":13.0,
+    "address":"Tandag City Airport (Cebu Pacific)",
+    "top":334.4297945,
+    "left":305.2133725
+  },
+  "980598":{
+    "name":"Calatagan, Batangas",
+    "lat":13.8329,
+    "lon":120.6324,
+    "elevation":19.0,
+    "address":"Calatagan, Batangas",
+    "top":209.7221715,
+    "left":160.35307
+  },
+  "980599":{
+    "name":"Dipaculao, Aurora",
+    "lat":15.849,
+    "lon":121.5371,
+    "elevation":19.0,
+    "address":"Dipaculao, Aurora",
+    "top":156.970915,
+    "left":184.0335925
+  },
+  "980602":{
+    "name":"Caramoan, Camarines Sur",
+    "lat":13.7749,
+    "lon":123.8628,
+    "elevation":13.0,
+    "address":"Caramoan, Camarines Sur",
+    "top":211.2397415,
+    "left":244.90879
+  },
+  "980603":{
+    "name":"Alabat, Quezon",
+    "lat":14.0995,
+    "lon":122.0131,
+    "elevation":13.0,
+    "address":"Alabat, Quezon",
+    "top":202.7465825,
+    "left":196.4928925
+  },
+  "980605":{
+    "name":"Mauban, Quezon",
+    "lat":14.1862,
+    "lon":121.7295,
+    "elevation":15.0,
+    "address":"Mauban, Quezon",
+    "top":200.478077,
+    "left":189.0696625
+  },
+  "980606":{
+    "name":"San Miguel, Bulacan",
+    "lat":15.157,
+    "lon":121.0777,
+    "elevation":146.0,
+    "address":"San Miguel, Bulacan",
+    "top":175.077095,
+    "left":172.0087975
+  },
+  "980607":{
+    "name":"Ligao, City (Pilmico)",
+    "lat":13.2609,
+    "lon":123.5588,
+    "elevation":67.0,
+    "address":"Ligao, City (Pilmico)",
+    "top":224.6885515,
+    "left":236.95159
+  },
+  "980608":{
+    "name":"Naga City Airport (PAL)",
+    "lat":13.5848,
+    "lon":123.2678,
+    "elevation":55.0,
+    "address":"Naga City Airport (PAL)",
+    "top":216.213708,
+    "left":229.334665
+  },
+  "980609":{
+    "name":"Legazpi City Airport (PAL)",
+    "lat":13.1559,
+    "lon":123.7307,
+    "elevation":22.0,
+    "address":"Legazpi City Airport (PAL)",
+    "top":227.4358765,
+    "left":241.4510725
+  },
+  "980613":{
+    "name":"Polillo, Quezon",
+    "lat":14.7144,
+    "lon":121.9384,
+    "elevation":34.0,
+    "address":"Polillo, Quezon",
+    "top":186.657724,
+    "left":194.53762
+  },
+  "980614":{
+    "name":"Tagbilaran City Airport (Cebu Pacific)",
+    "lat":9.6583,
+    "lon":123.8533,
+    "elevation":41.0,
+    "address":"Tagbilaran City Airport (Cebu Pacific)",
+    "top":318.9505805,
+    "left":244.6601275
+  },
+  "980615":{
+    "name":"Tacloban City Airport (PAL)",
+    "lat":11.2267,
+    "lon":125.0261,
+    "elevation":13.0,
+    "address":"Tacloban City Airport (PAL)",
+    "top":277.9133945,
+    "left":275.3581675
+  },
+  "980616":{
+    "name":"Ormoc City, Leyte",
+    "lat":11.0129,
+    "lon":124.6039,
+    "elevation":21.0,
+    "address":"Ormoc City, Leyte",
+    "top":283.5074715,
+    "left":264.3070825
+  },
+  "980937":{
+    "name":"Sicogon, Island Iloilo (Ayala)",
+    "lat":11.4529,
+    "lon":123.2439,
+    "elevation":7.0,
+    "address":"Sicogon, Island Iloilo (Ayala)",
+    "top":271.9948715,
+    "left":228.7090825
+  },
+  "980648":{
+    "name":"Gonzaga, Cagayan (Pilmico)",
+    "lat":18.262264,
+    "lon":121.997505,
+    "elevation":34.0,
+    "address":"Gonzaga, Cagayan (Pilmico)",
+    "top":93.82786244,
+    "left":196.084693375
+  },
+  "980564":{
+    "name":"Bay, Laguna (Makban Cleanergy Center)",
+    "lat":14.0907,
+    "lon":121.2253,
+    "elevation":243.0,
+    "address":"Bay, Laguna (Makban Cleanergy Center)",
+    "top":202.9768345,
+    "left":175.8722275
+  },
+  "980568":{
+    "name":"Jose Abad Santos, Davao Del Sur",
+    "lat":5.9126,
+    "lon":125.645,
+    "elevation":13.0,
+    "address":"Jose Abad Santos, Davao Del Sur",
+    "top":416.956821,
+    "left":291.557875
+  },
+  "980571":{
+    "name":"Kalibo, Aklan International Airport (Cebu Pacific)",
+    "lat":11.6843,
+    "lon":122.3825,
+    "elevation":13.0,
+    "address":"Kalibo, Aklan International Airport (Cebu Pacific)",
+    "top":265.9402905,
+    "left":206.1619375
+  },
+  "980572":{
+    "name":"Delgado, Iloilo City (SM)",
+    "lat":10.6988,
+    "lon":122.5675,
+    "elevation":13.0,
+    "address":"Delgado, Iloilo City (SM)",
+    "top":291.725898,
+    "left":211.0043125
+  },
+  "980574":{
+    "name":"Mabuhay, Zamboanga Sibugay",
+    "lat":7.3991,
+    "lon":122.9138,
+    "elevation":32.0,
+    "address":"Mabuhay, Zamboanga Sibugay",
+    "top":378.0625485,
+    "left":220.068715
+  },
+  "980576":{
+    "name":"Dipolog Airport (Cebu Pacific)",
+    "lat":8.5992,
+    "lon":123.3417,
+    "elevation":9.0,
+    "address":"Dipolog Airport (Cebu Pacific)",
+    "top":346.661932,
+    "left":231.2689975
+  },
+  "980591":{
+    "name":"Bugasong, Antique",
+    "lat":11.0435,
+    "lon":122.0643,
+    "elevation":26.0,
+    "address":"Bugasong, Antique",
+    "top":282.7068225,
+    "left":197.8330525
+  },
+  "980618":{
+    "name":"Zamboanga Airport (Cebu Pacific)",
+    "lat":6.9221,
+    "lon":122.0598,
+    "elevation":14.0,
+    "address":"Zamboanga Airport (Cebu Pacific)",
+    "top":390.5432535,
+    "left":197.715265
+  },
+  "980541":{
+    "name":"Tanauan City (Pilmico)",
+    "lat":14.033,
+    "lon":121.088,
+    "elevation":40.0,
+    "address":"Tanauan City (Pilmico)",
+    "top":204.486555,
+    "left":172.2784
+  },
+  "980566":{
+    "name":"Makar Wharf, General Santos City (SCIPSI)",
+    "lat":6.097,
+    "lon":125.1584,
+    "elevation":6.0,
+    "address":"Makar Wharf, General Santos City (SCIPSI)",
+    "top":412.131995,
+    "left":278.82112
+  },
+  "980567":{
+    "name":"Baler, Aurora (GMA Farms Inc.)",
+    "lat":15.7406,
+    "lon":121.6379,
+    "elevation":32.0,
+    "address":"Baler, Aurora (GMA Farms Inc.)",
+    "top":159.807201,
+    "left":186.6720325
+  },
+  "980573":{
+    "name":"San Juan, Batangas",
+    "lat":13.825,
+    "lon":121.3966,
+    "elevation":31.0,
+    "address":"San Juan, Batangas",
+    "top":209.928875,
+    "left":180.356005
+  },
+  "980621":{
+    "name":"Siargao Airport (Cebu Pacific)",
+    "lat":9.8565,
+    "lon":126.0159,
+    "elevation":39.0,
+    "address":"Siargao Airport (Cebu Pacific)",
+    "top":313.7646775,
+    "left":301.2661825
+  },
+  "980623":{
+    "name":"Governor Generoso, Davao Oriental",
+    "lat":6.6535,
+    "lon":126.0724,
+    "elevation":13.0,
+    "address":"Governor Generoso, Davao Oriental",
+    "top":397.5711725,
+    "left":302.74507
+  },
+  "980544":{
+    "name":"Navotas City (LCP)",
+    "lat":14.6508,
+    "lon":120.9474,
+    "elevation":10.0,
+    "address":"Navotas City (LCP)",
+    "top":188.321818,
+    "left":168.598195
+  },
+  "980624":{
+    "name":"San Dionisio, Iloilo",
+    "lat":11.2712,
+    "lon":123.0949,
+    "elevation":15.0,
+    "address":"San Dionisio, Iloilo",
+    "top":276.749052,
+    "left":224.8090075
+  },
+  "980636":{
+    "name":"Matag-ob, Leyte (LEYECO I)",
+    "lat":11.1489,
+    "lon":124.4712,
+    "elevation":45.0,
+    "address":"Matag-ob, Leyte (LEYECO I)",
+    "top":279.9490315,
+    "left":260.83366
+  },
+  "980638":{
+    "name":"Basco Airport (PAL)",
+    "lat":20.449,
+    "lon":121.9751,
+    "elevation":53.0,
+    "address":"Basco Airport (PAL)",
+    "top":36.611915,
+    "left":195.4982425
+  },
+  "980639":{
+    "name":"Lasam, Cagayan (Pilmico)",
+    "lat":18.07,
+    "lon":121.6061,
+    "elevation":25.0,
+    "address":"Lasam, Cagayan (Pilmico)",
+    "top":98.85845,
+    "left":185.8396675
+  },
+  "980642":{
+    "name":"Sta Cruz, Laguna (Pilmico)",
+    "lat":14.2553,
+    "lon":121.3785,
+    "elevation":10.0,
+    "address":"Sta Cruz, Laguna (Pilmico)",
+    "top":198.6700755,
+    "left":179.8822375
+  },
+  "980646":{
+    "name":"Gumaca, Quezon",
+    "lat":13.9214,
+    "lon":122.0984,
+    "elevation":9.0,
+    "address":"Gumaca, Quezon",
+    "top":207.406569,
+    "left":198.72562
+  },
+  "980647":{
+    "name":"San Joaquin, Iloilo",
+    "lat":10.5865,
+    "lon":122.1421,
+    "elevation":21.0,
+    "address":"San Joaquin, Iloilo",
+    "top":294.6642275,
+    "left":199.8694675
+  },
+  "980649":{
+    "name":"Allacapan, Cagayan (Pilmico)",
+    "lat":18.227051,
+    "lon":121.555763,
+    "elevation":10.0,
+    "address":"Allacapan, Cagayan (Pilmico)",
+    "top":94.749210585,
+    "left":184.522096525
+  },
+  "980532":{
+    "name":"Caraga, Davao Oriental",
+    "lat":7.327,
+    "lon":126.5649,
+    "elevation":23.0,
+    "address":"Caraga, Davao Oriental",
+    "top":379.949045,
+    "left":315.6362575
+  },
+  "980535":{
+    "name":"Marikina City (LCP)",
+    "lat":14.636,
+    "lon":121.094,
+    "elevation":80.0,
+    "address":"Marikina City (LCP)",
+    "top":188.70906,
+    "left":172.43545
+  },
+  "980536":{
+    "name":"Malabon City (LCP)",
+    "lat":14.657,
+    "lon":120.951,
+    "elevation":95.0,
+    "address":"Malabon City (LCP)",
+    "top":188.159595,
+    "left":168.692425
+  },
+  "980538":{
+    "name":"Lipa City (Pilmico)",
+    "lat":13.937,
+    "lon":121.159,
+    "elevation":320.0,
+    "address":"Lipa City (Pilmico)",
+    "top":206.998395,
+    "left":174.136825
+  },
+  "980539":{
+    "name":"Valenzuela City (LCP)",
+    "lat":14.699,
+    "lon":120.995,
+    "elevation":41.0,
+    "address":"Valenzuela City (LCP)",
+    "top":187.060665,
+    "left":169.844125
+  },
+  "980545":{
+    "name":"Mankayan, Benguet (HEDCOR)",
+    "lat":16.8573,
+    "lon":120.7935,
+    "elevation":1320.0,
+    "address":"Mankayan, Benguet (HEDCOR)",
+    "top":130.5887455,
+    "left":164.5698625
+  },
+  "980547":{
+    "name":"San Isidro, Nueva Ecija (NEECO I)",
+    "lat":15.3054,
+    "lon":120.9195,
+    "elevation":30.0,
+    "address":"San Isidro, Nueva Ecija (NEECO I)",
+    "top":171.194209,
+    "left":167.8679125
+  },
+  "980549":{
+    "name":"Makati City (SM)",
+    "lat":14.5494,
+    "lon":121.0277,
+    "elevation":30.0,
+    "address":"Makati City (SM)",
+    "top":190.974949,
+    "left":170.7000475
+  },
+  "980551":{
+    "name":"Bonifacio Global, Taguig (SM)",
+    "lat":14.5452,
+    "lon":121.0532,
+    "elevation":154.0,
+    "address":"Bonifacio Global, Taguig (SM)",
+    "top":191.084842,
+    "left":171.36751
+  },
+  "980552":{
+    "name":"Tabuk City (KAELCO)",
+    "lat":17.3972,
+    "lon":121.44,
+    "elevation":271.0,
+    "address":"Tabuk City (KAELCO)",
+    "top":116.462262,
+    "left":181.492
+  },
+  "980553":{
+    "name":"Limay, Bataan (SMC-PC)",
+    "lat":14.5195,
+    "lon":120.5954,
+    "elevation":65.0,
+    "address":"Limay, Bataan (SMC-PC)",
+    "top":191.7572825,
+    "left":159.384595
+  },
+  "980555":{
+    "name":"Guimba, Nueva Ecija (Pilmico)",
+    "lat":15.6611,
+    "lon":120.7449,
+    "elevation":34.0,
+    "address":"Guimba, Nueva Ecija (Pilmico)",
+    "top":161.8873185,
+    "left":163.2977575
+  },
+  "980556":{
+    "name":"Magallanes, Cavite (Pilmico)",
+    "lat":14.1802,
+    "lon":120.7461,
+    "elevation":185.0,
+    "address":"Magallanes, Cavite (Pilmico)",
+    "top":200.635067,
+    "left":163.3291675
+  },
+  "980557":{
+    "name":"Pangantucan, Bukidnon (Syngenta)",
+    "lat":7.8267,
+    "lon":124.7778,
+    "elevation":818.0,
+    "address":"Pangantucan, Bukidnon (Syngenta)",
+    "top":366.8743945,
+    "left":268.858915
+  },
+  "980561":{
+    "name":"Iloilo City-Port Complex (CEMEX)",
+    "lat":10.7087,
+    "lon":122.5921,
+    "elevation":40.0,
+    "address":"Iloilo City-Port Complex (CEMEX)",
+    "top":291.4668645,
+    "left":211.6482175
+  },
+  "980565":{
+    "name":"Tagoloan, Misamis Oriental (MICTSI)",
+    "lat":8.526,
+    "lon":124.755,
+    "elevation":8.0,
+    "address":"Tagoloan, Misamis Oriental (MICTSI)",
+    "top":348.57721,
+    "left":268.262125
+  },
+  "980645":{
+    "name":"San Andres, Quezon",
+    "lat":13.3228,
+    "lon":122.6781,
+    "elevation":10.0,
+    "address":"San Andres, Quezon",
+    "top":223.068938,
+    "left":213.8992675
+  },
+  "980558":{
+    "name":"Subic Bay Freeport Zone, Olongapo City (ACI)",
+    "lat":14.791,
+    "lon":120.2758,
+    "elevation":95.0,
+    "address":"Subic Bay Freeport Zone, Olongapo City (ACI)",
+    "top":184.653485,
+    "left":151.019065
+  },
+  "980674":{
+    "name":"Alfonso Lista, Ifugao (Pilmico)",
+    "lat":16.9514,
+    "lon":121.4972,
+    "elevation":123.0,
+    "address":"Alfonso Lista, Ifugao (Pilmico)",
+    "top":128.126619,
+    "left":182.98921
+  },
+  "980678":{
+    "name":"Benito Soliven, Isabela (Pilmico)",
+    "lat":16.989,
+    "lon":121.9499,
+    "elevation":114.0,
+    "address":"Benito Soliven, Isabela (Pilmico)",
+    "top":127.142815,
+    "left":194.8386325
+  },
+  "980681":{
+    "name":"Cauyayan City (Pilmico)",
+    "lat":16.9035,
+    "lon":121.763,
+    "elevation":64.0,
+    "address":"Cauyayan City (Pilmico)",
+    "top":129.3799225,
+    "left":189.946525
+  },
+  "980652":{
+    "name":"Banate, Iloilo",
+    "lat":10.9966,
+    "lon":122.8082,
+    "elevation":10.0,
+    "address":"Banate, Iloilo",
+    "top":283.933961,
+    "left":217.304635
+  },
+  "980651":{
+    "name":"Mangatarem, Pangasinan (Pilmico)",
+    "lat":15.798057,
+    "lon":120.288976,
+    "elevation":16.0,
+    "address":"Mangatarem, Pangasinan (Pilmico)",
+    "top":158.303838595,
+    "left":151.3639468
+  },
+  "980682":{
+    "name":"Diffun, Quirino (Pilmico)",
+    "lat":16.6187,
+    "lon":121.4866,
+    "elevation":145.0,
+    "address":"Diffun, Quirino (Pilmico)",
+    "top":136.8317145,
+    "left":182.711755
+  },
+  "980684":{
+    "name":"Buguey, Cagayan",
+    "lat":18.2879,
+    "lon":121.8314,
+    "elevation":15.0,
+    "address":"Buguey, Cagayan",
+    "top":93.1570965,
+    "left":191.736895
+  },
+  "980689":{
+    "name":"San Jose Airport (Cebu Pacific)",
+    "lat":12.3604,
+    "lon":121.0449,
+    "elevation":12.0,
+    "address":"San Jose Airport (Cebu Pacific)",
+    "top":248.250134,
+    "left":171.1502575
+  },
+  "980696":{
+    "name":"Cagwait, Surigao del Sur",
+    "lat":8.8876,
+    "lon":126.3114,
+    "elevation":23.0,
+    "address":"Cagwait, Surigao del Sur",
+    "top":339.115946,
+    "left":309.000895
+  },
+  "980653":{
+    "name":"Lemery, Batangas",
+    "lat":13.9756,
+    "lon":120.9007,
+    "elevation":341.0,
+    "address":"Lemery, Batangas",
+    "top":205.988426,
+    "left":167.3758225
+  },
+  "980697":{
+    "name":"Hinatuan, Surigao del Sur",
+    "lat":8.3988,
+    "lon":126.2927,
+    "elevation":109.0,
+    "address":"Hinatuan, Surigao del Sur",
+    "top":351.905398,
+    "left":308.5114225
+  },
+  "980701":{
+    "name":"San Francisco, Quezon",
+    "lat":13.3466,
+    "lon":122.5194,
+    "elevation":12.0,
+    "address":"San Francisco, Quezon",
+    "top":222.446211,
+    "left":209.745295
+  },
+  "980702":{
+    "name":"Lopez, Quezon",
+    "lat":13.8843,
+    "lon":122.2602,
+    "elevation":12.0,
+    "address":"Lopez, Quezon",
+    "top":208.3772905,
+    "left":202.960735
+  },
+  "980703":{
+    "name":"Mainit, Surigao Del Norte",
+    "lat":9.5405,
+    "lon":125.5231,
+    "elevation":52.0,
+    "address":"Mainit, Surigao Del Norte",
+    "top":322.0328175,
+    "left":288.3671425
+  },
+  "980706":{
+    "name":"Tubajon, Dinagat Islands",
+    "lat":10.3198,
+    "lon":125.5391,
+    "elevation":9.0,
+    "address":"Tubajon, Dinagat Islands",
+    "top":301.642433,
+    "left":288.7859425
+  },
+  "980707":{
+    "name":"Victorias City, Negros Oriental (CPSU)",
+    "lat":10.8834,
+    "lon":123.1086,
+    "elevation":52.0,
+    "address":"Victorias City, Negros Oriental (CPSU)",
+    "top":286.895839,
+    "left":225.167605
+  },
+  "980708":{
+    "name":"Manapla, Negros Occidental",
+    "lat":10.9251,
+    "lon":123.1332,
+    "elevation":77.0,
+    "address":"Manapla, Negros Occidental",
+    "top":285.8047585,
+    "left":225.81151
+  },
+  "980709":{
+    "name":"Malolos, Bulacan (LCP)",
+    "lat":14.8086,
+    "lon":120.8442,
+    "elevation":12.0,
+    "address":"Malolos, Bulacan (LCP)",
+    "top":184.192981,
+    "left":165.896935
+  },
+  "980711":{
+    "name":"Anda, Bohol",
+    "lat":9.7416,
+    "lon":124.5734,
+    "elevation":17.0,
+    "address":"Anda, Bohol",
+    "top":316.771036,
+    "left":263.508745
+  },
+  "980629":{
+    "name":"Tiwi, Albay",
+    "lat":13.487,
+    "lon":123.6173,
+    "elevation":47.0,
+    "address":"Tiwi, Albay",
+    "top":218.772645,
+    "left":238.4828275
+  },
+  "980631":{
+    "name":"Mambajao, Camiguin (ABOMICH)",
+    "lat":9.2133,
+    "lon":124.7658,
+    "elevation":30.0,
+    "address":"Mambajao, Camiguin (ABOMICH)",
+    "top":330.5940055,
+    "left":268.544815
+  },
+  "980632":{
+    "name":"Alicia, Isabela (Pilmico)",
+    "lat":16.781767,
+    "lon":121.69561,
+    "elevation":81.0,
+    "address":"Alicia, Isabela (Pilmico)",
+    "top":132.565066445,
+    "left":188.18259175
+  },
+  "980644":{
+    "name":"Sta. Maria, Laguna (Pilmico)",
+    "lat":14.4704,
+    "lon":121.4246,
+    "elevation":17.0,
+    "address":"Sta. Maria, Laguna (Pilmico)",
+    "top":193.041984,
+    "left":181.088905
+  },
+  "980635":{
+    "name":"Naga City-Tinaan Port (CEMEX)",
+    "lat":10.1931,
+    "lon":123.7496,
+    "elevation":5.0,
+    "address":"Naga City-Tinaan Port (CEMEX)",
+    "top":304.9575385,
+    "left":241.94578
+  },
+  "980655":{
+    "name":"General Aguinaldo, Cavite (Pilmico)",
+    "lat":14.1639,
+    "lon":120.819,
+    "elevation":233.0,
+    "address":"General Aguinaldo, Cavite (Pilmico)",
+    "top":201.0615565,
+    "left":165.237325
+  },
+  "980656":{
+    "name":"Gerona, Tarlac (Pilmico)",
+    "lat":15.580133,
+    "lon":120.591561,
+    "elevation":33.0,
+    "address":"Gerona, Tarlac (Pilmico)",
+    "top":164.005820055,
+    "left":159.284109175
+  },
+  "980657":{
+    "name":"Bayambang, Pangasinan (Metsite)",
+    "lat":15.81019,
+    "lon":120.456051,
+    "elevation":36.0,
+    "address":"Bayambang, Pangasinan (Metsite)",
+    "top":157.98637865,
+    "left":155.737134925
+  },
+  "980662":{
+    "name":"Burgos, Pangasinan (Pilmico)",
+    "lat":16.053507,
+    "lon":119.877826,
+    "elevation":100.0,
+    "address":"Burgos, Pangasinan (Pilmico)",
+    "top":151.619989345,
+    "left":140.60209555
+  },
+  "980659":{
+    "name":"Asingan, Pangasinan (Pilmico)",
+    "lat":16.027824,
+    "lon":120.6298,
+    "elevation":48.0,
+    "address":"Asingan, Pangasinan (Pilmico)",
+    "top":152.29198504,
+    "left":160.285015
+  },
+  "980666":{
+    "name":"Rizal, Cagayan (Pilmico)",
+    "lat":17.8069,
+    "lon":121.4233,
+    "elevation":40.0,
+    "address":"Rizal, Cagayan (Pilmico)",
+    "top":105.7424615,
+    "left":181.0548775
+  },
+  "980667":{
+    "name":"Piat, Cagayan (Pilmico)",
+    "lat":17.8214,
+    "lon":121.494,
+    "elevation":51.0,
+    "address":"Piat, Cagayan (Pilmico)",
+    "top":105.363069,
+    "left":182.90545
+  },
+  "980668":{
+    "name":"Tacloban City (LCP)",
+    "lat":11.2436,
+    "lon":125.0081,
+    "elevation":36.0,
+    "address":"Tacloban City (LCP)",
+    "top":277.471206,
+    "left":274.8870175
+  },
+  "980669":{
+    "name":"Masbate City Airport (PAL)",
+    "lat":12.3676,
+    "lon":123.6274,
+    "elevation":18.0,
+    "address":"Masbate City Airport (PAL)",
+    "top":248.061746,
+    "left":238.747195
+  },
+  "980672":{
+    "name":"Tacloban, Leyte (LBC)",
+    "lat":11.2218,
+    "lon":124.9929,
+    "elevation":12.0,
+    "address":"Tacloban, Leyte (LBC)",
+    "top":278.041603,
+    "left":274.4891575
+  },
+  "980673":{
+    "name":"Gattaran, Cagayan",
+    "lat":18.0619,
+    "lon":121.6456,
+    "elevation":32.0,
+    "address":"Gattaran, Cagayan",
+    "top":99.0703865,
+    "left":186.87358
+  },
+  "980679":{
+    "name":"Alcala, Cagayan",
+    "lat":17.9023,
+    "lon":121.6535,
+    "elevation":44.0,
+    "address":"Alcala, Cagayan",
+    "top":103.2463205,
+    "left":187.0803625
+  },
+  "980663":{
+    "name":"Mabini, Batangas",
+    "lat":13.7484,
+    "lon":120.9425,
+    "elevation":56.0,
+    "address":"Mabini, Batangas",
+    "top":211.933114,
+    "left":168.4699375
+  },
+  "980637":{
+    "name":"Mactan International Airport (Cebu Pacific)",
+    "lat":10.3183,
+    "lon":123.9807,
+    "elevation":18.0,
+    "address":"Mactan International Airport (Cebu Pacific)",
+    "top":301.6816805,
+    "left":247.9948225
+  },
+  "980661":{
+    "name":"Bani, Pangasinan (Pilmico)",
+    "lat":16.160775,
+    "lon":119.876893,
+    "elevation":30.0,
+    "address":"Bani, Pangasinan (Pilmico)",
+    "top":148.813322125,
+    "left":140.577674275
+  },
+  "980734":{
+    "name":"Bolinao, Pangasinan",
+    "lat":16.388,
+    "lon":119.8928,
+    "elevation":20.0,
+    "address":"Bolinao, Pangasinan",
+    "top":142.86798,
+    "left":140.99404
+  },
+  "980712":{
+    "name":"Dinalungan, Aurora",
+    "lat":16.1302,
+    "lon":121.9093,
+    "elevation":20.0,
+    "address":"Dinalungan, Aurora",
+    "top":149.613317,
+    "left":193.7759275
+  },
+  "980737":{
+    "name":"Lebak, Sultan Kudarat",
+    "lat":6.6353,
+    "lon":124.067,
+    "elevation":13.0,
+    "address":"Lebak, Sultan Kudarat",
+    "top":398.0473755,
+    "left":250.253725
+  },
+  "980743":{
+    "name":"Casiguran, Sorsogon",
+    "lat":12.872319,
+    "lon":124.008307,
+    "elevation":25.0,
+    "address":"Casiguran, Sorsogon",
+    "top":234.855773365,
+    "left":248.717435725
+  },
+  "980744":{
+    "name":"Malimono ,Surigao del Norte",
+    "lat":9.6185,
+    "lon":125.4018,
+    "elevation":36.0,
+    "address":"Malimono ,Surigao del Norte",
+    "top":319.9919475,
+    "left":285.192115
+  },
+  "980746":{
+    "name":"Roxas, Palawan",
+    "lat":10.3198,
+    "lon":119.3407,
+    "elevation":27.0,
+    "address":"Roxas, Palawan",
+    "top":301.642433,
+    "left":126.5428225
+  },
+  "980713":{
+    "name":"Dilasag, Aurora",
+    "lat":16.3926,
+    "lon":122.2117,
+    "elevation":25.0,
+    "address":"Dilasag, Aurora",
+    "top":142.747621,
+    "left":201.6912475
+  },
+  "980747":{
+    "name":"San Jose del Monte, Bulacan (LCP)",
+    "lat":14.8386,
+    "lon":121.0453,
+    "elevation":74.0,
+    "address":"San Jose del Monte, Bulacan (LCP)",
+    "top":183.408031,
+    "left":171.1607275
+  },
+  "980748":{
+    "name":"Bauang, La Union",
+    "lat":16.5268,
+    "lon":120.22,
+    "elevation":14.0,
+    "address":"Bauang, La Union",
+    "top":139.236278,
+    "left":149.5585
+  },
+  "980749":{
+    "name":"Libmanan, Camarines Sur",
+    "lat":13.6982,
+    "lon":123.0619,
+    "elevation":12.0,
+    "address":"Libmanan, Camarines Sur",
+    "top":213.246597,
+    "left":223.9452325
+  },
+  "980752":{
+    "name":"Siruma, Camarines Sur",
+    "lat":14.0221,
+    "lon":123.2588,
+    "elevation":19.0,
+    "address":"Siruma, Camarines Sur",
+    "top":204.7717535,
+    "left":229.09909
+  },
+  "980756":{
+    "name":"Capalonga, Camarines Norte",
+    "lat":14.331312,
+    "lon":122.493795,
+    "elevation":15.0,
+    "address":"Capalonga, Camarines Norte",
+    "top":196.68122152,
+    "left":209.075084125
+  },
+  "980757":{
+    "name":"Talisay, Camarines Norte",
+    "lat":14.135755,
+    "lon":122.924572,
+    "elevation":20.0,
+    "address":"Talisay, Camarines Norte",
+    "top":201.797970425,
+    "left":220.3506721
+  },
+  "980758":{
+    "name":"Basud, Camarines Norte",
+    "lat":14.071205,
+    "lon":122.96092,
+    "elevation":19.0,
+    "address":"Basud, Camarines Norte",
+    "top":203.486921175,
+    "left":221.302081
+  },
+  "980761":{
+    "name":"Brookes Point, Palawan",
+    "lat":8.7743,
+    "lon":117.839203,
+    "elevation":18.0,
+    "address":"Brookes Point, Palawan",
+    "top":342.0804405,
+    "left":87.241138525
+  },
+  "980766":{
+    "name":"Naga Camarines Sur (LBC)",
+    "lat":13.619671,
+    "lon":123.220587,
+    "elevation":28.0,
+    "address":"Naga Camarines Sur (LBC)",
+    "top":215.301308285,
+    "left":228.098864725
+  },
+  "980767":{
+    "name":"San Fernando, Camarines Sur",
+    "lat":13.564648,
+    "lon":123.144241,
+    "elevation":12.0,
+    "address":"San Fernando, Camarines Sur",
+    "top":216.74098508,
+    "left":226.100508175
+  },
+  "980715":{
+    "name":"Bacolod, Negros Occidental (LBC)",
+    "lat":10.6694,
+    "lon":122.9561,
+    "elevation":16.0,
+    "address":"Bacolod, Negros Occidental (LBC)",
+    "top":292.495149,
+    "left":221.1759175
+  },
+  "980786":{
+    "name":"Masinloc, Zambales (Pilmico)",
+    "lat":15.491798,
+    "lon":119.961723,
+    "elevation":16.0,
+    "address":"Masinloc, Zambales (Pilmico)",
+    "top":166.31710533,
+    "left":142.798099525
+  },
+  "980787":{
+    "name":"Pasuquin, Ilocos Norte",
+    "lat":18.333277,
+    "lon":120.618338,
+    "elevation":27.0,
+    "address":"Pasuquin, Ilocos Norte",
+    "top":91.969807295,
+    "left":159.98499715
+  },
+  "980944":{
+    "name":"Cotabato City, Maguindanao (CLP)",
+    "lat":7.2201,
+    "lon":124.2439,
+    "elevation":60.0,
+    "address":"Cotabato City, Maguindanao (CLP)",
+    "top":382.7460835,
+    "left":254.8840825
+  },
+  "980686":{
+    "name":"Claveria, Cagayan (Pilmico)",
+    "lat":18.5333,
+    "lon":121.0297,
+    "elevation":33.0,
+    "address":"Claveria, Cagayan (Pilmico)",
+    "top":86.7362055,
+    "left":170.7523975
+  },
+  "980687":{
+    "name":"Santa Praxedes, Cagayan (Pilmico)",
+    "lat":18.5617,
+    "lon":120.9922,
+    "elevation":65.0,
+    "address":"Santa Praxedes, Cagayan (Pilmico)",
+    "top":85.9931195,
+    "left":169.770835
+  },
+  "980694":{
+    "name":"Puerto Galera, Oriental Mindoro",
+    "lat":13.4989,
+    "lon":120.9553,
+    "elevation":12.0,
+    "address":"Puerto Galera, Oriental Mindoro",
+    "top":218.4612815,
+    "left":168.8049775
+  },
+  "980718":{
+    "name":"Talisay City, Negros Occidental Sugar Millers",
+    "lat":10.7395,
+    "lon":123.041,
+    "elevation":62.0,
+    "address":"Talisay City, Negros Occidental Sugar Millers",
+    "top":290.6609825,
+    "left":223.398175
+  },
+  "980719":{
+    "name":"Hinoba-an, Negros Occidental",
+    "lat":9.6022,
+    "lon":122.4672,
+    "elevation":26.0,
+    "address":"Hinoba-an, Negros Occidental",
+    "top":320.418437,
+    "left":208.37896
+  },
+  "980721":{
+    "name":"Jamindan, Capiz",
+    "lat":11.4119,
+    "lon":122.5134,
+    "elevation":43.0,
+    "address":"Jamindan, Capiz",
+    "top":273.0676365,
+    "left":209.588245
+  },
+  "980722":{
+    "name":"Talamban, Cebu",
+    "lat":10.3633,
+    "lon":123.9231,
+    "elevation":51.0,
+    "address":"Talamban, Cebu",
+    "top":300.5042555,
+    "left":246.4871425
+  },
+  "980776":{
+    "name":"Paracale, Camarines Norte",
+    "lat":14.2650486,
+    "lon":122.7722168,
+    "elevation":28.0,
+    "address":"Paracale, Camarines Norte",
+    "top":198.415003381,
+    "left":216.36277474
+  },
+  "980723":{
+    "name":"Mandaue, Cebu (LBC)",
+    "lat":10.3067,
+    "lon":123.9161,
+    "elevation":12.0,
+    "address":"Mandaue, Cebu (LBC)",
+    "top":301.9851945,
+    "left":246.3039175
+  },
+  "980726":{
+    "name":"Angeles City, Pampanga",
+    "lat":15.1497,
+    "lon":120.5776,
+    "elevation":130.0,
+    "address":"Angeles City, Pampanga",
+    "top":175.2680995,
+    "left":158.91868
+  },
+  "980658":{
+    "name":"Bugallon, Pangasinan (Pilmico)",
+    "lat":15.852117,
+    "lon":120.256432,
+    "elevation":20.0,
+    "address":"Bugallon, Pangasinan (Pilmico)",
+    "top":156.889358695,
+    "left":150.5121076
+  },
+  "980728":{
+    "name":"Aborlan, Palawan",
+    "lat":9.415,
+    "lon":118.5369,
+    "elevation":25.0,
+    "address":"Aborlan, Palawan",
+    "top":325.316525,
+    "left":105.5033575
+  },
+  "980729":{
+    "name":"Quezon, Palawan",
+    "lat":9.2381,
+    "lon":117.9972,
+    "elevation":22.0,
+    "address":"Quezon, Palawan",
+    "top":329.9451135,
+    "left":91.37671
+  },
+  "980732":{
+    "name":"Prieto Diaz, Sorsogon",
+    "lat":13.0402,
+    "lon":124.1935,
+    "elevation":19.0,
+    "address":"Prieto Diaz, Sorsogon",
+    "top":230.463167,
+    "left":253.5648625
+  },
+  "980733":{
+    "name":"Murcia, Negros Occidental",
+    "lat":10.6106,
+    "lon":123.0444,
+    "elevation":158.0,
+    "address":"Murcia, Negros Occidental",
+    "top":294.033651,
+    "left":223.48717
+  },
+  "980692":{
+    "name":"Cortes, Surigao del Sur",
+    "lat":9.2691,
+    "lon":126.1694,
+    "elevation":93.0,
+    "address":"Cortes, Surigao del Sur",
+    "top":329.1339985,
+    "left":305.284045
+  },
+  "980695":{
+    "name":"Lianga, Surigao del Sur",
+    "lat":8.6319,
+    "lon":126.0957,
+    "elevation":14.0,
+    "address":"Lianga, Surigao del Sur",
+    "top":345.8063365,
+    "left":303.3549475
+  },
+  "980704":{
+    "name":"Maragusan, ComVal",
+    "lat":7.1919,
+    "lon":126.0812,
+    "elevation":1446.0,
+    "address":"Maragusan, ComVal",
+    "top":383.4839365,
+    "left":302.97541
+  },
+  "980735":{
+    "name":"Dasol, Pangasinan",
+    "lat":15.9905,
+    "lon":119.8802,
+    "elevation":32.0,
+    "address":"Dasol, Pangasinan",
+    "top":153.2685675,
+    "left":140.664235
+  },
+  "980804":{
+    "name":"Libon, Albay",
+    "lat":13.2884,
+    "lon":123.4141,
+    "elevation":19.0,
+    "address":"Libon, Albay",
+    "top":223.969014,
+    "left":233.1640675
+  },
+  "980809":{
+    "name":"Cabanatuan, Nueva Ecija (LBC)",
+    "lat":15.4816,
+    "lon":120.9795,
+    "elevation":40.0,
+    "address":"Cabanatuan, Nueva Ecija (LBC)",
+    "top":166.583936,
+    "left":169.4384125
+  },
+  "980811":{
+    "name":"Ramon, Isabela (Pilmico)",
+    "lat":16.7814,
+    "lon":121.5382,
+    "elevation":118.0,
+    "address":"Ramon, Isabela (Pilmico)",
+    "top":132.574669,
+    "left":184.062385
+  },
+  "980765":{
+    "name":"Baggao, Cagayan",
+    "lat":17.857222,
+    "lon":121.9025,
+    "elevation":60.0,
+    "address":"Baggao, Cagayan",
+    "top":104.42578637,
+    "left":193.5979375
+  },
+  "980816":{
+    "name":"Lower Bicutan, Taguig City (LCP)",
+    "lat":14.4891,
+    "lon":121.0623,
+    "elevation":19.0,
+    "address":"Lower Bicutan, Taguig City (LCP)",
+    "top":192.5526985,
+    "left":171.6057025
+  },
+  "980818":{
+    "name":"Del Gallego, Camarines Sur",
+    "lat":13.9218,
+    "lon":122.5958,
+    "elevation":22.0,
+    "address":"Del Gallego, Camarines Sur",
+    "top":207.396103,
+    "left":211.745065
+  },
+  "980819":{
+    "name":"Ocampo, Camarines Sur",
+    "lat":13.5569,
+    "lon":123.3726,
+    "elevation":54.0,
+    "address":"Ocampo, Camarines Sur",
+    "top":216.9437115,
+    "left":232.077805
+  },
+  "980822":{
+    "name":"Ternate, Cavite",
+    "lat":14.2822,
+    "lon":120.720214,
+    "elevation":22.0,
+    "address":"Ternate, Cavite",
+    "top":197.966237,
+    "left":162.65160145
+  },
+  "980823":{
+    "name":"Silang, Cavite",
+    "lat":14.223,
+    "lon":120.972112,
+    "elevation":327.0,
+    "address":"Silang, Cavite",
+    "top":199.515205,
+    "left":169.2450316
+  },
+  "980769":{
+    "name":"Gubat, Sorsogon",
+    "lat":12.936,
+    "lon":124.1205,
+    "elevation":17.0,
+    "address":"Gubat, Sorsogon",
+    "top":233.18956,
+    "left":251.6540875
+  },
+  "980825":{
+    "name":"Iguig, Cagayan",
+    "lat":17.752499,
+    "lon":121.737623,
+    "elevation":37.0,
+    "address":"Iguig, Cagayan",
+    "top":107.165863665,
+    "left":189.282282025
+  },
+  "980826":{
+    "name":"Tubigon, Bohol",
+    "lat":9.9517,
+    "lon":123.9611,
+    "elevation":23.0,
+    "address":"Tubigon, Bohol",
+    "top":311.2737695,
+    "left":247.4817925
+  },
+  "980831":{
+    "name":"Jose Dalman, Zamboanga del Norte",
+    "lat":8.440588,
+    "lon":123.023518,
+    "elevation":65.0,
+    "address":"Jose Dalman, Zamboanga del Norte",
+    "top":350.81201498,
+    "left":222.94058365
+  },
+  "980832":{
+    "name":"Sindangan, Zamboanga del Norte",
+    "lat":8.234388,
+    "lon":122.99929,
+    "elevation":38.0,
+    "address":"Sindangan, Zamboanga del Norte",
+    "top":356.20723798,
+    "left":222.30641575
+  },
+  "980833":{
+    "name":"San Andres, Catanduanes",
+    "lat":13.595088,
+    "lon":124.099615,
+    "elevation":14.0,
+    "address":"San Andres, Catanduanes",
+    "top":215.94452248,
+    "left":251.107422625
+  },
+  "980834":{
+    "name":"Baras, Catanduanes",
+    "lat":13.658804,
+    "lon":124.37161,
+    "elevation":15.0,
+    "address":"Baras, Catanduanes",
+    "top":214.27739334,
+    "left":258.22689175
+  },
+  "980837":{
+    "name":"Sipocot, Camarines Sur",
+    "lat":13.757754,
+    "lon":122.976509,
+    "elevation":34.0,
+    "address":"Sipocot, Camarines Sur",
+    "top":211.68836659,
+    "left":221.710123075
+  },
+  "980839":{
+    "name":"Donsol, Sorsogon",
+    "lat":12.906137,
+    "lon":123.5946,
+    "elevation":20.0,
+    "address":"Donsol, Sorsogon",
+    "top":233.970925395,
+    "left":237.888655
+  },
+  "980841":{
+    "name":"Rapu-Rapu, Albay",
+    "lat":13.186778,
+    "lon":124.12821,
+    "elevation":17.0,
+    "address":"Rapu-Rapu, Albay",
+    "top":226.62795363,
+    "left":251.85589675
+  },
+  "980741":{
+    "name":"Bulan, Sorsogon",
+    "lat":12.675615,
+    "lon":123.874412,
+    "elevation":12.0,
+    "address":"Bulan, Sorsogon",
+    "top":240.002533525,
+    "left":245.2127341
+  },
+  "980753":{
+    "name":"Balabac, Palawan",
+    "lat":7.985905,
+    "lon":117.062329,
+    "elevation":19.0,
+    "address":"Balabac, Palawan",
+    "top":362.708795675,
+    "left":66.906461575
+  },
+  "980754":{
+    "name":"Luna, La Union",
+    "lat":16.853691,
+    "lon":120.378395,
+    "elevation":22.0,
+    "address":"Luna, La Union",
+    "top":130.683174985,
+    "left":153.704489125
+  },
+  "980762":{
+    "name":"Narra, Palawan",
+    "lat":9.279841,
+    "lon":118.419106,
+    "elevation":14.0,
+    "address":"Narra, Palawan",
+    "top":328.852960235,
+    "left":102.42009955
+  },
+  "980763":{
+    "name":"Pres. Carlos P. Garcia, Bohol",
+    "lat":10.120612,
+    "lon":124.553908,
+    "elevation":33.0,
+    "address":"Pres. Carlos P. Garcia, Bohol",
+    "top":306.85418702,
+    "left":262.9985419
+  },
+  "980764":{
+    "name":"Magarao, Camarines Sur",
+    "lat":13.660955,
+    "lon":123.190422,
+    "elevation":13.0,
+    "address":"Magarao, Camarines Sur",
+    "top":214.221112425,
+    "left":227.30929585
+  },
+  "980771":{
+    "name":"Castilla, Sorsogon",
+    "lat":12.9785,
+    "lon":123.8003,
+    "elevation":84.0,
+    "address":"Castilla, Sorsogon",
+    "top":232.0775475,
+    "left":243.2728525
+  },
+  "980772":{
+    "name":"Dagupan City, Pangasinan",
+    "lat":16.043234,
+    "lon":120.336304,
+    "elevation":26.0,
+    "address":"Dagupan City, Pangasinan",
+    "top":151.88878239,
+    "left":152.6027572
+  },
+  "980773":{
+    "name":"Anda, Pangasinan",
+    "lat":16.288862,
+    "lon":119.949043,
+    "elevation":42.0,
+    "address":"Anda, Pangasinan",
+    "top":145.46192577,
+    "left":142.466200525
+  },
+  "980774":{
+    "name":"Agno, Pangasinan",
+    "lat":16.116441,
+    "lon":119.798758,
+    "elevation":25.0,
+    "address":"Agno, Pangasinan",
+    "top":149.973321235,
+    "left":138.53249065
+  },
+  "980778":{
+    "name":"Talibon, Bohol",
+    "lat":10.15038,
+    "lon":124.327327,
+    "elevation":15.0,
+    "address":"Talibon, Bohol",
+    "top":306.0753073,
+    "left":257.067784225
+  },
+  "980779":{
+    "name":"Agoo, La Union",
+    "lat":16.322861,
+    "lon":120.36661,
+    "elevation":32.0,
+    "address":"Agoo, La Union",
+    "top":144.572341935,
+    "left":153.39601675
+  },
+  "980781":{
+    "name":"Urdaneta, Pangasinan (LBC)",
+    "lat":15.962731,
+    "lon":120.575357,
+    "elevation":37.0,
+    "address":"Urdaneta, Pangasinan (LBC)",
+    "top":153.995143385,
+    "left":158.859969475
+  },
+  "980783":{
+    "name":"Binalonan, Pangasinan",
+    "lat":16.047812,
+    "lon":120.591665,
+    "elevation":57.0,
+    "address":"Binalonan, Pangasinan",
+    "top":151.76899902,
+    "left":159.286831375
+  },
+  "980784":{
+    "name":"Bangui, Ilocos Norte",
+    "lat":18.515567,
+    "lon":120.737609,
+    "elevation":29.0,
+    "address":"Bangui, Ilocos Norte",
+    "top":87.200189445,
+    "left":163.106915575
+  },
+  "980785":{
+    "name":"Santa Cruz, Zambales",
+    "lat":15.723408,
+    "lon":119.888397,
+    "elevation":28.0,
+    "address":"Santa Cruz, Zambales",
+    "top":160.25702968,
+    "left":140.878791475
+  },
+  "980788":{
+    "name":"Laoag International Airport (Cebu Pacific)",
+    "lat":18.1797,
+    "lon":120.5335,
+    "elevation":24.0,
+    "address":"Laoag International Airport (Cebu Pacific)",
+    "top":95.9881495,
+    "left":157.7643625
+  },
+  "980807":{
+    "name":"Aparri, Cagayan (Pilmico)",
+    "lat":18.3579,
+    "lon":121.6371,
+    "elevation":16.0,
+    "address":"Aparri, Cagayan (Pilmico)",
+    "top":91.3255465,
+    "left":186.6510925
+  },
+  "980808":{
+    "name":"Abulug, Cagayan",
+    "lat":18.4438,
+    "lon":121.4575,
+    "elevation":16.0,
+    "address":"Abulug, Cagayan",
+    "top":89.077973,
+    "left":181.9500625
+  },
+  "980812":{
+    "name":"Gonzaga, Cagayan",
+    "lat":18.3494,
+    "lon":122.0906,
+    "elevation":15.0,
+    "address":"Gonzaga, Cagayan",
+    "top":91.547949,
+    "left":198.521455
+  },
+  "980836":{
+    "name":"Caramoran, Catanduanes",
+    "lat":13.983793,
+    "lon":124.13248,
+    "elevation":13.0,
+    "address":"Caramoran, Catanduanes",
+    "top":205.774056155,
+    "left":251.967664
+  },
+  "980872":{
+    "name":"Bagac, Bataan",
+    "lat":14.607198,
+    "lon":120.40198,
+    "elevation":14.0,
+    "address":"Bagac, Bataan",
+    "top":189.46266433,
+    "left":154.3218265
+  },
+  "980875":{
+    "name":"Batuan, Masbate",
+    "lat":12.4207,
+    "lon":123.7805,
+    "elevation":20.0,
+    "address":"Batuan, Masbate",
+    "top":246.6723845,
+    "left":242.7545875
+  },
+  "980792":{
+    "name":"Sinait, Ilocos Norte ",
+    "lat":17.8554,
+    "lon":120.4499,
+    "elevation":8.0,
+    "address":"Sinait, Ilocos Norte ",
+    "top":104.473459,
+    "left":155.5761325
+  },
+  "980878":{
+    "name":"Compostela, Compostela Valley",
+    "lat":7.66853,
+    "lon":126.085409,
+    "elevation":90.0,
+    "address":"Compostela, Compostela Valley",
+    "top":371.01291255,
+    "left":303.085580575
+  },
+  "980883":{
+    "name":"Roxas, Isabela (Pilmico)",
+    "lat":17.1242,
+    "lon":121.6145,
+    "elevation":68.0,
+    "address":"Roxas, Isabela (Pilmico)",
+    "top":123.605307,
+    "left":186.0595375
+  },
+  "980886":{
+    "name":"Kiangan, Ifugao (SNAP)",
+    "lat":16.7782,
+    "lon":121.0872,
+    "elevation":778.0,
+    "address":"Kiangan, Ifugao (SNAP)",
+    "top":132.658397,
+    "left":172.25746
+  },
+  "980805":{
+    "name":"Culasi, Antique",
+    "lat":11.4263,
+    "lon":122.0552,
+    "elevation":17.0,
+    "address":"Culasi, Antique",
+    "top":272.6908605,
+    "left":197.59486
+  },
+  "980888":{
+    "name":"Tinoc, Ifugao (SNAP)",
+    "lat":16.6749,
+    "lon":120.9368,
+    "elevation":1500.0,
+    "address":"Tinoc, Ifugao (SNAP)",
+    "top":135.3612415,
+    "left":168.32074
+  },
+  "980855":{
+    "name":"Ballesteros, Cagayan (Pilmico)",
+    "lat":18.346228,
+    "lon":121.497945,
+    "elevation":23.0,
+    "address":"Ballesteros, Cagayan (Pilmico)",
+    "top":91.63094438,
+    "left":183.008710375
+  },
+  "980889":{
+    "name":"Sitio Sabang, Puerto Princesa (PSFI)",
+    "lat":10.1963,
+    "lon":118.8933,
+    "elevation":28.0,
+    "address":"Sitio Sabang, Puerto Princesa (PSFI)",
+    "top":304.8738105,
+    "left":114.8321275
+  },
+  "980892":{
+    "name":"Kabankalan City (NOCECO)",
+    "lat":10.027726,
+    "lon":122.833079,
+    "elevation":20.0,
+    "address":"Kabankalan City (NOCECO)",
+    "top":309.28454921,
+    "left":217.955842825
+  },
+  "980814":{
+    "name":"Iba, Zambales",
+    "lat":15.3278,
+    "lon":119.9765,
+    "elevation":21.0,
+    "address":"Iba, Zambales",
+    "top":170.608113,
+    "left":143.1848875
+  },
+  "980894":{
+    "name":"Manolo Fortich, Bukidnon (HEDCOR)",
+    "lat":8.5053,
+    "lon":125.0571,
+    "elevation":8.0,
+    "address":"Manolo Fortich, Bukidnon (HEDCOR)",
+    "top":349.1188255,
+    "left":276.1695925
+  },
+  "980896":{
+    "name":"Carles, Iloilo",
+    "lat":11.5738,
+    "lon":123.1331,
+    "elevation":15.0,
+    "address":"Carles, Iloilo",
+    "top":268.831523,
+    "left":225.8088925
+  },
+  "980845":{
+    "name":"Gigmoto, Catanduanes",
+    "lat":13.781289,
+    "lon":124.390842,
+    "elevation":15.0,
+    "address":"Gigmoto, Catanduanes",
+    "top":211.072573315,
+    "left":258.73028935
+  },
+  "980897":{
+    "name":"Aborlan, Palawan (PSFI)",
+    "lat":9.4435,
+    "lon":118.5603,
+    "elevation":25.0,
+    "address":"Aborlan, Palawan (PSFI)",
+    "top":324.5708225,
+    "left":106.1158525
+  },
+  "980898":{
+    "name":"Quezon, Palawan (PSFI)",
+    "lat":9.3747,
+    "lon":118.1421,
+    "elevation":28.0,
+    "address":"Quezon, Palawan (PSFI)",
+    "top":326.3709745,
+    "left":95.1694675
+  },
+  "980901":{
+    "name":"Candawaga, Rizal, Palawan (PSFI)",
+    "lat":8.876,
+    "lon":117.5013,
+    "elevation":10.0,
+    "address":"Candawaga, Rizal, Palawan (PSFI)",
+    "top":339.41946,
+    "left":78.3965275
+  },
+  "980902":{
+    "name":"Punta Baja, Rizal, Palawan (PSFI)",
+    "lat":9.0195,
+    "lon":117.648,
+    "elevation":33.0,
+    "address":"Punta Baja, Rizal, Palawan (PSFI)",
+    "top":335.6647825,
+    "left":82.2364
+  },
+  "980903":{
+    "name":"Polanco, Zamboanga Del Norte (ZANECO)",
+    "lat":8.5481,
+    "lon":123.3604,
+    "elevation":34.0,
+    "address":"Polanco, Zamboanga Del Norte (ZANECO)",
+    "top":347.9989635,
+    "left":231.75847
+  },
+  "980908":{
+    "name":"Mayoyao, Ifugao (SNAP)",
+    "lat":16.9752,
+    "lon":121.2199,
+    "elevation":1158.0,
+    "address":"Mayoyao, Ifugao (SNAP)",
+    "top":127.503892,
+    "left":175.7308825
+  },
+  "980909":{
+    "name":"Lagawe, Ifugao (SNAP)",
+    "lat":16.7579,
+    "lon":121.2342,
+    "elevation":1163.0,
+    "address":"Lagawe, Ifugao (SNAP)",
+    "top":133.1895465,
+    "left":176.105185
+  },
+  "980911":{
+    "name":"Isla Mayor, Occidental Mindoro",
+    "lat":13.425,
+    "lon":120.4469,
+    "elevation":12.0,
+    "address":"Isla Mayor, Occidental Mindoro",
+    "top":220.394875,
+    "left":155.4976075
+  },
+  "980794":{
+    "name":"Sagnay, Camarines Sur",
+    "lat":13.6047,
+    "lon":123.5223,
+    "elevation":15.0,
+    "address":"Sagnay, Camarines Sur",
+    "top":215.6930245,
+    "left":235.9962025
+  },
+  "980795":{
+    "name":"Ragay, Camarines Sur",
+    "lat":13.8821,
+    "lon":122.7242,
+    "elevation":116.0,
+    "address":"Ragay, Camarines Sur",
+    "top":208.4348535,
+    "left":215.105935
+  },
+  "980796":{
+    "name":"Goa, Camarines Sur",
+    "lat":13.6937,
+    "lon":123.447,
+    "elevation":131.0,
+    "address":"Goa, Camarines Sur",
+    "top":213.3643395,
+    "left":234.025225
+  },
+  "980799":{
+    "name":"Mercedes, Camarines Norte",
+    "lat":14.1089,
+    "lon":123.0116,
+    "elevation":13.0,
+    "address":"Mercedes, Camarines Norte",
+    "top":202.5006315,
+    "left":222.62863
+  },
+  "980801":{
+    "name":"Calauag, Quezon",
+    "lat":13.9584,
+    "lon":122.2901,
+    "elevation":16.0,
+    "address":"Calauag, Quezon",
+    "top":206.438464,
+    "left":203.7433675
+  },
+  "980803":{
+    "name":"Milaor, Camarines Sur",
+    "lat":13.5958,
+    "lon":123.1769,
+    "elevation":14.0,
+    "address":"Milaor, Camarines Sur",
+    "top":215.925893,
+    "left":226.9553575
+  },
+  "980824":{
+    "name":"San Juan City (LCP)",
+    "lat":15.60447,
+    "lon":121.029419,
+    "elevation":48.0,
+    "address":"San Juan City (LCP)",
+    "top":163.36904245,
+    "left":170.745042325
+  },
+  "980843":{
+    "name":"Bagamanoc, Catanduanes",
+    "lat":13.941119,
+    "lon":124.288865,
+    "elevation":15.0,
+    "address":"Bagamanoc, Catanduanes",
+    "top":206.890621365,
+    "left":256.061041375
+  },
+  "980844":{
+    "name":"Pilar, Sorsogon",
+    "lat":12.923989,
+    "lon":123.675676,
+    "elevation":21.0,
+    "address":"Pilar, Sorsogon",
+    "top":233.503827815,
+    "left":240.0108193
+  },
+  "980856":{
+    "name":"Calabanga, Camarines Sur",
+    "lat":13.70833,
+    "lon":123.214686,
+    "elevation":16.0,
+    "address":"Calabanga, Camarines Sur",
+    "top":212.98154555,
+    "left":227.94440605
+  },
+  "980857":{
+    "name":"Bagong Silang, Puerto Princesa (PSFI)",
+    "lat":14.733411,
+    "lon":118.733879,
+    "elevation":25.0,
+    "address":"Bagong Silang, Puerto Princesa (PSFI)",
+    "top":186.160301185,
+    "left":110.659282825
+  },
+  "980882":{
+    "name":"San Jacinto, Masbate",
+    "lat":12.5707,
+    "lon":123.7329,
+    "elevation":8.0,
+    "address":"San Jacinto, Masbate",
+    "top":242.7476345,
+    "left":241.5086575
+  },
+  "980912":{
+    "name":"Agno, Pangasinan (Pilmico)",
+    "lat":16.1039,
+    "lon":119.835,
+    "elevation":21.0,
+    "address":"Agno, Pangasinan (Pilmico)",
+    "top":150.3014565,
+    "left":139.481125
+  },
+  "980854":{
+    "name":"Cabugao, Ilocos Sur (Pilmico)",
+    "lat":17.793623,
+    "lon":120.45469,
+    "elevation":23.0,
+    "address":"Cabugao, Ilocos Sur (Pilmico)",
+    "top":106.089854205,
+    "left":155.70151075
+  },
+  "980907":{
+    "name":"Taytay, Palawan (PSFI)",
+    "lat":10.8251,
+    "lon":119.5167,
+    "elevation":20.0,
+    "address":"Taytay, Palawan (PSFI)",
+    "top":288.4212585,
+    "left":131.1496225
+  },
+  "980874":{
+    "name":"Siocon, Zamboanga Del Norte",
+    "lat":7.7434,
+    "lon":122.2969,
+    "elevation":534.0,
+    "address":"Siocon, Zamboanga Del Norte",
+    "top":369.053939,
+    "left":203.9213575
+  },
+  "980876":{
+    "name":"Balasan, Iloilo (LBC)",
+    "lat":11.4742,
+    "lon":123.08858,
+    "elevation":23.0,
+    "address":"Balasan, Iloilo (LBC)",
+    "top":271.437557,
+    "left":224.6435815
+  },
+  "980906":{
+    "name":"Hungduan, Ifugao (SNAP)",
+    "lat":16.8389,
+    "lon":121.0056,
+    "elevation":1170.0,
+    "address":"Hungduan, Ifugao (SNAP)",
+    "top":131.0701815,
+    "left":170.12158
+  },
+  "980958":{
+    "name":"Pilar, Capiz (LFUG)",
+    "lat":11.487845,
+    "lon":122.99709,
+    "elevation":24.0,
+    "address":"Pilar, Capiz (LFUG)",
+    "top":271.080535575,
+    "left":222.24883075
+  },
+  "980962":{
+    "name":"Busuanga, Palawan (PSFI)",
+    "lat":12.132657,
+    "lon":119.93441,
+    "elevation":26.0,
+    "address":"Busuanga, Palawan (PSFI)",
+    "top":254.209029595,
+    "left":142.08318175
+  },
+  "980963":{
+    "name":"Cagayancillo, Palawan (PSFI)",
+    "lat":9.574958,
+    "lon":121.19434,
+    "elevation":17.0,
+    "address":"Cagayancillo, Palawan (PSFI)",
+    "top":321.13122393,
+    "left":175.0618495
+  },
+  "980913":{
+    "name":"Pililla, Rizal (PSFI)",
+    "lat":14.3923,
+    "lon":121.337,
+    "elevation":26.0,
+    "address":"Pililla, Rizal (PSFI)",
+    "top":195.0854705,
+    "left":178.795975
+  },
+  "980917":{
+    "name":"Guimbal, Iloilo",
+    "lat":10.6619,
+    "lon":122.3217,
+    "elevation":42.0,
+    "address":"Guimbal, Iloilo",
+    "top":292.6913865,
+    "left":204.5704975
+  },
+  "980918":{
+    "name":"Naga City, Camarines Sur (NCF)",
+    "lat":13.633,
+    "lon":123.191,
+    "elevation":38.0,
+    "address":"Naga City, Camarines Sur (NCF)",
+    "top":214.952555,
+    "left":227.324425
+  },
+  "980921":{
+    "name":"Claveria, Masbate",
+    "lat":12.9021,
+    "lon":123.2462,
+    "elevation":0.0,
+    "address":"Claveria, Masbate",
+    "top":234.0765535,
+    "left":228.769285
+  },
+  "980923":{
+    "name":"Labangon, Cebu (SM)",
+    "lat":10.283,
+    "lon":123.8817,
+    "elevation":0.0,
+    "address":"Labangon, Cebu (SM)",
+    "top":302.605305,
+    "left":245.4034975
+  },
+  "980924":{
+    "name":"El Nido, San Fernando, Palawan",
+    "lat":11.3221,
+    "lon":119.54,
+    "elevation":9.0,
+    "address":"El Nido, San Fernando, Palawan",
+    "top":275.4172535,
+    "left":131.7595
+  },
+  "980945":{
+    "name":"Datu Odin Sinsuat Airport (Cebu Pacific)",
+    "lat":7.1634,
+    "lon":124.2132,
+    "elevation":57.0,
+    "address":"Datu Odin Sinsuat Airport (Cebu Pacific)",
+    "top":384.229639,
+    "left":254.08051
+  },
+  "980951":{
+    "name":"Brooke's Point, Palawan (PSFI)",
+    "lat":8.834344,
+    "lon":117.87795,
+    "elevation":23.0,
+    "address":"Brooke's Point, Palawan (PSFI)",
+    "top":340.50938924,
+    "left":88.25534125
+  },
+  "980953":{
+    "name":"Bataraza, Palawan (PSFI)",
+    "lat":8.677431,
+    "lon":117.63464,
+    "elevation":24.0,
+    "address":"Bataraza, Palawan (PSFI)",
+    "top":344.615017885,
+    "left":81.886702
+  },
+  "980955":{
+    "name":"Baruyen Sitio Suyo, Bangui, Ilocos Norte (North Wind Power Development Corp. - Ayala)",
+    "lat":18.526837,
+    "lon":120.68715,
+    "elevation":20.0,
+    "address":"Baruyen Sitio Suyo, Bangui, Ilocos Norte (North Wind Power Development Corp. - Ayala)",
+    "top":86.905309895,
+    "left":161.78615125
+  },
+  "980956":{
+    "name":"Pontevedra, Capiz (LFUG)",
+    "lat":11.4818332,
+    "lon":122.83237,
+    "elevation":15.0,
+    "address":"Pontevedra, Capiz (LFUG)",
+    "top":271.237834322,
+    "left":217.93728475
+  },
+  "980957":{
+    "name":"Maayon,Capiz (LFUG)",
+    "lat":11.387384,
+    "lon":122.78083,
+    "elevation":25.0,
+    "address":"Maayon,Capiz (LFUG)",
+    "top":273.70909764,
+    "left":216.58822525
+  },
+  "980961":{
+    "name":"Panitan, Capiz (LFUG)",
+    "lat":11.462798,
+    "lon":122.76857,
+    "elevation":33.0,
+    "address":"Panitan, Capiz (LFUG)",
+    "top":271.73589033,
+    "left":216.26731975
+  },
+  "980965":{
+    "name":"Culion, Palawan (PSFI)",
+    "lat":11.88574,
+    "lon":120.01452,
+    "elevation":84.0,
+    "address":"Culion, Palawan (PSFI)",
+    "top":260.6696129,
+    "left":144.180061
+  },
+  "980967":{
+    "name":"Culion, Palawan",
+    "lat":11.89437,
+    "lon":120.01918,
+    "elevation":13.0,
+    "address":"Culion, Palawan",
+    "top":260.44380895,
+    "left":144.3020365
+  },
+  "980968":{
+    "name":"Linapacan, Palawan (PSFI)",
+    "lat":11.265886,
+    "lon":119.67403,
+    "elevation":17.0,
+    "address":"Linapacan, Palawan (PSFI)",
+    "top":276.88809281,
+    "left":135.26773525
+  },
+  "980969":{
+    "name":"Sara, Iloilo (LFUG)",
+    "lat":11.257102,
+    "lon":123.01423,
+    "elevation":36.0,
+    "address":"Sara, Iloilo (LFUG)",
+    "top":277.11792617,
+    "left":222.69747025
+  },
+  "980971":{
+    "name":"Lemery, Iloilo (LFUG)",
+    "lat":11.225491,
+    "lon":122.92879,
+    "elevation":116.0,
+    "address":"Lemery, Iloilo (LFUG)",
+    "top":277.945027985,
+    "left":220.46107825
+  },
+  "980973":{
+    "name":"Sigma, Capiz (LFUG)",
+    "lat":11.433472,
+    "lon":122.6647,
+    "elevation":29.0,
+    "address":"Sigma, Capiz (LFUG)",
+    "top":272.50320512,
+    "left":213.5485225
+  },
+  "980863":{
+    "name":"General Santos International Airport (Cebu Pacific)",
+    "lat":6.056,
+    "lon":125.0972,
+    "elevation":153.0,
+    "address":"General Santos International Airport (Cebu Pacific)",
+    "top":413.20476,
+    "left":277.21921
+  },
+  "980864":{
+    "name":"Paoay, Ilocos Norte",
+    "lat":18.0579,
+    "lon":120.5214,
+    "elevation":25.0,
+    "address":"Paoay, Ilocos Norte",
+    "top":99.1750465,
+    "left":157.447645
+  },
+  "980865":{
+    "name":"Milagros, Masbate",
+    "lat":12.2314,
+    "lon":123.507,
+    "elevation":15.0,
+    "address":"Milagros, Masbate",
+    "top":251.625419,
+    "left":235.595725
+  },
+  "980867":{
+    "name":"Balud, Masbate",
+    "lat":12.0397,
+    "lon":123.1918,
+    "elevation":9.0,
+    "address":"Balud, Masbate",
+    "top":256.6412495,
+    "left":227.345365
+  },
+  "980869":{
+    "name":"Cagayan de Oro (LBC)",
+    "lat":8.49665,
+    "lon":124.6572388,
+    "elevation":9.0,
+    "address":"Cagayan de Oro (LBC)",
+    "top":349.34515275,
+    "left":265.70322559
+  },
+  "980871":{
+    "name":"Masinloc, Zambales",
+    "lat":15.4918,
+    "lon":119.9617,
+    "elevation":17.0,
+    "address":"Masinloc, Zambales",
+    "top":166.317053,
+    "left":142.7974975
+  },
+  "980915":{
+    "name":"Clark Pampanga (Cebu Pacific)",
+    "lat":15.194,
+    "lon":120.5288,
+    "elevation":188.0,
+    "address":"Clark Pampanga (Cebu Pacific)",
+    "top":174.10899,
+    "left":157.64134
+  },
+  "980935":{
+    "name":"Claver, Surigao Del Norte",
+    "lat":9.573,
+    "lon":125.7327,
+    "elevation":14.0,
+    "address":"Claver, Surigao Del Norte",
+    "top":321.182455,
+    "left":293.8534225
+  },
+  "980941":{
+    "name":"Mariveles, Bataan (GNPower)",
+    "lat":14.4484,
+    "lon":120.5296,
+    "elevation":200.0,
+    "address":"Mariveles, Bataan (GNPower)",
+    "top":193.617614,
+    "left":157.66228
+  },
+  "980942":{
+    "name":"Teresa, Rizal (RCBM)",
+    "lat":14.5443,
+    "lon":121.2058,
+    "elevation":50.0,
+    "address":"Teresa, Rizal (RCBM)",
+    "top":191.1083905,
+    "left":175.361815
+  },
+  "980946":{
+    "name":"Lipa, Batangas (Aboitiz Land)",
+    "lat":14.0082,
+    "lon":121.1662,
+    "elevation":299.0,
+    "address":"Lipa, Batangas (Aboitiz Land)",
+    "top":205.135447,
+    "left":174.325285
+  },
+  "980949":{
+    "name":"Cordova, Cebu",
+    "lat":10.2683,
+    "lon":123.96,
+    "elevation":10.0,
+    "address":"Cordova, Cebu",
+    "top":302.9899305,
+    "left":247.453
+  },
+  "980974":{
+    "name":"Balabac,Palawan (PSFI)",
+    "lat":8.215585,
+    "lon":117.101856,
+    "elevation":17.0,
+    "address":"Balabac,Palawan (PSFI)",
+    "top":356.699218475,
+    "left":67.9410808
+  },
+  "980975":{
+    "name":"San Carlos City, Negros Occidental (SacaSun)",
+    "lat":10.51771,
+    "lon":123.42815,
+    "elevation":12.0,
+    "address":"San Carlos City, Negros Occidental (SacaSun)",
+    "top":296.46411785,
+    "left":233.53182625
+  },
+  "980977":{
+    "name":"Lamut, Ifugao (SNAP \/ NIA)",
+    "lat":16.6489,
+    "lon":121.1774,
+    "elevation":245.0,
+    "address":"Lamut, Ifugao (SNAP \/ NIA)",
+    "top":136.0415315,
+    "left":174.618445
+  },
+  "980926":{
+    "name":"Bagongbayan, El Nido, Palawan (PSFI)",
+    "lat":11.0147,
+    "lon":119.4193,
+    "elevation":14.0,
+    "address":"Bagongbayan, El Nido, Palawan (PSFI)",
+    "top":283.4603745,
+    "left":128.6001775
+  },
+  "980978":{
+    "name":"Ambaguio, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.519903,
+    "lon":121.076134,
+    "elevation":860.0,
+    "address":"Ambaguio, Nueva Vizcaya (SNAP\/NIA)",
+    "top":139.416738005,
+    "left":171.96780745
+  },
+  "980931":{
+    "name":"Taytay, Palawan (PSFI)",
+    "lat":11.0071,
+    "lon":119.3056,
+    "elevation":10.0,
+    "address":"Taytay, Palawan (PSFI)",
+    "top":283.6592285,
+    "left":125.62408
+  },
+  "980979":{
+    "name":"Kayapa, Nueva Vizcaya (SNAP \/ NIA)",
+    "lat":16.344304,
+    "lon":120.92571,
+    "elevation":889.0,
+    "address":"Kayapa, Nueva Vizcaya (SNAP \/ NIA)",
+    "top":144.01128584,
+    "left":168.03045925
+  },
+  "980981":{
+    "name":"Kalayaan, Palawan (PSFI)",
+    "lat":11.05266,
+    "lon":114.285147,
+    "elevation":17.0,
+    "address":"Kalayaan, Palawan (PSFI)",
+    "top":282.4671511,
+    "left":-5.786277275
+  },
+  "980984":{
+    "name":"Cagdianao, Dinagat Island (CMC-NAC)",
+    "lat":10.162891,
+    "lon":125.668244,
+    "elevation":131.0,
+    "address":"Cagdianao, Dinagat Island (CMC-NAC)",
+    "top":305.747956985,
+    "left":292.1662867
+  },
+  "980929":{
+    "name":"Nicanor Zabala, Roxas, Palawan (PSFI)",
+    "lat":10.1442,
+    "lon":119.2138,
+    "elevation":10.0,
+    "address":"Nicanor Zabala, Roxas, Palawan (PSFI)",
+    "top":306.237007,
+    "left":123.221215
+  },
+  "980932":{
+    "name":"Araceli, Palawan (PSFI)",
+    "lat":10.5499,
+    "lon":119.9861,
+    "elevation":1.0,
+    "address":"Araceli, Palawan (PSFI)",
+    "top":295.6218665,
+    "left":143.4361675
+  },
+  "980934":{
+    "name":"Placer, Surigao Del Norte",
+    "lat":9.6595,
+    "lon":125.602,
+    "elevation":6.0,
+    "address":"Placer, Surigao Del Norte",
+    "top":318.9191825,
+    "left":290.43235
+  },
+  "980936":{
+    "name":"Pilar, Surigao Del Norte",
+    "lat":9.8644,
+    "lon":126.1,
+    "elevation":5.0,
+    "address":"Pilar, Surigao Del Norte",
+    "top":313.557974,
+    "left":303.4675
+  },
+  "980938":{
+    "name":"President Roxas, Capiz (LFUGC)",
+    "lat":11.4273,
+    "lon":122.9307,
+    "elevation":12.0,
+    "address":"President Roxas, Capiz (LFUGC)",
+    "top":272.6646955,
+    "left":220.5110725
+  },
+  "980943":{
+    "name":"Sultan Kudarat, Maguindanao (LAMSAN)",
+    "lat":7.2759,
+    "lon":124.3021,
+    "elevation":50.0,
+    "address":"Sultan Kudarat, Maguindanao (LAMSAN)",
+    "top":381.2860765,
+    "left":256.4074675
+  },
+  "980986":{
+    "name":"Nasipit, Agusan del Norte (TMI MII)",
+    "lat":8.977656,
+    "lon":125.330971,
+    "elevation":23.0,
+    "address":"Nasipit, Agusan del Norte (TMI MII)",
+    "top":336.75963076,
+    "left":283.338165925
+  },
+  "980789":{
+    "name":"Pagudpud, Ilocos Norte",
+    "lat":18.5602,
+    "lon":120.7868,
+    "elevation":23.0,
+    "address":"Pagudpud, Ilocos Norte",
+    "top":86.032367,
+    "left":164.39449
+  },
+  "980989":{
+    "name":"Calaca,Batangas(SEM CALACA Power Corporation)",
+    "lat":13.93727,
+    "lon":120.785455,
+    "elevation":30.0,
+    "address":"Calaca,Batangas(SEM CALACA Power Corporation)",
+    "top":206.99133045,
+    "left":164.359284625
+  },
+  "980987":{
+    "name":"Maco, Compostela Valley (TMI MI)",
+    "lat":7.370087,
+    "lon":125.8621,
+    "elevation":84.0,
+    "address":"Maco, Compostela Valley (TMI MI)",
+    "top":378.821673645,
+    "left":297.2404675
+  },
+  "980301":{
+    "name":"Taal Lake, Batangas",
+    "lat":14.0886,
+    "lon":121.0072,
+    "elevation":14.0,
+    "address":"Taal Lake, Batangas",
+    "top":203.031781,
+    "left":170.16346
+  },
+  "980306":{
+    "name":"Sabangan, Mountain Province (HEDCOR)",
+    "lat":17.0054,
+    "lon":120.9222,
+    "elevation":1107.0,
+    "address":"Sabangan, Mountain Province (HEDCOR)",
+    "top":126.713709,
+    "left":167.938585
+  },
+  "980316":{
+    "name":"Maramag, Bukidnon (Crystal Sugar)",
+    "lat":7.7589,
+    "lon":125.0413,
+    "elevation":294.0,
+    "address":"Maramag, Bukidnon (Crystal Sugar)",
+    "top":368.6483815,
+    "left":275.7560275
+  },
+  "980318":{
+    "name":"Rosario, Cavite (SM)",
+    "lat":14.4093,
+    "lon":120.8577,
+    "elevation":24.0,
+    "address":"Rosario, Cavite (SM)",
+    "top":194.6406655,
+    "left":166.2502975
+  },
+  "980506":{
+    "name":"Bauan, Batangas (BIPI)",
+    "lat":13.748,
+    "lon":120.9908,
+    "elevation":7.0,
+    "address":"Bauan, Batangas (BIPI)",
+    "top":211.94358,
+    "left":169.73419
+  },
+  "980542":{
+    "name":"BF Homes, Paranaque City (SM)",
+    "lat":14.4579,
+    "lon":121.0323,
+    "elevation":57.0,
+    "address":"BF Homes, Paranaque City (SM)",
+    "top":193.3690465,
+    "left":170.8204525
+  },
+  "980548":{
+    "name":"Naga City-Tinaan Plant (CEMEX)",
+    "lat":10.1935,
+    "lon":123.7401,
+    "elevation":41.0,
+    "address":"Naga City-Tinaan Plant (CEMEX)",
+    "top":304.9470725,
+    "left":241.6971175
+  },
+  "980554":{
+    "name":"Licab, Nueva Ecija (Pilmico)",
+    "lat":15.5233,
+    "lon":120.7911,
+    "elevation":35.0,
+    "address":"Licab, Nueva Ecija (Pilmico)",
+    "top":165.4928555,
+    "left":164.5070425
+  },
+  "980563":{
+    "name":"Tibungco, Davao City (CEMEX)",
+    "lat":7.2104,
+    "lon":125.6498,
+    "elevation":7.0,
+    "address":"Tibungco, Davao City (CEMEX)",
+    "top":382.999884,
+    "left":291.683515
+  },
+  "980569":{
+    "name":"Virac, Catanduanes Airport (Cebu Pacific)",
+    "lat":13.5799,
+    "lon":124.2127,
+    "elevation":35.0,
+    "address":"Virac, Catanduanes Airport (Cebu Pacific)",
+    "top":216.3419165,
+    "left":254.0674225
+  },
+  "980592":{
+    "name":"Cauayan City Airport (Cebu Pacific)",
+    "lat":16.9272,
+    "lon":121.7526,
+    "elevation":64.0,
+    "address":"Cauayan City Airport (Cebu Pacific)",
+    "top":128.759812,
+    "left":189.674305
+  },
+  "980594":{
+    "name":"Roxas City Airport (PAL)",
+    "lat":11.6002,
+    "lon":122.7503,
+    "elevation":9.0,
+    "address":"Roxas City Airport (PAL)",
+    "top":268.140767,
+    "left":215.7891025
+  },
+  "980597":{
+    "name":"Bancasi, Butuan City Airport (PAL)",
+    "lat":8.948,
+    "lon":125.4822,
+    "elevation":14.0,
+    "address":"Bancasi, Butuan City Airport (PAL)",
+    "top":337.53558,
+    "left":287.296585
+  },
+  "980604":{
+    "name":"Laguindingan Airport, Misamis Oriental (PAL)",
+    "lat":8.6085,
+    "lon":124.4582,
+    "elevation":72.0,
+    "address":"Laguindingan Airport, Misamis Oriental (PAL)",
+    "top":346.4185975,
+    "left":260.493385
+  },
+  "980612":{
+    "name":"Baganga, Davao Oriental",
+    "lat":7.6099,
+    "lon":126.5698,
+    "elevation":14.0,
+    "address":"Baganga, Davao Oriental",
+    "top":372.5469665,
+    "left":315.764515
+  },
+  "980617":{
+    "name":"Davao International Airport (Cebu Pacific)",
+    "lat":7.1295,
+    "lon":125.6445,
+    "elevation":40.0,
+    "address":"Davao International Airport (Cebu Pacific)",
+    "top":385.1166325,
+    "left":291.5447875
+  },
+  "980327":{
+    "name":"Masinag, Antipolo City (SM)",
+    "lat":14.6251,
+    "lon":121.1197,
+    "elevation":35.0,
+    "address":"Masinag, Antipolo City (SM)",
+    "top":188.9942585,
+    "left":173.1081475
+  },
+  "980334":{
+    "name":"Bayombong, Nueva Vizcaya (SNAP Magat)",
+    "lat":16.4334,
+    "lon":121.1133,
+    "elevation":315.0,
+    "address":"Bayombong, Nueva Vizcaya (SNAP Magat)",
+    "top":141.680089,
+    "left":172.9406275
+  },
+  "980342":{
+    "name":"Angeles City (SM)",
+    "lat":15.1692,
+    "lon":120.5815,
+    "elevation":127.0,
+    "address":"Angeles City (SM)",
+    "top":174.757882,
+    "left":159.0207625
+  },
+  "980347":{
+    "name":"Lipa City (SM)",
+    "lat":13.9548,
+    "lon":121.1631,
+    "elevation":346.0,
+    "address":"Lipa City (SM)",
+    "top":206.532658,
+    "left":174.2441425
+  },
+  "980353":{
+    "name":"Bacolod City (SM)",
+    "lat":10.6736,
+    "lon":122.9443,
+    "elevation":25.0,
+    "address":"Bacolod City (SM)",
+    "top":292.385256,
+    "left":220.8670525
+  },
+  "980361":{
+    "name":"Dasmarinas City (SM)",
+    "lat":14.3015,
+    "lon":120.9564,
+    "elevation":168.0,
+    "address":"Dasmarinas City (SM)",
+    "top":197.4612525,
+    "left":168.83377
+  },
+  "980559":{
+    "name":"Subic Bay Freeport Zone, Olongapo City (SBITC)",
+    "lat":14.8021,
+    "lon":120.261,
+    "elevation":10.0,
+    "address":"Subic Bay Freeport Zone, Olongapo City (SBITC)",
+    "top":184.3630535,
+    "left":150.631675
+  },
+  "980664":{
+    "name":"Manolo Fortich, Bukidnon (Syngenta)",
+    "lat":8.3771,
+    "lon":124.952,
+    "elevation":410.0,
+    "address":"Manolo Fortich, Bukidnon (Syngenta)",
+    "top":352.4731785,
+    "left":273.4186
+  },
+  "980677":{
+    "name":"Ilagan City (Pilmico)",
+    "lat":17.158,
+    "lon":121.9276,
+    "elevation":76.0,
+    "address":"Ilagan City (Pilmico)",
+    "top":122.72093,
+    "left":194.25493
+  },
+  "980739":{
+    "name":"Matnog, Sorsogon",
+    "lat":12.5852,
+    "lon":124.0854,
+    "elevation":18.0,
+    "address":"Matnog, Sorsogon",
+    "top":242.368242,
+    "left":250.735345
+  },
+  "980745":{
+    "name":"Taytay, Palawan",
+    "lat":10.8252,
+    "lon":119.5183,
+    "elevation":23.0,
+    "address":"Taytay, Palawan",
+    "top":288.418642,
+    "left":131.1915025
+  },
+  "980751":{
+    "name":"Pasacao, Camarines Sur",
+    "lat":13.5085,
+    "lon":123.0427,
+    "elevation":12.0,
+    "address":"Pasacao, Camarines Sur",
+    "top":218.2100975,
+    "left":223.4426725
+  },
+  "980755":{
+    "name":"Bacnotan, La Union",
+    "lat":16.719984,
+    "lon":120.34697,
+    "elevation":22.0,
+    "address":"Bacnotan, La Union",
+    "top":134.18161864,
+    "left":152.88193975
+  },
+  "980759":{
+    "name":"Daet, Camarines Norte",
+    "lat":14.082372,
+    "lon":122.957418,
+    "elevation":21.0,
+    "address":"Daet, Camarines Norte",
+    "top":203.19473662,
+    "left":221.21041615
+  },
+  "980768":{
+    "name":"Lingig, Surigao del Sur",
+    "lat":8.036845,
+    "lon":126.413574,
+    "elevation":0.0,
+    "address":"Lingig, Surigao del Sur",
+    "top":361.375950575,
+    "left":311.67529945
+  },
+  "980775":{
+    "name":"Caba, La Union",
+    "lat":16.4311,
+    "lon":120.345052,
+    "elevation":24.0,
+    "address":"Caba, La Union",
+    "top":141.7402685,
+    "left":152.8317361
+  },
+  "980777":{
+    "name":"Santa Elena, Camarines Norte",
+    "lat":14.185603,
+    "lon":122.393062,
+    "elevation":32.0,
+    "address":"Santa Elena, Camarines Norte",
+    "top":200.493697505,
+    "left":206.43839785
+  },
+  "980093":{
+    "name":"Isabela City (LPP)",
+    "lat":6.7,
+    "lon":121.9,
+    "elevation":26.0,
+    "address":"Isabela City (LPP)",
+    "top":396.3545,
+    "left":193.5325
+  },
+  "980782":{
+    "name":"General Luna, Siargao Island",
+    "lat":9.782138,
+    "lon":126.156242,
+    "elevation":18.0,
+    "address":"General Luna, Siargao Island",
+    "top":315.71035923,
+    "left":304.93963435
+  },
+  "980793":{
+    "name":"Surigao City Airport (Cebu Pacific)",
+    "lat":9.758,
+    "lon":125.4819,
+    "elevation":14.0,
+    "address":"Surigao City Airport (Cebu Pacific)",
+    "top":316.34193,
+    "left":287.2887325
+  },
+  "980797":{
+    "name":"Pagadian City, Zamboanga Del Sur (ZAMSURECO)",
+    "lat":7.8276,
+    "lon":123.4394,
+    "elevation":53.0,
+    "address":"Pagadian City, Zamboanga Del Sur (ZAMSURECO)",
+    "top":366.850846,
+    "left":233.826295
+  },
+  "980802":{
+    "name":"Pamplona, Camarines Sur",
+    "lat":13.5915,
+    "lon":123.0813,
+    "elevation":24.0,
+    "address":"Pamplona, Camarines Sur",
+    "top":216.0384025,
+    "left":224.4530275
+  },
+  "980821":{
+    "name":"Imus, Cavite (LBC)",
+    "lat":14.4044,
+    "lon":120.9402,
+    "elevation":29.0,
+    "address":"Imus, Cavite (LBC)",
+    "top":194.768874,
+    "left":168.409735
+  },
+  "980829":{
+    "name":"Liloy, Zamboanga del Norte",
+    "lat":8.1213,
+    "lon":122.6736,
+    "elevation":15.0,
+    "address":"Liloy, Zamboanga del Norte",
+    "top":359.1661855,
+    "left":213.78148
+  },
+  "980835":{
+    "name":"Mabalacat, Pampanga (LCP)",
+    "lat":15.243272,
+    "lon":120.562505,
+    "elevation":15.0,
+    "address":"Mabalacat, Pampanga (LCP)",
+    "top":172.81978812,
+    "left":158.523568375
+  },
+  "980842":{
+    "name":"Pandan, Catanduanes",
+    "lat":14.0440667,
+    "lon":124.161408,
+    "elevation":14.0,
+    "address":"Pandan, Catanduanes",
+    "top":204.1969947945,
+    "left":252.7248544
+  },
+  "980849":{
+    "name":"Magsingal, Ilocos Sur",
+    "lat":17.687616,
+    "lon":120.428056,
+    "elevation":51.0,
+    "address":"Magsingal, Ilocos Sur",
+    "top":108.86352736,
+    "left":155.0043658
+  },
+  "980861":{
+    "name":"New Bataan, Compostela Valley",
+    "lat":7.5487,
+    "lon":126.1371,
+    "elevation":232.0,
+    "address":"New Bataan, Compostela Valley",
+    "top":374.1482645,
+    "left":304.4385925
+  },
+  "980625":{
+    "name":"Catarman Airport (PAL)",
+    "lat":12.5049,
+    "lon":124.6365,
+    "elevation":5.0,
+    "address":"Catarman Airport (PAL)",
+    "top":244.4692915,
+    "left":265.1603875
+  },
+  "980626":{
+    "name":"Cateel, Davao Oriental",
+    "lat":7.7903,
+    "lon":126.4543,
+    "elevation":13.0,
+    "address":"Cateel, Davao Oriental",
+    "top":367.8268005,
+    "left":312.7413025
+  },
+  "980627":{
+    "name":"Calbayog City Airport (PAL)",
+    "lat":12.0777,
+    "lon":124.5457,
+    "elevation":15.0,
+    "address":"Calbayog City Airport (PAL)",
+    "top":255.6469795,
+    "left":262.7836975
+  },
+  "980643":{
+    "name":"Infanta, Quezon",
+    "lat":14.748,
+    "lon":121.6508,
+    "elevation":9.0,
+    "address":"Infanta, Quezon",
+    "top":185.77858,
+    "left":187.00969
+  },
+  "980654":{
+    "name":"Calatagan, Batangas (Pilmico)",
+    "lat":13.8696,
+    "lon":120.6647,
+    "elevation":16.0,
+    "address":"Calatagan, Batangas (Pilmico)",
+    "top":208.761916,
+    "left":161.1985225
+  },
+  "980671":{
+    "name":"Pasig City (LCP)",
+    "lat":14.612,
+    "lon":121.0867,
+    "elevation":23.0,
+    "address":"Pasig City (LCP)",
+    "top":189.33702,
+    "left":172.2443725
+  },
+  "980683":{
+    "name":"Amulung, Cagayan (Pilmico)",
+    "lat":17.8388,
+    "lon":121.7236,
+    "elevation":27.0,
+    "address":"Amulung, Cagayan (Pilmico)",
+    "top":104.907798,
+    "left":188.91523
+  },
+  "980691":{
+    "name":"Cantilan, Surigao del Sur",
+    "lat":9.3362,
+    "lon":125.9772,
+    "elevation":21.0,
+    "address":"Cantilan, Surigao del Sur",
+    "top":327.378327,
+    "left":300.25321
+  },
+  "980693":{
+    "name":"Odiongan, Romblon",
+    "lat":12.4,
+    "lon":121.9814,
+    "elevation":12.0,
+    "address":"Odiongan, Romblon",
+    "top":247.214,
+    "left":195.663145
+  },
+  "980699":{
+    "name":"Angono, Rizal (SM)",
+    "lat":14.531,
+    "lon":121.1537,
+    "elevation":8.0,
+    "address":"Angono, Rizal (SM)",
+    "top":191.456385,
+    "left":173.9980975
+  },
+  "980705":{
+    "name":"Bacolod-Silay International Airport (Cebu Pacific)",
+    "lat":10.7788,
+    "lon":123.0161,
+    "elevation":49.0,
+    "address":"Bacolod-Silay International Airport (Cebu Pacific)",
+    "top":289.632698,
+    "left":222.7464175
+  },
+  "980717":{
+    "name":"Real, Quezon",
+    "lat":14.6704,
+    "lon":121.6086,
+    "elevation":11.0,
+    "address":"Real, Quezon",
+    "top":187.808984,
+    "left":185.905105
+  },
+  "980725":{
+    "name":"Meycauayan, Bulacan (LCP)",
+    "lat":14.7749,
+    "lon":120.9988,
+    "elevation":51.0,
+    "address":"Meycauayan, Bulacan (LCP)",
+    "top":185.0747415,
+    "left":169.94359
+  },
+  "980731":{
+    "name":"Casiguran, Aurora",
+    "lat":16.2774,
+    "lon":122.1233,
+    "elevation":22.0,
+    "address":"Casiguran, Aurora",
+    "top":145.761829,
+    "left":199.3773775
+  },
+  "980736":{
+    "name":"Tagkawayan, Quezon",
+    "lat":13.9658,
+    "lon":122.5395,
+    "elevation":22.0,
+    "address":"Tagkawayan, Quezon",
+    "top":206.244843,
+    "left":210.2714125
+  },
+  "980738":{
+    "name":"Bulusan, Sorsogon",
+    "lat":12.7502,
+    "lon":124.1366,
+    "elevation":18.0,
+    "address":"Bulusan, Sorsogon",
+    "top":238.051017,
+    "left":252.075505
+  },
+  "980815":{
+    "name":"Sanchez-Mira, Cagayan",
+    "lat":18.5598,
+    "lon":121.2351,
+    "elevation":52.0,
+    "address":"Sanchez-Mira, Cagayan",
+    "top":86.042833,
+    "left":176.1287425
+  },
+  "980633":{
+    "name":"Jones, Isabela (Pilmico)",
+    "lat":16.574364,
+    "lon":121.695549,
+    "elevation":116.0,
+    "address":"Jones, Isabela (Pilmico)",
+    "top":137.99176594,
+    "left":188.180995075
+  },
+  "980899":{
+    "name":"Sofronio Espanola, Palawan (PSFI)",
+    "lat":8.9713,
+    "lon":117.9994,
+    "elevation":56.0,
+    "address":"Sofronio Espanola, Palawan (PSFI)",
+    "top":336.9259355,
+    "left":91.434295
+  },
+  "980952":{
+    "name":"Narra, Palawan (PSFI)",
+    "lat":9.2834,
+    "lon":118.42223,
+    "elevation":16.0,
+    "address":"Narra, Palawan (PSFI)",
+    "top":328.759839,
+    "left":102.50187025
+  },
+  "980959":{
+    "name":"Estancia, Iloilo (LFUG)",
+    "lat":11.452731,
+    "lon":123.15413,
+    "elevation":18.0,
+    "address":"Estancia, Iloilo (LFUG)",
+    "top":271.999293385,
+    "left":226.35935275
+  },
+  "980993":{
+    "name":"Dupax del Norte, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.293782,
+    "lon":121.171344,
+    "elevation":391.0,
+    "address":"Dupax del Norte, Nueva Vizcaya (SNAP\/NIA)",
+    "top":145.33319397,
+    "left":174.4599292
+  },
+  "980994":{
+    "name":"Diadi, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.59114,
+    "lon":121.33245,
+    "elevation":278.0,
+    "address":"Diadi, Nueva Vizcaya (SNAP\/NIA)",
+    "top":137.5528219,
+    "left":178.67687875
+  },
+  "980995":{
+    "name":"Brgy. Sanafe, Lamut, Ifugao (SNAP\/NIA)",
+    "lat":16.700979,
+    "lon":121.237007,
+    "elevation":306.0,
+    "address":"Brgy. Sanafe, Lamut, Ifugao (SNAP\/NIA)",
+    "top":134.678884465,
+    "left":176.178658225
+  },
+  "980997":{
+    "name":"LGU Dinapigue Isabela ( DMC - NAC )",
+    "lat":16.52588,
+    "lon":122.261787,
+    "elevation":26.0,
+    "address":"LGU Dinapigue Isabela ( DMC - NAC )",
+    "top":139.2603498,
+    "left":203.002274725
+  },
+  "980998":{
+    "name":"Dinapigue Isabela ( DMC - NAC )",
+    "lat":16.60412,
+    "lon":122.30337,
+    "elevation":515.0,
+    "address":"Dinapigue Isabela ( DMC - NAC )",
+    "top":137.2132002,
+    "left":204.09070975
+  },
+  "980999":{
+    "name":"Brgy. Buenavista, Manicani Island Guiuan Eastern Samar ( HMC-NAC )",
+    "lat":10.090122,
+    "lon":125.65045,
+    "elevation":28.0,
+    "address":"Brgy. Buenavista, Manicani Island Guiuan Eastern Samar ( HMC-NAC )",
+    "top":307.65195787,
+    "left":291.70052875
+  },
+  "981001":{
+    "name":"Magsaysay, Palawan (PSFI)",
+    "lat":10.86803,
+    "lon":121.05123,
+    "elevation":46.0,
+    "address":"Magsaysay, Palawan (PSFI)",
+    "top":287.29799505,
+    "left":171.31594525
+  },
+  "981002":{
+    "name":"Brgy.Turda, Coron, Palawan (PSFI)",
+    "lat":12.096548,
+    "lon":120.308,
+    "elevation":21.0,
+    "address":"Brgy.Turda, Coron, Palawan (PSFI)",
+    "top":255.15382158,
+    "left":151.8619
+  },
+  "981004":{
+    "name":"Brgy.Punta Engano, Mactan, Cebu (Fairlines)",
+    "lat":10.32564,
+    "lon":124.04045,
+    "elevation":26.0,
+    "address":"Brgy.Punta Engano, Mactan, Cebu (Fairlines)",
+    "top":301.4896294,
+    "left":249.55877875
+  },
+  "981005":{
+    "name":"Quezon, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.4900617,
+    "lon":121.26484,
+    "elevation":362.0,
+    "address":"Quezon, Nueva Vizcaya (SNAP\/NIA)",
+    "top":140.1975356195,
+    "left":176.907187
+  },
+  "981006":{
+    "name":"Brgy.NBBS Proper, Navotas City ( TMI )",
+    "lat":14.643995,
+    "lon":120.95074,
+    "elevation":28.0,
+    "address":"Brgy.NBBS Proper, Navotas City ( TMI )",
+    "top":188.499870825,
+    "left":168.6856195
+  },
+  "981007":{
+    "name":"Boracay Island, Malay, Aklan (Boracay Wetland No. 4)",
+    "lat":11.963607,
+    "lon":121.926078,
+    "elevation":18.0,
+    "address":"Boracay Island, Malay, Aklan (Boracay Wetland No. 4)",
+    "top":258.632222845,
+    "left":194.21509165
+  },
+  "981008":{
+    "name":"Brgy.Tara,Coron,Palawan(PSFI)",
+    "lat":12.273272,
+    "lon":120.363449,
+    "elevation":9.0,
+    "address":"Brgy.Tara,Coron,Palawan(PSFI)",
+    "top":250.52983812,
+    "left":153.313277575
+  },
+  "980873":{
+    "name":"Lanuza, Surigao Del Sur",
+    "lat":9.238408,
+    "lon":126.063368,
+    "elevation":53.0,
+    "address":"Lanuza, Surigao Del Sur",
+    "top":329.93705468,
+    "left":302.5086574
+  },
+  "980877":{
+    "name":"Anini-y, Antique",
+    "lat":10.43053,
+    "lon":121.92657,
+    "elevation":25.0,
+    "address":"Anini-y, Antique",
+    "top":298.74518255,
+    "left":194.22796975
+  },
+  "980881":{
+    "name":"Ibajay, Aklan",
+    "lat":11.8185,
+    "lon":122.1622,
+    "elevation":28.0,
+    "address":"Ibajay, Aklan",
+    "top":262.4289475,
+    "left":200.395585
+  },
+  "980885":{
+    "name":"Coron, Palawan",
+    "lat":11.8971,
+    "lon":120.2291,
+    "elevation":34.0,
+    "address":"Coron, Palawan",
+    "top":260.3723785,
+    "left":149.7966925
+  },
+  "980891":{
+    "name":"Kalakwasan, Palawan (PSFI)",
+    "lat":10.02,
+    "lon":118.978,
+    "elevation":15.0,
+    "address":"Kalakwasan, Palawan (PSFI)",
+    "top":309.4867,
+    "left":117.04915
+  },
+  "980893":{
+    "name":"Brgy Bunggo, Calamba City (Pilmico)",
+    "lat":14.1617,
+    "lon":121.0847,
+    "elevation":70.0,
+    "address":"Brgy Bunggo, Calamba City (Pilmico)",
+    "top":201.1191195,
+    "left":172.1920225
+  },
+  "980972":{
+    "name":"Dumarao, Capiz (LFUG)",
+    "lat":11.262094,
+    "lon":122.68743,
+    "elevation":48.0,
+    "address":"Dumarao, Capiz (LFUG)",
+    "top":276.98731049,
+    "left":214.14348025
+  },
+  "980976":{
+    "name":"Asipulo, Ifugao (SNAP \/ NIA)",
+    "lat":16.720732,
+    "lon":121.06945,
+    "elevation":1000.0,
+    "address":"Asipulo, Ifugao (SNAP \/ NIA)",
+    "top":134.16204722,
+    "left":171.79285375
+  },
+  "980982":{
+    "name":"Santa Fe, Nueva Vizcaya (SNAP\/ NIA)",
+    "lat":16.156318,
+    "lon":120.903032,
+    "elevation":972.0,
+    "address":"Santa Fe, Nueva Vizcaya (SNAP\/ NIA)",
+    "top":148.92993953,
+    "left":167.4368626
+  },
+  "980985":{
+    "name":"Brgy. Terrely, Cabuyao, Laguna (The Country Club)",
+    "lat":14.230609,
+    "lon":121.071745,
+    "elevation":105.0,
+    "address":"Brgy. Terrely, Cabuyao, Laguna (The Country Club)",
+    "top":199.316115515,
+    "left":171.852925375
+  },
+  "980988":{
+    "name":"Brgy. Bato, Toledo City, Cebu (TVI)",
+    "lat":10.34433,
+    "lon":123.60864,
+    "elevation":24.0,
+    "address":"Brgy. Bato, Toledo City, Cebu (TVI)",
+    "top":301.00060555,
+    "left":238.256152
+  },
+  "980884":{
+    "name":"Lal-Lo, Cagayan (Pilmico)",
+    "lat":18.1331,
+    "lon":121.6687,
+    "elevation":15.0,
+    "address":"Lal-Lo, Cagayan (Pilmico)",
+    "top":97.2074385,
+    "left":187.4782225
+  },
+  "980895":{
+    "name":"Linapacan, Palawan",
+    "lat":11.4916,
+    "lon":119.871,
+    "elevation":11.0,
+    "address":"Linapacan, Palawan",
+    "top":270.982286,
+    "left":140.423425
+  },
+  "980948":{
+    "name":"Cebu City-Ermita (CPPC)",
+    "lat":10.290108,
+    "lon":123.896912,
+    "elevation":13.0,
+    "address":"Cebu City-Ermita (CPPC)",
+    "top":302.41932418,
+    "left":245.8016716
+  },
+  "980991":{
+    "name":"Villa Verde, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.590889,
+    "lon":121.18691,
+    "elevation":254.0,
+    "address":"Villa Verde, Nueva Vizcaya (SNAP\/NIA)",
+    "top":137.559389315,
+    "left":174.86736925
+  },
+  "980992":{
+    "name":"Aritao, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.264507,
+    "lon":121.041495,
+    "elevation":400.0,
+    "address":"Aritao, Nueva Vizcaya (SNAP\/NIA)",
+    "top":146.099174345,
+    "left":171.061131625
+  },
+  "981003":{
+    "name":"Liloan Cebu ( L'NOR )",
+    "lat":10.355284,
+    "lon":124.00187,
+    "elevation":42.0,
+    "address":"Liloan Cebu ( L'NOR )",
+    "top":300.71399414,
+    "left":248.54894725
+  },
+  "980727":{
+    "name":"Tarlac City (LCP)",
+    "lat":15.4866,
+    "lon":120.5898,
+    "elevation":70.0,
+    "address":"Tarlac City (LCP)",
+    "top":166.453111,
+    "left":159.238015
+  },
+  "980817":{
+    "name":"Lagonoy, Camarines Sur",
+    "lat":13.7343,
+    "lon":123.521,
+    "elevation":30.0,
+    "address":"Lagonoy, Camarines Sur",
+    "top":212.3020405,
+    "left":235.962175
+  },
+  "980852":{
+    "name":"Narvacan, Ilocos Sur",
+    "lat":17.426969,
+    "lon":120.474086,
+    "elevation":23.0,
+    "address":"Narvacan, Ilocos Sur",
+    "top":115.683356115,
+    "left":156.20920105
+  },
+  "980919":{
+    "name":"Bombon, Camarines Sur (PSFI)",
+    "lat":13.6806,
+    "lon":123.2183,
+    "elevation":28.0,
+    "address":"Bombon, Camarines Sur (PSFI)",
+    "top":213.707101,
+    "left":228.0390025
+  },
+  "980966":{
+    "name":"Santa Rosa, Laguna (MNC)",
+    "lat":14.292504,
+    "lon":121.09986,
+    "elevation":41.0,
+    "address":"Santa Rosa, Laguna (MNC)",
+    "top":197.69663284,
+    "left":172.5888355
+  },
+  "980319":{
+    "name":"Mandaluyong City (SM)",
+    "lat":14.5842,
+    "lon":121.0572,
+    "elevation":71.0,
+    "address":"Mandaluyong City (SM)",
+    "top":190.064407,
+    "left":171.47221
+  },
+  "980601":{
+    "name":"Mambajao, Camiguin Airport (Cebu Pacific)",
+    "lat":9.2521,
+    "lon":124.7051,
+    "elevation":16.0,
+    "address":"Mambajao, Camiguin Airport (Cebu Pacific)",
+    "top":329.5788035,
+    "left":266.9559925
+  },
+  "980622":{
+    "name":"Tarragona, Davao Oriental",
+    "lat":7.0494,
+    "lon":126.4482,
+    "elevation":16.0,
+    "address":"Tarragona, Davao Oriental",
+    "top":387.212449,
+    "left":312.581635
+  },
+  "980846":{
+    "name":"Dimataling, Zamboanga del Norte",
+    "lat":7.499646,
+    "lon":123.341599,
+    "elevation":24.0,
+    "address":"Dimataling, Zamboanga del Norte",
+    "top":375.43176241,
+    "left":231.266353825
+  },
+  "980304":{
+    "name":"City of San Fernando, Pampanga(LCP)",
+    "lat":15.0292,
+    "lon":120.6781,
+    "elevation":186.0,
+    "address":"City of San Fernando, Pampanga(LCP)",
+    "top":178.420982,
+    "left":161.5492675
+  },
+  "980317":{
+    "name":"Manila (SM)",
+    "lat":14.6042,
+    "lon":121.0186,
+    "elevation":25.0,
+    "address":"Manila (SM)",
+    "top":189.541107,
+    "left":170.461855
+  },
+  "980352":{
+    "name":"Cebu City (SM)",
+    "lat":10.3116,
+    "lon":123.919,
+    "elevation":34.0,
+    "address":"Cebu City (SM)",
+    "top":301.856986,
+    "left":246.379825
+  },
+  "980619":{
+    "name":"Manila Domestic Airport Complex (Cebu Pacific)",
+    "lat":14.5225,
+    "lon":121.0013,
+    "elevation":20.0,
+    "address":"Manila Domestic Airport Complex (Cebu Pacific)",
+    "top":191.6787875,
+    "left":170.0090275
+  },
+  "980628":{
+    "name":"Labo, Camarines Norte",
+    "lat":14.1534,
+    "lon":122.8307,
+    "elevation":28.0,
+    "address":"Labo, Camarines Norte",
+    "top":201.336289,
+    "left":217.8935725
+  },
+  "980742":{
+    "name":"Magallanes, Sorsogon",
+    "lat":12.82839,
+    "lon":123.834699,
+    "elevation":17.0,
+    "address":"Magallanes, Sorsogon",
+    "top":236.00517565,
+    "left":244.173246325
+  },
+  "980866":{
+    "name":"Aroroy, Masbate",
+    "lat":12.5118,
+    "lon":123.3964,
+    "elevation":10.0,
+    "address":"Aroroy, Masbate",
+    "top":244.288753,
+    "left":232.70077
+  },
+  "980947":{
+    "name":"Porac, Pampanga (Alviera Ayala)",
+    "lat":15.116376,
+    "lon":120.5132,
+    "elevation":204.0,
+    "address":"Porac, Pampanga (Alviera Ayala)",
+    "top":176.14002196,
+    "left":157.23301
+  },
+  "980996":{
+    "name":"Bambang, Nueva Vizcaya (SNAP\/NIA)",
+    "lat":16.389542,
+    "lon":121.163666,
+    "elevation":376.0,
+    "address":"Bambang, Nueva Vizcaya (SNAP\/NIA)",
+    "top":142.82763357,
+    "left":174.25895755
+  },
+  "980675":{
+    "name":"Mallig, Isabela (Pilmico)",
+    "lat":17.2289,
+    "lon":121.6331,
+    "elevation":86.0,
+    "address":"Mallig, Isabela (Pilmico)",
+    "top":120.8658315,
+    "left":186.5463925
+  },
+  "980685":{
+    "name":"Sanchez-Mira, Cagayan (Pilmico)",
+    "lat":18.5897,
+    "lon":121.2213,
+    "elevation":10.0,
+    "address":"Sanchez-Mira, Cagayan (Pilmico)",
+    "top":85.2604995,
+    "left":175.7675275
+  },
+  "980325":{
+    "name":"City of Bacoor (SM)",
+    "lat":14.3847,
+    "lon":120.9766,
+    "elevation":65.0,
+    "address":"City of Bacoor (SM)",
+    "top":195.2843245,
+    "left":169.362505
+  },
+  "980879":{
+    "name":"Siaton, Negros Oriental (NORECO II)",
+    "lat":9.062,
+    "lon":123.1151,
+    "elevation":36.0,
+    "address":"Siaton, Negros Oriental (NORECO II)",
+    "top":334.55277,
+    "left":225.3377425
+  },
+  "980381":{
+    "name":"Malita, Davao Del Sur (SMCPC)",
+    "lat":6.3984,
+    "lon":125.618,
+    "elevation":13.0,
+    "address":"Malita, Davao Del Sur (SMCPC)",
+    "top":404.245864,
+    "left":290.85115
+  },
+  "980044":{
+    "name":"Bataraza, Palawan (NAC)",
+    "lat":8.5507,
+    "lon":117.4356,
+    "elevation":11.0,
+    "address":"Bataraza, Palawan (NAC)",
+    "top":347.9309345,
+    "left":76.67683
+  },
+  "980045":{
+    "name":"Bago City (LCP)",
+    "lat":10.5382,
+    "lon":122.8349,
+    "elevation":33.0,
+    "address":"Bago City (LCP)",
+    "top":295.927997,
+    "left":218.0035075
+  },
+  "980047":{
+    "name":"Roxas City (LCP)",
+    "lat":11.5851,
+    "lon":122.7552,
+    "elevation":6.0,
+    "address":"Roxas City (LCP)",
+    "top":268.5358585,
+    "left":215.91736
+  },
+  "980454":{
+    "name":"Tabango, Leyte",
+    "lat":11.3074,
+    "lon":124.3703,
+    "elevation":16.0,
+    "address":"Tabango, Leyte",
+    "top":275.801879,
+    "left":258.1926025
+  },
+  "980419":{
+    "name":"Narvacan, Ilocos Sur (Pilmico)",
+    "lat":17.4282,
+    "lon":120.472,
+    "elevation":12.0,
+    "address":"Narvacan, Ilocos Sur (Pilmico)",
+    "top":115.651147,
+    "left":156.1546
+  },
+  "980467":{
+    "name":"Dolores, Tarlac (Pilmico)",
+    "lat":15.5205,
+    "lon":120.572464,
+    "elevation":41.0,
+    "address":"Dolores, Tarlac (Pilmico)",
+    "top":165.5661175,
+    "left":158.7842452
+  },
+  "980048":{
+    "name":"Balingasag, Misamis Oriental (LPP)",
+    "lat":8.7422,
+    "lon":124.7743,
+    "elevation":7.0,
+    "address":"Balingasag, Misamis Oriental (LPP)",
+    "top":342.920337,
+    "left":268.7673025
+  },
+  "980522":{
+    "name":"Siargao, Surigao Del Norte (SIARELCO)",
+    "lat":9.7646,
+    "lon":126.0407,
+    "elevation":15.0,
+    "address":"Siargao, Surigao Del Norte (SIARELCO)",
+    "top":316.169241,
+    "left":301.9153225
+  },
+  "980525":{
+    "name":"General Santos City (SOCOTECO II)",
+    "lat":6.0723,
+    "lon":125.1408,
+    "elevation":38.0,
+    "address":"General Santos City (SOCOTECO II)",
+    "top":412.7782705,
+    "left":278.36044
+  },
+  "980827":{
+    "name":"Talisay, Camarines Norte (CANORECO)",
+    "lat":14.1412,
+    "lon":122.9507,
+    "elevation":15.0,
+    "address":"Talisay, Camarines Norte (CANORECO)",
+    "top":201.655502,
+    "left":221.0345725
+  },
+  "980003":{
+    "name":"Bacolod City (LCP)",
+    "lat":10.6589,
+    "lon":122.9658,
+    "elevation":23.0,
+    "address":"Bacolod City (LCP)",
+    "top":292.7698815,
+    "left":221.429815
+  },
+  "980037":{
+    "name":"Tarlac City (LPP)",
+    "lat":15.4688,
+    "lon":120.6048,
+    "elevation":122.0,
+    "address":"Tarlac City (LPP)",
+    "top":166.918848,
+    "left":159.63064
+  },
+  "980038":{
+    "name":"Antipolo City (LPP)",
+    "lat":14.5861,
+    "lon":121.1692,
+    "elevation":193.0,
+    "address":"Antipolo City (LPP)",
+    "top":190.0146935,
+    "left":174.40381
+  },
+  "980049":{
+    "name":"Mati City (LPP)",
+    "lat":6.9492,
+    "lon":126.225,
+    "elevation":58.0,
+    "address":"Mati City (LPP)",
+    "top":389.834182,
+    "left":306.739375
+  },
+  "980042":{
+    "name":"Santa Cruz, Davao del Sur(HEDCOR)",
+    "lat":6.9401,
+    "lon":125.4408,
+    "elevation":159.0,
+    "address":"Santa Cruz, Davao del Sur(HEDCOR)",
+    "top":390.0722835,
+    "left":286.21294
+  },
+  "980158":{
+    "name":"Bayawan City (LCP)",
+    "lat":9.3679,
+    "lon":122.8138,
+    "elevation":15.0,
+    "address":"Bayawan City (LCP)",
+    "top":326.5488965,
+    "left":217.451215
+  },
+  "980163":{
+    "name":"Tagaytay City (LCP)",
+    "lat":14.0992,
+    "lon":120.9395,
+    "elevation":689.0,
+    "address":"Tagaytay City (LCP)",
+    "top":202.754432,
+    "left":168.3914125
+  },
+  "980041":{
+    "name":"Taal Lake, Batangas",
+    "lat":14.0901,
+    "lon":121.0073,
+    "elevation":14.0,
+    "address":"Taal Lake, Batangas",
+    "top":202.9925335,
+    "left":170.1660775
+  },
+  "980495":{
+    "name":"Koronadal City (SOCOTECO I)",
+    "lat":6.517,
+    "lon":124.8249,
+    "elevation":64.0,
+    "address":"Koronadal City (SOCOTECO I)",
+    "top":401.142695,
+    "left":270.0917575
+  },
+  "980205":{
+    "name":"Silay City (LCP)",
+    "lat":10.8023,
+    "lon":122.9725,
+    "elevation":13.0,
+    "address":"Silay City (LCP)",
+    "top":289.0178205,
+    "left":221.6051875
+  },
+  "980389":{
+    "name":"Balangiga, Easter Samar",
+    "lat":11.109221,
+    "lon":125.386353,
+    "elevation":13.0,
+    "address":"Balangiga, Easter Samar",
+    "top":280.987232535,
+    "left":284.787789775
+  },
+  "980064":{
+    "name":"Glan, Sarangani (LPP)",
+    "lat":5.8214,
+    "lon":125.2046,
+    "elevation":60.0,
+    "address":"Glan, Sarangani (LPP)",
+    "top":419.343069,
+    "left":280.030405
+  },
+  "980107":{
+    "name":"Cabanatuan City (LCP)",
+    "lat":15.5066,
+    "lon":120.9676,
+    "elevation":43.0,
+    "address":"Cabanatuan City (LCP)",
+    "top":165.929811,
+    "left":169.12693
+  },
+  "980108":{
+    "name":"Cauayan City (LCP)",
+    "lat":16.9299,
+    "lon":121.7717,
+    "elevation":12.0,
+    "address":"Cauayan City (LCP)",
+    "top":128.6891665,
+    "left":190.1742475
+  },
+  "980111":{
+    "name":"Ilagan City (LCP)",
+    "lat":17.1431,
+    "lon":121.8886,
+    "elevation":85.0,
+    "address":"Ilagan City (LCP)",
+    "top":123.1107885,
+    "left":193.234105
+  },
+  "980113":{
+    "name":"Olongapo City (LCP)",
+    "lat":14.8368,
+    "lon":120.2823,
+    "elevation":2.0,
+    "address":"Olongapo City (LCP)",
+    "top":183.455128,
+    "left":151.1892025
+  },
+  "980114":{
+    "name":"Palayan City (LCP)",
+    "lat":15.5628,
+    "lon":121.1003,
+    "elevation":8.0,
+    "address":"Palayan City (LCP)",
+    "top":164.459338,
+    "left":172.6003525
+  },
+  "980115":{
+    "name":"San Carlos City (LCP)",
+    "lat":15.925,
+    "lon":120.3476,
+    "elevation":15.0,
+    "address":"San Carlos City (LCP)",
+    "top":154.982375,
+    "left":152.89843
+  },
+  "980116":{
+    "name":"San Fernando City, La Union (LCP)",
+    "lat":16.61111,
+    "lon":120.340556,
+    "elevation":35.0,
+    "address":"San Fernando City, La Union (LCP)",
+    "top":137.03030685,
+    "left":152.7140533
+  },
+  "980117":{
+    "name":"San Jose City, Nueva Ecija (LCP)",
+    "lat":15.7917,
+    "lon":120.9919,
+    "elevation":111.0,
+    "address":"San Jose City, Nueva Ecija (LCP)",
+    "top":158.4701695,
+    "left":169.7629825
+  },
+  "980065":{
+    "name":"Catarman, Camiguin (LPP)",
+    "lat":9.1455,
+    "lon":124.6553,
+    "elevation":37.0,
+    "address":"Catarman, Camiguin (LPP)",
+    "top":332.3679925,
+    "left":265.6524775
+  },
+  "980131":{
+    "name":"Tangub City (LCP)",
+    "lat":8.0666,
+    "lon":123.731,
+    "elevation":84.0,
+    "address":"Tangub City (LCP)",
+    "top":360.597411,
+    "left":241.458925
+  },
+  "980132":{
+    "name":"Valencia City (LCP)",
+    "lat":7.9308,
+    "lon":125.098,
+    "elevation":317.0,
+    "address":"Valencia City (LCP)",
+    "top":364.150618,
+    "left":277.24015
+  },
+  "980133":{
+    "name":"Zamboanga City (LCP)",
+    "lat":7.4,
+    "lon":122.3,
+    "elevation":36.0,
+    "address":"Zamboanga City (LCP)",
+    "top":378.039,
+    "left":204.0025
+  },
+  "980134":{
+    "name":"Bislig City (LCP)",
+    "lat":8.1817,
+    "lon":126.3621,
+    "elevation":18.0,
+    "address":"Bislig City (LCP)",
+    "top":357.5858195,
+    "left":310.3279675
+  },
+  "980135":{
+    "name":"Butuan City (LCP)",
+    "lat":8.9534,
+    "lon":125.5292,
+    "elevation":36.0,
+    "address":"Butuan City (LCP)",
+    "top":337.394289,
+    "left":288.52681
+  },
+  "980138":{
+    "name":"Digos City (LCP)",
+    "lat":6.7438,
+    "lon":125.3569,
+    "elevation":26.0,
+    "address":"Digos City (LCP)",
+    "top":395.208473,
+    "left":284.0168575
+  },
+  "980139":{
+    "name":"Kidapawan City (LCP)",
+    "lat":7.0051,
+    "lon":125.0548,
+    "elevation":344.0,
+    "address":"Kidapawan City (LCP)",
+    "top":388.3715585,
+    "left":276.10939
+  },
+  "980141":{
+    "name":"Koronadal City (LCP)",
+    "lat":6.4797,
+    "lon":124.8656,
+    "elevation":161.0,
+    "address":"Koronadal City (LCP)",
+    "top":402.1186495,
+    "left":271.15708
+  },
+  "980058":{
+    "name":"Midsayap, North Cotabato (LPP)",
+    "lat":7.1892,
+    "lon":124.5329,
+    "elevation":21.0,
+    "address":"Midsayap, North Cotabato (LPP)",
+    "top":383.554582,
+    "left":262.4486575
+  },
+  "980059":{
+    "name":"Surigao City (LPP)",
+    "lat":9.7806,
+    "lon":125.4912,
+    "elevation":32.0,
+    "address":"Surigao City (LPP)",
+    "top":315.750601,
+    "left":287.53216
+  },
+  "980061":{
+    "name":"Kitcharao, Agusan Del Norte (LPP)",
+    "lat":9.448,
+    "lon":125.5768,
+    "elevation":65.0,
+    "address":"Kitcharao, Agusan Del Norte (LPP)",
+    "top":324.45308,
+    "left":289.77274
+  },
+  "980062":{
+    "name":"Isulan, Sultan Kudarat (LPP)",
+    "lat":6.6333,
+    "lon":124.6,
+    "elevation":72.0,
+    "address":"Isulan, Sultan Kudarat (LPP)",
+    "top":398.0997055,
+    "left":264.205
+  },
+  "980066":{
+    "name":"Libacao, Aklan (LPP)",
+    "lat":11.4685,
+    "lon":122.3205,
+    "elevation":65.0,
+    "address":"Libacao, Aklan (LPP)",
+    "top":271.5866975,
+    "left":204.5390875
+  },
+  "980067":{
+    "name":"Cebu City (LPP)",
+    "lat":10.3168,
+    "lon":123.8907,
+    "elevation":88.0,
+    "address":"Cebu City (LPP)",
+    "top":301.720928,
+    "left":245.6390725
+  },
+  "980095":{
+    "name":"Bontoc, Mountain Province (LPP)",
+    "lat":17.0903,
+    "lon":120.9758,
+    "elevation":883.0,
+    "address":"Bontoc, Mountain Province (LPP)",
+    "top":124.4923005,
+    "left":169.341565
+  },
+  "980006":{
+    "name":"Prosperidad Agusan del Sur(LPP)",
+    "lat":8.5541,
+    "lon":125.9449,
+    "elevation":51.0,
+    "address":"Prosperidad Agusan del Sur(LPP)",
+    "top":347.8419735,
+    "left":299.4077575
+  },
+  "980096":{
+    "name":"Virac, Catanduanes (LPP)",
+    "lat":13.5861,
+    "lon":124.2369,
+    "elevation":8.0,
+    "address":"Virac, Catanduanes (LPP)",
+    "top":216.1796935,
+    "left":254.7008575
+  },
+  "980052":{
+    "name":"Marawi City (LPP)",
+    "lat":8.0091,
+    "lon":124.2778,
+    "elevation":753.0,
+    "address":"Marawi City (LPP)",
+    "top":362.1018985,
+    "left":255.771415
+  },
+  "980098":{
+    "name":"Romblon, Romblon (LPP)",
+    "lat":12.5792,
+    "lon":122.2749,
+    "elevation":20.0,
+    "address":"Romblon, Romblon (LPP)",
+    "top":242.525232,
+    "left":203.3455075
+  },
+  "980099":{
+    "name":"Bacolod City (LPP)",
+    "lat":10.6777,
+    "lon":122.9518,
+    "elevation":18.0,
+    "address":"Bacolod City (LPP)",
+    "top":292.2779795,
+    "left":221.063365
+  },
+  "980101":{
+    "name":"Pagadian City (LPP)",
+    "lat":7.8462,
+    "lon":123.429,
+    "elevation":231.0,
+    "address":"Pagadian City (LPP)",
+    "top":366.364177,
+    "left":233.554075
+  },
+  "980102":{
+    "name":"Vinzons, Camarines Norte (LPP)",
+    "lat":14.1423,
+    "lon":122.8739,
+    "elevation":5.0,
+    "address":"Vinzons, Camarines Norte (LPP)",
+    "top":201.6267205,
+    "left":219.0243325
+  },
+  "980103":{
+    "name":"Tabuk City (LPP)",
+    "lat":17.4111,
+    "lon":121.4415,
+    "elevation":198.0,
+    "address":"Tabuk City (LPP)",
+    "top":116.0985685,
+    "left":181.5312625
+  },
+  "980104":{
+    "name":"Kabugao, Apayao (LPP)",
+    "lat":18.331,
+    "lon":121.3723,
+    "elevation":26.0,
+    "address":"Kabugao, Apayao (LPP)",
+    "top":92.029385,
+    "left":179.7199525
+  },
+  "980105":{
+    "name":"Baguio City (LCP)",
+    "lat":16.4142,
+    "lon":120.5911,
+    "elevation":1487.0,
+    "address":"Baguio City (LCP)",
+    "top":142.182457,
+    "left":159.2720425
+  },
+  "980054":{
+    "name":"Koronadal City (LPP)",
+    "lat":6.4924,
+    "lon":124.8379,
+    "elevation":64.0,
+    "address":"Koronadal City (LPP)",
+    "top":401.786354,
+    "left":270.4320325
+  },
+  "980086":{
+    "name":"Tubod, Lanao del Norte (LPP)",
+    "lat":8.0543,
+    "lon":123.7919,
+    "elevation":24.0,
+    "address":"Tubod, Lanao del Norte (LPP)",
+    "top":360.9192405,
+    "left":243.0529825
+  },
+  "980087":{
+    "name":"Cabanatuan City (LPP)",
+    "lat":15.4888,
+    "lon":120.9698,
+    "elevation":39.0,
+    "address":"Cabanatuan City (LPP)",
+    "top":166.395548,
+    "left":169.184515
+  },
+  "980081":{
+    "name":"Dagohoy, Bohol (LPP)",
+    "lat":9.8697,
+    "lon":124.2944,
+    "elevation":142.0,
+    "address":"Dagohoy, Bohol (LPP)",
+    "top":313.4192995,
+    "left":256.20592
+  },
+  "980088":{
+    "name":"Maddela, Quirino (LPP)",
+    "lat":16.2781,
+    "lon":121.6582,
+    "elevation":176.0,
+    "address":"Maddela, Quirino (LPP)",
+    "top":145.7435135,
+    "left":187.203385
+  },
+  "980092":{
+    "name":"Puerto Princesa City (LPP)",
+    "lat":9.7392,
+    "lon":118.7441,
+    "elevation":24.0,
+    "address":"Puerto Princesa City (LPP)",
+    "top":316.833832,
+    "left":110.9268175
+  },
+  "980036":{
+    "name":"Vigan City (LPP)",
+    "lat":17.5762,
+    "lon":120.3865,
+    "elevation":16.0,
+    "address":"Vigan City (LPP)",
+    "top":111.778727,
+    "left":153.9166375
+  },
+  "980068":{
+    "name":"Valencia, Negros Oriental (LPP)",
+    "lat":9.2887,
+    "lon":123.2184,
+    "elevation":396.0,
+    "address":"Valencia, Negros Oriental (LPP)",
+    "top":328.6211645,
+    "left":228.04162
+  },
+  "980109":{
+    "name":"Gapan City (LCP)",
+    "lat":15.2933,
+    "lon":120.9481,
+    "elevation":16.0,
+    "address":"Gapan City (LCP)",
+    "top":171.5108055,
+    "left":168.6165175
+  },
+  "980029":{
+    "name":"Bulacan (LPP)",
+    "lat":14.9709,
+    "lon":121.0647,
+    "elevation":96.0,
+    "address":"Bulacan (LPP)",
+    "top":179.9464015,
+    "left":171.6685225
+  },
+  "980119":{
+    "name":"Urdaneta City (LCP)",
+    "lat":16.0038,
+    "lon":120.5763,
+    "elevation":30.0,
+    "address":"Urdaneta City (LCP)",
+    "top":152.920573,
+    "left":158.8846525
+  },
+  "980069":{
+    "name":"Lazi, Siquijor (LPP)",
+    "lat":9.1289,
+    "lon":123.6336,
+    "elevation":3.0,
+    "address":"Lazi, Siquijor (LPP)",
+    "top":332.8023315,
+    "left":238.90948
+  },
+  "980071":{
+    "name":"San Jose de Buenavista, Antique (LPP)",
+    "lat":10.7433,
+    "lon":121.9417,
+    "elevation":18.0,
+    "address":"San Jose de Buenavista, Antique (LPP)",
+    "top":290.5615555,
+    "left":194.6239975
+  },
+  "980121":{
+    "name":"Vigan City(LCP)",
+    "lat":17.575,
+    "lon":120.387,
+    "elevation":19.0,
+    "address":"Vigan City(LCP)",
+    "top":111.810125,
+    "left":153.929725
+  },
+  "980122":{
+    "name":"Cagayan de Oro City (LCP)",
+    "lat":8.4767,
+    "lon":124.6408,
+    "elevation":4.0,
+    "address":"Cagayan de Oro City (LCP)",
+    "top":349.8671445,
+    "left":265.27294
+  },
+  "980123":{
+    "name":"Dipolog City (LCP)",
+    "lat":8.5774,
+    "lon":123.3386,
+    "elevation":7.0,
+    "address":"Dipolog City (LCP)",
+    "top":347.232329,
+    "left":231.187855
+  },
+  "980126":{
+    "name":"Malaybalay City (LCP)",
+    "lat":8.1834,
+    "lon":125.148,
+    "elevation":600.0,
+    "address":"Malaybalay City (LCP)",
+    "top":357.541339,
+    "left":278.5489
+  },
+  "980127":{
+    "name":"Oroquieta City (LCP)",
+    "lat":8.485,
+    "lon":123.8076,
+    "elevation":59.0,
+    "address":"Oroquieta City (LCP)",
+    "top":349.649975,
+    "left":243.46393
+  },
+  "980128":{
+    "name":"Ozamiz City (LCP)",
+    "lat":8.1523,
+    "lon":123.8488,
+    "elevation":7.0,
+    "address":"Ozamiz City (LCP)",
+    "top":358.3550705,
+    "left":244.54234
+  },
+  "980129":{
+    "name":"Pagadian City (LCP)",
+    "lat":7.8228,
+    "lon":123.4382,
+    "elevation":44.0,
+    "address":"Pagadian City (LCP)",
+    "top":366.976438,
+    "left":233.794885
+  },
+  "980144":{
+    "name":"Surigao City (LCP)",
+    "lat":9.7917,
+    "lon":125.4931,
+    "elevation":33.0,
+    "address":"Surigao City (LCP)",
+    "top":315.4601695,
+    "left":287.5818925
+  },
+  "980145":{
+    "name":"Tagum City (LCP)",
+    "lat":7.42,
+    "lon":125.825,
+    "elevation":85.0,
+    "address":"Tagum City (LCP)",
+    "top":377.5157,
+    "left":296.269375
+  },
+  "980146":{
+    "name":"Tacurong City (LCP)",
+    "lat":6.6936,
+    "lon":124.6762,
+    "elevation":157.0,
+    "address":"Tacurong City (LCP)",
+    "top":396.521956,
+    "left":266.199535
+  },
+  "980147":{
+    "name":"General Santos City (LCP)",
+    "lat":6.1469,
+    "lon":125.1072,
+    "elevation":257.0,
+    "address":"General Santos City (LCP)",
+    "top":410.8263615,
+    "left":277.48096
+  },
+  "980148":{
+    "name":"Panabo City (LCP)",
+    "lat":7.3,
+    "lon":125.5,
+    "elevation":255.0,
+    "address":"Panabo City (LCP)",
+    "top":380.6555,
+    "left":287.7625
+  },
+  "980007":{
+    "name":"Digos City (LPP)",
+    "lat":6.7646,
+    "lon":125.3065,
+    "elevation":78.0,
+    "address":"Digos City (LPP)",
+    "top":394.664241,
+    "left":282.6976375
+  },
+  "980011":{
+    "name":"Talakag, Bukidnon (LPP)",
+    "lat":8.2167,
+    "lon":124.5833,
+    "elevation":334.0,
+    "address":"Talakag, Bukidnon (LPP)",
+    "top":356.6700445,
+    "left":263.7678775
+  },
+  "980015":{
+    "name":"Baler, Aurora (LPP)",
+    "lat":15.7518,
+    "lon":121.5363,
+    "elevation":23.0,
+    "address":"Baler, Aurora (LPP)",
+    "top":159.514153,
+    "left":184.0126525
+  },
+  "980028":{
+    "name":"Ilagan City (LPP)",
+    "lat":17.1018,
+    "lon":121.8647,
+    "elevation":67.0,
+    "address":"Ilagan City (LPP)",
+    "top":124.191403,
+    "left":192.6085225
+  },
+  "980031":{
+    "name":"Laoag City (LPP)",
+    "lat":18.1985,
+    "lon":120.5914,
+    "elevation":14.0,
+    "address":"Laoag City (LPP)",
+    "top":95.4962475,
+    "left":159.279895
+  },
+  "980072":{
+    "name":"Jordan, Guimaras (LPP)",
+    "lat":10.5983,
+    "lon":122.5905,
+    "elevation":167.0,
+    "address":"Jordan, Guimaras (LPP)",
+    "top":294.3554805,
+    "left":211.6063375
+  },
+  "980073":{
+    "name":"Iloilo (LPP)",
+    "lat":10.9339,
+    "lon":122.5799,
+    "elevation":45.0,
+    "address":"Iloilo (LPP)",
+    "top":285.5745065,
+    "left":211.3288825
+  },
+  "980076":{
+    "name":"Borongan City (LPP)",
+    "lat":11.6033,
+    "lon":125.4382,
+    "elevation":14.0,
+    "address":"Borongan City (LPP)",
+    "top":268.0596555,
+    "left":286.144885
+  },
+  "980149":{
+    "name":"Davao City (LCP)",
+    "lat":7.1893,
+    "lon":125.4519,
+    "elevation":12.0,
+    "address":"Davao City (LCP)",
+    "top":383.5519655,
+    "left":286.5034825
+  },
+  "980077":{
+    "name":"Maasin City (LPP)",
+    "lat":10.134,
+    "lon":124.8596,
+    "elevation":22.0,
+    "address":"Maasin City (LPP)",
+    "top":306.50389,
+    "left":271.00003
+  },
+  "980034":{
+    "name":"Legazpi City (LPP)",
+    "lat":13.1394,
+    "lon":123.7344,
+    "elevation":11.0,
+    "address":"Legazpi City (LPP)",
+    "top":227.867599,
+    "left":241.54792
+  },
+  "980078":{
+    "name":"Naval, Biliran (LPP)",
+    "lat":11.5667,
+    "lon":124.4091,
+    "elevation":27.0,
+    "address":"Naval, Biliran (LPP)",
+    "top":269.0172945,
+    "left":259.2081925
+  },
+  "980079":{
+    "name":"Abuyog, Leyte (LPP)",
+    "lat":10.7591,
+    "lon":125.0043,
+    "elevation":8.0,
+    "address":"Abuyog, Leyte (LPP)",
+    "top":290.1481485,
+    "left":274.7875525
+  },
+  "980084":{
+    "name":"San Jose, Dinagat Island (LPP)",
+    "lat":10.0086,
+    "lon":125.5742,
+    "elevation":97.0,
+    "address":"San Jose, Dinagat Island (LPP)",
+    "top":309.784981,
+    "left":289.704685
+  },
+  "980085":{
+    "name":"Pidigan, Abra (LPP)",
+    "lat":17.5618,
+    "lon":120.5922,
+    "elevation":60.0,
+    "address":"Pidigan, Abra (LPP)",
+    "top":112.155503,
+    "left":159.300835
+  },
+  "980016":{
+    "name":"Rosario, Batangas (LPP)",
+    "lat":13.8458,
+    "lon":121.2066,
+    "elevation":141.0,
+    "address":"Rosario, Batangas (LPP)",
+    "top":209.384643,
+    "left":175.382755
+  },
+  "980124":{
+    "name":"Gingoog City (LCP)",
+    "lat":8.817,
+    "lon":125.1057,
+    "elevation":12.0,
+    "address":"Gingoog City (LCP)",
+    "top":340.963195,
+    "left":277.4416975
+  },
+  "980179":{
+    "name":"Lucena (LCP)",
+    "lat":13.9288,
+    "lon":121.6142,
+    "elevation":30.0,
+    "address":"Lucena (LCP)",
+    "top":207.212948,
+    "left":186.051685
+  },
+  "980152":{
+    "name":"Calapan City (LCP)",
+    "lat":13.3795,
+    "lon":121.1836,
+    "elevation":22.0,
+    "address":"Calapan City (LCP)",
+    "top":221.5853825,
+    "left":174.78073
+  },
+  "980182":{
+    "name":"Calbayog City (LCP)",
+    "lat":12.0664,
+    "lon":124.5947,
+    "elevation":15.0,
+    "address":"Calbayog City (LCP)",
+    "top":255.942644,
+    "left":264.0662725
+  },
+  "980183":{
+    "name":"Cebu City (LCP)",
+    "lat":10.2927,
+    "lon":123.9019,
+    "elevation":24.0,
+    "address":"Cebu City (LCP)",
+    "top":302.3515045,
+    "left":245.9322325
+  },
+  "980184":{
+    "name":"Dumaguete City (LCP)",
+    "lat":9.2916,
+    "lon":123.2625,
+    "elevation":162.0,
+    "address":"Dumaguete City (LCP)",
+    "top":328.545286,
+    "left":229.1959375
+  },
+  "980186":{
+    "name":"Maasin City (LCP)",
+    "lat":10.1319,
+    "lon":124.8383,
+    "elevation":8.0,
+    "address":"Maasin City (LCP)",
+    "top":306.5588365,
+    "left":270.4425025
+  },
+  "980189":{
+    "name":"Tagbilaran City (LCP)",
+    "lat":9.6546,
+    "lon":123.866,
+    "elevation":48.0,
+    "address":"Tagbilaran City (LCP)",
+    "top":319.047391,
+    "left":244.99255
+  },
+  "980155":{
+    "name":"Ligao City (LCP)",
+    "lat":13.2399,
+    "lon":123.536,
+    "elevation":22.0,
+    "address":"Ligao City (LCP)",
+    "top":225.2380165,
+    "left":236.3548
+  },
+  "980192":{
+    "name":"Toledo City (LCP)",
+    "lat":10.3798,
+    "lon":123.6585,
+    "elevation":40.0,
+    "address":"Toledo City (LCP)",
+    "top":300.072533,
+    "left":239.5612375
+  },
+  "980153":{
+    "name":"Iriga City (LCP)",
+    "lat":13.4193,
+    "lon":123.4132,
+    "elevation":5.0,
+    "address":"Iriga City (LCP)",
+    "top":220.5440155,
+    "left":233.14051
+  },
+  "980194":{
+    "name":"Mandaue City (LCP)",
+    "lat":10.3271,
+    "lon":123.9433,
+    "elevation":20.0,
+    "address":"Mandaue City (LCP)",
+    "top":301.4514285,
+    "left":247.0158775
+  },
+  "980195":{
+    "name":"Cadiz City (LCP)",
+    "lat":10.9562,
+    "lon":123.3107,
+    "elevation":23.0,
+    "address":"Cadiz City (LCP)",
+    "top":284.991027,
+    "left":230.4575725
+  },
+  "980459":{
+    "name":"Antipolo City (LCP)",
+    "lat":14.6416,
+    "lon":121.2233,
+    "elevation":376.0,
+    "address":"Antipolo City (LCP)",
+    "top":188.562536,
+    "left":175.8198775
+  },
+  "980196":{
+    "name":"Canlaon City (LCP)",
+    "lat":10.3862,
+    "lon":123.2166,
+    "elevation":373.0,
+    "address":"Canlaon City (LCP)",
+    "top":299.905077,
+    "left":227.994505
+  },
+  "980197":{
+    "name":"Escalante City (LCP)",
+    "lat":10.8,
+    "lon":123.5,
+    "elevation":35.0,
+    "address":"Escalante City (LCP)",
+    "top":289.078,
+    "left":235.4125
+  },
+  "980198":{
+    "name":"Passi City (LCP)",
+    "lat":11.1174,
+    "lon":122.6464,
+    "elevation":63.0,
+    "address":"Passi City (LCP)",
+    "top":280.773229,
+    "left":213.06952
+  },
+  "980201":{
+    "name":"Kabankalan City (LCP)",
+    "lat":10.0043,
+    "lon":122.8062,
+    "elevation":43.0,
+    "address":"Kabankalan City (LCP)",
+    "top":309.8974905,
+    "left":217.252285
+  },
+  "980203":{
+    "name":"Sagay City (LCP)",
+    "lat":10.8766,
+    "lon":123.408,
+    "elevation":61.0,
+    "address":"Sagay City (LCP)",
+    "top":287.073761,
+    "left":233.0044
+  },
+  "980204":{
+    "name":"San Carlos City, Negros Occidental (LCP)",
+    "lat":10.512,
+    "lon":123.2781,
+    "elevation":581.0,
+    "address":"San Carlos City, Negros Occidental (LCP)",
+    "top":296.61352,
+    "left":229.6042675
+  },
+  "980206":{
+    "name":"Sipalay City (LCP)",
+    "lat":9.7689,
+    "lon":122.4323,
+    "elevation":24.0,
+    "address":"Sipalay City (LCP)",
+    "top":316.0567315,
+    "left":207.4654525
+  },
+  "980207":{
+    "name":"Talisay City, Negros Occidental (LCP)",
+    "lat":10.7478,
+    "lon":122.9793,
+    "elevation":29.0,
+    "address":"Talisay City, Negros Occidental (LCP)",
+    "top":290.443813,
+    "left":221.7831775
+  },
+  "980208":{
+    "name":"Tanjay City (LCP)",
+    "lat":9.5159,
+    "lon":123.1564,
+    "elevation":10.0,
+    "address":"Tanjay City (LCP)",
+    "top":322.6764765,
+    "left":226.41877
+  },
+  "980211":{
+    "name":"Danao City (LCP)",
+    "lat":10.519,
+    "lon":124.0269,
+    "elevation":9.0,
+    "address":"Danao City (LCP)",
+    "top":296.430365,
+    "left":249.2041075
+  },
+  "980212":{
+    "name":"Iloilo City (LCP)",
+    "lat":10.6937,
+    "lon":122.572,
+    "elevation":10.0,
+    "address":"Iloilo City (LCP)",
+    "top":291.8593395,
+    "left":211.1221
+  },
+  "980221":{
+    "name":"Olongapo City (Anvaya Cove)",
+    "lat":14.7189,
+    "lon":120.2666,
+    "elevation":5.0,
+    "address":"Olongapo City (Anvaya Cove)",
+    "top":186.5399815,
+    "left":150.778255
+  },
+  "980225":{
+    "name":"Hacienda San Jose, Tanjay City",
+    "lat":9.5112,
+    "lon":123.1204,
+    "elevation":18.0,
+    "address":"Hacienda San Jose, Tanjay City",
+    "top":322.799452,
+    "left":225.47647
+  },
+  "980377":{
+    "name":"Cubao, Quezon City (SM)",
+    "lat":14.6138,
+    "lon":121.0558,
+    "elevation":68.0,
+    "address":"Cubao, Quezon City (SM)",
+    "top":189.289923,
+    "left":171.435565
+  },
+  "980023":{
+    "name":"Basco, Batanes (LPP)",
+    "lat":20.4563,
+    "lon":121.9695,
+    "elevation":26.0,
+    "address":"Basco, Batanes (LPP)",
+    "top":36.4209105,
+    "left":195.3516625
+  },
+  "980024":{
+    "name":"La Trinidad, Benguet (LPP)",
+    "lat":16.4627,
+    "lon":120.5877,
+    "elevation":1382.0,
+    "address":"La Trinidad, Benguet (LPP)",
+    "top":140.9134545,
+    "left":159.1830475
+  },
+  "980025":{
+    "name":"Mamburao, Occidental Mindoro (LPP)",
+    "lat":13.2221,
+    "lon":120.6072,
+    "elevation":56.0,
+    "address":"Mamburao, Occidental Mindoro (LPP)",
+    "top":225.7037535,
+    "left":159.69346
+  },
+  "980027":{
+    "name":"Santa Cruz, Laguna (LPP)",
+    "lat":14.2555,
+    "lon":121.4077,
+    "elevation":45.0,
+    "address":"Santa Cruz, Laguna (LPP)",
+    "top":198.6648425,
+    "left":180.6465475
+  },
+  "980154":{
+    "name":"Legazpi City (LCP)",
+    "lat":13.14141,
+    "lon":123.76,
+    "elevation":50.0,
+    "address":"Legazpi City (LCP)",
+    "top":227.81500735,
+    "left":242.218
+  },
+  "980156":{
+    "name":"Lucena City (LCP)",
+    "lat":13.9468,
+    "lon":121.5894,
+    "elevation":623.0,
+    "address":"Lucena City (LCP)",
+    "top":206.741978,
+    "left":185.402545
+  },
+  "980157":{
+    "name":"Bais City (LCP)",
+    "lat":9.5987,
+    "lon":123.0206,
+    "elevation":44.0,
+    "address":"Bais City (LCP)",
+    "top":320.5100145,
+    "left":222.864205
+  },
+  "980171":{
+    "name":"Dasmarinas City (LCP)",
+    "lat":14.3266,
+    "lon":120.9363,
+    "elevation":95.0,
+    "address":"Dasmarinas City (LCP)",
+    "top":196.804511,
+    "left":168.3076525
+  },
+  "980172":{
+    "name":"Imus City (LCP)",
+    "lat":14.4293,
+    "lon":120.9366,
+    "elevation":16.0,
+    "address":"Imus City (LCP)",
+    "top":194.1173655,
+    "left":168.315505
+  },
+  "980173":{
+    "name":"Sta. Rosa City (LCP)",
+    "lat":14.3144,
+    "lon":121.1139,
+    "elevation":12.0,
+    "address":"Sta. Rosa City (LCP)",
+    "top":197.123724,
+    "left":172.9563325
+  },
+  "980174":{
+    "name":"Tanauan City (LCP)",
+    "lat":14.0812,
+    "lon":121.1524,
+    "elevation":155.0,
+    "address":"Tanauan City (LCP)",
+    "top":203.225402,
+    "left":173.96407
+  },
+  "980175":{
+    "name":"Balanga City (LPP)",
+    "lat":14.6782,
+    "lon":120.5198,
+    "elevation":29.0,
+    "address":"Balanga City (LPP)",
+    "top":187.604897,
+    "left":157.405765
+  },
+  "980177":{
+    "name":"Cavite City (LCP)",
+    "lat":14.4832,
+    "lon":120.9088,
+    "elevation":7.0,
+    "address":"Cavite City (LCP)",
+    "top":192.707072,
+    "left":167.58784
+  },
+  "980178":{
+    "name":"Binan City (LCP)",
+    "lat":14.3146,
+    "lon":121.0795,
+    "elevation":19.0,
+    "address":"Binan City (LCP)",
+    "top":197.118491,
+    "left":172.0559125
+  },
+  "980191":{
+    "name":"Talisay City (LCP)",
+    "lat":10.2541,
+    "lon":123.8277,
+    "elevation":27.0,
+    "address":"Talisay City (LCP)",
+    "top":303.3614735,
+    "left":243.9900475
+  },
+  "980022":{
+    "name":"Tuguegarao City (LPP)",
+    "lat":17.6226,
+    "lon":121.7216,
+    "elevation":41.0,
+    "address":"Tuguegarao City (LPP)",
+    "top":110.564671,
+    "left":188.86288
+  },
+  "980181":{
+    "name":"Patikul, Sulu(LPP)",
+    "lat":6.0531,
+    "lon":121.0097,
+    "elevation":54.0,
+    "address":"Patikul, Sulu(LPP)",
+    "top":413.2806385,
+    "left":170.2288975
+  },
+  "980021":{
+    "name":"Imus City (LPP)",
+    "lat":14.4328,
+    "lon":120.9458,
+    "elevation":21.0,
+    "address":"Imus City (LPP)",
+    "top":194.025788,
+    "left":168.556315
+  },
+  "980161":{
+    "name":"Tabaco City (LCP)",
+    "lat":13.3594,
+    "lon":123.7309,
+    "elevation":44.0,
+    "address":"Tabaco City (LCP)",
+    "top":222.111299,
+    "left":241.4563075
+  },
+  "980368":{
+    "name":"Bacoor (SM)",
+    "lat":14.445,
+    "lon":120.95,
+    "elevation":51.0,
+    "address":"Bacoor (SM)",
+    "top":193.706575,
+    "left":168.66625
+  },
+  "980371":{
+    "name":"Naga City (SM)",
+    "lat":13.6205,
+    "lon":123.1899,
+    "elevation":28.0,
+    "address":"Naga City (SM)",
+    "top":215.2796175,
+    "left":227.2956325
+  },
+  "980372":{
+    "name":"Valenzuela City (SM)",
+    "lat":14.6864,
+    "lon":120.9765,
+    "elevation":28.0,
+    "address":"Valenzuela City (SM)",
+    "top":187.390344,
+    "left":169.3598875
+  },
+  "980393":{
+    "name":"Hernani, Eastern Samar",
+    "lat":11.3237814,
+    "lon":125.6193361,
+    "elevation":9.0,
+    "address":"Hernani, Eastern Samar",
+    "top":275.373259669,
+    "left":290.8861224175
+  },
+  "980164":{
+    "name":"Munoz City (LCP)",
+    "lat":15.7131,
+    "lon":120.9039,
+    "elevation":82.0,
+    "address":"Munoz City (LCP)",
+    "top":160.5267385,
+    "left":167.4595825
+  },
+  "980165":{
+    "name":"Tuguegarao City (LCP)",
+    "lat":17.6508,
+    "lon":121.7544,
+    "elevation":43.0,
+    "address":"Tuguegarao City (LCP)",
+    "top":109.826818,
+    "left":189.72142
+  },
+  "980166":{
+    "name":"Bacoor City (LCP)",
+    "lat":14.4617,
+    "lon":120.9599,
+    "elevation":31.0,
+    "address":"Bacoor City (LCP)",
+    "top":193.2696195,
+    "left":168.9253825
+  },
+  "980169":{
+    "name":"Cabuyao City (LCP)",
+    "lat":14.2773,
+    "lon":121.1233,
+    "elevation":22.0,
+    "address":"Cabuyao City (LCP)",
+    "top":198.0944455,
+    "left":173.2023775
+  },
+  "980375":{
+    "name":"General Santos City (SM)",
+    "lat":6.1167,
+    "lon":125.18,
+    "elevation":52.0,
+    "address":"General Santos City (SM)",
+    "top":411.6165445,
+    "left":279.3865
+  },
+  "980397":{
+    "name":"Bustos, Bulacan (Pilmico)",
+    "lat":14.942758,
+    "lon":120.948593,
+    "elevation":38.0,
+    "address":"Bustos, Bulacan (Pilmico)",
+    "top":180.68273693,
+    "left":168.629421775
+  },
+  "980376":{
+    "name":"Itogon, Benguet (SNAP)",
+    "lat":16.3946,
+    "lon":120.7298,
+    "elevation":586.0,
+    "address":"Itogon, Benguet (SNAP)",
+    "top":142.695291,
+    "left":162.902515
+  },
+  "980378":{
+    "name":"Bogo City (CEBECO)",
+    "lat":11.0153,
+    "lon":123.9925,
+    "elevation":45.0,
+    "address":"Bogo City (CEBECO)",
+    "top":283.4446755,
+    "left":248.3036875
+  },
+  "980416":{
+    "name":"San Gabriel, La Union (Pilmico)",
+    "lat":16.6691,
+    "lon":120.3863,
+    "elevation":23.0,
+    "address":"San Gabriel, La Union (Pilmico)",
+    "top":135.5129985,
+    "left":153.9114025
+  },
+  "980422":{
+    "name":"Piddig, Ilocos Norte (Pilmico)",
+    "lat":18.1659,
+    "lon":120.7153,
+    "elevation":51.0,
+    "address":"Piddig, Ilocos Norte (Pilmico)",
+    "top":96.3492265,
+    "left":162.5229775
+  },
+  "980424":{
+    "name":"Balaoan, La Union (Pilmico)",
+    "lat":16.8221,
+    "lon":120.4041,
+    "elevation":18.0,
+    "address":"Balaoan, La Union (Pilmico)",
+    "top":131.5097535,
+    "left":154.3773175
+  },
+  "980425":{
+    "name":"Concepcion, Tarlac (Pilmico)",
+    "lat":15.323,
+    "lon":120.6563,
+    "elevation":39.0,
+    "address":"Concepcion, Tarlac (Pilmico)",
+    "top":170.733705,
+    "left":160.9786525
+  },
+  "980427":{
+    "name":"Calamba City (SEMPHIL)",
+    "lat":14.1977,
+    "lon":121.1335,
+    "elevation":69.0,
+    "address":"Calamba City (SEMPHIL)",
+    "top":200.1771795,
+    "left":173.4693625
+  },
+  "980429":{
+    "name":"Tiwi, Albay (Pilmico)",
+    "lat":13.4647,
+    "lon":123.6639,
+    "elevation":23.0,
+    "address":"Tiwi, Albay (Pilmico)",
+    "top":219.3561245,
+    "left":239.7025825
+  },
+  "980433":{
+    "name":"Bacacay, Albay (Pilmico)",
+    "lat":13.2675,
+    "lon":123.7936,
+    "elevation":61.0,
+    "address":"Bacacay, Albay (Pilmico)",
+    "top":224.5158625,
+    "left":243.09748
+  },
+  "980434":{
+    "name":"Sto Domingo, Albay (Pilmico)",
+    "lat":13.2342,
+    "lon":123.7722,
+    "elevation":43.0,
+    "address":"Sto Domingo, Albay (Pilmico)",
+    "top":225.387157,
+    "left":242.537335
+  },
+  "980435":{
+    "name":"El Salvador City (MORESCO I)",
+    "lat":8.5561,
+    "lon":124.509,
+    "elevation":62.0,
+    "address":"El Salvador City (MORESCO I)",
+    "top":347.7896435,
+    "left":261.823075
+  },
+  "980436":{
+    "name":"Calabanga, Camarines Sur (Pilmico)",
+    "lat":13.7069,
+    "lon":123.2139,
+    "elevation":7.0,
+    "address":"Calabanga, Camarines Sur (Pilmico)",
+    "top":213.0189615,
+    "left":227.9238325
+  },
+  "980438":{
+    "name":"Hilongos, Leyte",
+    "lat":10.3792,
+    "lon":124.7486,
+    "elevation":7.0,
+    "address":"Hilongos, Leyte",
+    "top":300.088232,
+    "left":268.094605
+  },
+  "980441":{
+    "name":"San Pedro City, Laguna (Pilmico)",
+    "lat":14.362642,
+    "lon":121.054695,
+    "elevation":21.0,
+    "address":"San Pedro City, Laguna (Pilmico)",
+    "top":195.86147207,
+    "left":171.406641625
+  },
+  "980442":{
+    "name":"Sta.Rosa City, Laguna (Pilmico)",
+    "lat":14.29992,
+    "lon":121.096848,
+    "elevation":28.0,
+    "address":"Sta.Rosa City, Laguna (Pilmico)",
+    "top":197.5025932,
+    "left":172.5099964
+  },
+  "980446":{
+    "name":"Inopacan, Leyte",
+    "lat":10.4997,
+    "lon":124.7403,
+    "elevation":35.0,
+    "address":"Inopacan, Leyte",
+    "top":296.9353495,
+    "left":267.8773525
+  },
+  "980005":{
+    "name":"Dipolog City (LPP)",
+    "lat":8.5907,
+    "lon":123.3422,
+    "elevation":11.0,
+    "address":"Dipolog City (LPP)",
+    "top":346.8843345,
+    "left":231.282085
+  },
+  "980226":{
+    "name":"Dingalan, Aurora",
+    "lat":15.3887,
+    "lon":121.3913,
+    "elevation":29.0,
+    "address":"Dingalan, Aurora",
+    "top":169.0146645,
+    "left":180.2172775
+  },
+  "980374":{
+    "name":"Batangas City (SM)",
+    "lat":13.7551,
+    "lon":121.0695,
+    "elevation":33.0,
+    "address":"Batangas City (SM)",
+    "top":211.7578085,
+    "left":171.7941625
+  },
+  "980395":{
+    "name":"Guiuan, Eastern Samar",
+    "lat":11.034203,
+    "lon":125.722283,
+    "elevation":10.0,
+    "address":"Guiuan, Eastern Samar",
+    "top":282.950078505,
+    "left":293.580757525
+  },
+  "980402":{
+    "name":"Sta Cruz, Zambales (Pilmico)",
+    "lat":15.7669,
+    "lon":119.9092,
+    "elevation":10.0,
+    "address":"Sta Cruz, Zambales (Pilmico)",
+    "top":159.1190615,
+    "left":141.42331
+  },
+  "980403":{
+    "name":"Castillejos, Zambales (Pilmico)",
+    "lat":14.96,
+    "lon":120.1719,
+    "elevation":47.0,
+    "address":"Castillejos, Zambales (Pilmico)",
+    "top":180.2316,
+    "left":148.2994825
+  },
+  "980445":{
+    "name":"Norzagaray, Bulacan (Pilmico)",
+    "lat":14.937287,
+    "lon":121.058502,
+    "elevation":109.0,
+    "address":"Norzagaray, Bulacan (Pilmico)",
+    "top":180.825885645,
+    "left":171.50628985
+  },
+  "980421":{
+    "name":"Vintar, Ilocos Norte (Pilmico)",
+    "lat":18.2328,
+    "lon":120.639,
+    "elevation":29.0,
+    "address":"Vintar, Ilocos Norte (Pilmico)",
+    "top":94.598788,
+    "left":160.525825
+  },
+  "980405":{
+    "name":"Tayug, Pangasinan (Pilmico)",
+    "lat":16.0274,
+    "lon":120.7478,
+    "elevation":71.0,
+    "address":"Tayug, Pangasinan (Pilmico)",
+    "top":152.303079,
+    "left":163.373665
+  },
+  "980406":{
+    "name":"Baggao, Cagayan(Pilmico)",
+    "lat":17.256,
+    "lon":121.8715,
+    "elevation":48.0,
+    "address":"Baggao, Cagayan(Pilmico)",
+    "top":120.15676,
+    "left":192.7865125
+  },
+  "980407":{
+    "name":"Cabagan, Isabela (Pilmico)",
+    "lat":17.4184,
+    "lon":121.8153,
+    "elevation":73.0,
+    "address":"Cabagan, Isabela (Pilmico)",
+    "top":115.907564,
+    "left":191.3154775
+  },
+  "980409":{
+    "name":"Albuera, Leyte",
+    "lat":10.916005,
+    "lon":124.694231,
+    "elevation":8.0,
+    "address":"Albuera, Leyte",
+    "top":286.042729175,
+    "left":266.671496425
+  },
+  "980411":{
+    "name":"Baybay City, Leyte",
+    "lat":10.676627,
+    "lon":124.79839,
+    "elevation":14.0,
+    "address":"Baybay City, Leyte",
+    "top":292.306054545,
+    "left":269.39785825
+  },
+  "980412":{
+    "name":"Carigara, Leyte",
+    "lat":11.3074,
+    "lon":124.6889,
+    "elevation":16.0,
+    "address":"Carigara, Leyte",
+    "top":275.801879,
+    "left":266.5319575
+  },
+  "980415":{
+    "name":"Butuan, Agusan Del Norte (ANECO)",
+    "lat":8.9432,
+    "lon":125.5218,
+    "elevation":9.0,
+    "address":"Butuan, Agusan Del Norte (ANECO)",
+    "top":337.661172,
+    "left":288.333115
+  },
+  "980418":{
+    "name":"Naguilian, La Union (Pilmico)",
+    "lat":16.5337,
+    "lon":120.397,
+    "elevation":23.0,
+    "address":"Naguilian, La Union (Pilmico)",
+    "top":139.0557395,
+    "left":154.191475
+  },
+  "980431":{
+    "name":"Bulan, Sorsogon (Pilmico)",
+    "lat":12.6656,
+    "lon":123.8781,
+    "elevation":10.0,
+    "address":"Bulan, Sorsogon (Pilmico)",
+    "top":240.264576,
+    "left":245.3092675
+  },
+  "980408":{
+    "name":"Abuyog ,Leyte",
+    "lat":10.7472,
+    "lon":125.013092,
+    "elevation":18.0,
+    "address":"Abuyog ,Leyte",
+    "top":290.459512,
+    "left":275.0176831
+  },
+  "980399":{
+    "name":"Sta. Maria, Bulacan (Pilmico)",
+    "lat":14.85,
+    "lon":120.9797,
+    "elevation":43.0,
+    "address":"Sta. Maria, Bulacan (Pilmico)",
+    "top":183.10975,
+    "left":169.4436475
+  },
+  "980398":{
+    "name":"Malolos City, Bulacan (Pilmico)",
+    "lat":14.845233,
+    "lon":120.797119,
+    "elevation":8.0,
+    "address":"Malolos City, Bulacan (Pilmico)",
+    "top":183.234478555,
+    "left":164.664589825
+  },
+  "980444":{
+    "name":"Angat, Bulacan (Pilmico)",
+    "lat":14.926817,
+    "lon":121.029915,
+    "elevation":50.0,
+    "address":"Angat, Bulacan (Pilmico)",
+    "top":181.099833195,
+    "left":170.758025125
+  },
+  "980414":{
+    "name":"San Fernando City, La Union (Pilmico)",
+    "lat":16.6265,
+    "lon":120.3212,
+    "elevation":8.0,
+    "address":"San Fernando City, La Union (Pilmico)",
+    "top":136.6276275,
+    "left":152.20741
+  },
+  "980483":{
+    "name":"San Ricardo, Southern Leyte",
+    "lat":9.9114,
+    "lon":125.2766,
+    "elevation":18.0,
+    "address":"San Ricardo, Southern Leyte",
+    "top":312.328219,
+    "left":281.915005
+  },
+  "980447":{
+    "name":"Isabel, Leyte",
+    "lat":10.9265,
+    "lon":124.4345,
+    "elevation":16.0,
+    "address":"Isabel, Leyte",
+    "top":285.7681275,
+    "left":259.8730375
+  },
+  "980486":{
+    "name":"Saint Bernard, Southern Leyte",
+    "lat":10.2811,
+    "lon":125.1377,
+    "elevation":32.0,
+    "address":"Saint Bernard, Southern Leyte",
+    "top":302.6550185,
+    "left":278.2792975
+  },
+  "980437":{
+    "name":"Bulusan, Sorsogon (Pilmico)",
+    "lat":12.7539,
+    "lon":124.1387,
+    "elevation":7.0,
+    "address":"Bulusan, Sorsogon (Pilmico)",
+    "top":237.9542065,
+    "left":252.1304725
+  },
+  "980488":{
+    "name":"San Juan, Southern Leyte",
+    "lat":10.262027,
+    "lon":125.173508,
+    "elevation":12.0,
+    "address":"San Juan, Southern Leyte",
+    "top":303.154063545,
+    "left":279.2165719
+  },
+  "980493":{
+    "name":"Sto Domingo, Nueva Ecija (Pilmico)",
+    "lat":15.584015,
+    "lon":120.876694,
+    "elevation":48.0,
+    "address":"Sto Domingo, Nueva Ecija (Pilmico)",
+    "top":163.904247525,
+    "left":166.74746545
+  },
+  "980496":{
+    "name":"Dolores, Eastern Samar",
+    "lat":12.035679,
+    "lon":125.484521,
+    "elevation":13.0,
+    "address":"Dolores, Eastern Samar",
+    "top":256.746458965,
+    "left":287.357337175
+  },
+  "980451":{
+    "name":"Tanauan, Leyte",
+    "lat":11.1116,
+    "lon":125.0169,
+    "elevation":15.0,
+    "address":"Tanauan, Leyte",
+    "top":280.924986,
+    "left":275.1173575
+  },
+  "980497":{
+    "name":"Gandara, Samar",
+    "lat":12.0132,
+    "lon":124.8116,
+    "elevation":0.0,
+    "address":"Gandara, Samar",
+    "top":257.334622,
+    "left":269.74363
+  },
+  "980502":{
+    "name":"Sto Rosario, Capas (Pilmico)",
+    "lat":15.35293,
+    "lon":120.599606,
+    "elevation":66.0,
+    "address":"Sto Rosario, Capas (Pilmico)",
+    "top":169.95058655,
+    "left":159.49468705
+  },
+  "980452":{
+    "name":"Matalom, Leyte",
+    "lat":10.247117,
+    "lon":124.796001,
+    "elevation":88.0,
+    "address":"Matalom, Leyte",
+    "top":303.544183695,
+    "left":269.335326175
+  },
+  "980509":{
+    "name":"Malabuyoc, Cebu",
+    "lat":9.6567,
+    "lon":123.3254,
+    "elevation":17.0,
+    "address":"Malabuyoc, Cebu",
+    "top":318.9924445,
+    "left":230.842345
+  },
+  "980511":{
+    "name":"San Francisco, Cebu",
+    "lat":10.6469,
+    "lon":124.3817,
+    "elevation":18.0,
+    "address":"San Francisco, Cebu",
+    "top":293.0838615,
+    "left":258.4909975
+  },
+  "980514":{
+    "name":"Libungan, North Cotabato (COTELCO)",
+    "lat":7.245973,
+    "lon":124.509895,
+    "elevation":22.0,
+    "address":"Libungan, North Cotabato (COTELCO)",
+    "top":382.069116455,
+    "left":261.846501625
+  },
+  "980516":{
+    "name":"Tandag City (SURSECO II)",
+    "lat":9.065997,
+    "lon":126.19632,
+    "elevation":34.0,
+    "address":"Tandag City (SURSECO II)",
+    "top":334.448188495,
+    "left":305.988676
+  },
+  "980455":{
+    "name":"Palo, Leyte (OPCEN)",
+    "lat":11.158469,
+    "lon":124.990585,
+    "elevation":10.0,
+    "address":"Palo, Leyte (OPCEN)",
+    "top":279.698658615,
+    "left":274.428562375
+  },
+  "980485":{
+    "name":"Malitbog, Southern Leyte",
+    "lat":10.157987,
+    "lon":125.003853,
+    "elevation":16.0,
+    "address":"Malitbog, Southern Leyte",
+    "top":305.876270145,
+    "left":274.775852275
+  },
+  "980517":{
+    "name":"Bislig City (SURSECO)",
+    "lat":8.2246,
+    "lon":126.3006,
+    "elevation":30.0,
+    "address":"Bislig City (SURSECO)",
+    "top":356.463341,
+    "left":308.718205
+  },
+  "980519":{
+    "name":"Surigao City (SURNECO)",
+    "lat":9.7833,
+    "lon":125.4833,
+    "elevation":15.0,
+    "address":"Surigao City (SURNECO)",
+    "top":315.6799555,
+    "left":287.3253775
+  },
+  "980386":{
+    "name":"Basey, Samar",
+    "lat":11.2814,
+    "lon":125.0678,
+    "elevation":12.0,
+    "address":"Basey, Samar",
+    "top":276.482169,
+    "left":276.449665
+  },
+  "980387":{
+    "name":"Villareal, Samar",
+    "lat":11.5678,
+    "lon":124.9283,
+    "elevation":12.0,
+    "address":"Villareal, Samar",
+    "top":268.988513,
+    "left":272.7982525
+  },
+  "980388":{
+    "name":"Jiabong, Samar",
+    "lat":11.762444,
+    "lon":124.950586,
+    "elevation":12.0,
+    "address":"Jiabong, Samar",
+    "top":263.89565274,
+    "left":273.38158855
+  },
+  "980394":{
+    "name":"Allen, Northern Samar",
+    "lat":12.504467,
+    "lon":124.284345,
+    "elevation":10.0,
+    "address":"Allen, Northern Samar",
+    "top":244.480620945,
+    "left":255.942730375
+  },
+  "980396":{
+    "name":"Mercedes, Eastern Samar",
+    "lat":11.097626,
+    "lon":125.709121,
+    "elevation":30.0,
+    "address":"Mercedes, Eastern Samar",
+    "top":281.29061571,
+    "left":293.236242175
+  },
+  "980462":{
+    "name":"Catubig, Northern Samar",
+    "lat":12.408389,
+    "lon":125.053142,
+    "elevation":11.0,
+    "address":"Catubig, Northern Samar",
+    "top":246.994501815,
+    "left":276.06599185
+  },
+  "980466":{
+    "name":"Sto. Domingo, Tarlac (Pilmico)",
+    "lat":15.337026,
+    "lon":120.591614,
+    "elevation":44.0,
+    "address":"Sto. Domingo, Tarlac (Pilmico)",
+    "top":170.36671471,
+    "left":159.28549645
+  },
+  "980469":{
+    "name":"Pambujan, Northern Samar",
+    "lat":12.5629,
+    "lon":124.9267,
+    "elevation":16.0,
+    "address":"Pambujan, Northern Samar",
+    "top":242.9517215,
+    "left":272.7563725
+  },
+  "980473":{
+    "name":"Bogo City, Cebu",
+    "lat":11.0461,
+    "lon":123.9791,
+    "elevation":46.0,
+    "address":"Bogo City, Cebu",
+    "top":282.6387935,
+    "left":247.9529425
+  },
+  "980391":{
+    "name":"Maydolong, Eastern Samar",
+    "lat":11.500087,
+    "lon":125.501189,
+    "elevation":15.0,
+    "address":"Maydolong, Eastern Samar",
+    "top":270.760223645,
+    "left":287.793622075
+  },
+  "980474":{
+    "name":"San Remigio, Cebu",
+    "lat":11.0839,
+    "lon":123.9376,
+    "elevation":11.0,
+    "address":"San Remigio, Cebu",
+    "top":281.6497565,
+    "left":246.86668
+  },
+  "980475":{
+    "name":"Padre Burgos, Southern Leyte",
+    "lat":10.030149,
+    "lon":125.017258,
+    "elevation":16.0,
+    "address":"Padre Burgos, Southern Leyte",
+    "top":309.221151415,
+    "left":275.12672815
+  },
+  "980476":{
+    "name":"Silago, Southern Leyte",
+    "lat":10.527667,
+    "lon":125.162857,
+    "elevation":12.0,
+    "address":"Silago, Southern Leyte",
+    "top":296.203592945,
+    "left":278.937781975
+  },
+  "980477":{
+    "name":"Liloan, Southern Leyte",
+    "lat":10.156251,
+    "lon":125.117859,
+    "elevation":11.0,
+    "address":"Liloan, Southern Leyte",
+    "top":305.921692585,
+    "left":277.759959325
+  },
+  "980479":{
+    "name":"Hinundayan, Southern Leyte",
+    "lat":10.351685,
+    "lon":125.253143,
+    "elevation":7.0,
+    "address":"Hinundayan, Southern Leyte",
+    "top":300.808161975,
+    "left":281.301018025
+  },
+  "980491":{
+    "name":"Sogod, Southern Leyte",
+    "lat":10.384825,
+    "lon":124.980827,
+    "elevation":10.0,
+    "address":"Sogod, Southern Leyte",
+    "top":299.941053875,
+    "left":274.173146725
+  },
+  "980498":{
+    "name":"Quezon, Nueva Ecija (Pilmico)",
+    "lat":15.578204,
+    "lon":120.814441,
+    "elevation":47.0,
+    "address":"Quezon, Nueva Ecija (Pilmico)",
+    "top":164.05629234,
+    "left":165.117993175
+  },
+  "980583":{
+    "name":"Madridejos, Cebu",
+    "lat":11.2963,
+    "lon":123.7332,
+    "elevation":15.0,
+    "address":"Madridejos, Cebu",
+    "top":276.0923105,
+    "left":241.51651
+  },
+  "980494":{
+    "name":"Tacurong City (SUKELCO)",
+    "lat":6.6611111,
+    "lon":124.69666,
+    "elevation":136.0,
+    "address":"Tacurong City (SUKELCO)",
+    "top":397.3720280685,
+    "left":266.7350755
+  },
+  "980523":{
+    "name":"Dumanjug, Cebu (CEBECO I)",
+    "lat":10.0769,
+    "lon":123.4524,
+    "elevation":29.0,
+    "address":"Dumanjug, Cebu (CEBECO I)",
+    "top":307.9979115,
+    "left":234.16657
+  },
+  "980458":{
+    "name":"Palo, Leyte",
+    "lat":11.177859,
+    "lon":125.003174,
+    "elevation":27.0,
+    "address":"Palo, Leyte",
+    "top":279.191319265,
+    "left":274.75807945
+  },
+  "980461":{
+    "name":"Catarman, Northern Samar",
+    "lat":12.499,
+    "lon":124.6385,
+    "elevation":19.0,
+    "address":"Catarman, Northern Samar",
+    "top":244.623665,
+    "left":265.2127375
+  },
+  "980465":{
+    "name":"San Jose, Northern Samar",
+    "lat":12.5278,
+    "lon":124.4851,
+    "elevation":4.0,
+    "address":"San Jose, Northern Samar",
+    "top":243.870113,
+    "left":261.1974925
+  },
+  "980329":{
+    "name":"Southmall, Las Pinas City (SM)",
+    "lat":14.4332,
+    "lon":121.0108,
+    "elevation":63.0,
+    "address":"Southmall, Las Pinas City (SM)",
+    "top":194.015322,
+    "left":170.25769
+  },
+  "980332":{
+    "name":"Baguio City (SM)",
+    "lat":16.4089,
+    "lon":120.5991,
+    "elevation":1517.0,
+    "address":"Baguio City (SM)",
+    "top":142.3211315,
+    "left":159.4814425
+  },
+  "980428":{
+    "name":"Tabaco City (Pilmico)",
+    "lat":13.355,
+    "lon":123.7206,
+    "elevation":42.0,
+    "address":"Tabaco City (Pilmico)",
+    "top":222.226425,
+    "left":241.186705
+  },
+  "980575":{
+    "name":"Manila (CEMEX)",
+    "lat":14.6304,
+    "lon":120.9458,
+    "elevation":20.0,
+    "address":"Manila (CEMEX)",
+    "top":188.855584,
+    "left":168.556315
+  },
+  "980584":{
+    "name":"Cabatuan, Iloilo Airport (Cebu Pacific)",
+    "lat":10.8294,
+    "lon":122.4975,
+    "elevation":46.0,
+    "address":"Cabatuan, Iloilo Airport (Cebu Pacific)",
+    "top":288.308749,
+    "left":209.1720625
+  },
+  "980641":{
+    "name":"Bonifacio Global, Taguig (Net Plaza)",
+    "lat":14.5551,
+    "lon":121.0433,
+    "elevation":99.0,
+    "address":"Bonifacio Global, Taguig (Net Plaza)",
+    "top":190.8258085,
+    "left":171.1083775
+  },
+  "980665":{
+    "name":"Tabuk City (Pilmico)",
+    "lat":17.448,
+    "lon":121.4648,
+    "elevation":160.0,
+    "address":"Tabuk City (Pilmico)",
+    "top":115.13308,
+    "left":182.14114
+  },
+  "980468":{
+    "name":"Poblacion, Tarlac (Pilmico)",
+    "lat":15.671258,
+    "lon":120.577438,
+    "elevation":25.0,
+    "address":"Poblacion, Tarlac (Pilmico)",
+    "top":161.62153443,
+    "left":158.91443965
+  },
+  "980478":{
+    "name":"Macrohon, Southern Leyte",
+    "lat":10.071054,
+    "lon":124.944618,
+    "elevation":10.0,
+    "address":"Macrohon, Southern Leyte",
+    "top":308.15087209,
+    "left":273.22537615
+  },
+  "980579":{
+    "name":"Alcoy, Cebu",
+    "lat":9.709,
+    "lon":123.5076,
+    "elevation":37.0,
+    "address":"Alcoy, Cebu",
+    "top":317.624015,
+    "left":235.61143
+  },
+  "980581":{
+    "name":"Dumanjug, Cebu",
+    "lat":10.058,
+    "lon":123.4373,
+    "elevation":6.0,
+    "address":"Dumanjug, Cebu",
+    "top":308.49243,
+    "left":233.7713275
+  },
+  "980582":{
+    "name":"Daanbantayan, Cebu",
+    "lat":11.2497,
+    "lon":123.9987,
+    "elevation":14.0,
+    "address":"Daanbantayan, Cebu",
+    "top":277.3115995,
+    "left":248.4659725
+  },
+  "980543":{
+    "name":"Balayan, Batangas (LPP)",
+    "lat":13.948368,
+    "lon":120.747637,
+    "elevation":20.0,
+    "address":"Balayan, Batangas (LPP)",
+    "top":206.70095128,
+    "left":163.369398475
+  },
+  "980019":{
+    "name":"Candelaria, Zambales (LPP)",
+    "lat":15.6618,
+    "lon":119.9301,
+    "elevation":2.0,
+    "address":"Candelaria, Zambales (LPP)",
+    "top":161.869003,
+    "left":141.9703675
+  },
+  "980531":{
+    "name":"Carmen, Bohol (BOHECO I)",
+    "lat":9.8316,
+    "lon":124.1827,
+    "elevation":196.0,
+    "address":"Carmen, Bohol (BOHECO I)",
+    "top":314.416186,
+    "left":253.2821725
+  },
+  "980537":{
+    "name":"Padre Garcia, Batangas (Pilmico)",
+    "lat":13.889,
+    "lon":121.213,
+    "elevation":183.0,
+    "address":"Padre Garcia, Batangas (Pilmico)",
+    "top":208.254315,
+    "left":175.550275
+  },
+  "980676":{
+    "name":"Gamu, Isabela (Pilmico)",
+    "lat":17.0411,
+    "lon":121.8019,
+    "elevation":58.0,
+    "address":"Gamu, Isabela (Pilmico)",
+    "top":125.7796185,
+    "left":190.9647325
+  },
+  "980634":{
+    "name":"Bindoy, Negros Oriental (NORECO I)",
+    "lat":9.7795,
+    "lon":123.144,
+    "elevation":15.0,
+    "address":"Bindoy, Negros Oriental (NORECO I)",
+    "top":315.7793825,
+    "left":226.0942
+  },
+  "980012":{
+    "name":"Calapan City (LPP)",
+    "lat":13.4052,
+    "lon":121.1777,
+    "elevation":28.0,
+    "address":"Calapan City (LPP)",
+    "top":220.912942,
+    "left":174.6262975
+  },
+  "980714":{
+    "name":"Bacolod, Negros Occidental",
+    "lat":10.6796,
+    "lon":123.0435,
+    "elevation":156.0,
+    "address":"Bacolod, Negros Occidental",
+    "top":292.228266,
+    "left":223.4636125
+  },
+  "980014":{
+    "name":"Pili, Camarines Sur (LPP)",
+    "lat":13.5966,
+    "lon":123.2496,
+    "elevation":35.0,
+    "address":"Pili, Camarines Sur (LPP)",
+    "top":215.904961,
+    "left":228.85828
+  },
+  "980859":{
+    "name":"Brgy. Tibuloy, Davao City (TSI)",
+    "lat":6.982857,
+    "lon":124.437723,
+    "elevation":322.0,
+    "address":"Brgy. Tibuloy, Davao City (TSI)",
+    "top":388.953546595,
+    "left":259.957399525
+  },
+  "980838":{
+    "name":"Minalabac, Camarines Sur",
+    "lat":13.566483,
+    "lon":123.183337,
+    "elevation":13.0,
+    "address":"Minalabac, Camarines Sur",
+    "top":216.692972305,
+    "left":227.123845975
+  },
+  "980887":{
+    "name":"Calamba City, Laguna (URC)",
+    "lat":14.2246,
+    "lon":121.1385,
+    "elevation":46.0,
+    "address":"Calamba City, Laguna (URC)",
+    "top":199.473341,
+    "left":173.6002375
+  },
+  "980964":{
+    "name":"Tomas Oppus - Southern Leyte",
+    "lat":10.30579,
+    "lon":124.9805,
+    "elevation":7.0,
+    "address":"Tomas Oppus - Southern Leyte",
+    "top":302.00900465,
+    "left":274.1645875
+  },
+  "980914":{
+    "name":"Tudela, Misamis Oriental (LPP)",
+    "lat":8.2463,
+    "lon":123.8462,
+    "elevation":10.0,
+    "address":"Tudela, Misamis Oriental (LPP)",
+    "top":355.8955605,
+    "left":244.474285
+  },
+  "980008":{
+    "name":"Tagum City (LPP)",
+    "lat":7.4528,
+    "lon":125.7796,
+    "elevation":31.0,
+    "address":"Tagum City (LPP)",
+    "top":376.657488,
+    "left":295.08103
+  },
+  "980118":{
+    "name":"Santiago City (LCP)",
+    "lat":16.7041,
+    "lon":121.5583,
+    "elevation":14.0,
+    "address":"Santiago City (LCP)",
+    "top":134.5972235,
+    "left":184.5885025
+  },
+  "980018":{
+    "name":"Lingayen, Pangasinan (LPP)",
+    "lat":16.0336,
+    "lon":120.2313,
+    "elevation":14.0,
+    "address":"Lingayen, Pangasinan (LPP)",
+    "top":152.140856,
+    "left":149.8542775
+  },
+  "989018":{
+    "name":"mw028",
+    "lat":14.6082982881,
+    "lon":121.1039328773,
+    "elevation":20.0,
+    "address":"Bgy. Dela Paz, Pasig City (Caltex); Castle Resources Inc, Felix Avenue",
+    "top":189.4338752929,
+    "left":172.6954430639
+  },
+  "989009":{
+    "name":"mw005",
+    "lat":14.6184317972,
+    "lon":121.130358875,
+    "elevation":60.0,
+    "address":"Sumulong Avenue, Antipolo, Rizal (Caltex)",
+    "top":189.168732026,
+    "left":173.3871435531
+  },
+  "989016":{
+    "name":"mw016",
+    "lat":14.50937,
+    "lon":121.032897,
+    "elevation":34.0,
+    "address":"Merville, Pasay City (Caltex)",
+    "top":192.02233395,
+    "left":170.836078975
+  },
+  "989017":{
+    "name":"mw017",
+    "lat":14.56531,
+    "lon":120.98684,
+    "elevation":17.0,
+    "address":"Quirino Ave, Manila (Caltex)",
+    "top":190.55866385,
+    "left":169.630537
+  },
+  "989067":{
+    "name":"mw007",
+    "lat":14.6568089303,
+    "lon":120.992449075,
+    "elevation":20.0,
+    "address":"U. Plata, Caloocan City (Caltex)",
+    "top":188.1645943387,
+    "left":169.7773545381
+  },
+  "989068":{
+    "name":"mw009",
+    "lat":14.6929792188,
+    "lon":120.9692037106,
+    "elevation":20.0,
+    "address":"Malinta, Valenzuela (Caltex)",
+    "top":187.2181987403,
+    "left":169.1689071239
+  },
+  "989078":{
+    "name":"mw023",
+    "lat":14.3993676569,
+    "lon":121.338557303,
+    "elevation":21.0,
+    "address":"Brgy. Malaya, Pililla, Rizal",
+    "top":194.9005452572,
+    "left":178.836737406
+  },
+  "989079":{
+    "name":"mw024",
+    "lat":14.5243810715,
+    "lon":121.1446604133,
+    "elevation":4.0,
+    "address":"Brgy. San Vicente, Angono Rizal",
+    "top":191.6295692646,
+    "left":173.7614863173
+  },
+  "989080":{
+    "name":"mw025",
+    "lat":null,
+    "lon":null,
+    "elevation":null,
+    "address":"Boso Boso, Rizal",
+    "top":null,
+    "left":null
+  },
+  "989081":{
+    "name":"mw026",
+    "lat":14.3869687205,
+    "lon":120.5879116058,
+    "elevation":38.0,
+    "address":"Corregidor Island, Cavite City",
+    "top":195.2249634291,
+    "left":159.1885862826
+  },
+  "989082":{
+    "name":"mw027",
+    "lat":14.6107493362,
+    "lon":121.199337244,
+    "elevation":164.0,
+    "address":"Brgy. San Luis, Antipolo, Rizal",
+    "top":189.3697436187,
+    "left":175.1926523625
+  },
+  "989083":{
+    "name":"mw029",
+    "lat":null,
+    "lon":null,
+    "elevation":null,
+    "address":"Mt Oro Rizal",
+    "top":null,
+    "left":null
+  },
+  "989090":{
+    "name":"makati07",
+    "lat":14.55826,
+    "lon":121.04095,
+    "elevation":null,
+    "address":"Bgy. Pinagkaisahan, Makati City",
+    "top":190.7431271,
+    "left":171.04686625
+  },
+  "989091":{
+    "name":"Shell003",
+    "lat":10.64526,
+    "lon":122.243349,
+    "elevation":10.0,
+    "address":"BARANGAY IGTUBA MIAG AO ILOILO",
+    "top":293.1267721,
+    "left":202.519660075
+  },
+  "989092":{
+    "name":"Shell006",
+    "lat":10.95048,
+    "lon":122.500294,
+    "elevation":71.5,
+    "address":"AQUINO NOBLEZA STREET JANIUAY",
+    "top":285.1406908,
+    "left":209.24519545
+  },
+  "989093":{
+    "name":"Shell011",
+    "lat":null,
+    "lon":null,
+    "elevation":null,
+    "address":"Ateneo de Naga",
+    "top":null,
+    "left":null
+  },
+  "989094":{
+    "name":"Shell020",
+    "lat":6.654619,
+    "lon":126.076017,
+    "elevation":16.0,
+    "address":"St Francis Xavier Parish Sigaboy Davao Oriental",
+    "top":397.541893865,
+    "left":302.839744975
+  },
+  "989095":{
+    "name":"Shell045",
+    "lat":null,
+    "lon":null,
+    "elevation":null,
+    "address":"Batangas",
+    "top":null,
+    "left":null
+  },
+  "989096":{
+    "name":"Shell049",
+    "lat":null,
+    "lon":null,
+    "elevation":null,
+    "address":"Sto Tomas Pampanga",
+    "top":null,
+    "left":null
+  },
+  "989065":{
+    "name":"mo003",
+    "lat":6.495556,
+    "lon":124.841111,
+    "elevation":70.0,
+    "address":"Koronadal City (Notre Dame of Marbel University)",
+    "top":401.70377726,
+    "left":270.516080425
+  },
+  "989066":{
+    "name":"mo004",
+    "lat":14.56097,
+    "lon":121.0436,
+    "elevation":22.0,
+    "address":"Guadalupe, Makati City (MMDA-MO Station)",
+    "top":190.67221995,
+    "left":171.11623
+  },
+  "989069":{
+    "name":"mw012",
+    "lat":14.72003,
+    "lon":121.01688,
+    "elevation":49.0,
+    "address":"Kaybiga, Caloocan City (Caltex)",
+    "top":186.51041505,
+    "left":170.416834
+  },
+  "989070":{
+    "name":"mw014",
+    "lat":14.4511454011,
+    "lon":120.979243219,
+    "elevation":24.0,
+    "address":"Pamplona, Las Pinas City (Caltex)",
+    "top":193.5457805802,
+    "left":169.4316912573
+  },
+  "989071":{
+    "name":"mw018",
+    "lat":14.7113526784,
+    "lon":121.096883565,
+    "elevation":78.0,
+    "address":"Brgy. Payatas B, Quezon City",
+    "top":186.7374571697,
+    "left":172.5109273139
+  },
+  "989072":{
+    "name":"mw019",
+    "lat":14.7338101988,
+    "lon":121.128717363,
+    "elevation":33.0,
+    "address":"Brgy. San Jose, Rodriguez, Rizal",
+    "top":186.1498561484,
+    "left":173.3441769765
+  },
+  "989073":{
+    "name":"mw020",
+    "lat":14.6812997755,
+    "lon":121.1184954643,
+    "elevation":41.0,
+    "address":"Brgy. Ampid, San Mateo, Rizal ",
+    "top":187.5237913743,
+    "left":173.0766187786
+  },
+  "989074":{
+    "name":"mw003",
+    "lat":14.6342578579,
+    "lon":121.0587143898,
+    "elevation":44.0,
+    "address":"Brgy. Anonas, Quezon City (Caltex)",
+    "top":188.7546431479,
+    "left":171.511849153
+  },
+  "989075":{
+    "name":"mw004",
+    "lat":14.6692486553,
+    "lon":121.033394337,
+    "elevation":48.0,
+    "address":"Mindanao Avenue, Quezon City (Caltex)",
+    "top":187.8391089341,
+    "left":170.849096771
+  },
+  "989076":{
+    "name":"mw021",
+    "lat":14.5794898533,
+    "lon":121.167547703,
+    "elevation":250.0,
+    "address":"Brgy. San Roque, Antipolo City, Rizal",
+    "top":190.1876479884,
+    "left":174.360561126
+  },
+  "989077":{
+    "name":"mw022",
+    "lat":14.5413874158,
+    "lon":121.1155959964,
+    "elevation":15.0,
+    "address":"Tapayan Pumping Station, Taytay, Rizal",
+    "top":191.1845982656,
+    "left":173.0007252052
+  },
+  "989084":{
+    "name":"makati01",
+    "lat":14.545027,
+    "lon":121.018201,
+    "elevation":null,
+    "address":"Bgy. San Lorenzo, Makati City",
+    "top":191.089368545,
+    "left":170.451411175
+  },
+  "989085":{
+    "name":"makati02",
+    "lat":14.57036,
+    "lon":121.02722,
+    "elevation":null,
+    "address":"Makati City Hall, Makati City",
+    "top":190.4265306,
+    "left":170.6874835
+  },
+  "989086":{
+    "name":"makati03",
+    "lat":14.5620580975,
+    "lon":121.008172184,
+    "elevation":26.0,
+    "address":"Bgy. San Antonio, Makati City",
+    "top":190.6437498789,
+    "left":170.1889069162
+  },
+  "989087":{
+    "name":"makati04",
+    "lat":14.5599526946,
+    "lon":121.063349247,
+    "elevation":27.0,
+    "address":"Bgy. West Rembo, Makati City",
+    "top":190.6988377458,
+    "left":171.6331665402
+  },
+  "989088":{
+    "name":"makati05",
+    "lat":14.5521007406,
+    "lon":121.034135967,
+    "elevation":29.0,
+    "address":"Bgy. Forbes Park, Makati City",
+    "top":190.9042841222,
+    "left":170.8685089362
+  },
+  "989089":{
+    "name":"makati06",
+    "lat":14.5464007921,
+    "lon":121.0620389879,
+    "elevation":null,
+    "address":"Bgy. Pembo, Makati City (OSMAK)",
+    "top":191.0534232745,
+    "left":171.5988705075
+  },
+  "980546":{
+    "name":"Sagada, Mt Province (MOPRECO)",
+    "lat":17.0869,
+    "lon":120.9385,
+    "elevation":1150.0,
+    "address":"Sagada, Mt Province (MOPRECO)",
+    "top":124.5812615,
+    "left":168.3652375
+  },
+  "980142":{
+    "name":"Isabela City (LCP)",
+    "lat":6.7051,
+    "lon":121.9712,
+    "elevation":45.0,
+    "address":"Isabela City (LCP)",
+    "top":396.2210585,
+    "left":195.39616
+  },
+  "980526":{
+    "name":"Digos City (DASURECO)",
+    "lat":6.7613,
+    "lon":125.3651,
+    "elevation":35.0,
+    "address":"Digos City (DASURECO)",
+    "top":394.7505855,
+    "left":284.2314925
+  },
+  "980527":{
+    "name":"Calamba, Misamis Occidental (MOELCI I)",
+    "lat":8.5643,
+    "lon":123.6383,
+    "elevation":125.0,
+    "address":"Calamba, Misamis Occidental (MOELCI I)",
+    "top":347.5750905,
+    "left":239.0325025
+  },
+  "980611":{
+    "name":"Iriga City (Pilmico)",
+    "lat":13.4197,
+    "lon":123.4248,
+    "elevation":44.0,
+    "address":"Iriga City (Pilmico)",
+    "top":220.5335495,
+    "left":233.44414
+  },
+  "980577":{
+    "name":"Rosario, Batangas (Pilmico)",
+    "lat":13.841,
+    "lon":121.2052,
+    "elevation":160.0,
+    "address":"Rosario, Batangas (Pilmico)",
+    "top":209.510235,
+    "left":175.34611
+  },
+  "989004":{
+    "name":"MOD",
+    "lat":7.07,
+    "lon":125.58,
+    "elevation":133.0,
+    "address":"Matina Hills, Davao City (Manila Observatory)",
+    "top":386.67345,
+    "left":289.8565
+  },
+  "989001":{
+    "name":"mo001",
+    "lat":14.6691,
+    "lon":121.1096,
+    "elevation":21.0,
+    "address":"Nangka, Marikina City (Manila Observatory)",
+    "top":187.8429985,
+    "left":172.84378
+  },
+  "989002":{
+    "name":"mo002",
+    "lat":6.9102,
+    "lon":122.0761,
+    "elevation":14.0,
+    "address":"Zamboanga City (Ateneo de Zamboanga)",
+    "top":390.854617,
+    "left":198.1419175
+  },
+  "989006":{
+    "name":"zipzone",
+    "lat":8.23323727,
+    "lon":124.8046875,
+    "elevation":1163.0,
+    "address":"Dahilayan, Bukidnon (Dahilayan Adventure Park)",
+    "top":356.2373468304,
+    "left":269.5626953125
+  },
+  "989010":{
+    "name":"mw006",
+    "lat":14.5831058289,
+    "lon":121.097303331,
+    "elevation":10.0,
+    "address":"Manggahan Floodway, Pasig City (Caltex)",
+    "top":190.0930359868,
+    "left":172.5219146889
+  },
+  "989011":{
+    "name":"mw008",
+    "lat":14.6370749224,
+    "lon":120.956516862,
+    "elevation":22.0,
+    "address":"Navotas City (Caltex)",
+    "top":188.6809346554,
+    "left":168.8368288629
+  },
+  "980125":{
+    "name":"Iligan City (LCP)",
+    "lat":8.2306,
+    "lon":124.2513,
+    "elevation":11.0,
+    "address":"Iligan City (LCP)",
+    "top":356.306351,
+    "left":255.0777775
+  },
+  "980026":{
+    "name":"Bayombong, Nueva Vizcaya (LPP)",
+    "lat":16.49,
+    "lon":121.16,
+    "elevation":288.0,
+    "address":"Bayombong, Nueva Vizcaya (LPP)",
+    "top":140.19915,
+    "left":174.163
+  },
+  "980033":{
+    "name":"City of San Fernando Pampanga (LPP)",
+    "lat":15.0804,
+    "lon":120.6364,
+    "elevation":43.0,
+    "address":"City of San Fernando Pampanga (LPP)",
+    "top":177.081334,
+    "left":160.45777
+  },
+  "980039":{
+    "name":"Atimonan, Quezon (TLI)",
+    "lat":14.0021,
+    "lon":121.9208,
+    "elevation":17.0,
+    "address":"Atimonan, Quezon (TLI)",
+    "top":205.2950535,
+    "left":194.07694
+  },
+  "980097":{
+    "name":"Lagawe, Ifugao (LPP)",
+    "lat":16.7972,
+    "lon":121.1225,
+    "elevation":483.0,
+    "address":"Lagawe, Ifugao (LPP)",
+    "top":132.161262,
+    "left":173.1814375
+  },
+  "980046":{
+    "name":"Bokod, Benguet (SNAP)",
+    "lat":16.4599,
+    "lon":120.7454,
+    "elevation":760.0,
+    "address":"Bokod, Benguet (SNAP)",
+    "top":140.9867165,
+    "left":163.310845
+  },
+  "980053":{
+    "name":"Nabunturan, Compostela Valley (LPP)",
+    "lat":7.5758,
+    "lon":125.9929,
+    "elevation":111.0,
+    "address":"Nabunturan, Compostela Valley (LPP)",
+    "top":373.439193,
+    "left":300.6641575
+  },
+  "980063":{
+    "name":"Makati City (Manila Polo Club)",
+    "lat":14.544,
+    "lon":121.0395,
+    "elevation":37.0,
+    "address":"Makati City (Manila Polo Club)",
+    "top":191.11624,
+    "left":171.0089125
+  },
+  "989012":{
+    "name":"mw010",
+    "lat":14.6166721221,
+    "lon":120.985736847,
+    "elevation":12.0,
+    "address":"Gov. Forbes Tayuman, Manila (Caltex)",
+    "top":189.2147739253,
+    "left":169.6016619702
+  },
+  "989013":{
+    "name":"mw011",
+    "lat":14.5996170776,
+    "lon":121.028461754,
+    "elevation":22.0,
+    "address":"F. Blumentritt, San Juan (Caltex)",
+    "top":189.6610191646,
+    "left":170.719986411
+  },
+  "989014":{
+    "name":"mw013",
+    "lat":14.4915746068,
+    "lon":120.991460681,
+    "elevation":12.0,
+    "address":"Kabihasnan, Paranaque (Caltex)",
+    "top":192.4879504131,
+    "left":169.7514833241
+  },
+  "989015":{
+    "name":"mw015",
+    "lat":14.47062,
+    "lon":121.00902,
+    "elevation":3.0,
+    "address":"San Isidro, Sucat, Paranaque (Caltex)",
+    "top":193.0362277,
+    "left":170.2110985
+  },
+  "989019":{
+    "name":"Shell001",
+    "lat":10.7100449871,
+    "lon":122.5512218061,
+    "elevation":4.8,
+    "address":"DIVERSION ILOILO CITY",
+    "top":291.4316729119,
+    "left":210.5782307741
+  },
+  "989020":{
+    "name":"Shell002",
+    "lat":10.6965685841,
+    "lon":122.5820383573,
+    "elevation":3.8,
+    "address":"LAPUS DEPOT",
+    "top":291.7842829981,
+    "left":211.3848540013
+  },
+  "989021":{
+    "name":"Shell004",
+    "lat":11.1061070144,
+    "lon":122.641143752,
+    "elevation":42.5,
+    "address":"PASSI NB ILOILO",
+    "top":281.0687099669,
+    "left":212.9319377099
+  },
+  "989023":{
+    "name":"Shell007",
+    "lat":10.810625,
+    "lon":122.531322,
+    "elevation":27.8,
+    "address":"BARANGAY BOLONG OESTE SANTA BARBARA ILOILO",
+    "top":288.799996875,
+    "left":210.05735335
+  },
+  "989024":{
+    "name":"Shell008",
+    "lat":10.749819,
+    "lon":122.539315,
+    "elevation":12.5,
+    "address":"PAVIA ILOILO",
+    "top":290.390985865,
+    "left":210.266570125
+  },
+  "980162":{
+    "name":"Candon City (LCP)",
+    "lat":17.1661,
+    "lon":120.4413,
+    "elevation":25.0,
+    "address":"Candon City (LCP)",
+    "top":122.5089935,
+    "left":155.3510275
+  },
+  "980457":{
+    "name":"San Isidro, Leyte",
+    "lat":11.406111,
+    "lon":124.350556,
+    "elevation":16.0,
+    "address":"San Isidro, Leyte",
+    "top":273.219105685,
+    "left":257.6758033
+  },
+  "980471":{
+    "name":"Sumilao, Bukidnon (BUSECO)",
+    "lat":8.3702,
+    "lon":124.9747,
+    "elevation":450.0,
+    "address":"Sumilao, Bukidnon (BUSECO)",
+    "top":352.653717,
+    "left":274.0127725
+  },
+  "989026":{
+    "name":"Shell010",
+    "lat":10.74679,
+    "lon":122.567328,
+    "elevation":9.8,
+    "address":"MC AURTHUR HIGHWAY BRGY TAGBAC JARO",
+    "top":290.47023965,
+    "left":210.9998104
+  },
+  "989027":{
+    "name":"Shell012",
+    "lat":7.1144369253,
+    "lon":125.6224601399,
+    "elevation":35.0,
+    "address":"SHELL CABANTIAN",
+    "top":385.510757849,
+    "left":290.9678941632
+  },
+  "989028":{
+    "name":"Shell013",
+    "lat":7.1221017303,
+    "lon":125.6590282362,
+    "elevation":5.0,
+    "address":"SHELL SASA DEPOT",
+    "top":385.3102082274,
+    "left":291.9250640838
+  },
+  "989029":{
+    "name":"Shell014",
+    "lat":7.0796133,
+    "lon":125.6248066,
+    "elevation":23.0,
+    "address":"SHELL CARPENTER",
+    "top":386.4219180055,
+    "left":291.029312755
+  },
+  "989030":{
+    "name":"Shell015",
+    "lat":7.098626,
+    "lon":125.575087,
+    "elevation":47.0,
+    "address":"SHELL LANGUB",
+    "top":385.92445071,
+    "left":289.727902225
+  },
+  "989031":{
+    "name":"Shell016",
+    "lat":7.041078,
+    "lon":125.578091,
+    "elevation":3.8,
+    "address":"SHELL MATINA APLAYA",
+    "top":387.43019413,
+    "left":289.806531925
+  },
+  "989032":{
+    "name":"Shell017",
+    "lat":7.0553,
+    "lon":125.546559,
+    "elevation":12.0,
+    "address":"SHELL ULAS TALOMO",
+    "top":387.0580755,
+    "left":288.981181825
+  },
+  "989033":{
+    "name":"Shell018",
+    "lat":7.042395,
+    "lon":125.528707,
+    "elevation":7.3,
+    "address":"SHELL APLAYA TALOMO",
+    "top":387.395734825,
+    "left":288.513905725
+  },
+  "989034":{
+    "name":"Shell019",
+    "lat":7.192871,
+    "lon":125.45346,
+    "elevation":195.5,
+    "address":"SHELL CALINAN",
+    "top":383.458530285,
+    "left":286.5443155
+  },
+  "989042":{
+    "name":"Shell032",
+    "lat":8.476847,
+    "lon":124.67709,
+    "elevation":19.0,
+    "address":"National Hiway Cagayan de Oro City",
+    "top":349.863298245,
+    "left":266.22283075
+  },
+  "989045":{
+    "name":"Shell035",
+    "lat":8.50059,
+    "lon":124.750415,
+    "elevation":23.5,
+    "address":"Sayre Hiway  Puerto Cagayan de Oro City",
+    "top":349.24206265,
+    "left":268.142112625
+  },
+  "989046":{
+    "name":"Shell036",
+    "lat":8.450758,
+    "lon":124.623054,
+    "elevation":104.0,
+    "address":"Airport Road Xavier Estates Cagayan de Oro City",
+    "top":350.54591693,
+    "left":264.80843845
+  },
+  "989047":{
+    "name":"Shell037",
+    "lat":8.48436,
+    "lon":124.65892,
+    "elevation":6.3,
+    "address":"CM RECTO AVE COR AGORA RD LAPASAN CAGAYAN DE ORO CITY",
+    "top":349.6667206,
+    "left":265.747231
+  },
+  "989056":{
+    "name":"mw030",
+    "lat":14.7361479293,
+    "lon":121.1520534149,
+    "elevation":30.0,
+    "address":"San Rafael Rodriguez Rizal",
+    "top":186.0886894295,
+    "left":173.954998135
+  },
+  "989058":{
+    "name":"Shell042",
+    "lat":12.1323126,
+    "lon":125.436031,
+    "elevation":3.3,
+    "address":"Oras Eastern Samar",
+    "top":254.218040821,
+    "left":286.088111425
+  },
+  "989035":{
+    "name":"Shell023",
+    "lat":14.5957859,
+    "lon":121.0037292,
+    "elevation":5.3,
+    "address":"Pandacan Manila",
+    "top":189.7612619265,
+    "left":170.07261181
+  },
+  "989059":{
+    "name":"Shell043",
+    "lat":11.2436001877,
+    "lon":125.0079910866,
+    "elevation":37.0,
+    "address":"Tacloban Ciy Hall",
+    "top":277.4712010883,
+    "left":274.8841666931
+  },
+  "989022":{
+    "name":"Shell005",
+    "lat":11.056352,
+    "lon":122.477027,
+    "elevation":149.0,
+    "address":"POBLACION ILAWOD LADRIDO ST LAMBUNAO ILOILO",
+    "top":282.37054992,
+    "left":208.636181725
+  },
+  "980074":{
+    "name":"Alaminos City (LCP)",
+    "lat":16.1562,
+    "lon":119.9798,
+    "elevation":16.0,
+    "address":"Alaminos City (LCP)",
+    "top":148.933027,
+    "left":143.271265
+  },
+  "980083":{
+    "name":"Catbalogan City (LPP)",
+    "lat":11.7719,
+    "lon":124.8861,
+    "elevation":10.0,
+    "address":"Catbalogan City (LPP)",
+    "top":263.6482365,
+    "left":271.6936675
+  },
+  "980369":{
+    "name":"Cauayan City (SM)",
+    "lat":16.9371,
+    "lon":121.7692,
+    "elevation":65.0,
+    "address":"Cauayan City (SM)",
+    "top":128.5007785,
+    "left":190.10881
+  },
+  "980379":{
+    "name":"Matalam, North Cotabato (COTELCO)",
+    "lat":7.0861,
+    "lon":124.9152,
+    "elevation":51.0,
+    "address":"Matalam, North Cotabato (COTELCO)",
+    "top":386.2521935,
+    "left":272.45536
+  },
+  "980472":{
+    "name":"Tagoloan, Misamis Oriental (CEPALCO)",
+    "lat":8.5338,
+    "lon":124.7559,
+    "elevation":15.0,
+    "address":"Tagoloan, Misamis Oriental (CEPALCO)",
+    "top":348.373123,
+    "left":268.2856825
+  },
+  "980481":{
+    "name":"Hinunangan, Southern Leyte",
+    "lat":10.394213,
+    "lon":125.198502,
+    "elevation":18.0,
+    "address":"Hinunangan, Southern Leyte",
+    "top":299.695416855,
+    "left":279.87078985
+  },
+  "980489":{
+    "name":"Anahawan, Southern Leyte",
+    "lat":10.274247,
+    "lon":125.25798,
+    "elevation":21.0,
+    "address":"Anahawan, Southern Leyte",
+    "top":302.834327245,
+    "left":281.4276265
+  },
+  "980501":{
+    "name":"Sto Domingo, Capas (Pilmico)",
+    "lat":15.326893,
+    "lon":120.551369,
+    "elevation":51.0,
+    "address":"Sto Domingo, Capas (Pilmico)",
+    "top":170.631844655,
+    "left":158.232083575
+  },
+  "980513":{
+    "name":"Tuburan, Cebu",
+    "lat":10.7283,
+    "lon":123.8247,
+    "elevation":10.0,
+    "address":"Tuburan, Cebu",
+    "top":290.9540305,
+    "left":243.9115225
+  },
+  "980521":{
+    "name":"Calamba City (ZENITH)",
+    "lat":14.204878,
+    "lon":121.089955,
+    "elevation":137.0,
+    "address":"Calamba City (ZENITH)",
+    "top":199.98936713,
+    "left":172.329572125
+  },
+  "980524":{
+    "name":"San Francisco, Agusan del Sur (ASELCO)",
+    "lat":8.4833,
+    "lon":125.9667,
+    "elevation":86.0,
+    "address":"San Francisco, Agusan del Sur (ASELCO)",
+    "top":349.6944555,
+    "left":299.9783725
+  },
+  "980528":{
+    "name":"Montevista, Compostela Valley (DANECO)",
+    "lat":7.690653,
+    "lon":125.987532,
+    "elevation":91.0,
+    "address":"Montevista, Compostela Valley (DANECO)",
+    "top":370.434064255,
+    "left":300.5236501
+  },
+  "980534":{
+    "name":"Balamban, Cebu (West Cebu Industrial Park)",
+    "lat":10.4701,
+    "lon":123.6943,
+    "elevation":12.0,
+    "address":"Balamban, Cebu (West Cebu Industrial Park)",
+    "top":297.7098335,
+    "left":240.4983025
+  },
+  "980382":{
+    "name":"Mexico, Pampanga (Pilmico)",
+    "lat":15.0643,
+    "lon":120.7228,
+    "elevation":16.0,
+    "address":"Mexico, Pampanga (Pilmico)",
+    "top":177.5025905,
+    "left":162.71929
+  },
+  "980578":{
+    "name":"Sta.Rita, Pampanga (Pilmico)",
+    "lat":15.003,
+    "lon":120.6079,
+    "elevation":40.0,
+    "address":"Sta.Rita, Pampanga (Pilmico)",
+    "top":179.106505,
+    "left":159.7117825
+  },
+  "980392":{
+    "name":"Taft, Eastern Samar",
+    "lat":11.903908,
+    "lon":125.418658,
+    "elevation":12.0,
+    "address":"Taft, Eastern Samar",
+    "top":260.19424718,
+    "left":285.63337315
+  },
+  "980404":{
+    "name":"Sta Maria, Pangasinan (Pilmico)",
+    "lat":15.9892,
+    "lon":120.704,
+    "elevation":55.0,
+    "address":"Sta Maria, Pangasinan (Pilmico)",
+    "top":153.302582,
+    "left":162.2272
+  },
+  "980413":{
+    "name":"Dulag ,Leyte",
+    "lat":10.953289,
+    "lon":125.033821,
+    "elevation":11.0,
+    "address":"Dulag ,Leyte",
+    "top":285.067193315,
+    "left":275.560264675
+  },
+  "980423":{
+    "name":"Laoag City (Pilmico)",
+    "lat":18.2482,
+    "lon":120.578,
+    "elevation":11.0,
+    "address":"Laoag City (Pilmico)",
+    "top":94.195847,
+    "left":158.92915
+  },
+  "980432":{
+    "name":"Gubat, Sorsogon (Pilmico)",
+    "lat":12.9203,
+    "lon":124.1225,
+    "elevation":20.0,
+    "address":"Gubat, Sorsogon (Pilmico)",
+    "top":233.6003505,
+    "left":251.7064375
+  },
+  "980439":{
+    "name":"MacArthur, Leyte",
+    "lat":10.846968,
+    "lon":125.002241,
+    "elevation":26.0,
+    "address":"MacArthur, Leyte",
+    "top":287.84908228,
+    "left":274.733658175
+  },
+  "980453":{
+    "name":"Palompon, Leyte",
+    "lat":11.05,
+    "lon":124.3833,
+    "elevation":9.0,
+    "address":"Palompon, Leyte",
+    "top":282.53675,
+    "left":258.5328775
+  },
+  "980456":{
+    "name":"Tolosa, Leyte",
+    "lat":11.063216,
+    "lon":125.03791,
+    "elevation":24.0,
+    "address":"Tolosa, Leyte",
+    "top":282.19095336,
+    "left":275.66729425
+  },
+  "980464":{
+    "name":"Laoang, Northern Samar",
+    "lat":12.570013,
+    "lon":125.010571,
+    "elevation":11.0,
+    "address":"Laoang, Northern Samar",
+    "top":242.765609855,
+    "left":274.951695925
+  },
+  "980463":{
+    "name":"Gamay, Northern Samar",
+    "lat":12.385599,
+    "lon":125.302461,
+    "elevation":13.0,
+    "address":"Gamay, Northern Samar",
+    "top":247.590802165,
+    "left":282.591916675
+  },
+  "980051":{
+    "name":"Tandag City (LPP)",
+    "lat":9.0674,
+    "lon":126.194,
+    "elevation":63.0,
+    "address":"Tandag City (LPP)",
+    "top":334.411479,
+    "left":305.92795
+  },
+  "980529":{
+    "name":"Ibaan, Batangas (IEEC)",
+    "lat":13.8344,
+    "lon":121.1315,
+    "elevation":149.0,
+    "address":"Ibaan, Batangas (IEEC)",
+    "top":209.682924,
+    "left":173.4170125
+  },
+  "989025":{
+    "name":"Shell009",
+    "lat":10.688614,
+    "lon":122.528994,
+    "elevation":4.5,
+    "address":"VILLA ILOILO",
+    "top":291.99241469,
+    "left":209.99641795
+  },
+  "989053":{
+    "name":"Shell022",
+    "lat":7.592894,
+    "lon":126.498599,
+    "elevation":11.0,
+    "address":"Baganga Davao Oriental",
+    "top":372.99192849,
+    "left":313.900828825
+  },
+  "989039":{
+    "name":"Shell029",
+    "lat":9.652094,
+    "lon":123.849494,
+    "elevation":4.8,
+    "address":"Tagbilaran Bohol",
+    "top":319.11296049,
+    "left":244.56050545
+  },
+  "989040":{
+    "name":"Shell030",
+    "lat":9.124771,
+    "lon":125.524899,
+    "elevation":6.0,
+    "address":"Cabadbaran Agusan del Norte",
+    "top":332.910366785,
+    "left":288.414231325
+  },
+  "989041":{
+    "name":"Shell031",
+    "lat":13.427549,
+    "lon":121.201965,
+    "elevation":15.5,
+    "address":"Calapan Oriental Mindoro",
+    "top":220.328180415,
+    "left":175.261433875
+  },
+  "989054":{
+    "name":"Shell026",
+    "lat":10.6932438049,
+    "lon":122.5730533987,
+    "elevation":45.0,
+    "address":"Iloilo City Hall",
+    "top":291.8712758453,
+    "left":211.1496727097
+  },
+  "989043":{
+    "name":"Shell033",
+    "lat":8.497295,
+    "lon":124.630253,
+    "elevation":9.3,
+    "address":"NHA Hiway Kauswagan Cagayan de Oro City",
+    "top":349.328276325,
+    "left":264.996872275
+  },
+  "989049":{
+    "name":"Shell039",
+    "lat":8.474003,
+    "lon":124.725338,
+    "elevation":7.0,
+    "address":"Baloy Tablon  Cagayan de Oro City",
+    "top":349.937711505,
+    "left":267.48572215
+  },
+  "989057":{
+    "name":"Shell041",
+    "lat":14.8308440569,
+    "lon":120.9085111583,
+    "elevation":7.0,
+    "address":"Balagtas Bulacan",
+    "top":183.6109652514,
+    "left":167.5802795695
+  },
+  "980492":{
+    "name":"Talavera, Nueva Ecija (Pilmico)",
+    "lat":15.559932,
+    "lon":120.926857,
+    "elevation":55.0,
+    "address":"Talavera, Nueva Ecija (Pilmico)",
+    "top":164.53437922,
+    "left":168.060481975
+  },
+  "980035":{
+    "name":"San Fernando City, La Union (LPP)",
+    "lat":16.6129,
+    "lon":120.3184,
+    "elevation":70.0,
+    "address":"San Fernando City, La Union (LPP)",
+    "top":136.9834715,
+    "left":152.13412
+  },
+  "980224":{
+    "name":"Nasugbu, Batangas (Pico de Loro)",
+    "lat":14.1919,
+    "lon":120.602,
+    "elevation":37.0,
+    "address":"Nasugbu, Batangas (Pico de Loro)",
+    "top":200.3289365,
+    "left":159.55735
+  },
+  "980384":{
+    "name":"Mati City (DORECO)",
+    "lat":6.959,
+    "lon":126.2036,
+    "elevation":23.0,
+    "address":"Mati City (DORECO)",
+    "top":389.577765,
+    "left":306.17923
+  },
+  "980512":{
+    "name":"Santander, Cebu",
+    "lat":9.4258,
+    "lon":123.3402,
+    "elevation":72.0,
+    "address":"Santander, Cebu",
+    "top":325.033943,
+    "left":231.229735
+  },
+  "989055":{
+    "name":"Shell027",
+    "lat":8.209692,
+    "lon":124.219758,
+    "elevation":27.8,
+    "address":"Iligan Lanao del Norte",
+    "top":356.85340882,
+    "left":254.25216565
+  },
+  "989044":{
+    "name":"Shell034",
+    "lat":8.494845,
+    "lon":124.659245,
+    "elevation":8.0,
+    "address":"Depot",
+    "top":349.392380575,
+    "left":265.755737875
+  },
+  "989062":{
+    "name":"Shell047",
+    "lat":14.2808544,
+    "lon":120.8869447,
+    "elevation":131.0,
+    "address":"Trece Martires Cavite",
+    "top":198.001444624,
+    "left":167.0157775225
+  }
+}
