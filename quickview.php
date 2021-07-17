@@ -16,14 +16,14 @@
         </form>
       </div>
     </div>
-    <div class="flex justify-center">
-      <div class="flex flex-col justify-center">
-        <div class="relative border border-black object-none">
-          <img x-bind:alt="mapAlt" x-bind:src="mapSrc" />
+    <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
+      <div class="flex flex-col m-auto md:mx-0">
+        <div class="relative shadow-lg" style="width:400px;">
+          <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
           <div class="absolute left-0 top-0" id="ph-map">
             <template x-for="(st, i) in stationPts" :key="i">
               <div class="absolute border border-black rounded-full h-2 w-2 cursor-pointer"
-                x-bind:style="`top:${st.top}px;left:${st.left}px;`"></div>
+                :style="`top:${st.top}px;left:${st.left}px;`"></div>
             </template>
           </div>
         </div>
@@ -82,7 +82,7 @@
         </div> -->
       </div>
       <!-- <div id="st-tooltip"></div> -->
-      <div class="flex w-1/2 my-4 p-3 text-sm text-center">
+      <div class="flex text-sm text-center shadow" style="width:600px;">
         <div class="flex flex-col flex-grow">
           <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
             class="flex flex-col cursor-pointer py-3 border border-black" id="prain" @click="setActiveVarPanel('rain')">
@@ -128,7 +128,7 @@
             </div>
           </div>
         </div>
-        <div class="flex w-1/2 text-lg">
+        <div class="flex text-lg w-1/2">
           <div x-show="activeVarPanel === 'rain'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
             At <span class="highlight">{station}</span>, there was <span class="highlight">{rain} mm</span>
