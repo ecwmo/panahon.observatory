@@ -55,19 +55,26 @@ function buildRMenu($curPage, $pages, $class0)
 }
 
 ?>
-<button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden my-auto mr-2 w-8 h-8 bg-gray-200 text-gray-600 p-1">
-    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clip-rule="evenodd"></path>
-    </svg>
-</button>
-<nav class="absolute md:relative top-14 right-14 md:top-0 md:right-0 md:flex flex-col md:flex-row md:justify-between bg-blue-900 border md:border-t md:border-l-0 md:border-r-0 md:border-b-0 border-black"
-    :class="{ 'flex' : mobileMenuOpen , 'hidden' : !mobileMenuOpen}" @click.away="mobileMenuOpen = false">
-    <ul class="md:flex flex-col md:flex-row">
-        <?php buildMenu($curPage, $pages, "py-1 px-2 border-b border-gray-300 md:border-r md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
-    </ul>
-    <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l-0 md:border-black border-gray-100">
-        <?php buildRMenu($curPage, $pages2, "py-1 px-2 border-b border-gray-300 md:border-l md:border-b-0 md:border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
-    </ul>
+<nav class="flex justify-between md:w-full flex-wrap md:flex-no-wrap" x-data="{mobileMenuOpen : false}">
+    <div class="flex justify-end items-center w-full" @click.outside="mobileMenuOpen = false">
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden my-auto mr-2 w-8 h-8 bg-gray-200 text-gray-600 p-1">
+            <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <div 
+        class="absolute right-0 top-16 md:top-0 md:relative border border-b-0 md:border-l-0 md:border-r-0 border-black md:flex flex-col md:flex-row md:w-full justify-between bg-blue-900" 
+        :class="{ 'hidden': !mobileMenuOpen }"
+        >
+        <ul class="md:flex flex-col md:flex-row">
+            <?php buildMenu($curPage, $pages, "py-1 px-2 border-b md:border-r md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
+        </ul>
+        <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l-0 border-black">
+            <?php buildRMenu($curPage, $pages2, "py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"); ?>
+        </ul>
+    </div>
 </nav>
