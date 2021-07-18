@@ -1,22 +1,25 @@
-function reportCtrl(reportImgs, staticImgs) {
-  reportImgs = reportImgs.map((imgSrc, idx) => ({
-    lazyLoad: idx < 2 ? false : true,
-    show: idx < 2 ? true : false,
-    imgSrc,
-  }));
-
-  staticImgs = staticImgs.map((imgSrc) => ({
-    lazyLoad: true,
-    show: false,
-    imgSrc,
-  }));
-
-  const imgSrcs = {
-    reportImgs,
-    staticImgs,
-  };
+function reportCtrl() {
   return {
-    imgSrcs: imgSrcs,
+    imgSrcs: { reportImgs: [], staticImgs: [] },
+    init() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      fetch(`/lib/fetch-report.php?view=${urlParams.get("view")}`)
+        .then((res) => res.json())
+        .then((d) => {
+          const reportImgs = d.reportImgs.map((imgSrc, idx) => ({
+            show: idx < 1 ? true : false,
+            imgSrc,
+          }));
+
+          const staticImgs = d.staticImgs.map((imgSrc) => ({
+            show: false,
+            imgSrc,
+          }));
+
+          this.imgSrcs = { reportImgs, staticImgs };
+        });
+    },
     loadImage(imgSrcGrpName, imgIdx) {
       const prevIdx = imgIdx - 1;
       let prevImgIsShown = true;
