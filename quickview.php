@@ -4,17 +4,25 @@
 
 <body class="bg-gray-600 w-full md:w-4/5 mx-auto">
   <?php include_once('./components/header.php'); ?>
-  <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col justify-center"
+  <div class="bg-gray-300 border border-t-0 border-black flex flex-col justify-center"
     x-data="stationSelect()">
-    <div class="flex bg-gray-400 border border-black text-xs">
-      <div class="px-2 py-3">
-        <form>
-          Map: <input checked="checked" id="phradio" name="map" @click="changeMap('ph')"
-            type="radio">Philippines</input>
-          <input id="mmradio" name="map" @click="changeMap('mm')" type="radio">Metro Manila</input>
-          <!-- Station: <span id="st-choice" onmousedown="stcollapse()">Ateneo de Manila University, Quezon City</span> -->
-        </form>
+    <div class="flex bg-gray-400 border-b border-black text-xs p-3 space-x-4">
+      <div class="flex space-x-2">
+        <span>Map:</span> 
+        <label class="inline-flex items-center">
+          <input type="radio" name="mapSlct" class="h-3 w-3" @click="changeMap('ph')"><span class="ml-1">Philippines</span>
+        </label>
+        <label class="inline-flex items-center">
+          <input type="radio" name="mapSlct" class="h-3 w-3" @click="changeMap('mm')" checked><span class="ml-1">Metro Manila</span>
+        </label>
       </div>
+      <select 
+        x-model="activeStationId"
+        x-effect="handleStationChange">
+        <template x-for="(st, id) in activeLayer" :key="id">
+            <option :key="id" :value="id" x-text="st.address"></option>
+        </template>
+      </select>
     </div>
     <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
       <div class="flex flex-col m-auto md:mx-0">
@@ -24,7 +32,8 @@
             <template x-for="(st, id) in activeLayer" :key="id">
               <div class="absolute border border-black rounded-full h-2 w-2 cursor-pointer"
                 :style="`top:${st.top}px;left:${st.left}px;`"
-                @click="setActiveStation(id)"></div>
+                :key="id"
+                @click="activeStationId = id"></div>
             </template>
           </div>
         </div>
@@ -132,7 +141,7 @@
         <div class="flex text-lg w-1/2">
           <div x-show="activeVarPanel === 'rain'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="font-semibold" x-text="activeStation.name"></span>, there was <span class="font-semibold" x-text="`${(activeStationObs.rr * 10.)} mm`">0 mm</span>
+            At <span class="font-semibold" x-text="activeStation.address"></span>, there was <span class="font-semibold" x-text="`${(activeStationObs.rr * 10.)} mm`">0 mm</span>
             rainfall
             received at <span class="font-semibold" x-text="timeStr">12 nn</span>. There have been <span class="font-semibold" x-text="`${activeStationObs.rain24h} mm`">0
               mm</span>
@@ -143,7 +152,7 @@
           </div>
           <div x-show="activeVarPanel === 'temp'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="font-semibold" x-text="activeStation.name"></span>, the temperature at <span class="font-semibold" x-text="timeStr">12 nn</span> was
+            At <span class="font-semibold" x-text="activeStation.address"></span>, the temperature at <span class="font-semibold" x-text="timeStr">12 nn</span> was
             <span class="font-semibold" x-text="`${activeStationObs.temp} &deg;C`">32 &deg;C</span> but feels like <span class="font-semibold" x-text="`${activeStationObs.hi} &deg;C`">58 &deg;C</span>
             because of the
             humidity. In the past 24 hours, local temperature got up to <span class="font-semibold" x-text="`${activeStationObs.tx} &deg;C`">100 &deg;C</span> and
@@ -152,12 +161,12 @@
           </div>
           <div x-show="activeVarPanel === 'wind'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="font-semibold" x-text="activeStation.name"></span>, the wind at <span class="font-semibold" x-text="timeStr">12 nn</span> was blowing
+            At <span class="font-semibold" x-text="activeStation.address"></span>, the wind at <span class="font-semibold" x-text="timeStr">12 nn</span> was blowing
             from <span class="font-semibold" x-text="`${activeStationObs.wdir}&deg;`">0&deg;</span> at <span class="font-semibold" x-text="`${activeStationObs.wspd} m/s`">0 m/s</span>.
           </div>
           <div x-show="activeVarPanel === 'pres'"
             class="bg-blue-600 py-3 px-2 border border-black border-l-0 break-normal" id="pwriteup">
-            At <span class="font-semibold" x-text="activeStation.name"></span>, the air pressure was <span class="font-semibold" x-text="`${activeStationObs.pres} mb`">0 mb</span>
+            At <span class="font-semibold" x-text="activeStation.address"></span>, the air pressure was <span class="font-semibold" x-text="`${activeStationObs.pres} mb`">0 mb</span>
             at <span class="font-semibold" x-text="timeStr">12 nn</span>.
           </div>
         </div>
