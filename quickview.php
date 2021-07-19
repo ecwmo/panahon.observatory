@@ -30,10 +30,22 @@
           <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
           <div class="absolute left-0 top-0" id="ph-map">
             <template x-for="(st, id) in activeLayer" :key="id">
-              <div class="absolute border border-black rounded-full h-2 w-2 cursor-pointer"
-                :style="`top:${st.top}px;left:${st.left}px;`"
-                :key="id"
-                @click="activeStationId = id"></div>
+              <div 
+                class="absolute"
+                :style="`top:${st.top}px;left:${st.left}px;`">
+                <div class="group border border-black rounded-full h-2 w-2 cursor-pointer"
+                  :key="id"
+                  @click="activeStationId = id">
+                  <div class="relative -mt-2 ml-1 w-36">
+                    <div 
+                      class="absolute w-36 bottom-full right-1/2 px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none"
+                      >
+                      <span x-text="st.address"></span>
+                      <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </template>
           </div>
         </div>
