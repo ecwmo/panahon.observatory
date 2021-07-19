@@ -1,8 +1,9 @@
-/resources/reports/*
-!/resources/reports/sample-report.ini
-/resources/model/
 /node_modules/
 /dist/
 yarn.lock
 /.vscode/
 /.bak/
+
+/resources/*
+!/resources/static/
+!/resources/reports/sample-report.ini

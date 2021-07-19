@@ -64,10 +64,11 @@ function stationSelect() {
     init() {
       Promise.all([
         fetch("/resources/station/stn_map_mm.json").then((res) => res.json()),
+        fetch("/resources/station/stn_mo_obs.json").then((res) => res.json()),
         fetch("/resources/station/stn_obs.json").then((res) => res.json()),
       ]).then((d) => {
         this.stationLayers = [[], d[0]];
-        this.stationObs = d[1];
+        this.stationObs = { ...d[1], ...d[2] };
 
         this.stationIds = Object.keys(this.stationObs);
 
