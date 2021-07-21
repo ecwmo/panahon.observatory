@@ -55,55 +55,84 @@
             </div>
             <div class="flex text-sm text-center shadow">
                 <!-- Info Panel -->
-                <div class="flex flex-col md:w-48">
+                <div class="flex flex-col">
                     <!-- Info Rain Panel -->
-                    <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
-                        class="flex flex-col cursor-pointer py-3 px-2 border border-black" id="prain"
+                    <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        class="flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="prain"
                         @click="setActiveVarPanel('rain')">
-                        <div>
-                            <p>Rainfall Rate (mm/hr)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.rr">22.3</h3>
-                        </div>
-                        <div>
-                            <p>Accumulated (mm/24hr)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.rain24h">100</h3>
+
+                        <div class="flex justify-center gap-4 p-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-cloud-rain text-5xl"></i>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="text-lg">RAIN (mm)</div>
+                                <div class="flex justify-between items-end gap-1">
+                                    <div class="text-lg font-light">hour</div>
+                                    <div class="text-4xl font-bold ml-1" x-text="activeStationObs.rr"></div>
+                                </div>
+                                <div class="flex justify-between items-end gap-1">
+                                    <div class="text-lg font-light">day</div>
+                                    <div class="text-4xl font-bold ml-1" x-text="activeStationObs.rain24h"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Info Temperature Panel -->
-                    <div :class="activeVarPanel === 'temp' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
-                        class="cursor-pointer py-3 px-2 border border-black border-t-0" id="ptemp"
+                    <div :class="activeVarPanel === 'temp' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        class="flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="ptemp"
                         @click="setActiveVarPanel('temp')">
-                        <div>
-                            <p>Temperature (&deg;C)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.temp">33.7</h3>
-                        </div>
-                        <div>
-                            <p>24hr Max (&deg;C): <span class="text-lg md:text-xl font-semibold"
-                                    x-text="activeStationObs.tx">39.9</span></p>
-                            <p>24hr Min (&deg;C): <span class="text-lg md:text-xl font-semibold"
-                                    x-text="activeStationObs.tn">22.5</span></p>
+
+                        <div class="flex justify-center gap-4 p-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-thermometer-half text-5xl"></i>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="text-lg">TEMPERATURE (&deg;C)</div>
+                                <div class="text-4xl font-bold" x-text="activeStationObs.temp">
+                                </div>
+                                <div class="flex justify-center items-end">
+                                    <div><i class="fas fa-thermometer-empty text-xl"></i></div>
+                                    <div class="text-2xl font-semibold mr-2" x-text="activeStationObs.tn"></div>
+                                    <div><i class="fas fa-thermometer-full text-xl"></i></div>
+                                    <div class="text-2xl font-semibold" x-text="activeStationObs.tx"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Info Wind Panel -->
-                    <div :class="activeVarPanel === 'wind' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
-                        class="cursor-pointer py-3 px-2 border border-black border-t-0" id="pwind"
+                    <div :class="activeVarPanel === 'wind' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        class="flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="pwind"
                         @click="setActiveVarPanel('wind')">
-                        <div>
-                            <p>Windspeed (m/s)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.wspd">3.6</h3>
-                        </div>
-                        <div>
-                            <p>Wind Direction (&deg;)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.wdir">120</h3>
+
+                        <div class="flex justify-center gap-4 p-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-wind text-5xl"></i>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="text-lg">WIND (m/s)</div>
+                                <div class="text-4xl font-bold" x-text="activeStationObs.wspd"></div>
+                                <div class="flex justify-center items-center">
+                                    <div><i class="wi wi-wind-direction text-xl"></i></div>
+                                    <div class="text-2xl font-semibold ml-1" x-text="`${activeStationObs.wdir}&deg;`">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Info Pressure Panel -->
-                    <div :class="activeVarPanel === 'pres' ? 'bg-blue-600 border-r-0' : 'bg-blue-300'"
-                        class="cursor-pointer py-3 px-2 border border-black border-t-0" id="ppres"
+                    <div :class="activeVarPanel === 'pres' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        class="flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="ppres"
                         @click="setActiveVarPanel('pres')">
-                        <div>
-                            <p>Air Pressure (mbar)</p>
-                            <h3 class="text-2xl md:text-3xl font-semibold" x-text="activeStationObs.pres">1002.6</h3>
+
+                        <div class="flex justify-center gap-4 p-2">
+                            <div class="flex items-center">
+                                <i class="wi wi-barometer text-5xl"></i>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="text-lg">PRESSURE (hPa)</div>
+                                <div class="text-4xl font-bold" x-text="activeStationObs.pres"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
