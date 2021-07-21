@@ -65,6 +65,7 @@ function stationSelect() {
     activeStationObs: defaultStationObs,
     timeStamp: new Date(),
     timeStr: null,
+    showMoreInfo: false,
     init() {
       Promise.all([
         fetch("/resources/station/stn_map_mm.json").then((res) => res.json()),

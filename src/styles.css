@@ -15,3 +15,7 @@
 .model-caption-img {
   @apply pt-5;
 }
+
+[x-cloak] {
+  display: none !important;
+}
