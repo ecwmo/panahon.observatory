@@ -27,7 +27,7 @@ const dropInactiveStations = (stnLyr, validIds) => {
 const formatStnObsValues = (stnObs, stnId) => {
   if (!stnObs[stnId]["checked"]) {
     Object.keys(stnObs[stnId]).forEach((k) => {
-      if (k.includes("rain")) {
+      if (["rr", "rain24h"].indexOf(k) !== -1) {
         stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed() : 0;
       } else {
         stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed(1) : 0;
