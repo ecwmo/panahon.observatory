@@ -3,6 +3,7 @@
 yarn.lock
 /.vscode/
 /.bak/
+/tools/
 
 /resources/*
 !/resources/static/
