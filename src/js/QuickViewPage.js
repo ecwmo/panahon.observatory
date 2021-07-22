@@ -64,7 +64,8 @@ function stationSelect() {
     activeStationId: null,
     activeStationObs: defaultStationObs,
     timeStamp: new Date(),
-    timeStr: null,
+    timeStr: "",
+    dateTimeStr: "",
     showMoreInfo: false,
     init() {
       Promise.all([
@@ -101,6 +102,10 @@ function stationSelect() {
         .then((d) => {
           this.timeStamp = new Date(d.timestamp);
           this.timeStr = formatDate(this.timeStamp, "h bbb");
+          this.dateTimeStr = formatDate(
+            this.timeStamp,
+            "MMMM d, yyyy h:00 bbb"
+          );
         });
     },
     changeMap(name) {

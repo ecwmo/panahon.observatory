@@ -29,6 +29,10 @@
         </div>
         <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
             <div class="flex md:flex md:flex-col hidden m-auto md:mx-0">
+                <div class="flex flex-col items-start mb-6" x-show="showMoreInfo">
+                    <div class="text-lg font-semibold" x-text="activeStation.address"></div>
+                    <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
+                </div>
                 <div class="relative shadow-lg" style="width:400px;">
                     <!-- Map -->
                     <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
@@ -56,7 +60,11 @@
             </div>
             <div class="flex text-sm text-center items-center">
                 <!-- Info Panel -->
-                <div class="flex flex-col" :class="showMoreInfo ? '' : 'gap-2 md:gap-4'">
+                <div class="flex flex-col items-center" :class="showMoreInfo ? '' : 'gap-2 md:gap-4'">
+                    <div class="flex flex-col md:items-start w-full" :class="showMoreInfo ? 'md:hidden' : ''">
+                        <div class="text-lg font-semibold" x-text="activeStation.address"></div>
+                        <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
+                    </div>
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
                         <!-- Info Rain Panel -->
                         <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
@@ -197,7 +205,7 @@
                         @click="showMoreInfo = false">
                         <i class="fas fa-times"></i>
                         <div
-                            class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
+                            class="absolute w-20 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
                             <span>Hide</span>
                             <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
                                 viewBox="0 0 255 255" xml:space="preserve">
