@@ -149,9 +149,10 @@
                                     <div class="text-lg">WIND (m/s)</div>
                                     <div class="text-4xl font-bold" x-text="activeStationObs.wspd"></div>
                                     <div class="flex justify-center items-center">
-                                        <div><i class="wi wi-wind-direction text-xl"></i></div>
-                                        <div class="text-2xl font-semibold ml-1"
-                                            x-text="`${activeStationObs.wdir}&deg;`">
+                                        <div><i class="wi wi-wind text-xl"
+                                                :class="`wi-towards-${activeStationObs.wdirStr.toLowerCase()}`"></i>
+                                        </div>
+                                        <div class="text-2xl font-semibold ml-1" x-text="`${activeStationObs.wdirStr}`">
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +248,7 @@
                         <div x-show="activeVarPanel === 'wind'">
                             At <span class="font-semibold" x-text="activeStation.address"></span>, the wind at <span
                                 class="font-semibold" x-text="timeStr">12 nn</span> was blowing
-                            from <span class="font-semibold" x-text="`${activeStationObs.wdir}&deg;`">0&deg;</span> at
+                            from <span class="font-semibold" x-text="`${activeStationObs.wdirStr}`"></span> at
                             <span class="font-semibold" x-text="`${activeStationObs.wspd} m/s`">0 m/s</span>.
                         </div>
                         <!-- More Info Pressure Panel -->

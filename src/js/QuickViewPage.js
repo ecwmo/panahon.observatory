@@ -47,6 +47,26 @@ const loc2px = (stnLyr, map = "mm") => {
   });
 };
 
+const windDirDeg2Str = (val) => {
+  if (val === null || val < 0) return "";
+  if (val <= 22.5) return "N";
+  else if (val <= 45) return "NNE";
+  else if (val <= 67.5) return "NE";
+  else if (val <= 90) return "ENE";
+  else if (val <= 112.5) return "E";
+  else if (val <= 135) return "ESE";
+  else if (val <= 157.5) return "SE";
+  else if (val <= 180) return "SSE";
+  else if (val <= 202.5) return "S";
+  else if (val <= 225) return "SSW";
+  else if (val <= 247.5) return "SW";
+  else if (val <= 270) return "WSW";
+  else if (val <= 292.5) return "W";
+  else if (val <= 315) return "WNW";
+  else if (val <= 337.5) return "NW";
+  else return "NNW";
+};
+
 const formatStnObsValues = (stnObs, stnId) => {
   if (!stnObs[stnId]["checked"]) {
     Object.keys(stnObs[stnId]).forEach((k) => {
@@ -54,6 +74,9 @@ const formatStnObsValues = (stnObs, stnId) => {
         stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed() : 0;
       } else {
         stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed(1) : 0;
+      }
+      if (k === "wdir") {
+        stnObs[stnId]["wdirStr"] = windDirDeg2Str(stnObs[stnId][k]);
       }
     });
 

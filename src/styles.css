@@ -1,4 +1,5 @@
 @import "~weather-icons/css/weather-icons.css";
+@import "~weather-icons/css/weather-icons-wind.css";
 
 @tailwind base;
 @tailwind components;
