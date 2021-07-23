@@ -24,6 +24,29 @@ const dropInactiveStations = (stnLyr, validIds) => {
   });
 };
 
+const loc2px = (stnLyr, map = "mm") => {
+  const maxTop = 470;
+  const maxLeft = 400;
+
+  let latRange = [14.25, 14.9];
+  let lonRange = [120.85, 121.4];
+  if (map == "ph") {
+    latRange = [3.9, 21.85];
+    lonRange = [114.5, 129.8];
+  }
+
+  const dLat = latRange[1] - latRange[0];
+  const dLon = lonRange[1] - lonRange[0];
+
+  Object.keys(stnLyr).forEach((id) => {
+    const { lat, lon } = stnLyr[id];
+    const top = +((maxTop * (latRange[1] - lat)) / dLat).toFixed();
+    const left = +((maxLeft * (lon - lonRange[0])) / dLon).toFixed();
+
+    stnLyr[id] = { ...stnLyr[id], top, left };
+  });
+};
+
 const formatStnObsValues = (stnObs, stnId) => {
   if (!stnObs[stnId]["checked"]) {
     Object.keys(stnObs[stnId]).forEach((k) => {
@@ -79,6 +102,7 @@ function stationSelect() {
         this.stationIds = Object.keys(this.stationObs);
 
         dropInactiveStations(this.stationLayers[1], this.stationIds);
+        loc2px(this.stationLayers[1]);
 
         this.activeLayer = this.stationLayers[1];
         this.activeStationId = getSafeStationId(this.activeLayer);
@@ -94,6 +118,7 @@ function stationSelect() {
           .then((d) => {
             this.stationLayers[0] = d;
             dropInactiveStations(this.stationLayers[0], this.stationIds);
+            loc2px(this.stationLayers[0], "ph");
           });
       });
 
