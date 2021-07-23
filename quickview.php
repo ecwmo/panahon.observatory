@@ -113,10 +113,10 @@
                                     <div class="text-lg">TEMPERATURE (&deg;C)</div>
                                     <div class="text-4xl font-bold" x-text="activeStationObs.temp">
                                     </div>
-                                    <div class="flex justify-center items-end">
-                                        <div><i class="fas fa-thermometer-empty text-xl"></i></div>
-                                        <div class="text-2xl font-semibold mr-2" x-text="activeStationObs.tn"></div>
-                                        <div><i class="fas fa-thermometer-full text-xl"></i></div>
+                                    <div class="flex justify-center items-end gap-1">
+                                        <div class="pb-0.5">Min</div>
+                                        <div class="text-2xl font-semibold mr-1" x-text="activeStationObs.tn"></div>
+                                        <div class="pb-0.5">Max</div>
                                         <div class="text-2xl font-semibold" x-text="activeStationObs.tx"></div>
                                     </div>
                                 </div>
