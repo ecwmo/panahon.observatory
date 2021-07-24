@@ -153,7 +153,7 @@
                                     <div class="text-4xl font-bold" x-text="activeStationObs.wspd"></div>
                                     <div class="flex justify-center items-center">
                                         <div><i class="wi wi-wind text-xl"
-                                                :class="`wi-from-${activeStationObs.wdirStr.toLowerCase()}`"></i>
+                                                :class="activeStationObs.wdirStr ? `wi-from-${activeStationObs.wdirStr.toLowerCase()}` : ''"></i>
                                         </div>
                                         <div class="text-2xl font-semibold ml-1" x-text="`${activeStationObs.wdirStr}`">
                                         </div>
