@@ -77,13 +77,16 @@
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-lg">RAIN (mm)</div>
-                                    <div class="flex justify-between items-end gap-1">
-                                        <div class="text-lg font-light">hour</div>
-                                        <div class="text-4xl font-bold ml-1" x-text="activeStationObs.rr"></div>
+                                    <div class="flex justify-center items-end gap-1">
+                                        <div class="text-lg font-light">Now</div>
+                                        <div class="text-4xl font-bold ml-1.5" x-text="activeStationObs.rr"></div>
                                     </div>
-                                    <div class="flex justify-between items-end gap-1">
-                                        <div class="text-lg font-light">day</div>
-                                        <div class="text-4xl font-bold ml-1" x-text="activeStationObs.rain24h"></div>
+                                    <div class="flex justify-center items-end gap-1">
+                                        <div class="flex flex-col text-base font-light">
+                                            <div class="-mb-2.5">24hr</div>
+                                            <div>total</div>
+                                        </div>
+                                        <div class="text-4xl font-bold ml-1.5" x-text="activeStationObs.rain24h"></div>
                                     </div>
                                 </div>
                             </div>
