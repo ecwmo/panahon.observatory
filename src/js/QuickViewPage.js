@@ -20,35 +20,6 @@ const defaultStationObs = {
 
 const defaultStationId = "989003";
 
-const dropInactiveStations = (stnLyr, validIds) => {
-  Object.keys(stnLyr).forEach((id) => {
-    if (validIds.indexOf(id) === -1) delete stnLyr[id];
-  });
-};
-
-const loc2px = (stnLyr, map = "mm") => {
-  const maxTop = 470;
-  const maxLeft = 400;
-
-  let latRange = [14.25, 14.9];
-  let lonRange = [120.85, 121.4];
-  if (map == "ph") {
-    latRange = [3.9, 21.85];
-    lonRange = [114.5, 129.8];
-  }
-
-  const dLat = latRange[1] - latRange[0];
-  const dLon = lonRange[1] - lonRange[0];
-
-  Object.keys(stnLyr).forEach((id) => {
-    const { lat, lon } = stnLyr[id];
-    const top = +((maxTop * (latRange[1] - lat)) / dLat).toFixed();
-    const left = +((maxLeft * (lon - lonRange[0])) / dLon).toFixed();
-
-    stnLyr[id] = { ...stnLyr[id], top, left };
-  });
-};
-
 const windDirDeg2Str = (val) => {
   if (val === null || val < 0) return "";
   if (val <= 22.5) return "N";
@@ -80,48 +51,89 @@ const varRange = {
   },
 };
 
-const formatStnObsValues = (stnObs, stnId) => {
-  if (!stnObs[stnId]["checked"]) {
-    Object.keys(stnObs[stnId]).forEach((k) => {
-      if (["rr", "rain24h"].indexOf(k) !== -1) {
-        stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed() : 0;
-      } else {
-        stnObs[stnId][k] = stnObs[stnId][k] ? +stnObs[stnId][k].toFixed(1) : 0;
-      }
-      if (k === "wdir") {
-        stnObs[stnId]["wdirStr"] = windDirDeg2Str(stnObs[stnId][k]);
-      }
-    });
-
-    stnObs[stnId] = { ...stnObs[stnId], checked: true };
-  }
-  return stnObs[stnId];
+const dropInactiveStations = (stnLyr, validIds) => {
+  return Object.keys(stnLyr)
+    .filter((k) => validIds.includes(k))
+    .reduce((o, k) => {
+      o[k] = stnLyr[k];
+      return o;
+    }, {});
 };
 
-const setPtColor = (stn, stnObs, varName) => {
+const loc2px = (stnLyr, map = "mm") => {
+  const maxTop = 470;
+  const maxLeft = 400;
+
+  let latRange = [14.25, 14.9];
+  let lonRange = [120.85, 121.4];
+  if (map == "ph") {
+    latRange = [3.9, 21.85];
+    lonRange = [114.5, 129.8];
+  }
+
+  const dLat = latRange[1] - latRange[0];
+  const dLon = lonRange[1] - lonRange[0];
+
+  return Object.keys(stnLyr).reduce((o, k) => {
+    const { lat, lon } = stnLyr[k];
+    const top = +((maxTop * (latRange[1] - lat)) / dLat).toFixed();
+    const left = +((maxLeft * (lon - lonRange[0])) / dLon).toFixed();
+    o[k] = { ...stnLyr[k], top, left };
+    return o;
+  }, {});
+};
+
+const formatStnLayer = (stnLyr, stationObs, map = "mm") => {
+  const stationIds = Object.keys(stationObs);
+  let ret = dropInactiveStations(stnLyr, stationIds);
+  ret = loc2px(ret, map);
+  return Object.keys(ret).reduce((o, k) => {
+    o[k] = { ...ret[k], obs: stationObs[k] };
+    return o;
+  }, {});
+};
+
+const formatStnObsValues = (stnObs) => {
+  if (!stnObs["checked"]) {
+    return Object.keys(stnObs).reduce((o, k) => {
+      if (["wdirStr"].indexOf(k) === -1) {
+        if (["rr", "rain24h"].indexOf(k) !== -1) {
+          o[k] = stnObs[k] ? +stnObs[k].toFixed() : 0;
+        } else {
+          o[k] = stnObs[k] ? +stnObs[k].toFixed(1) : 0;
+        }
+      }
+      if (k === "wdir") {
+        o["wdirStr"] = windDirDeg2Str(stnObs[k]);
+      }
+      o["checked"] = true;
+      return o;
+    }, {});
+  }
+  return stnObs;
+};
+
+const setPtColor = (stn, varName) => {
+  let ret = stn;
   if (Object.keys(varRange).indexOf(varName) !== -1) {
-    Object.keys(stn).forEach((id) => {
-      let colors = {}.hasOwnProperty.call(stn[id], "colors")
-        ? stn[id]["colors"]
+    ret = Object.keys(ret).reduce((o, k) => {
+      let colors = {}.hasOwnProperty.call(ret[k], "colors")
+        ? ret[k]["colors"]
         : {};
       let _varName = varName === "rain" ? "rain24h" : varName;
+      o[k] = ret[k];
       if (!{}.hasOwnProperty.call(colors, varName)) {
-        let val = stnObs[id][_varName];
+        let val = o[k]["obs"][_varName];
         const _val =
           (val - varRange[varName].min) /
           (varRange[varName].max - varRange[varName].min);
         colors = { ...colors, [varName]: getColor(_val, varName) };
-        stn[id]["colors"] = colors;
+        o[k]["colors"] = colors;
       }
-    });
-  } else {
-    Object.keys(stn).forEach((id) => {
-      let colors = {}.hasOwnProperty.call(stn[id], "colors")
-        ? stn[id]["colors"]
-        : {};
-      stn[id]["colors"] = { ...colors, [varName]: null };
-    });
+      return o;
+    }, {});
   }
+  return ret;
 };
 
 const getSafeStationId = (stnLyr, stnId = null) => {
@@ -141,16 +153,10 @@ function stationSelect() {
     mapSrc: MM_MAP,
     mapAlt: "Topographical Map of the Philippines",
     activeLayer: null,
-    stationIds: [],
     stationLayers: [],
-    stationObs: [],
-    activeVarPanel: "rain",
-    activeStation: { name: "" },
+    activeVariable: "rain",
     activeStationId: null,
-    activeStationObs: defaultStationObs,
     timeStamp: new Date(),
-    timeStr: "",
-    dateTimeStr: "",
     showMoreInfo: false,
     init() {
       Promise.all([
@@ -159,30 +165,22 @@ function stationSelect() {
         fetch("/resources/station/stn_obs.json").then((res) => res.json()),
       ]).then((d) => {
         this.stationLayers = [[], d[0]];
-        this.stationObs = { ...d[1], ...d[2] };
+        const stationObs = { ...d[1], ...d[2] };
 
-        this.stationIds = Object.keys(this.stationObs);
+        this.stationLayers[1] = formatStnLayer(
+          this.stationLayers[1],
+          stationObs
+        );
 
-        dropInactiveStations(this.stationLayers[1], this.stationIds);
-        loc2px(this.stationLayers[1]);
-
-        this.activeLayer = this.stationLayers[1];
-        this.activeStationId = getSafeStationId(this.activeLayer);
-        this.activeStation = this.activeLayer[this.activeStationId];
-
-        setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
-
-        this.activeStationObs = formatStnObsValues(
-          this.stationObs,
-          this.activeStationId
+        this.activeLayer = setPtColor(
+          this.stationLayers[1],
+          this.activeVariable
         );
 
         fetch("/resources/station/stn_map_ph.json")
           .then((res) => res.json())
           .then((d) => {
-            this.stationLayers[0] = d;
-            dropInactiveStations(this.stationLayers[0], this.stationIds);
-            loc2px(this.stationLayers[0], "ph");
+            this.stationLayers[0] = formatStnLayer(d, stationObs, "ph");
           });
       });
 
@@ -190,12 +188,22 @@ function stationSelect() {
         .then((res) => res.json())
         .then((d) => {
           this.timeStamp = new Date(d.timestamp);
-          this.timeStr = formatDate(this.timeStamp, "h bbb");
-          this.dateTimeStr = formatDate(
-            this.timeStamp,
-            "MMMM d, yyyy h:00 bbb"
-          );
         });
+    },
+    get activeStation() {
+      if (!this.activeStationId) {
+        if (!this.activeLayer) return { name: "", obs: defaultStationObs };
+        this.activeStationId = getSafeStationId(this.activeLayer);
+      }
+      const activeStn = this.activeLayer[this.activeStationId];
+      activeStn.obs = formatStnObsValues(activeStn.obs);
+      return activeStn;
+    },
+    get timeStr() {
+      return formatDate(this.timeStamp, "h bbb");
+    },
+    get dateTimeStr() {
+      return formatDate(this.timeStamp, "MMMM d, yyyy h:00 bbb");
     },
     changeMap(name) {
       if (name === "mm") {
@@ -211,20 +219,11 @@ function stationSelect() {
         this.mapAlt = "Topographical Map of the Philippines";
         this.activeLayer = this.stationLayers[0];
       }
-      setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
+      this.activeLayer = setPtColor(this.activeLayer, this.activeVariable);
     },
-    handleStationChange() {
-      if (this.activeStation.name !== "") {
-        this.activeStation = this.activeLayer[this.activeStationId];
-        this.activeStationObs = formatStnObsValues(
-          this.stationObs,
-          this.activeStationId
-        );
-      }
-    },
-    setActiveVarPanel(varName) {
-      this.activeVarPanel = varName;
-      setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
+    setActiveVariable(varName) {
+      this.activeVariable = varName;
+      this.activeLayer = setPtColor(this.activeLayer, varName);
     },
   };
 }

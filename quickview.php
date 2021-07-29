@@ -21,7 +21,7 @@
                 </label>
             </div>
             <!-- Station Dropdown -->
-            <select x-model="activeStationId" x-effect="handleStationChange">
+            <select x-model="activeStationId">
                 <template x-for="(st, id) in activeLayer" :key="id">
                     <option :key="id" :value="id" x-text="st.address"></option>
                 </template>
@@ -37,11 +37,11 @@
                     <!-- Map -->
                     <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
                     <!-- Station Points -->
-                    <div class="absolute left-0 top-0" id="ph-map">
+                    <div class="absolute left-0 top-0">
                         <template x-for="(st, id) in activeLayer" :key="id">
                             <div class="absolute" :style="`top:${st.top}px;left:${st.left}px;`">
                                 <div class="group border border-black rounded-full h-2.5 w-2.5 cursor-pointer"
-                                    :style="st.colors ? `background-color:${st.colors[activeVarPanel]};` : ''" :key="id"
+                                    :style="st.colors ? `background-color:${st.colors[activeVariable]};` : ''" :key="id"
                                     @click="activeStationId = id">
                                     <div class="relative -mt-2 ml-1 w-36">
                                         <div
@@ -68,9 +68,9 @@
                     </div>
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
                         <!-- Info Rain Panel -->
-                        <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        <div :class="activeVariable === 'rain' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
                             class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
-                            id="prain" @click="setActiveVarPanel('rain')">
+                            id="prain" @click="setActiveVariable('rain')">
 
                             <div class="flex justify-evenly">
                                 <div class="flex items-center">
@@ -80,23 +80,23 @@
                                     <div class="text-lg">RAIN (mm)</div>
                                     <div class="flex justify-evenly items-end gap-1">
                                         <div class="text-lg font-light">Now</div>
-                                        <div class="text-4xl font-bold ml-1.5" x-text="activeStationObs.rr"></div>
+                                        <div class="text-4xl font-bold ml-1.5" x-text="activeStation.obs.rr"></div>
                                     </div>
                                     <div class="flex justify-evenly items-end gap-1 mt-0.5">
                                         <div class="text-base font-light pb-0.5">Day</div>
-                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStationObs.rainDay"></div>
+                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStation.obs.rainDay"></div>
                                     </div>
                                     <div class="flex justify-evenly items-end gap-1">
                                         <div class="flex flex-col text-sm font-light pb-0.5">
                                             <div class="-mb-2">24hr</div>
                                             <div>total</div>
                                         </div>
-                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStationObs.rain24h"></div>
+                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStation.obs.rain24h"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="group hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
-                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVarPanel === 'rain')">
+                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVariable === 'rain')">
                                 <i class="fas fa-info"></i>
                                 <div
                                     class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
@@ -109,9 +109,9 @@
                             </div>
                         </div>
                         <!-- Info Temperature Panel -->
-                        <div :class="activeVarPanel === 'temp' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        <div :class="activeVariable === 'temp' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
                             class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
-                            id="ptemp" @click="setActiveVarPanel('temp')">
+                            id="ptemp" @click="setActiveVariable('temp')">
 
                             <div class="flex justify-evenly">
                                 <div class="flex items-center">
@@ -119,18 +119,18 @@
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-lg">TEMPERATURE (&deg;C)</div>
-                                    <div class="text-4xl font-bold" x-text="activeStationObs.temp">
+                                    <div class="text-4xl font-bold" x-text="activeStation.obs.temp">
                                     </div>
                                     <div class="flex justify-center items-end gap-1">
                                         <div class="pb-0.5">Min</div>
-                                        <div class="text-2xl font-semibold mr-1" x-text="activeStationObs.tn"></div>
+                                        <div class="text-2xl font-semibold mr-1" x-text="activeStation.obs.tn"></div>
                                         <div class="pb-0.5">Max</div>
-                                        <div class="text-2xl font-semibold" x-text="activeStationObs.tx"></div>
+                                        <div class="text-2xl font-semibold" x-text="activeStation.obs.tx"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="group hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
-                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVarPanel === 'temp')">
+                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVariable === 'temp')">
                                 <i class="fas fa-info"></i>
                                 <div
                                     class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
@@ -145,9 +145,9 @@
                     </div>
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
                         <!-- Info Wind Panel -->
-                        <div :class="activeVarPanel === 'wind' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        <div :class="activeVariable === 'wind' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
                             class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
-                            id="pwind" @click="setActiveVarPanel('wind')">
+                            id="pwind" @click="setActiveVariable('wind')">
 
                             <div class="flex justify-evenly">
                                 <div class="flex items-center">
@@ -155,18 +155,19 @@
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-lg">WIND (m/s)</div>
-                                    <div class="text-4xl font-bold" x-text="activeStationObs.wspd"></div>
+                                    <div class="text-4xl font-bold" x-text="activeStation.obs.wspd"></div>
                                     <div class="flex justify-center items-center">
                                         <div><i class="wi wi-wind text-xl"
-                                                :class="activeStationObs.wdirStr ? `wi-from-${activeStationObs.wdirStr.toLowerCase()}` : ''"></i>
+                                                :class="activeStation.obs.wdirStr ? `wi-from-${activeStation.obs.wdirStr.toLowerCase()}` : ''"></i>
                                         </div>
-                                        <div class="text-2xl font-semibold ml-1" x-text="`${activeStationObs.wdirStr}`">
+                                        <div class="text-2xl font-semibold ml-1"
+                                            x-text="`${activeStation.obs.wdirStr}`">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="group hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
-                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVarPanel === 'wind')">
+                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVariable === 'wind')">
                                 <i class="fas fa-info"></i>
                                 <div
                                     class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
@@ -179,9 +180,9 @@
                             </div>
                         </div>
                         <!-- Info Pressure Panel -->
-                        <div :class="activeVarPanel === 'pres' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
+                        <div :class="activeVariable === 'pres' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
                             class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
-                            id="ppres" @click="setActiveVarPanel('pres')">
+                            id="ppres" @click="setActiveVariable('pres')">
 
                             <div class="flex justify-evenly">
                                 <div class="flex items-center">
@@ -189,11 +190,11 @@
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-lg">PRESSURE (hPa)</div>
-                                    <div class="text-4xl font-bold" x-text="activeStationObs.pres"></div>
+                                    <div class="text-4xl font-bold" x-text="activeStation.obs.pres"></div>
                                 </div>
                             </div>
                             <div class="group hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
-                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVarPanel === 'pres')">
+                                @click="showMoreInfo = true" x-show="!showMoreInfo & (activeVariable === 'pres')">
                                 <i class="fas fa-info"></i>
                                 <div
                                     class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
@@ -224,12 +225,12 @@
                     </div>
                     <div class="flex bg-blue-600 pt-5 px-5 border border-black border-l-0 break-normal text-left">
                         <!-- More Info Rain Panel -->
-                        <div x-show="activeVarPanel === 'rain'">
+                        <div x-show="activeVariable === 'rain'">
                             At <span class="font-semibold" x-text="activeStation.address"></span>, there was <span
-                                class="font-semibold" x-text="`${(activeStationObs.rr * 10.)} mm`">0 mm</span>
+                                class="font-semibold" x-text="`${(activeStation.obs.rr * 10.)} mm`">0 mm</span>
                             rainfall
                             received at <span class="font-semibold" x-text="timeStr">12 nn</span>. There have been <span
-                                class="font-semibold" x-text="`${activeStationObs.rain24h} mm`">0
+                                class="font-semibold" x-text="`${activeStation.obs.rain24h} mm`">0
                                 mm</span>
                             accumulated
                             rainfall for the past 24 hours. This is <span class="font-semibold">{ratio}%</span> of the
@@ -239,30 +240,30 @@
                             area which was <span class="font-semibold">{rain} mm</span>.
                         </div>
                         <!-- More Info Temperature Panel -->
-                        <div x-show="activeVarPanel === 'temp'">
+                        <div x-show="activeVariable === 'temp'">
                             At <span class="font-semibold" x-text="activeStation.address"></span>, the temperature at
                             <span class="font-semibold" x-text="timeStr">12 nn</span> was
-                            <span class="font-semibold" x-text="`${activeStationObs.temp} &deg;C`">32 &deg;C</span> but
-                            feels like <span class="font-semibold" x-text="`${activeStationObs.hi} &deg;C`">58
+                            <span class="font-semibold" x-text="`${activeStation.obs.temp} &deg;C`">32 &deg;C</span> but
+                            feels like <span class="font-semibold" x-text="`${activeStation.obs.hi} &deg;C`">58
                                 &deg;C</span>
                             because of the
                             humidity. In the past 24 hours, local temperature got up to <span class="font-semibold"
-                                x-text="`${activeStationObs.tx} &deg;C`">100 &deg;C</span> and
+                                x-text="`${activeStation.obs.tx} &deg;C`">100 &deg;C</span> and
                             got
-                            as low as <span class="font-semibold" x-text="`${activeStationObs.tn} &deg;C`">-10
+                            as low as <span class="font-semibold" x-text="`${activeStation.obs.tn} &deg;C`">-10
                                 &deg;C</span>.
                         </div>
                         <!-- More Info Wind Panel -->
-                        <div x-show="activeVarPanel === 'wind'">
+                        <div x-show="activeVariable === 'wind'">
                             At <span class="font-semibold" x-text="activeStation.address"></span>, the wind at <span
                                 class="font-semibold" x-text="timeStr">12 nn</span> was blowing
-                            from <span class="font-semibold" x-text="`${activeStationObs.wdirStr}`"></span> at
-                            <span class="font-semibold" x-text="`${activeStationObs.wspd} m/s`">0 m/s</span>.
+                            from <span class="font-semibold" x-text="`${activeStation.obs.wdirStr}`"></span> at
+                            <span class="font-semibold" x-text="`${activeStation.obs.wspd} m/s`">0 m/s</span>.
                         </div>
                         <!-- More Info Pressure Panel -->
-                        <div x-show="activeVarPanel === 'pres'">
+                        <div x-show="activeVariable === 'pres'">
                             At <span class="font-semibold" x-text="activeStation.address"></span>, the air pressure was
-                            <span class="font-semibold" x-text="`${activeStationObs.pres} mb`">0 mb</span>
+                            <span class="font-semibold" x-text="`${activeStation.obs.pres} mb`">0 mb</span>
                             at <span class="font-semibold" x-text="timeStr">12 nn</span>.
                         </div>
                     </div>
