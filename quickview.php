@@ -40,7 +40,8 @@
                     <div class="absolute left-0 top-0" id="ph-map">
                         <template x-for="(st, id) in activeLayer" :key="id">
                             <div class="absolute" :style="`top:${st.top}px;left:${st.left}px;`">
-                                <div class="group border border-black rounded-full h-2 w-2 cursor-pointer" :key="id"
+                                <div class="group border border-black rounded-full h-2.5 w-2.5 cursor-pointer"
+                                    :style="st.colors ? `background-color:${st.colors[activeVarPanel]};` : ''" :key="id"
                                     @click="activeStationId = id">
                                     <div class="relative -mt-2 ml-1 w-36">
                                         <div
@@ -68,25 +69,29 @@
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
                         <!-- Info Rain Panel -->
                         <div :class="activeVarPanel === 'rain' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
-                            class="relative flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="prain"
-                            @click="setActiveVarPanel('rain')">
+                            class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
+                            id="prain" @click="setActiveVarPanel('rain')">
 
-                            <div class="flex justify-center gap-4 p-2">
+                            <div class="flex justify-evenly">
                                 <div class="flex items-center">
                                     <i class="fas fa-cloud-rain text-5xl"></i>
                                 </div>
-                                <div class="flex flex-col gap-1">
+                                <div class="flex flex-col">
                                     <div class="text-lg">RAIN (mm)</div>
-                                    <div class="flex justify-center items-end gap-1">
+                                    <div class="flex justify-evenly items-end gap-1">
                                         <div class="text-lg font-light">Now</div>
                                         <div class="text-4xl font-bold ml-1.5" x-text="activeStationObs.rr"></div>
                                     </div>
-                                    <div class="flex justify-center items-end gap-1">
-                                        <div class="flex flex-col text-base font-light">
-                                            <div class="-mb-2.5">24hr</div>
+                                    <div class="flex justify-evenly items-end gap-1 mt-0.5">
+                                        <div class="text-base font-light pb-0.5">Day</div>
+                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStationObs.rainDay"></div>
+                                    </div>
+                                    <div class="flex justify-evenly items-end gap-1">
+                                        <div class="flex flex-col text-sm font-light pb-0.5">
+                                            <div class="-mb-2">24hr</div>
                                             <div>total</div>
                                         </div>
-                                        <div class="text-4xl font-bold ml-1.5" x-text="activeStationObs.rain24h"></div>
+                                        <div class="text-2xl font-bold ml-1.5" x-text="activeStationObs.rain24h"></div>
                                     </div>
                                 </div>
                             </div>
@@ -105,10 +110,10 @@
                         </div>
                         <!-- Info Temperature Panel -->
                         <div :class="activeVarPanel === 'temp' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
-                            class="relative flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="ptemp"
-                            @click="setActiveVarPanel('temp')">
+                            class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
+                            id="ptemp" @click="setActiveVarPanel('temp')">
 
-                            <div class="flex justify-center gap-4 p-2">
+                            <div class="flex justify-evenly">
                                 <div class="flex items-center">
                                     <i class="fas fa-thermometer-half text-5xl"></i>
                                 </div>
@@ -141,10 +146,10 @@
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
                         <!-- Info Wind Panel -->
                         <div :class="activeVarPanel === 'wind' ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800'"
-                            class="relative flex flex-col cursor-pointer py-3 px-2 border border-black w-60" id="pwind"
-                            @click="setActiveVarPanel('wind')">
+                            class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
+                            id="pwind" @click="setActiveVarPanel('wind')">
 
-                            <div class="flex justify-center gap-4 p-2">
+                            <div class="flex justify-evenly">
                                 <div class="flex items-center">
                                     <i class="fas fa-wind text-5xl"></i>
                                 </div>
@@ -178,7 +183,7 @@
                             class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
                             id="ppres" @click="setActiveVarPanel('pres')">
 
-                            <div class="flex justify-center gap-4 p-2">
+                            <div class="flex justify-evenly">
                                 <div class="flex items-center">
                                     <i class="wi wi-barometer text-5xl"></i>
                                 </div>

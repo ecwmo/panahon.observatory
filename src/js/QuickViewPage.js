@@ -1,5 +1,7 @@
 import { format as formatDate } from "date-fns";
 
+import { getColor } from "./color";
+
 const PH_MAP = "./resources/static/map/ph400.png";
 const MM_MAP = "./resources/static/map/mm400.png";
 
@@ -67,6 +69,17 @@ const windDirDeg2Str = (val) => {
   else return "NNW";
 };
 
+const varRange = {
+  rain: {
+    min: 0,
+    max: 25,
+  },
+  temp: {
+    min: 25,
+    max: 35,
+  },
+};
+
 const formatStnObsValues = (stnObs, stnId) => {
   if (!stnObs[stnId]["checked"]) {
     Object.keys(stnObs[stnId]).forEach((k) => {
@@ -83,6 +96,32 @@ const formatStnObsValues = (stnObs, stnId) => {
     stnObs[stnId] = { ...stnObs[stnId], checked: true };
   }
   return stnObs[stnId];
+};
+
+const setPtColor = (stn, stnObs, varName) => {
+  if (Object.keys(varRange).indexOf(varName) !== -1) {
+    Object.keys(stn).forEach((id) => {
+      let colors = {}.hasOwnProperty.call(stn[id], "colors")
+        ? stn[id]["colors"]
+        : {};
+      let _varName = varName === "rain" ? "rain24h" : varName;
+      if (!{}.hasOwnProperty.call(colors, varName)) {
+        let val = stnObs[id][_varName];
+        const _val =
+          (val - varRange[varName].min) /
+          (varRange[varName].max - varRange[varName].min);
+        colors = { ...colors, [varName]: getColor(_val, varName) };
+        stn[id]["colors"] = colors;
+      }
+    });
+  } else {
+    Object.keys(stn).forEach((id) => {
+      let colors = {}.hasOwnProperty.call(stn[id], "colors")
+        ? stn[id]["colors"]
+        : {};
+      stn[id]["colors"] = { ...colors, [varName]: null };
+    });
+  }
 };
 
 const getSafeStationId = (stnLyr, stnId = null) => {
@@ -131,6 +170,8 @@ function stationSelect() {
         this.activeStationId = getSafeStationId(this.activeLayer);
         this.activeStation = this.activeLayer[this.activeStationId];
 
+        setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
+
         this.activeStationObs = formatStnObsValues(
           this.stationObs,
           this.activeStationId
@@ -170,6 +211,7 @@ function stationSelect() {
         this.mapAlt = "Topographical Map of the Philippines";
         this.activeLayer = this.stationLayers[0];
       }
+      setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
     },
     handleStationChange() {
       if (this.activeStation.name !== "") {
@@ -182,6 +224,7 @@ function stationSelect() {
     },
     setActiveVarPanel(varName) {
       this.activeVarPanel = varName;
+      setPtColor(this.activeLayer, this.stationObs, this.activeVarPanel);
     },
   };
 }
