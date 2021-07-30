@@ -22,8 +22,10 @@
             </div>
             <!-- Station Dropdown -->
             <select x-model="activeStationId">
-                <template x-for="(st, id) in activeLayer" :key="id">
-                    <option :key="id" :value="id" x-text="st.address"></option>
+                <template x-if="stationLayer">
+                    <template x-for="(st, id) in stationLayer.features" :key="id">
+                        <option :key="id" :value="st.properties.id" x-text="st.properties.address"></option>
+                    </template>
                 </template>
             </select>
         </div>
@@ -33,30 +35,9 @@
                     <div class="text-lg font-semibold" x-text="activeStation.address"></div>
                     <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
                 </div>
-                <div class="relative shadow-lg" style="width:400px;">
+                <div class="relative shadow">
                     <!-- Map -->
-                    <img :alt="mapAlt" :src="mapSrc" class="object-contain" />
-                    <!-- Station Points -->
-                    <div class="absolute left-0 top-0">
-                        <template x-for="(st, id) in activeLayer" :key="id">
-                            <div class="absolute" :style="`top:${st.top}px;left:${st.left}px;`">
-                                <div class="group border border-black rounded-full h-2.5 w-2.5 cursor-pointer"
-                                    :style="st.colors ? `background-color:${st.colors[activeVariable]};` : ''" :key="id"
-                                    @click="activeStationId = id">
-                                    <div class="relative -mt-2 ml-1 w-36">
-                                        <div
-                                            class="absolute w-36 bottom-full right-1/2 px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none">
-                                            <span x-text="st.address"></span>
-                                            <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
-                                                viewBox="0 0 255 255" xml:space="preserve">
-                                                <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
+                    <div id="map" style='width: 400px; height: 470px;'> </div>
                 </div>
             </div>
             <div class="flex text-sm text-center items-center">

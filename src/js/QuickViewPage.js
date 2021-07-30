@@ -1,9 +1,7 @@
-import { format as formatDate } from "date-fns";
+import { format } from "date-fns";
+import mapboxgl, { Map } from "mapbox-gl";
 
 import { getColor } from "./color";
-
-const PH_MAP = "./resources/static/map/ph400.png";
-const MM_MAP = "./resources/static/map/mm400.png";
 
 const defaultStationObs = {
   rr: 0.0,
@@ -60,37 +58,21 @@ const dropInactiveStations = (stnLyr, validIds) => {
     }, {});
 };
 
-const loc2px = (stnLyr, map = "mm") => {
-  const maxTop = 470;
-  const maxLeft = 400;
-
-  let latRange = [14.25, 14.9];
-  let lonRange = [120.85, 121.4];
-  if (map == "ph") {
-    latRange = [3.9, 21.85];
-    lonRange = [114.5, 129.8];
-  }
-
-  const dLat = latRange[1] - latRange[0];
-  const dLon = lonRange[1] - lonRange[0];
-
-  return Object.keys(stnLyr).reduce((o, k) => {
-    const { lat, lon } = stnLyr[k];
-    const top = +((maxTop * (latRange[1] - lat)) / dLat).toFixed();
-    const left = +((maxLeft * (lon - lonRange[0])) / dLon).toFixed();
-    o[k] = { ...stnLyr[k], top, left };
-    return o;
-  }, {});
-};
-
-const formatStnLayer = (stnLyr, stationObs, map = "mm") => {
+const formatStnLayer = (stnLyr, stationObs) => {
   const stationIds = Object.keys(stationObs);
-  let ret = dropInactiveStations(stnLyr, stationIds);
-  ret = loc2px(ret, map);
-  return Object.keys(ret).reduce((o, k) => {
-    o[k] = { ...ret[k], obs: stationObs[k] };
-    return o;
-  }, {});
+  const ret = dropInactiveStations(stnLyr, stationIds);
+
+  return {
+    type: "FeatureCollection",
+    features: Object.keys(ret).map((k) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [ret[k].lon, ret[k].lat],
+      },
+      properties: { id: k, ...ret[k], obs: stationObs[k] },
+    })),
+  };
 };
 
 const formatStnObsValues = (stnObs) => {
@@ -113,34 +95,36 @@ const formatStnObsValues = (stnObs) => {
   return stnObs;
 };
 
-const setPtColor = (stn, varName) => {
-  let ret = stn;
+const setPtColor = (lyr, varName) => {
+  const { features } = lyr;
   if (Object.keys(varRange).indexOf(varName) !== -1) {
-    ret = Object.keys(ret).reduce((o, k) => {
-      let colors = {}.hasOwnProperty.call(ret[k], "colors")
-        ? ret[k]["colors"]
+    const newFeats = features.map((f) => {
+      const { properties: props } = f;
+      let colors = {}.hasOwnProperty.call(props, "colors")
+        ? props["colors"]
         : {};
       let _varName = varName === "rain" ? "rain24h" : varName;
-      o[k] = ret[k];
       if (!{}.hasOwnProperty.call(colors, varName)) {
-        let val = o[k]["obs"][_varName];
+        let val = props["obs"][_varName];
         const _val =
           (val - varRange[varName].min) /
           (varRange[varName].max - varRange[varName].min);
         colors = { ...colors, [varName]: getColor(_val, varName) };
-        o[k]["colors"] = colors;
+        props["colors"] = colors;
       }
-      return o;
-    }, {});
+      return { ...f, properties: props };
+    });
+    return { ...lyr, features: newFeats };
   }
-  return ret;
+  return lyr;
 };
 
-const getSafeStationId = (stnLyr, stnId = null) => {
-  const stdIds = Object.keys(stnLyr);
-  if (stnId === null || stdIds.indexOf(stnId) === -1) {
-    if (stdIds.indexOf(defaultStationId) === -1) {
-      return stnLyr[stdIds[0]];
+const getSafeStationId = ({ features: feats }, stnId = null) => {
+  if (!feats) return;
+  const stnIds = feats.map(({ properties: props }) => props.id);
+  if (stnId === null || stnIds.indexOf(stnId) === -1) {
+    if (stnIds.indexOf(defaultStationId) === -1) {
+      return stnIds[0];
     } else {
       return defaultStationId;
     }
@@ -148,40 +132,167 @@ const getSafeStationId = (stnLyr, stnId = null) => {
   return stnId;
 };
 
+mapboxgl.accessToken = process.env.MAPBOX_PUBLIC_TOKEN;
+
+const map = new Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/streets-v11",
+  center: [121.04, 14.56],
+  zoom: 9.5,
+});
+
+const dotSize = 100;
+
+// This implements `StyleImageInterface`
+// to draw a pulsing dot icon on the map.
+const pulsingDot = {
+  width: dotSize,
+  height: dotSize,
+  data: new Uint8Array(dotSize * dotSize * 4),
+
+  // When the layer is added to the map,
+  // get the rendering context for the map canvas.
+  onAdd: function () {
+    const canvas = document.createElement("canvas");
+    canvas.width = this.width;
+    canvas.height = this.height;
+    this.context = canvas.getContext("2d");
+  },
+
+  // Call once before every frame where the icon will be used.
+  render: function () {
+    const duration = 1600;
+    const t = (performance.now() % duration) / duration;
+
+    const radius = (dotSize / 2) * 0.3;
+    const outerRadius = (dotSize / 2) * 0.7 * t + radius;
+    const context = this.context;
+
+    // Draw the outer circle.
+    context.clearRect(0, 0, this.width, this.height);
+    context.beginPath();
+    context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2);
+    context.fillStyle = "rgba(255, 200, 200," + (1 - t) + ")";
+    context.fill();
+
+    // Draw the inner circle.
+    context.beginPath();
+    context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2);
+    context.fillStyle = "rgba(255, 100, 100, 0)";
+    context.strokeStyle = "white";
+    context.lineWidth = 2 + 4 * (1 - t);
+    context.fill();
+    context.stroke();
+
+    // Update this image's data with data from the canvas.
+    this.data = context.getImageData(0, 0, this.width, this.height).data;
+
+    // Continuously repaint the map, resulting
+    // in the smooth animation of the dot.
+    map.triggerRepaint();
+
+    // Return `true` to let the map know that the image was updated.
+    return true;
+  },
+};
+
 function stationSelect() {
   return {
-    mapSrc: MM_MAP,
-    mapAlt: "Topographical Map of the Philippines",
-    activeLayer: null,
-    stationLayers: [],
+    stationLayer: null,
     activeVariable: "rain",
     activeStationId: null,
     timeStamp: new Date(),
     showMoreInfo: false,
     init() {
       Promise.all([
-        fetch("/resources/station/stn_map_mm.json").then((res) => res.json()),
+        fetch("/resources/station/stn_map_ph.json").then((res) => res.json()),
         fetch("/resources/station/stn_mo_obs.json").then((res) => res.json()),
         fetch("/resources/station/stn_obs.json").then((res) => res.json()),
       ]).then((d) => {
-        this.stationLayers = [[], d[0]];
+        this.stationLayer = d[0];
         const stationObs = { ...d[1], ...d[2] };
 
-        this.stationLayers[1] = formatStnLayer(
-          this.stationLayers[1],
-          stationObs
-        );
+        this.stationLayer = formatStnLayer(this.stationLayer, stationObs);
 
-        this.activeLayer = setPtColor(
-          this.stationLayers[1],
-          this.activeVariable
-        );
+        this.stationLayer = setPtColor(this.stationLayer, this.activeVariable);
 
-        fetch("/resources/station/stn_map_ph.json")
-          .then((res) => res.json())
-          .then((d) => {
-            this.stationLayers[0] = formatStnLayer(d, stationObs, "ph");
+        map.on("load", () => {
+          map.addImage("pulsing-dot", pulsingDot, { pixelRatio: 2 });
+          map.addSource("station", {
+            type: "geojson",
+            data: this.stationLayer,
           });
+          map.addLayer({
+            id: "station-pts",
+            type: "circle",
+            source: "station",
+            paint: {
+              "circle-radius": 5,
+              "circle-stroke-color": "#000000",
+              "circle-stroke-width": 1,
+              "circle-color": [
+                "to-color",
+                ["get", this.activeVariable, ["get", "colors"]],
+              ],
+            },
+          });
+          map.addSource("dot-point", {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [
+                      this.activeStation.lon,
+                      this.activeStation.lat,
+                    ], // icon position [lng, lat]
+                  },
+                },
+              ],
+            },
+          });
+          map.addLayer({
+            id: "layer-with-pulsing-dot",
+            type: "symbol",
+            source: "dot-point",
+            layout: {
+              "icon-image": "pulsing-dot",
+            },
+          });
+
+          map.on("click", "station-pts", (e) => {
+            const { properties: props } = e.features[0];
+            this.activeStationId = props.id;
+            map.getSource("dot-point").setData({
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [
+                      this.activeStation.lon,
+                      this.activeStation.lat,
+                    ], // icon position [lng, lat]
+                  },
+                },
+              ],
+            });
+          });
+
+          // Change the cursor to a pointer when the mouse is over the places layer.
+          map.on("mouseenter", "station-pts", () => {
+            map.getCanvas().style.cursor = "pointer";
+          });
+
+          // Change it back to a pointer when it leaves.
+          map.on("mouseleave", "station-pts", () => {
+            map.getCanvas().style.cursor = "";
+          });
+        });
       });
 
       fetch("/resources/station/stn_obs_timestamp.json")
@@ -192,38 +303,45 @@ function stationSelect() {
     },
     get activeStation() {
       if (!this.activeStationId) {
-        if (!this.activeLayer) return { name: "", obs: defaultStationObs };
-        this.activeStationId = getSafeStationId(this.activeLayer);
+        if (!this.stationLayer) return { name: "", obs: defaultStationObs };
+        this.activeStationId = getSafeStationId(this.stationLayer);
       }
-      const activeStn = this.activeLayer[this.activeStationId];
-      activeStn.obs = formatStnObsValues(activeStn.obs);
+      let activeStn = this.stationLayer.features.find(
+        ({ properties: prop }) => prop.id === this.activeStationId
+      );
+      if (activeStn) {
+        activeStn = activeStn.properties;
+        activeStn.obs = formatStnObsValues(activeStn.obs);
+      }
       return activeStn;
     },
     get timeStr() {
-      return formatDate(this.timeStamp, "h bbb");
+      return format(this.timeStamp, "h bbb");
     },
     get dateTimeStr() {
-      return formatDate(this.timeStamp, "MMMM d, yyyy h:00 bbb");
+      return format(this.timeStamp, "MMMM d, yyyy h:00 bbb");
     },
     changeMap(name) {
       if (name === "mm") {
-        this.mapSrc = MM_MAP;
-        this.mapAlt = "Topographical Map of Metro Manila and Neighborhood";
-        this.activeLayer = this.stationLayers[1];
         this.activeStationId = getSafeStationId(
-          this.activeLayer,
+          this.stationLayer,
           this.activeStationId
         );
+        map.setCenter([121.04, 14.56]);
+        map.setZoom(9.5);
       } else {
-        this.mapSrc = PH_MAP;
-        this.mapAlt = "Topographical Map of the Philippines";
-        this.activeLayer = this.stationLayers[0];
+        map.setCenter([121.80434, 12.5549]);
+        map.setZoom(4.5);
       }
-      this.activeLayer = setPtColor(this.activeLayer, this.activeVariable);
     },
     setActiveVariable(varName) {
       this.activeVariable = varName;
-      this.activeLayer = setPtColor(this.activeLayer, varName);
+      this.stationLayer = setPtColor(this.stationLayer, varName);
+      map.getSource("station").setData(this.stationLayer);
+      map.setPaintProperty("station-pts", "circle-color", [
+        "to-color",
+        ["get", varName, ["get", "colors"]],
+      ]);
     },
   };
 }
