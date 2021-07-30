@@ -42,6 +42,12 @@ switch (urlPath) {
     });
     break;
   default:
-    Alpine.start();
+    import("./js/ModelPage").then(({ metFields, fcstTimes, modelSelect }) => {
+      window.metFields = metFields;
+      window.fcstTimes = fcstTimes;
+      Alpine.data("metFields", metFields);
+      Alpine.data("modelSelect", modelSelect);
+      Alpine.start();
+    });
     break;
 }
