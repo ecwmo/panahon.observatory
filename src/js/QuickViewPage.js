@@ -199,6 +199,7 @@ const pulsingDot = {
 function stationSelect() {
   return {
     stationLayer: null,
+    visibleStations: [],
     activeVariable: "rain",
     activeStationId: null,
     timeStamp: new Date(),
@@ -209,14 +210,21 @@ function stationSelect() {
         fetch("/resources/station/stn_mo_obs.json").then((res) => res.json()),
         fetch("/resources/station/stn_obs.json").then((res) => res.json()),
       ]).then((d) => {
-        this.stationLayer = d[0];
         const stationObs = { ...d[1], ...d[2] };
+        const [[minLon, minLat], [maxLon, maxLat]] = map.getBounds().toArray();
+
+        this.stationLayer = d[0];
 
         this.stationLayer = formatStnLayer(this.stationLayer, stationObs);
 
         this.stationLayer = setPtColor(this.stationLayer, this.activeVariable);
 
-        map.on("load", () => {
+        this.visibleStations = this.stationLayer.features.filter(
+          ({ properties: { lat, lon } }) =>
+            lat >= minLat && lat <= maxLat && lon >= minLon && lon <= maxLon
+        );
+
+        map.once("load", () => {
           map.addImage("pulsing-dot", pulsingDot, { pixelRatio: 2 });
           map.addSource("station", {
             type: "geojson",
@@ -276,6 +284,20 @@ function stationSelect() {
           // Change it back to a pointer when it leaves.
           map.on("mouseleave", "station-pts", () => {
             map.getCanvas().style.cursor = "";
+          });
+
+          map.on("zoomend", () => {
+            setTimeout(() => {
+              const visibleStations = map.queryRenderedFeatures({
+                layers: ["station-pts"],
+              });
+              const curIds = this.visibleStations.map((d) => d.properties.id);
+              const newIds = visibleStations.map((d) => d.properties.id);
+
+              if (curIds.sort().join(",") !== newIds.sort().join(",")) {
+                this.visibleStations = visibleStations;
+              }
+            }, 500);
           });
         });
       });
