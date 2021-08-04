@@ -266,21 +266,6 @@ function stationSelect() {
           map.on("click", "station-pts", (e) => {
             const { properties: props } = e.features[0];
             this.activeStationId = props.id;
-            map.getSource("dot-point").setData({
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [
-                      this.activeStation.lon,
-                      this.activeStation.lat,
-                    ], // icon position [lng, lat]
-                  },
-                },
-              ],
-            });
           });
 
           // Change the cursor to a pointer when the mouse is over the places layer.
@@ -342,6 +327,25 @@ function stationSelect() {
         "to-color",
         ["get", varName, ["get", "colors"]],
       ]);
+    },
+    handleStationIdChange() {
+      if (this.activeStationId) {
+        const dotPt = map.getSource("dot-point");
+        if (dotPt) {
+          dotPt.setData({
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [this.activeStation.lon, this.activeStation.lat], // icon position [lng, lat]
+                },
+              },
+            ],
+          });
+        }
+      }
     },
   };
 }

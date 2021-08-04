@@ -21,7 +21,7 @@
                 </label>
             </div>
             <!-- Station Dropdown -->
-            <select x-model="activeStationId">
+            <select x-model="activeStationId" x-effect="handleStationIdChange">
                 <template x-if="stationLayer">
                     <template x-for="(st, id) in stationLayer.features" :key="id">
                         <option :key="id" :value="st.properties.id" x-text="st.properties.address"></option>
