@@ -24,7 +24,7 @@
             <select x-model="activeStationId" x-effect="handleStationIdChange">
                 <template x-if="stationLayer">
                     <template x-for="(st, id) in stationLayer.features" :key="id">
-                        <option :key="id" :value="st.properties.id" x-text="st.properties.address"></option>
+                        <option :key="id" :value="st.properties.id" x-text="st.properties.name"></option>
                     </template>
                 </template>
             </select>
@@ -32,7 +32,7 @@
         <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
             <div class="flex md:flex md:flex-col hidden m-auto md:mx-0">
                 <div class="flex flex-col items-start mb-6" x-show="showMoreInfo">
-                    <div class="text-lg font-semibold" x-text="activeStation.address"></div>
+                    <div class="text-lg font-semibold" x-text="activeStation.name"></div>
                     <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
                 </div>
                 <div class="relative shadow">
@@ -44,7 +44,7 @@
                 <!-- Info Panel -->
                 <div class="flex flex-col items-center" :class="showMoreInfo ? '' : 'gap-2 md:gap-4'">
                     <div class="flex flex-col md:items-start w-full" :class="showMoreInfo ? 'md:hidden' : ''">
-                        <div class="text-lg font-semibold" x-text="activeStation.address"></div>
+                        <div class="text-lg font-semibold" x-text="activeStation.name"></div>
                         <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
                     </div>
                     <div class="flex" :class="showMoreInfo ? 'flex-col' : 'flex-col gap-2 md:flex-row md:gap-4'">
@@ -207,7 +207,7 @@
                     <div class="flex bg-blue-600 pt-5 px-5 border border-black border-l-0 break-normal text-left">
                         <!-- More Info Rain Panel -->
                         <div x-show="activeVariable === 'rain'">
-                            At <span class="font-semibold" x-text="activeStation.address"></span>, there was <span
+                            At <span class="font-semibold" x-text="activeStation.name"></span>, there was <span
                                 class="font-semibold" x-text="`${(activeStation.obs.rr * 10.)} mm`">0 mm</span>
                             rainfall
                             received at <span class="font-semibold" x-text="timeStr">12 nn</span>. There have been <span
@@ -222,7 +222,7 @@
                         </div>
                         <!-- More Info Temperature Panel -->
                         <div x-show="activeVariable === 'temp'">
-                            At <span class="font-semibold" x-text="activeStation.address"></span>, the temperature at
+                            At <span class="font-semibold" x-text="activeStation.name"></span>, the temperature at
                             <span class="font-semibold" x-text="timeStr">12 nn</span> was
                             <span class="font-semibold" x-text="`${activeStation.obs.temp} &deg;C`">32 &deg;C</span> but
                             feels like <span class="font-semibold" x-text="`${activeStation.obs.hi} &deg;C`">58
@@ -236,14 +236,14 @@
                         </div>
                         <!-- More Info Wind Panel -->
                         <div x-show="activeVariable === 'wind'">
-                            At <span class="font-semibold" x-text="activeStation.address"></span>, the wind at <span
+                            At <span class="font-semibold" x-text="activeStation.name"></span>, the wind at <span
                                 class="font-semibold" x-text="timeStr">12 nn</span> was blowing
                             from <span class="font-semibold" x-text="`${activeStation.obs.wdirStr}`"></span> at
                             <span class="font-semibold" x-text="`${activeStation.obs.wspd} m/s`">0 m/s</span>.
                         </div>
                         <!-- More Info Pressure Panel -->
                         <div x-show="activeVariable === 'pres'">
-                            At <span class="font-semibold" x-text="activeStation.address"></span>, the air pressure was
+                            At <span class="font-semibold" x-text="activeStation.name"></span>, the air pressure was
                             <span class="font-semibold" x-text="`${activeStation.obs.pres} mb`">0 mb</span>
                             at <span class="font-semibold" x-text="timeStr">12 nn</span>.
                         </div>
