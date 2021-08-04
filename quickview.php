@@ -63,10 +63,10 @@
                                         <div class="text-lg font-light">Now</div>
                                         <div class="text-4xl font-bold ml-1.5" x-text="activeStation.obs.rr"></div>
                                     </div>
-                                    <div class="flex justify-evenly items-end gap-1 mt-0.5">
+                                    <!-- <div class="flex justify-evenly items-end gap-1 mt-0.5">
                                         <div class="text-base font-light pb-0.5">Day</div>
                                         <div class="text-2xl font-bold ml-1.5" x-text="activeStation.obs.rainDay"></div>
-                                    </div>
+                                    </div> -->
                                     <div class="flex justify-evenly items-end gap-1">
                                         <div class="flex flex-col text-sm font-light pb-0.5">
                                             <div class="-mb-2">24hr</div>
