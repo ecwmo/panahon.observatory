@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import mapboxgl, { Map } from "mapbox-gl";
 
-import { getColor } from "./color";
+import { getColor, getSwatch } from "./color";
 
 const defaultStationObs = {
   rr: 0.0,
@@ -327,6 +327,17 @@ function stationSelect() {
     },
     get dateTimeStr() {
       return format(this.timeStamp, "MMMM d, yyyy h:00 bbb");
+    },
+    get swatches() {
+      const varName = this.activeVariable || "rain";
+      const valRange = varRange[varName];
+      if (valRange) return getSwatch(varName, valRange.min, valRange.max);
+      else return null;
+    },
+    get varUnit() {
+      if (this.activeVariable === "rain") return "mm";
+      else if (this.activeVariable === "temp") return "°C";
+      else return "";
     },
     changeMap(name) {
       if (name === "mm") {

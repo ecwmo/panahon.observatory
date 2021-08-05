@@ -35,9 +35,18 @@
                     <div class="text-lg font-semibold" x-text="activeStation.name"></div>
                     <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
                 </div>
-                <div class="relative shadow">
-                    <!-- Map -->
-                    <div id="map" style='width: 400px; height: 470px;'> </div>
+                <!-- Map -->
+                <div id="map" class="shadow" style='width: 400px; height: 470px;'> </div>
+                <div class="flex justify-center m-2">
+                    <template x-for="(sw, idx) in swatches" :key="sw.color">
+                        <div class="flex flex-col">
+                            <div class="w-8 h-5" :style="`background-color:${sw.color};`"></div>
+                            <template x-if="idx !== 0">
+                                <div class="text-xs -ml-1.5" x-text="sw.label"></div>
+                            </template>
+                        </div>
+                    </template>
+                    <div class="text-xs self-end -ml-3" x-text="varUnit"></div>
                 </div>
             </div>
             <div class="flex text-sm text-center items-center">

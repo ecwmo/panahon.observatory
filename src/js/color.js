@@ -17,17 +17,17 @@ const tempGradient = [
 ];
 
 const getGradient = (varName) => {
-  if (varName === "temp") {
-    return tempGradient;
-  } else {
-    return rainGradient;
-  }
+  if (varName === "temp") return tempGradient;
+  else if (varName === "rain") return rainGradient;
+  else return [];
 };
 
 const componentToHex = (c) => {
   let hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 };
+
+const rgbToHex = (rgb) => "#" + rgb.map(componentToHex).join("");
 
 const getColor = (val, varName) => {
   const gradient = getGradient(varName);
@@ -44,7 +44,19 @@ const getColor = (val, varName) => {
     return true;
   });
 
-  return "#" + rgb.map(componentToHex).join("");
+  return rgbToHex(rgb);
 };
 
-export { getColor };
+const getSwatch = (varName, minVal, maxVal) => {
+  const gradient = getGradient(varName);
+
+  return gradient.map((g) => {
+    const label = minVal + +((maxVal - minVal) * g[0]).toFixed();
+    return {
+      color: rgbToHex(g[1]),
+      label,
+    };
+  });
+};
+
+export { getColor, getSwatch };
