@@ -3,6 +3,25 @@ import mapboxgl, { Map } from "mapbox-gl";
 
 import { getColor, getSwatch } from "./color";
 
+const metVars = {
+  rain: {
+    name: "Rainfall",
+    units: "mm",
+    range: {
+      min: 0,
+      max: 25,
+    },
+  },
+  temp: {
+    name: "Temperature",
+    units: "°C",
+    range: {
+      min: 25,
+      max: 35,
+    },
+  },
+};
+
 const defaultStationObs = {
   rr: 0.0,
   temp: 0.0,
@@ -36,17 +55,6 @@ const windDirDeg2Str = (val) => {
   else if (val <= 315) return "WNW";
   else if (val <= 337.5) return "NW";
   else return "NNW";
-};
-
-const varRange = {
-  rain: {
-    min: 0,
-    max: 25,
-  },
-  temp: {
-    min: 25,
-    max: 35,
-  },
 };
 
 const dropInactiveStations = (stnLyr, validIds) => {
@@ -97,7 +105,7 @@ const formatStnObsValues = (stnObs) => {
 
 const setPtColor = (lyr, varName) => {
   const { features } = lyr;
-  if (Object.keys(varRange).indexOf(varName) !== -1) {
+  if (Object.keys(metVars).indexOf(varName) !== -1) {
     const newFeats = features.map((f) => {
       const { properties: props } = f;
       let colors = {}.hasOwnProperty.call(props, "colors")
@@ -107,8 +115,8 @@ const setPtColor = (lyr, varName) => {
       if (!{}.hasOwnProperty.call(colors, varName)) {
         let val = props["obs"][_varName];
         const _val =
-          (val - varRange[varName].min) /
-          (varRange[varName].max - varRange[varName].min);
+          (val - metVars[varName].range.min) /
+          (metVars[varName].range.max - metVars[varName].range.min);
         colors = { ...colors, [varName]: getColor(_val, varName) };
         props["colors"] = colors;
       }
@@ -139,6 +147,7 @@ const map = new Map({
   style: "mapbox://styles/mapbox/streets-v11",
   center: [121.04, 14.56],
   zoom: 9.5,
+  attributionControl: false,
 });
 
 const dotSize = 100;
@@ -332,13 +341,21 @@ function stationSelect() {
     },
     get swatches() {
       const varName = this.activeVariable || "rain";
-      const valRange = varRange[varName];
-      if (valRange) return getSwatch(varName, valRange.min, valRange.max);
-      else return null;
+      if (Object.keys(metVars).indexOf(varName) !== -1) {
+        const { min, max } = metVars[varName].range;
+        return getSwatch(varName, min, max);
+      } else return null;
+    },
+    get varName() {
+      const varName = this.activeVariable || "rain";
+      if (Object.keys(metVars).indexOf(varName) !== -1)
+        return metVars[this.activeVariable].name;
+      else return "";
     },
     get varUnit() {
-      if (this.activeVariable === "rain") return "mm";
-      else if (this.activeVariable === "temp") return "°C";
+      const varName = this.activeVariable || "rain";
+      if (Object.keys(metVars).indexOf(varName) !== -1)
+        return metVars[this.activeVariable].units;
       else return "";
     },
     changeMap(name) {
@@ -358,12 +375,10 @@ function stationSelect() {
       this.activeVariable = varName;
       if (colVars.indexOf(varName) === -1) {
         colVars.push(varName);
-
         this.stationLayer = setPtColor(this.stationLayer, varName);
-        console.log(colVars);
         map.getSource("station").setData(this.stationLayer);
       }
-      if (Object.keys(varRange).indexOf(varName) !== -1) {
+      if (Object.keys(metVars).indexOf(varName) !== -1) {
         map.setPaintProperty("station-pts", "circle-color", [
           "to-color",
           ["get", varName, ["get", "colors"]],

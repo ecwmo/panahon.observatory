@@ -35,18 +35,27 @@
                     <div class="text-lg font-semibold" x-text="activeStation.name"></div>
                     <div class="text-base italic font-light" x-text="`as of ${dateTimeStr}`"></div>
                 </div>
-                <!-- Map -->
-                <div id="map" class="shadow" style='width: 400px; height: 470px;'> </div>
-                <div class="flex justify-center m-2">
-                    <template x-for="(sw, idx) in swatches" :key="sw.color">
-                        <div class="flex flex-col">
-                            <div class="w-8 h-5" :style="`background-color:${sw.color};`"></div>
-                            <template x-if="idx !== 0">
-                                <div class="text-xs -ml-1.5" x-text="sw.label"></div>
+                <div class="relative">
+                    <!-- Map -->
+                    <div id="map" class="shadow" style='width: 400px; height: 470px;'> </div>
+                    <div x-show="swatches"
+                        class="absolute flex flex-col justify-center m-1 bottom-0 right-0 bg-white p-2 rounded-md shadow opacity-90"
+                        x-cloak>
+                        <div class="flex justify-center mb-2">
+                            <div class="text-xs font-semibold justify-center" x-text="`${varName} (${varUnit})`"></div>
+                        </div>
+                        <div class="flex">
+                            <template x-for="(sw, idx) in swatches" :key="sw.color">
+                                <div class="flex flex-col">
+                                    <div class="w-8 h-5 border border-black" :class="idx > 0 ? 'border-l-0' : ''"
+                                        :style="`background-color:${sw.color};`"></div>
+                                    <template x-if="idx !== 0">
+                                        <div class="text-xs self-center -ml-8" x-text="sw.label"></div>
+                                    </template>
+                                </div>
                             </template>
                         </div>
-                    </template>
-                    <div class="text-xs self-end -ml-3" x-text="varUnit"></div>
+                    </div>
                 </div>
             </div>
             <div class="flex text-sm text-center items-center">
