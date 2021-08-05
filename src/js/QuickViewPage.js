@@ -197,6 +197,7 @@ const pulsingDot = {
 };
 
 function stationSelect() {
+  const colVars = [];
   return {
     stationLayer: null,
     visibleStations: [],
@@ -217,6 +218,7 @@ function stationSelect() {
 
         this.stationLayer = formatStnLayer(this.stationLayer, stationObs);
 
+        colVars.push(this.activeVariable);
         this.stationLayer = setPtColor(this.stationLayer, this.activeVariable);
 
         this.visibleStations = this.stationLayer.features.filter(
@@ -354,12 +356,21 @@ function stationSelect() {
     },
     setActiveVariable(varName) {
       this.activeVariable = varName;
-      this.stationLayer = setPtColor(this.stationLayer, varName);
-      map.getSource("station").setData(this.stationLayer);
-      map.setPaintProperty("station-pts", "circle-color", [
-        "to-color",
-        ["get", varName, ["get", "colors"]],
-      ]);
+      if (colVars.indexOf(varName) === -1) {
+        colVars.push(varName);
+
+        this.stationLayer = setPtColor(this.stationLayer, varName);
+        console.log(colVars);
+        map.getSource("station").setData(this.stationLayer);
+      }
+      if (Object.keys(varRange).indexOf(varName) !== -1) {
+        map.setPaintProperty("station-pts", "circle-color", [
+          "to-color",
+          ["get", varName, ["get", "colors"]],
+        ]);
+      } else {
+        map.setPaintProperty("station-pts", "circle-color", "#ffffff");
+      }
     },
     handleStationIdChange() {
       if (this.activeStationId) {
