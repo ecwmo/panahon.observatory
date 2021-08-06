@@ -41,6 +41,12 @@ switch (urlPath) {
       Alpine.start();
     });
     break;
+  case "climate.php":
+    import("./js/ClimatePage").then(({ climateSelect }) => {
+      Alpine.data("climateSelect", climateSelect);
+      Alpine.start();
+    });
+    break;
   default:
     import("./js/ModelPage").then(({ metFields, fcstTimes, modelSelect }) => {
       window.metFields = metFields;
