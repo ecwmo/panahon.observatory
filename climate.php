@@ -33,15 +33,23 @@
         <div class="flex flex-col items-center space-y-2 mx-12 md:w-full">
             <h2 class="text-center font-semibold text-4xl">Climate Anomaly</h2>
             <div class="flex flex-col w-1/2">
-                <input type="range" name="decade" :min="minDecade" :max="maxDecade" step="10"
-                    x-model.number="activeDecade">
-                <div class="flex justify-between text-xs font-semibold -mt-0.5 mb-2 text-gray-600">
-                    <template x-for="(d, i) in decades" :key="d[0]">
-                        <span
-                            :class="{'text-left -ml-2': i === 0, 'text-right -mr-2': i === (decades.length-1), 'text-center hidden md:block': (i > 0) && (i < (decades.length-1))}"
-                            x-text="`${d[0]}`"></span>
-                    </template>
-                </div>
+                <fieldset class="w-full mb-2">
+                    <input type="range" name="decade" :min="minDecade" :max="maxDecade" step="10"
+                        x-model.number="activeDecade" class="relative w-full h-2 -bottom-1 m-0 cursor-pointer">
+                    <svg class="w-full px-2 overflow-visible stroke-current text-gray-500" role="presentation"
+                        height="5" xmlns="http://www.w3.org/2000/svg">
+                        <template x-for="(d, i) in decades" :key="d[0]">
+                            <rect class="" :x="`${100*i/(decades.length-1)}%`" y="3" width="0.5" height="5"></rect>
+                        </template>
+                    </svg>
+                    <svg class="w-full px-2 overflow-visible mt-1" role="presentation" height="10"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <template x-for="(d, i) in decades" :key="d[0]">
+                            <text class="text-xs font-semibold" :x="`${100*i/(decades.length-1)}%`" y="10"
+                                text-anchor="middle" x-text="d[0]"></text>
+                        </template>
+                    </svg>
+                </fieldset>
             </div>
             <div class="flex flex-col justify-center px-4">
                 <img class="object-center shadow-md rounded-2xl" :src="imgName" />
