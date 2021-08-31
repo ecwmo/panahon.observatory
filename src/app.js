@@ -8,7 +8,7 @@ const urlPaths = window.location.pathname.split("/");
 const urlPath = urlPaths[urlPaths.length - 1];
 
 switch (urlPath) {
-  case "index.php":
+  case "models.php":
     import("./js/ModelPage").then(({ metFields, fcstTimes, modelSelect }) => {
       window.metFields = metFields;
       window.fcstTimes = fcstTimes;
@@ -32,12 +32,6 @@ switch (urlPath) {
   case "new-report.php":
     import("./js/NewReportPage").then(({ newReport }) => {
       Alpine.data("newReport", newReport);
-      Alpine.start();
-    });
-    break;
-  case "quickview.php":
-    import("./js/QuickViewPage").then(({ stationSelect }) => {
-      Alpine.data("stationSelect", stationSelect);
       Alpine.start();
     });
     break;
@@ -69,11 +63,8 @@ switch (urlPath) {
     });
     break;
   default:
-    import("./js/ModelPage").then(({ metFields, fcstTimes, modelSelect }) => {
-      window.metFields = metFields;
-      window.fcstTimes = fcstTimes;
-      Alpine.data("metFields", metFields);
-      Alpine.data("modelSelect", modelSelect);
+    import("./js/QuickViewPage").then(({ stationSelect }) => {
+      Alpine.data("stationSelect", stationSelect);
       Alpine.start();
     });
     break;

@@ -31,14 +31,14 @@
 
     <link rel="shortcut icon" href="/resources/static/logo.png">
 
-    <?php if (in_array($curPage, ["quickview.php", "new-report.php"])) { ?>
+    <?php if (in_array($curPage, ["index.php", "new-report.php"])) { ?>
     <!-- FontAwesome -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/solid.min.css" />
     <?php } ?>
 
-    <?php if (in_array($curPage, ["quickview.php"])) { ?>
+    <?php if (in_array($curPage, ["index.php"])) { ?>
     <!-- Mapbox -->
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
     <?php } ?>
