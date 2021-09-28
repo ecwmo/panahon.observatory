@@ -18,6 +18,16 @@
         }
         echo "Weather and Climate Research - Manila Observatory";
     }
+
+    function getMainScript()
+    {
+        echo glob('./dist/main*.js')[0];
+    }
+
+    function getMainStyle()
+    {
+        echo glob('./dist/main*.css')[0];
+    }
 ?>
 
 <head>
@@ -43,5 +53,11 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
     <?php } ?>
 
-    <link href="/dist/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Main CSS -->
+    <link href="<?php getMainStyle() ?>" rel="stylesheet"
+        type="text/css" />
+
+    <!-- Main Script -->
+    <script defer src="<?php getMainScript() ?>" type="text/javascript">
+    </script>
 </head>

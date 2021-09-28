@@ -98,9 +98,6 @@
             Navigator,” will help motorists determine alternative routes during times of torrential rain and flooding.
         </p>
     </div>
-
-    <!-- Main Script -->
-    <script src="dist/main.js" type="text/javascript"></script>
 </body>
 
 </html>

@@ -55,9 +55,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Main Script -->
-    <script src="dist/main.js" type="text/javascript"></script>
 </body>
 
 </html>

@@ -8,6 +8,11 @@ module.exports = {
     "core-js/modules/es.array.iterator",
     path.resolve("./src/app.js"),
   ],
+  output: {
+    filename: "[name].[contenthash].js",
+    path: path.resolve("./dist"),
+    clean: true,
+  },
   module: {
     rules: [
       {
@@ -31,9 +36,6 @@ module.exports = {
   },
   plugins: [
     new Dotenv(),
-    new MiniCssExtractPlugin({
-      filename: "styles.css",
-      chunkFilename: "styles.css",
-    }),
+    new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
   ],
 };
