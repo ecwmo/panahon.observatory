@@ -21,12 +21,14 @@
 
     function getMainScript()
     {
-        echo glob('./dist/main*.js')[0];
+        $file = glob(LOCAL_PATH_ROOT.'/dist/main*.js')[0];
+        echo '/dist/' . basename($file);
     }
 
     function getMainStyle()
     {
-        echo glob('./dist/main*.css')[0];
+        $file = glob(LOCAL_PATH_ROOT.'/dist/main*.css')[0];
+        echo '/dist/' . basename($file);
     }
 ?>
 
