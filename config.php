@@ -3,5 +3,6 @@
     define('LDAP_USER_ATTR', 'uid');
     define('LDAP_DC', 'ou=people,dc=observatory,dc=ph');
 
-    define('RES_REPORTS_DIR', __DIR__.'/resources/reports');
-?>
+    define('LOCAL_PATH_ROOT', __DIR__);
+
+    define('RES_REPORTS_DIR', LOCAL_PATH_ROOT.'/resources/reports');
