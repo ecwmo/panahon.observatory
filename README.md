@@ -22,13 +22,13 @@
 ## Installation
 
 1. Clone the repo
-2. Install php dependencies
+2. Install php dependencies (`composer install`)
 3. Install js dependencies (`yarn`)
 4. Build (`yarn build`)
 
 ## Update
 
 1. `git pull`
-2. Install php dependencies
+2. Install php dependencies (`composer install`)
 3. Install js dependencies (`yarn`)
 4. Build (`yarn build`)
