@@ -49,17 +49,15 @@ function xcopy($source, $dest, $permissions = 0755)
  *
  * @param string $str Path to file or directory
  */
-function recursiveDelete($str) {
+function recursiveDelete($str)
+{
     if (is_file($str)) {
         return @unlink($str);
-    }
-    elseif (is_dir($str)) {
-        $scan = glob(rtrim($str,'/').'/*');
-        foreach($scan as $index=>$path) {
+    } elseif (is_dir($str)) {
+        $scan = glob(rtrim($str, '/').'/*');
+        foreach ($scan as $index=>$path) {
             recursiveDelete($path);
         }
         return @rmdir($str);
     }
 }
-
-?>

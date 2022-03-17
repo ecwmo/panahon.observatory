@@ -21,7 +21,6 @@
         "staticImgs" => $reportSImgs
     ];
 
-    header('Content-Type: application/json'); 
+    header('Content-Type: application/json');
 
     echo str_replace("..", "", json_encode($data));
-?>

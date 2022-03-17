@@ -5,7 +5,7 @@ require_once(__DIR__.'/../config.php');
 
 ini_set('max_execution_time', 300);
 
-if(isset($_POST['upload']) && isset($_FILES['report']['name'])){
+if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
     $formStatus = 'loading';
     try {
         $reportFile = $_FILES['report'];
@@ -28,7 +28,7 @@ if(isset($_POST['upload']) && isset($_FILES['report']['name'])){
             unlink($reportLocalPath);
         }
 
-        if(move_uploaded_file($reportFile['tmp_name'], $reportLocalPath)){
+        if (move_uploaded_file($reportFile['tmp_name'], $reportLocalPath)) {
             $cfg = new Config_Lite(RES_REPORTS_DIR.'/report.ini', LOCK_EX);
             $cfg->set('draft', 'tccode', $tccode);
             $cfg->set('draft', 'reportnum', $repnum);
@@ -38,7 +38,7 @@ if(isset($_POST['upload']) && isset($_FILES['report']['name'])){
         $images = new imagick();
         $images->setResolution(144, 144);
         $images->readImage($reportLocalPath);
-        foreach($images as $i=>$image) {
+        foreach ($images as $i=>$image) {
             // $image->setImageFormat('png');
             $num = sprintf('%03d', $i);
             $suff = uniqid();
@@ -53,5 +53,3 @@ if(isset($_POST['upload']) && isset($_FILES['report']['name'])){
         echo $e;
     }
 }
-
-?>

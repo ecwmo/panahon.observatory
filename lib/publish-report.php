@@ -3,7 +3,7 @@ require_once "Config/Lite.php";
 require_once(__DIR__.'/helper.php');
 require_once(__DIR__.'/../config.php');
 
-if(isset($_POST['publish'])) {
+if (isset($_POST['publish'])) {
     $cfg = new Config_Lite(RES_REPORTS_DIR.'/report.ini', LOCK_EX);
     $tccode = $cfg->get("draft", "tccode");
     $repnum = $cfg->get("draft", "reportnum");
@@ -14,5 +14,3 @@ if(isset($_POST['publish'])) {
 
     header("Location: /new-report.php?published");
 }
-
-?>
