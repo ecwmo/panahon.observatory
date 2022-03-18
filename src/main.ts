@@ -5,10 +5,13 @@ import 'weather-icons/css/weather-icons-wind.css'
 import Alpine from 'alpinejs'
 import { createApp } from 'vue'
 
+import Header from '@/components/Header.vue'
+
 const urlPaths = window.location.pathname.split('/')
 const urlPath = urlPaths[urlPaths.length - 1]
 
 const app = createApp({})
+app.component('v-header', Header)
 app.mount('#app')
 
 switch (urlPath) {
