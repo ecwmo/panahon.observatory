@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import { fileURLToPath } from 'url'
 
-const _dirname = typeof __dirname !== 'undefined' ? __dirname : dirname(fileURLToPath(import.meta.url))
-
+// https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
   base: command === 'serve' ? '' : '/public/build/',
   publicDir: false,
@@ -14,9 +13,14 @@ export default defineConfig(({ command }) => ({
       input: 'src/main.ts',
     },
   },
+  plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(_dirname, './src'),
+      '@': resolve(__dirname, 'src'),
+      vue: 'vue/dist/vue.esm-bundler.js',
     },
+  },
+  optimizeDeps: {
+    include: ['axios', 'vue'],
   },
 }))

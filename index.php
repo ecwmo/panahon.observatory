@@ -3,6 +3,7 @@
 <?php include_once('./components/head.php'); ?>
 
 <body class="flex flex-col md:w-max mx-auto bg-gray-600">
+  <div id="app"></div>
   <?php include_once('./components/header.php'); ?>
   <div class="bg-gray-300 border border-t-0 border-black flex flex-col items-center" x-data="stationSelect()">
     <div class="w-full flex flex-col md:flex-row bg-gray-400 border-b border-black text-xs p-3 gap-2 content-center">

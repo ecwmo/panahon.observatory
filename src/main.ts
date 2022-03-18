@@ -3,9 +3,13 @@ import 'weather-icons/css/weather-icons.css'
 import 'weather-icons/css/weather-icons-wind.css'
 
 import Alpine from 'alpinejs'
+import { createApp } from 'vue'
 
 const urlPaths = window.location.pathname.split('/')
 const urlPath = urlPaths[urlPaths.length - 1]
+
+const app = createApp({})
+app.mount('#app')
 
 switch (urlPath) {
   case 'models.php':
