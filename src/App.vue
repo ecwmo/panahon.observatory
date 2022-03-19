@@ -1,8 +1,6 @@
 <template>
   <Header />
-  <div class="bg-gray-300 border border-t-0 border-black flex flex-col items-center">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script lang="ts">

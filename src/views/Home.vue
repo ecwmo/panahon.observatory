@@ -1,36 +1,40 @@
 <template>
-  <div class="w-full flex flex-col md:flex-row bg-gray-400 border-b border-black text-xs p-3 gap-2 content-center">
-    <!-- Map Switcher -->
-    <div class="flex gap-1.5">
-      <span class="hidden md:block">Map:</span>
-      <label class="inline-flex items-center">
-        <input type="radio" class="h-3 w-3" v-model="mapScope" value="ph" /><span class="ml-1">Philippines</span>
-      </label>
-      <label class="inline-flex items-center">
-        <input type="radio" class="h-3 w-3" v-model="mapScope" value="mm" /><span class="ml-1">Metro Manila</span>
-      </label>
+  <div class="bg-gray-300 border border-t-0 border-black flex flex-col items-center">
+    <div class="w-full flex flex-col md:flex-row bg-gray-400 border-b border-black text-xs p-3 gap-2 content-center">
+      <!-- Map Switcher -->
+      <div class="flex gap-1.5">
+        <span class="hidden md:block">Map:</span>
+        <label class="inline-flex items-center">
+          <input type="radio" class="h-3 w-3" v-model="mapScope" value="ph" /><span class="ml-1">Philippines</span>
+        </label>
+        <label class="inline-flex items-center">
+          <input type="radio" class="h-3 w-3" v-model="mapScope" value="mm" /><span class="ml-1">Metro Manila</span>
+        </label>
+      </div>
+      <!-- Station Dropdown -->
+      <select v-model="activeStationId">
+        <option v-for="(st, id) in visibleStations" :key="id" :value="st.properties.id">
+          {{ st.properties.name }}
+        </option>
+      </select>
     </div>
-    <!-- Station Dropdown -->
-    <select v-model="activeStationId">
-      <option v-for="(st, id) in visibleStations" :key="id" :value="st.properties.id">{{ st.properties.name }}</option>
-    </select>
-  </div>
-  <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
-    <MapBox
-      class="flex md:flex md:flex-col hidden m-auto md:mx-0"
-      :data="stationLayer"
-      :activeVariable="activeVariable"
-      :mapScope="mapScope"
-      v-model:activeStationId="activeStationId"
-      v-model:visibleStations="visibleStations"
-    />
-    <div class="flex text-sm text-center items-center">
-      <div class="flex flex-col items-center gap-2 md:gap-4">
-        <div class="flex flex-col md:items-start w-full">
-          <div class="text-lg font-semibold">{{ activeStation.name }}</div>
-          <div class="text-base italic font-light">{{ `as of ${formatDate()}` }}</div>
+    <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
+      <MapBox
+        class="flex md:flex md:flex-col hidden m-auto md:mx-0"
+        :data="stationLayer"
+        :activeVariable="activeVariable"
+        :mapScope="mapScope"
+        v-model:activeStationId="activeStationId"
+        v-model:visibleStations="visibleStations"
+      />
+      <div class="flex text-sm text-center items-center">
+        <div class="flex flex-col items-center gap-2 md:gap-4">
+          <div class="flex flex-col md:items-start w-full">
+            <div class="text-lg font-semibold">{{ activeStation.name }}</div>
+            <div class="text-base italic font-light">{{ `as of ${formatDate()}` }}</div>
+          </div>
+          <InfoPanel :data="activeStation" :timestamp="timeStamp" v-model="activeVariable" />
         </div>
-        <InfoPanel :data="activeStation" :timestamp="timeStamp" v-model="activeVariable" />
       </div>
     </div>
   </div>
