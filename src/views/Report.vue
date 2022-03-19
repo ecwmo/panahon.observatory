@@ -25,6 +25,7 @@
 <script lang="ts">
   import { defineComponent, ref, onMounted, computed } from 'vue'
   import axios from 'axios'
+  import { useRoute } from 'vue-router'
 
   interface Images {
     [key: string]: { imgSrc: string; show: boolean }[]
@@ -34,12 +35,12 @@
     setup() {
       const imgRefs = ref(<Element[]>[])
       const imgSrcs = ref(<Images>{})
+      const route = useRoute()
 
       const showStaticImgs = computed(() => (imgSrcs.value.staticImgs ? imgSrcs.value.staticImgs.length > 0 : false))
 
       onMounted(async () => {
-        const urlParams = new URLSearchParams(window.location.search)
-        const rData = await axios.get(`/lib/fetch-report.php?view=${urlParams.get('view')}`).then(({ data }) => data)
+        const rData = await axios.get(`/lib/fetch-report.php?view=${route.query.view}`).then(({ data }) => data)
 
         const reportImgs = rData.reportImgs.map((imgSrc: string, idx: number) => ({
           show: idx < 1 ? true : false,
