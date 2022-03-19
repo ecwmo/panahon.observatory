@@ -72,9 +72,5 @@ switch (urlPath) {
     })
     break
   default:
-    import('@/scripts/QuickViewPage').then(({ stationSelect }) => {
-      Alpine.data('stationSelect', stationSelect)
-      Alpine.start()
-    })
     break
 }
