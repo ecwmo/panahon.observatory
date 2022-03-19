@@ -1,0 +1,60 @@
+<template>
+  <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
+    <div class="m-6 space-y-6">
+      <img
+        v-for="(img, idx) in imgSrcs.reportImgs"
+        :key="idx"
+        class="border border-black shadow-md rounded-2xl"
+        :src="img.imgSrc"
+      />
+    </div>
+    <div class="mx-6 border border-black shadow-md rounded-2xl bg-white" v-show="showStaticImgs">
+      <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
+    </div>
+    <div class="m-6 space-y-6">
+      <img
+        v-for="(img, idx) in imgSrcs.staticImgs"
+        :key="idx"
+        class="border border-black shadow-md rounded-2xl"
+        :src="img.imgSrc"
+      />
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+  import { defineComponent, ref, onMounted, computed } from 'vue'
+  import axios from 'axios'
+
+  interface Images {
+    [key: string]: { imgSrc: string; show: boolean }[]
+  }
+
+  export default defineComponent({
+    setup() {
+      const imgRefs = ref(<Element[]>[])
+      const imgSrcs = ref(<Images>{})
+
+      const showStaticImgs = computed(() => (imgSrcs.value.staticImgs ? imgSrcs.value.staticImgs.length > 0 : false))
+
+      onMounted(async () => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const rData = await axios.get(`/lib/fetch-report.php?view=${urlParams.get('view')}`).then(({ data }) => data)
+
+        const reportImgs = rData.reportImgs.map((imgSrc: string, idx: number) => ({
+          show: idx < 1 ? true : false,
+          imgSrc,
+        }))
+
+        const staticImgs = rData.staticImgs.map((imgSrc: string) => ({
+          show: false,
+          imgSrc,
+        }))
+
+        imgSrcs.value = { reportImgs, staticImgs }
+      })
+
+      return { imgRefs, imgSrcs, showStaticImgs }
+    },
+  })
+</script>
