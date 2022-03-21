@@ -41,15 +41,16 @@
 </template>
 
 <script lang="ts">
-  import { ref, computed, onMounted, defineComponent } from 'vue'
+  import { ref, computed, onMounted, defineComponent, defineAsyncComponent } from 'vue'
   import axios from 'axios'
   import { format } from 'date-fns'
 
   import { StationLayer, formatStnLayer } from '@/scripts/weather'
 
   import Header from '@/components/Header.vue'
-  import MapBox from '@/components/MapBox.vue'
-  import InfoPanel from '@/components/InfoPanel.vue'
+
+  const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
+  const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   export default defineComponent({
     components: { Header, MapBox, InfoPanel },
