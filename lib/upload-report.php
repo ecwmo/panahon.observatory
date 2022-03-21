@@ -48,7 +48,8 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
 
         xcopy($imgDraftDir, $imgDir);
 
-        header("Location: /new-report.php?uploaded");
+        header('Content-Type: application/json');
+        echo json_encode('success');
     } catch (Exception $e) {
         echo $e;
     }

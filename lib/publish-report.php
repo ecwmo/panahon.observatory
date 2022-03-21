@@ -12,5 +12,6 @@ if (isset($_POST['publish'])) {
     $cfg->set("public", "reportnum", $repnum);
     $cfg->save();
 
-    header("Location: /new-report.php?published");
+    header('Content-Type: application/json');
+    echo json_encode('success');
 }
