@@ -146,3 +146,17 @@
     },
   })
 </script>
+
+<style>
+  .model-caption a {
+    @apply underline text-blue-600;
+  }
+
+  .model-caption a:hover {
+    @apply underline text-blue-400;
+  }
+
+  .model-caption-img {
+    @apply pt-5;
+  }
+</style>
