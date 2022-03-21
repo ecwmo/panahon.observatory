@@ -1,15 +1,15 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import Home from '@/views/Home.vue'
-import Models from '@/views/Models.vue'
-import Climate from '@/views/Climate.vue'
-import Report from '@/views/Report.vue'
+const Home = () => import('@/views/Home.vue')
+const Models = () => import('@/views/Models.vue')
+const Climate = () => import('@/views/Climate.vue')
+const Report = () => import('@/views/Report.vue')
 
-import NewReport from '@/views/NewReport.vue'
+const NewReport = () => import('@/views/NewReport.vue')
 
-import Login from '@/views/auth/Login.vue'
+const Login = () => import('@/views/auth/Login.vue')
 
-import FAQ from '@/views/Faq.vue'
+const FAQ = () => import('@/views/Faq.vue')
 
 const routes = [
   {
