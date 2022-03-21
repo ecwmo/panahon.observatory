@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__.'/../config.php');
+    include_once(__DIR__.'/../start.php');
 
     $ROOT_IMG_DIR = '../resources/model/web_img';
 

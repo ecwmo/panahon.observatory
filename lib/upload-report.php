@@ -1,7 +1,7 @@
 <?php
 require_once 'Config/Lite.php';
 require_once(__DIR__.'/helper.php');
-require_once(__DIR__.'/../config.php');
+require_once(__DIR__.'/../start.php');
 
 ini_set('max_execution_time', 300);
 

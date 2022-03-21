@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__.'/../config.php');
+    include_once(__DIR__.'/../start.php');
 
     $json = file_get_contents('php://input');
     $data = json_decode($json);

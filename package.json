@@ -10,7 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/types": "^7.17.0",
-    "@types/alpinejs": "^3.7.0",
     "@types/mapbox-gl": "^2.6.3",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
@@ -28,8 +27,6 @@
     "vue-tsc": "^0.33.2-patch.1"
   },
   "dependencies": {
-    "@alpinejs/intersect": "^3.9.1",
-    "alpinejs": "^3.9.1",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
     "mapbox-gl": "^2.3.1",

@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__.'/../config.php');
+    include_once(__DIR__.'/../start.php');
     require_once 'Config/Lite.php';
     $cfg = new Config_Lite(RES_REPORTS_DIR.'/report.ini', LOCK_EX);
 

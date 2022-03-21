@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__.'/../config.php');
+    include_once(__DIR__.'/../start.php');
 
     $pages = array('reports' => "Extreme Weather Report");
 
