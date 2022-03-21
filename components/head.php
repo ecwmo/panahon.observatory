@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__.'/../start.php');
+    include_once(__DIR__ . '/../start.php');
 
     $pages = array('reports' => "Extreme Weather Report");
 
@@ -42,12 +42,12 @@
         }
 
         $manifest = json_decode(file_get_contents(
-            LOCAL_PATH_ROOT. '/public/build/manifest.json'
+            LOCAL_PATH_ROOT. '/dist/manifest.json'
         ), true);
 
         return <<<HTML
-        <script type="module" src="{$subURL}/public/build/{$manifest['src/main.ts']['file']}"></script>
-        <link rel="stylesheet" href="{$subURL}/public/build/{$manifest['src/main.ts']['css'][0]}">
+        <link rel="stylesheet" href="{$subURL}/dist/{$manifest['src/main.ts']['css'][0]}" />
+        <script type="module" src="{$subURL}/dist/{$manifest['src/main.ts']['file']}"></script>
     HTML;
     }
 ?>

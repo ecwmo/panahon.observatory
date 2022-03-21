@@ -3,12 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '' : '/public/build/',
-  publicDir: false,
+export default defineConfig({
   build: {
     manifest: true,
-    outDir: 'public/build',
     rollupOptions: {
       input: 'src/main.ts',
     },
@@ -23,4 +20,4 @@ export default defineConfig(({ command }) => ({
   optimizeDeps: {
     include: ['axios', 'vue'],
   },
-}))
+})
