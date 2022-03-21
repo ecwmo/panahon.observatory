@@ -5,6 +5,10 @@ import Models from '@/views/Models.vue'
 import Climate from '@/views/Climate.vue'
 import Report from '@/views/Report.vue'
 
+import NewReport from '@/views/NewReport.vue'
+
+import Login from '@/views/auth/Login.vue'
+
 import FAQ from '@/views/Faq.vue'
 
 const routes = [
@@ -32,6 +36,16 @@ const routes = [
     path: '/faq',
     name: 'FAQ',
     component: FAQ,
+  },
+  {
+    path: '/newreport',
+    name: 'NewReport',
+    component: NewReport,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
 ]
 
