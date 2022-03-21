@@ -20,49 +20,78 @@
       :class="{ hidden: !mobileMenuOpen }"
     >
       <ul class="md:flex flex-col md:flex-row">
-        <li
+        <router-link
           v-for="p in lPages"
           :key="p.name"
+          :to="p.to"
+          :class="{ 'text-gray-100 bg-blue-600': activePage === p.name }"
           class="py-1 px-2 border-b md:border-r md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
         >
-          <a :href="p.href" :title="p.description">{{ p.label }}</a>
-        </li>
+          {{ p.label }}
+        </router-link>
       </ul>
       <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l-0 border-black">
-        <li
+        <a
+          v-show="isLoggedIn"
+          @click.prevent="handleLogout"
+          href="#"
+          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
+          >Logout</a
+        >
+        <router-link
           v-for="p in rPages"
           :key="p.name"
+          :to="p.to"
+          :class="{ 'text-gray-100 bg-blue-600': activePage === p.name }"
           class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
         >
-          <a :href="p.href" :title="p.description">{{ p.label }}</a>
-        </li>
+          {{ p.label }}
+        </router-link>
       </ul>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-  import { ref, defineComponent } from 'vue'
+  import { defineComponent, ref, computed } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
+  import useAuth from '@/composables/useAuth'
 
   export default defineComponent({
     setup() {
+      const route = useRoute()
+      const router = useRouter()
       const mobileMenuOpen = ref(false)
+
+      const { isLoggedIn, logout } = useAuth()
 
       const lPages = [
         {
           name: 'index',
           description: 'Latest Summaries - Weather Conditions and Maps',
           label: 'Quick View',
-          href: '/',
+          to: '/',
         },
-        { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', href: 'models.php' },
-        { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', href: 'climate.php' },
-        { name: 'reports', description: 'Tropical Cyclone Report', label: 'Reports', href: 'reports.php' },
+        { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: '/models' },
+        { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: '/climate' },
+        { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
       ]
 
-      const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', href: 'faq.php' }]
+      const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
 
-      return { mobileMenuOpen, lPages, rPages }
+      const handleLogout = async () => {
+        await logout()
+        if (route.name === 'NewReport') router.push('/login')
+      }
+
+      const activePage = computed(() => {
+        const page = route.path.substring(1)
+        if (page === '') return 'index'
+        return page
+      })
+
+      return { mobileMenuOpen, activePage, lPages, rPages, isLoggedIn, handleLogout }
     },
   })
 </script>
