@@ -59,15 +59,9 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Experimental model forecasts for the Philippine" />
+  <meta name="description" content="Panahon - Manila Observatory" />
 
   <link rel="shortcut icon" href="/resources/static/logo.png">
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/solid.min.css" />
-
 
   <?php echo vite_assets(); ?>
 </head>

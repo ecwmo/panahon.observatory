@@ -7,4 +7,13 @@ import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
 
-createApp(App).use(router).use(store).mount('#app')
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt)
+dom.watch()
+
+const app = createApp(App)
+app.component('fa-icon', FontAwesomeIcon)
+app.use(router).use(store).mount('#app')
