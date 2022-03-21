@@ -1,20 +1,6 @@
 <?php
     include_once(__DIR__ . '/../start.php');
 
-    $pages = array('reports' => "Extreme Weather Report");
-
-    $curPage = basename($_SERVER['PHP_SELF']);
-
-    function getTitle($curPage, $pages)
-    {
-        foreach ($pages as $pageName => $pageTitle) {
-            if ($curPage == $pageName . '.php') {
-                echo $pageTitle . " - ";
-            }
-        }
-        echo "Weather and Climate Research - Manila Observatory";
-    }
-
     function vite_assets()
     {
         $devServerIsRunning = false;
@@ -52,14 +38,13 @@
     }
 ?>
 
-<head>
-  <title>
-    <?php getTitle($curPage, $pages); ?>
-  </title>
-  <!-- Required meta tags -->
+<!DOCTYPE html>
+
+<head lang="en">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Panahon - Manila Observatory" />
+  <title>Panahon - Manila Observatory</title>
 
   <link rel="shortcut icon" href="/resources/static/logo.png">
 
