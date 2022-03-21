@@ -7,11 +7,12 @@ import Alpine from 'alpinejs'
 import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
+import store from '@/store'
 
 const urlPaths = window.location.pathname.split('/')
 const urlPath = urlPaths[urlPaths.length - 1]
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(store).mount('#app')
 
 switch (urlPath) {
   case 'models.php':

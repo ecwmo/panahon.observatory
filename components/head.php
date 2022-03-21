@@ -1,10 +1,6 @@
 <?php
     include_once(__DIR__.'/../config.php');
 
-    session_start();
-    // set the default timezone to use. Available since PHP 5.1
-    date_default_timezone_set('Asia/Manila');
-
     $pages = array('reports' => "Extreme Weather Report");
 
     $curPage = basename($_SERVER['PHP_SELF']);
@@ -67,17 +63,13 @@
 
   <link rel="shortcut icon" href="/resources/static/logo.png">
 
-  <?php if (in_array($curPage, ["index.php", "new-report.php"])) { ?>
   <!-- FontAwesome -->
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/solid.min.css" />
-  <?php } ?>
 
-  <?php if (in_array($curPage, ["index.php"])) { ?>
   <!-- Mapbox -->
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
-  <?php } ?>
 
   <?php echo vite_assets(); ?>
 </head>
