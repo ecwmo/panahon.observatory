@@ -103,20 +103,10 @@
       onMounted(async () => {
         mapAccessToken.value = await axios.post('api/env.php', { token: 'mapbox' }).then(({ data: tok }) => tok)
 
-        const rawData = await Promise.all([
-          axios.get('/resources/station/stn_map_ph.json').then(({ data }) => data),
-          axios.get('/resources/station/stn_mo_obs.json').then(({ data }) => data),
-          axios.get('/resources/station/stn_obs.json').then(({ data }) => data),
-        ])
-
-        stationObs.value = { ...rawData[1], ...rawData[2] }
-        stationLayer.value = formatStnLayer(rawData[0], stationObs.value)
-
+        const rawData = await axios.get('/api/stations.php').then(({ data }) => data)
+        timeStamp.value = new Date(rawData['0'].obs.timestamp)
+        stationLayer.value = formatStnLayer(rawData)
         visibleStations.value = stationLayer.value.features
-
-        timeStamp.value = await axios
-          .get('/resources/station/stn_obs_timestamp.json')
-          .then(({ data: { timestamp } }) => new Date(timestamp))
       })
 
       return {

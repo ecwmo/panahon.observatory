@@ -1,20 +1,21 @@
-import { Feature, Geometry, GeoJsonProperties } from 'geojson'
+import { Geometry, GeoJsonProperties } from 'geojson'
 
 import { getColor } from '@/scripts/color'
 
-interface StationInfo {
+type StationObs = {
+  [key: string]: any
+}
+
+type StationInfo = GeoJsonProperties & {
   name: string
   lat: number
   lon: number
   elevation?: number
   address?: string
+  obs: StationObs
 }
 
-interface StationObs {
-  [key: string]: any
-}
-
-interface RawStationLayer {
+type RawStationData = {
   [key: string]: StationInfo
 }
 
@@ -93,56 +94,30 @@ const getMetValue = (stnObs: StationObs, varName: string) => {
   }
 }
 
-const dropInactiveStations = (stnLyr: { [index: string]: StationInfo }, validIds: string[]) => {
-  return Object.keys(stnLyr)
-    .filter((k) => validIds.includes(k))
-    .reduce((o: { [index: string]: StationInfo }, k) => {
-      o[k] = stnLyr[k]
-      return o
-    }, {})
-}
-
-const formatStnLayer = (stnLyr: RawStationLayer, stationObs: { [index: string]: StationObs }) => {
-  const stationIds = Object.keys(stationObs)
-  const filteredStnLyr = dropInactiveStations(stnLyr, stationIds)
-
-  let newStnLyr = <StationLayer>{
+const formatStnLayer = (stnLyr: RawStationData) =>
+  <StationLayer>{
     type: 'FeatureCollection',
-    features: Object.keys(filteredStnLyr).map((k) => ({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [filteredStnLyr[k].lon, filteredStnLyr[k].lat],
-      },
-      properties: { id: k, ...filteredStnLyr[k], obs: stationObs[k] },
-    })),
+    features: Object.keys(stnLyr)
+      .map((k) => {
+        const props = stnLyr[k]
+        const { obs } = props
+        const colors: GeoJsonProperties = {}
+        Object.keys(metVars).forEach((varName) => {
+          let val = varName === 'rain' ? obs['rain24h'] : obs[varName]
+          const _val = (val - metVars[varName].range.min) / (metVars[varName].range.max - metVars[varName].range.min)
+          colors[varName] = getColor(_val, varName)
+        })
+
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [props.lon, props.lat],
+          },
+          properties: { id: k, ...props, colors },
+        }
+      })
+      .filter(({ properties: { name } }) => name !== undefined),
   }
-
-  Object.keys(metVars).forEach((varName) => {
-    newStnLyr = setPtColor(newStnLyr, varName)
-  })
-
-  return newStnLyr
-}
-
-const setPtColor = (lyr: StationLayer, varName: string) => {
-  const { features } = lyr
-  if (Object.keys(metVars).indexOf(varName) !== -1) {
-    const newFeats = features.map((f) => {
-      const { properties: props } = f
-      let colors = {}.hasOwnProperty.call(props, 'colors') ? props['colors'] : {}
-      let _varName = varName === 'rain' ? 'rain24h' : varName
-      if (!{}.hasOwnProperty.call(colors, varName)) {
-        let val = props['obs'][_varName]
-        const _val = (val - metVars[varName].range.min) / (metVars[varName].range.max - metVars[varName].range.min)
-        colors = { ...colors, [varName]: getColor(_val, varName) }
-        props['colors'] = colors
-      }
-      return { ...f, properties: props }
-    })
-    return { ...lyr, features: newFeats }
-  }
-  return lyr
-}
 
 export { StationLayer, metVars, formatStnLayer, windDirDeg2Str, getMetValue }
