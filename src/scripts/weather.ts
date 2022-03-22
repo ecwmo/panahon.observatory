@@ -1,3 +1,5 @@
+import { Feature, Geometry, GeoJsonProperties } from 'geojson'
+
 import { getColor } from '@/scripts/color'
 
 interface StationInfo {
@@ -16,22 +18,18 @@ interface RawStationLayer {
   [key: string]: StationInfo
 }
 
-interface StationLayerFeatProps {
-  [key: string]: any
+type StationGeoJsonProperties = GeoJsonProperties & {
   id: string
   obs: StationObs
   colors?: { [key: string]: string }
 }
 
-interface StationLayer {
+type StationLayer = {
   type: string
   features: {
     type: string
-    geometry: {
-      type: string
-      coordinates: number[]
-    }
-    properties: StationLayerFeatProps
+    geometry: Geometry
+    properties: StationGeoJsonProperties
   }[]
 }
 

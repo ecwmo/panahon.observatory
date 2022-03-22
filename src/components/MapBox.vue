@@ -8,7 +8,7 @@
 
 <script lang="ts">
   import { ref, toRefs, onMounted, defineComponent, watch, PropType, computed } from 'vue'
-  import { Map } from 'mapbox-gl'
+  import { Map, GeoJSONSource, MapboxGeoJSONFeature } from 'mapbox-gl'
 
   import Colorbar from '@/components/Colorbar.vue'
 
@@ -27,8 +27,8 @@
     emits: ['update:activeStationId', 'update:visibleStations', 'update:loaded'],
     components: { Colorbar },
     setup(props, { emit }) {
-      const mapEl = ref()
       const map = ref()
+      const mapEl = ref()
 
       const { accessToken, data, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
 
@@ -66,7 +66,7 @@
       })
 
       watch([activeStationId], () => {
-        const dotPt = map.value ? map.value.getSource('active-point') : null
+        const dotPt = map.value ? <GeoJSONSource>map.value.getSource('active-point') : null
         const { lat, lon } = activeStation.value.properties
         if (dotPt) {
           dotPt.setData({
@@ -78,6 +78,7 @@
                   type: 'Point',
                   coordinates: [lon, lat], // icon position [lng, lat]
                 },
+                properties: {},
               },
             ],
           })
@@ -156,7 +157,7 @@
           map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
           map.value.addSource('station', {
             type: 'geojson',
-            data: data.value,
+            data: <any>data.value,
           })
           map.value.addLayer({
             id: 'station-pts',
@@ -210,11 +211,13 @@
             map.value.getCanvas().style.cursor = ''
           })
           map.value.on('zoomend', () => {
-            const _visibleStations = <StationLayer['features']>map.value.queryRenderedFeatures({
+            const _visibleStations = map.value.queryRenderedFeatures(undefined, {
               layers: ['station-pts'],
             })
             const curIds = visibleStations.value.map(({ properties: { id } }) => id)
-            const newIds = _visibleStations.map(({ properties: { id } }) => id)
+            const newIds = (<StationLayer['features'] & MapboxGeoJSONFeature[]>_visibleStations).map(
+              ({ properties: { id } }) => id
+            )
 
             if (curIds.sort().join(',') !== newIds.sort().join(',')) {
               emit(
