@@ -22,6 +22,8 @@
       <div v-show="screen.width > 768" ref="mapContainer" class="flex relative" :style="mapStyle">
         <MapBox
           class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
+          v-if="mapAccessToken"
+          :accessToken="mapAccessToken"
           :data="stationLayer"
           :activeVariable="activeVariable"
           :mapScope="mapScope"
@@ -67,6 +69,7 @@
       const screen = useScreen()
       const defaultStationId = '1'
       const timeStamp = ref(new Date())
+      const mapAccessToken = ref('')
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
       const mapScope = ref('mm')
@@ -98,6 +101,8 @@
       })
 
       onMounted(async () => {
+        mapAccessToken.value = await axios.post('api/env.php', { token: 'mapbox' }).then(({ data: tok }) => tok)
+
         const rawData = await Promise.all([
           axios.get('/resources/station/stn_map_ph.json').then(({ data }) => data),
           axios.get('/resources/station/stn_mo_obs.json').then(({ data }) => data),
@@ -115,6 +120,7 @@
       })
 
       return {
+        mapAccessToken,
         mapContainer,
         mapStyle,
         mapIsLoaded,

@@ -8,8 +8,7 @@
 
 <script lang="ts">
   import { ref, toRefs, onMounted, defineComponent, watch, PropType, computed } from 'vue'
-  import mapboxgl, { Map } from 'mapbox-gl'
-  import axios from 'axios'
+  import { Map } from 'mapbox-gl'
 
   import Colorbar from '@/components/Colorbar.vue'
 
@@ -17,6 +16,7 @@
 
   export default defineComponent({
     props: {
+      accessToken: { type: String, required: true },
       data: { type: Object as PropType<StationLayer>, required: true },
       activeVariable: { type: String, required: true },
       mapScope: { type: String, required: true },
@@ -30,7 +30,7 @@
       const mapEl = ref()
       const map = ref()
 
-      const { data, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
+      const { accessToken, data, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
 
       const activeStation = computed(() => {
         if (data.value && data.value.features) {
@@ -84,10 +84,7 @@
         }
       })
 
-      onMounted(async () => {
-        const tok = await axios.post('api/env.php', { token: 'mapbox' }).then(({ data: tok }) => tok)
-        mapboxgl.accessToken = tok
-
+      onMounted(() => {
         const dotSize = 100
         // This implements `StyleImageInterface`
         // to draw a pulsing dot icon on the map.
@@ -146,6 +143,7 @@
         const { lat, lon } = activeStation.value.properties
 
         map.value = new Map({
+          accessToken: accessToken.value,
           container: mapEl.value,
           style: 'mapbox://styles/mapbox/streets-v11',
           center: [121.04, 14.56],
