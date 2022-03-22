@@ -1,22 +1,22 @@
 <template>
   <div
     :class="[isActive ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800']"
-    class="relative flex flex-col justify-center cursor-pointer py-3 px-2 border border-black w-60"
+    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 border border-black w-52"
   >
     <div class="flex justify-evenly">
       <div class="flex items-center">
-        <i :class="data.iconClass"></i>
+        <i :class="`${data.iconClass} text-4xl md:text-5xl`"></i>
       </div>
       <div class="flex flex-col">
-        <div class="text-lg">{{ data.title }}</div>
+        <div class="text-base md:text-lg">{{ data.title }}</div>
         <div class="flex justify-evenly items-end gap-1">
-          <div v-show="data.label1" class="text-lg font-light">{{ data.label1 }}</div>
-          <div class="text-4xl font-bold ml-1.5">{{ data.value1 }}</div>
+          <div v-show="data.label1" class="text-base md:text-lg font-light">{{ data.label1 }}</div>
+          <div class="text-2xl md:text-4xl font-bold ml-1 md:ml-1.5">{{ data.value1 }}</div>
         </div>
         <div v-show="data.value2" class="flex justify-center items-center">
           <div v-show="data.label2" class="flex flex-col text-sm font-light pb-0.5">{{ data.label2 }}</div>
-          <div v-show="data.iconClass2"><i :class="data.iconClass2"></i></div>
-          <div class="text-2xl font-bold ml-1.5">{{ data.value2 }}</div>
+          <div v-show="data.iconClass2"><i :class="`${data.iconClass2} text-lg md:text-xl`"></i></div>
+          <div class="text-xl md:text-2xl font-bold ml-1 md:ml-1.5">{{ data.value2 }}</div>
         </div>
       </div>
     </div>

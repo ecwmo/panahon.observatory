@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <!-- Map -->
-    <div ref="mapEl" class="shadow" style="width: 450px; height: 550px"></div>
+    <div ref="mapEl" class="shadow w-full h-full"></div>
     <Colorbar :name="activeVariable" />
   </div>
 </template>

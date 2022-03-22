@@ -58,7 +58,7 @@
             value1: getMetValue(data.value.obs, 'rr'),
             label2: '24hr total',
             value2: getMetValue(data.value.obs, 'rain24h'),
-            iconClass: 'fas fa-cloud-rain text-5xl',
+            iconClass: 'fas fa-cloud-rain',
             info: RainInfo,
           },
           {
@@ -67,7 +67,7 @@
             value1: getMetValue(data.value.obs, 'temp'),
             label2: 'HI',
             value2: getMetValue(data.value.obs, 'hi'),
-            iconClass: 'fas fa-thermometer-half text-5xl',
+            iconClass: 'fas fa-thermometer-half',
             info: TempInfo,
           },
           {
@@ -75,15 +75,15 @@
             title: 'WIND (m/s)',
             value1: getMetValue(data.value.obs, 'wspd'),
             value2: windDirStr,
-            iconClass: 'fas fa-wind text-5xl',
-            iconClass2: `wi wi-wind ${winDirIcon} text-xl`,
+            iconClass: 'fas fa-wind',
+            iconClass2: `wi wi-wind ${winDirIcon}`,
             info: WindInfo,
           },
           {
             id: 'pres',
             title: 'PRESSURE (hPa)',
             value1: getMetValue(data.value.obs, 'pres'),
-            iconClass: 'wi wi-barometer text-5xl',
+            iconClass: 'wi wi-barometer',
             info: PresInfo,
           },
         ]

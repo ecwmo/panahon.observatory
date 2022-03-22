@@ -18,10 +18,10 @@
         </option>
       </select>
     </div>
-    <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
-      <div class="relative" style="width: 450px; height: 550px">
+    <div class="w-full flex flex-col-reverse md:flex-row md:items-center justify-center gap-4 p-6">
+      <div v-show="screen.width > 768" ref="mapContainer" class="flex relative" :style="mapStyle">
         <MapBox
-          class="flex md:flex md:flex-col hidden m-auto md:mx-0"
+          class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
           :data="stationLayer"
           :activeVariable="activeVariable"
           :mapScope="mapScope"
@@ -31,8 +31,7 @@
         />
         <loading :active="!mapIsLoaded" :is-full-page="false" />
       </div>
-
-      <div class="flex text-sm text-center items-center">
+      <div class="flex text-sm text-center items-center justify-center">
         <div class="flex flex-col items-center gap-2 md:gap-4">
           <div class="flex flex-col md:items-start w-full">
             <div class="text-lg font-semibold">{{ activeStation.name }}</div>
@@ -46,9 +45,11 @@
 </template>
 
 <script lang="ts">
-  import { ref, computed, onMounted, defineComponent, defineAsyncComponent } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import axios from 'axios'
   import { format } from 'date-fns'
+
+  import { useScreen } from 'vue-screen'
 
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
@@ -63,9 +64,11 @@
   export default defineComponent({
     components: { Header, Loading, MapBox, InfoPanel },
     setup() {
+      const screen = useScreen()
       const defaultStationId = '1'
       const timeStamp = ref(new Date())
       const mapIsLoaded = ref(false)
+      const mapContainer = ref()
       const mapScope = ref('mm')
       const stationObs = ref({})
       const stationLayer = ref(<StationLayer>{})
@@ -85,6 +88,15 @@
 
       const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timeStamp.value, strFormat)
 
+      const mapStyle = computed(() => {
+        const aspectRatio = 1.2
+        const maxHeight = 540
+        let mapHeight = screen.height
+        mapHeight = mapHeight > maxHeight ? maxHeight : mapHeight
+        const mapWidth = mapHeight / aspectRatio
+        return `height:${mapHeight}px;width:${mapWidth}px;`
+      })
+
       onMounted(async () => {
         const rawData = await Promise.all([
           axios.get('/resources/station/stn_map_ph.json').then(({ data }) => data),
@@ -103,6 +115,8 @@
       })
 
       return {
+        mapContainer,
+        mapStyle,
         mapIsLoaded,
         mapScope,
         stationLayer,
@@ -112,6 +126,7 @@
         activeVariable,
         timeStamp,
         formatDate,
+        screen,
       }
     },
   })
