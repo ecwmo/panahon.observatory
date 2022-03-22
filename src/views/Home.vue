@@ -19,14 +19,19 @@
       </select>
     </div>
     <div class="flex flex-col-reverse md:flex-row md:justify-center gap-4 p-6">
-      <MapBox
-        class="flex md:flex md:flex-col hidden m-auto md:mx-0"
-        :data="stationLayer"
-        :activeVariable="activeVariable"
-        :mapScope="mapScope"
-        v-model:activeStationId="activeStationId"
-        v-model:visibleStations="visibleStations"
-      />
+      <div class="relative" style="width: 450px; height: 550px">
+        <MapBox
+          class="flex md:flex md:flex-col hidden m-auto md:mx-0"
+          :data="stationLayer"
+          :activeVariable="activeVariable"
+          :mapScope="mapScope"
+          v-model:activeStationId="activeStationId"
+          v-model:visibleStations="visibleStations"
+          v-model:loaded="mapIsLoaded"
+        />
+        <loading :active="!mapIsLoaded" :is-full-page="false" />
+      </div>
+
       <div class="flex text-sm text-center items-center">
         <div class="flex flex-col items-center gap-2 md:gap-4">
           <div class="flex flex-col md:items-start w-full">
@@ -45,6 +50,9 @@
   import axios from 'axios'
   import { format } from 'date-fns'
 
+  import Loading from 'vue-loading-overlay'
+  import 'vue-loading-overlay/dist/vue-loading.css'
+
   import { StationLayer, formatStnLayer } from '@/scripts/weather'
 
   import Header from '@/components/Header.vue'
@@ -53,10 +61,11 @@
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   export default defineComponent({
-    components: { Header, MapBox, InfoPanel },
+    components: { Header, Loading, MapBox, InfoPanel },
     setup() {
       const defaultStationId = '1'
       const timeStamp = ref(new Date())
+      const mapIsLoaded = ref(false)
       const mapScope = ref('mm')
       const stationObs = ref({})
       const stationLayer = ref(<StationLayer>{})
@@ -94,6 +103,7 @@
       })
 
       return {
+        mapIsLoaded,
         mapScope,
         stationLayer,
         visibleStations,

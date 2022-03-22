@@ -22,8 +22,9 @@
       mapScope: { type: String, required: true },
       activeStationId: { type: String },
       visibleStations: { type: Object as PropType<StationLayer['features']>, default: [{ properties: { id: '' } }] },
+      loaded: { type: Boolean, default: false },
     },
-    emits: ['update:activeStationId', 'update:visibleStations'],
+    emits: ['update:activeStationId', 'update:visibleStations', 'update:loaded'],
     components: { Colorbar },
     setup(props, { emit }) {
       const mapEl = ref()
@@ -153,6 +154,7 @@
         })
 
         map.value.once('load', () => {
+          emit('update:loaded', true)
           map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
           map.value.addSource('station', {
             type: 'geojson',
