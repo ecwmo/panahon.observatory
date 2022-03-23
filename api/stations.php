@@ -18,6 +18,11 @@ if (array_key_exists('24hr', $_GET)) {
         header('Content-Type: application/json');
         echo json_encode($stn_obs_arr);
     }
+} elseif (array_key_exists('timestamp', $_GET)) {
+    $timestamp_file = '../resources/station/stn_obs_timestamp.json';
+    $ts = json_decode(file_get_contents($timestamp_file), true);
+    header('Content-Type: application/json');
+    echo json_encode($ts);
 } else {
     $stn_file = '../resources/station/stn_map_ph.json';
     $stn_obs_file = '../resources/station/stn_obs.json';
