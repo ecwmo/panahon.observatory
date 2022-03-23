@@ -7,6 +7,7 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
+import { VueQueryPlugin } from 'vue-query'
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
@@ -17,4 +18,7 @@ dom.watch()
 
 const app = createApp(App)
 app.component('fa-icon', FontAwesomeIcon)
-app.use(router).use(store).mount('#app')
+app.use(router)
+app.use(store)
+app.use(VueQueryPlugin)
+app.mount('#app')

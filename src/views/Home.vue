@@ -39,7 +39,7 @@
             <div class="text-lg font-semibold">{{ activeStation.name }}</div>
             <div class="text-base italic font-light">{{ `as of ${formatDate()}` }}</div>
           </div>
-          <InfoPanel :data="activeStation" :timestamp="timeStamp" v-model="activeVariable" />
+          <InfoPanel :data="activeStation" :timestamp="timestamp" v-model="activeVariable" />
         </div>
       </div>
     </div>
@@ -52,11 +52,12 @@
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
+  import { useStationData } from '@/composables/useStationData'
 
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
 
-  import { StationLayer, formatStnLayer } from '@/scripts/weather'
+  import { StationLayer } from '@/scripts/weather'
 
   import Header from '@/components/Header.vue'
 
@@ -67,14 +68,12 @@
     components: { Header, Loading, MapBox, InfoPanel },
     setup() {
       const screen = useScreen()
+      const { timestamp, data: stationLayer } = useStationData()
       const defaultStationId = '1'
-      const timeStamp = ref(new Date())
       const mapAccessToken = ref('')
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
       const mapScope = ref('mm')
-      const stationObs = ref({})
-      const stationLayer = ref(<StationLayer>{})
       const activeStationId = ref(defaultStationId)
       const activeVariable = ref('temp')
       const visibleStations = ref(<StationLayer['features']>[])
@@ -89,7 +88,7 @@
         return { id: '', name: '', obs: {} }
       })
 
-      const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timeStamp.value, strFormat)
+      const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
 
       const mapStyle = computed(() => {
         const aspectRatio = 1.2
@@ -103,10 +102,7 @@
       onMounted(async () => {
         mapAccessToken.value = await axios.post('api/env.php', { token: 'mapbox' }).then(({ data: tok }) => tok)
 
-        const rawData = await axios.get('/api/stations.php').then(({ data }) => data)
-        timeStamp.value = new Date(rawData['0'].obs.timestamp)
-        stationLayer.value = formatStnLayer(rawData)
-        visibleStations.value = stationLayer.value.features
+        visibleStations.value = stationLayer.value ? stationLayer.value.features : []
       })
 
       return {
@@ -120,7 +116,7 @@
         activeStationId,
         activeStation,
         activeVariable,
-        timeStamp,
+        timestamp,
         formatDate,
         screen,
       }
