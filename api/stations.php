@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: application/json');
+
 if (array_key_exists('24hr', $_GET)) {
     if ($_GET["type"]=="csv") {
         $stn_obs_file = '../resources/station/stn_obs_24hr.csv';
@@ -15,13 +17,11 @@ if (array_key_exists('24hr', $_GET)) {
     } else {
         $stn_obs_file = '../resources/station/stn_obs_24hr.json';
         $stn_obs_arr = json_decode(file_get_contents($stn_obs_file), true);
-        header('Content-Type: application/json');
         echo json_encode($stn_obs_arr);
     }
 } elseif (array_key_exists('timestamp', $_GET)) {
     $timestamp_file = '../resources/station/stn_obs_timestamp.json';
     $ts = json_decode(file_get_contents($timestamp_file), true);
-    header('Content-Type: application/json');
     echo json_encode($ts);
 } else {
     $stn_file = '../resources/station/stn_map_ph.json';
@@ -45,6 +45,5 @@ if (array_key_exists('24hr', $_GET)) {
         array_push($dat_arr, $dat);
     }
 
-    header('Content-Type: application/json');
     echo json_encode($dat_arr);
 }
