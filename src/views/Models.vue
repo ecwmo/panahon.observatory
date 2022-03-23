@@ -81,7 +81,7 @@
         { varName: 'temp', text: 'Temperature', hasFcstTime: true },
         {
           varName: 'hix',
-          text: 'Daily Max HI',
+          text: 'Max Heat Index',
           hasFcstTime: true,
           caption: `
     The figure above shows the spatial map of forecast heat stress index (HI).
