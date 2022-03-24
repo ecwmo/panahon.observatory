@@ -84,7 +84,8 @@ const windDirDeg2Str = (val: number) => {
   else return 'NNW'
 }
 
-const getMetValue = (stnObs: StationObs, varName: string) => {
+const metValueString = (stnObs: StationObs, varName: string) => {
+  if (!stnObs || Object.keys(stnObs).length === 0) return '--'
   if (['rr', 'rain24h', 'pres'].indexOf(varName) !== -1) {
     return stnObs[varName] ? (<number>stnObs[varName]).toFixed() : '--'
   } else if (varName === 'wdirStr') {
@@ -120,4 +121,4 @@ const formatStnLayer = (stnLyr: RawStationData) =>
       .filter(({ properties: { name } }) => name !== undefined),
   }
 
-export { StationLayer, metVars, formatStnLayer, windDirDeg2Str, getMetValue }
+export { StationLayer, metVars, formatStnLayer, windDirDeg2Str, metValueString }
