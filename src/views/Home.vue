@@ -19,7 +19,7 @@
       </select>
     </div>
     <div class="w-full flex flex-col-reverse md:flex-row md:items-center justify-center gap-4 p-6">
-      <div v-show="screen.width > 768" ref="mapContainer" class="flex relative" :style="mapStyle">
+      <div v-if="loadMap" ref="mapContainer" class="flex relative" :style="mapStyle">
         <MapBox
           class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
           :accessToken="mapAccessToken"
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -66,7 +66,7 @@
     setup() {
       const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
       const screen = useScreen()
-      const { timestamp } = useStationData()
+      const { timestamp, stationLayer } = useStationData()
       const defaultStationId = '1'
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
@@ -87,6 +87,8 @@
 
       const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
 
+      const loadMap = computed(() => screen.width > 768)
+
       const mapStyle = computed(() => {
         const aspectRatio = 1.2
         const maxHeight = 540
@@ -96,7 +98,14 @@
         return `height:${mapHeight}px;width:${mapWidth}px;`
       })
 
+      onMounted(() => {
+        setTimeout(() => {
+          visibleStations.value = stationLayer.value ? stationLayer.value.features : []
+        }, 100)
+      })
+
       return {
+        loadMap,
         mapAccessToken,
         mapContainer,
         mapStyle,
