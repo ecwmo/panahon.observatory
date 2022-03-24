@@ -10,8 +10,6 @@
   import { ref, toRefs, onMounted, defineComponent, watch, PropType, computed } from 'vue'
   import { Map, GeoJSONSource, MapboxGeoJSONFeature } from 'mapbox-gl'
 
-  import { useStationData } from '@/composables/useStationData'
-
   import Colorbar from '@/components/Colorbar.vue'
 
   import { StationLayer } from '@/scripts/weather'
@@ -19,6 +17,7 @@
   export default defineComponent({
     props: {
       accessToken: { type: String, required: true },
+      data: { type: Object as PropType<StationLayer>, required: true },
       activeVariable: { type: String, required: true },
       mapScope: { type: String, required: true },
       activeStationId: { type: String },
@@ -28,15 +27,14 @@
     emits: ['update:activeStationId', 'update:visibleStations', 'update:loaded'],
     components: { Colorbar },
     setup(props, { emit }) {
-      const { stationLayer } = useStationData()
       const map = ref()
       const mapEl = ref()
 
-      const { accessToken, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
+      const { accessToken, data, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
 
       const activeStation = computed(
         () =>
-          stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value) ?? {
+          data.value?.features?.find(({ properties: { id } }) => id === activeStationId.value) ?? {
             properties: { lat: 0, lon: 0 },
           }
       )
@@ -52,7 +50,7 @@
       })
 
       watch([activeVariable], () => {
-        const metVars = Object.keys(<Object>stationLayer.value.features[0].properties.colors)
+        const metVars = Object.keys(<Object>data.value.features[0].properties.colors)
 
         if (metVars.indexOf(activeVariable.value) !== -1) {
           map.value.setPaintProperty('station-pts', 'circle-color', [
@@ -140,7 +138,7 @@
         }
         const { lat, lon } = activeStation.value.properties
 
-        emit('update:visibleStations', stationLayer.value.features)
+        emit('update:visibleStations', data.value.features)
 
         map.value = new Map({
           accessToken: accessToken.value,
@@ -156,7 +154,7 @@
           map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
           map.value.addSource('station', {
             type: 'geojson',
-            data: <any>stationLayer.value,
+            data: <any>data.value,
           })
           map.value.addLayer({
             id: 'station-pts',
@@ -219,7 +217,7 @@
             if (curIds.sort().join(',') !== newIds.sort().join(',')) {
               emit(
                 'update:visibleStations',
-                stationLayer.value.features.filter(
+                data.value.features.filter(
                   ({ properties: { id } }) => [...newIds, activeStationId.value].indexOf(id) !== -1
                 )
               )
