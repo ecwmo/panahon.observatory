@@ -12,7 +12,7 @@
         </label>
       </div>
       <!-- Station Dropdown -->
-      <select v-model="activeStationId">
+      <select v-model="activeStationId" v-if="visibleStations.length > 0">
         <option v-for="(st, id) in visibleStations" :key="id" :value="st.properties.id">
           {{ st.properties.name }}
         </option>
@@ -22,9 +22,7 @@
       <div v-show="screen.width > 768" ref="mapContainer" class="flex relative" :style="mapStyle">
         <MapBox
           class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
-          v-if="mapAccessToken"
           :accessToken="mapAccessToken"
-          :data="stationLayer"
           :activeVariable="activeVariable"
           :mapScope="mapScope"
           v-model:activeStationId="activeStationId"
@@ -47,7 +45,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -68,7 +66,7 @@
     setup() {
       const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
       const screen = useScreen()
-      const { timestamp, data: stationLayer } = useStationData()
+      const { timestamp } = useStationData()
       const defaultStationId = '1'
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
@@ -98,17 +96,12 @@
         return `height:${mapHeight}px;width:${mapWidth}px;`
       })
 
-      onMounted(async () => {
-        visibleStations.value = stationLayer.value ? stationLayer.value.features : []
-      })
-
       return {
         mapAccessToken,
         mapContainer,
         mapStyle,
         mapIsLoaded,
         mapScope,
-        stationLayer,
         visibleStations,
         activeStationId,
         activeStation,
