@@ -23,6 +23,7 @@
         <MapBox
           class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
           :accessToken="mapAccessToken"
+          :data="stationLayer"
           :activeVariable="activeVariable"
           :mapScope="mapScope"
           v-model:activeStationId="activeStationId"
@@ -45,7 +46,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed, onMounted, onActivated } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -66,7 +67,7 @@
     setup() {
       const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
       const screen = useScreen()
-      const { timestamp, stationLayer } = useStationData()
+      const { timestamp, stationLayer, fetchData } = useStationData()
       const defaultStationId = '1'
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
@@ -103,7 +104,12 @@
         }, 100)
       })
 
+      onActivated(async () => {
+        await fetchData()
+      })
+
       return {
+        stationLayer,
         loadMap,
         mapAccessToken,
         mapContainer,
