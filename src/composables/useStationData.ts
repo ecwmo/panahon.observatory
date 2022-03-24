@@ -1,10 +1,12 @@
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
-import { useQuery } from 'vue-query'
 
 import { formatStnLayer, StationLayer } from '@/scripts/weather'
 
 const useStationData = () => {
+  const stationLayer = ref(<StationLayer>{})
+  const timestamp = ref(new Date())
+
   const fallbackStationLayer: StationLayer = {
     type: '',
     features: [
@@ -19,27 +21,20 @@ const useStationData = () => {
     ],
   }
 
-  const _fetchData = async () => {
-    let stationLayer = await axios.get('/api/stations.php').then(({ data }) => data)
-    localStorage.setItem('stationTimestamp', JSON.stringify(stationLayer[0].obs.timestamp))
-    stationLayer = formatStnLayer(stationLayer)
-    localStorage.setItem('station', JSON.stringify(stationLayer))
-    return <StationLayer>stationLayer
-  }
-
   const fetchData = async () => {
-    let stationLayer: StationLayer = JSON.parse(localStorage.getItem('station') || 'null')
-    if (!stationLayer) stationLayer = await _fetchData() // no data
-    const ts = await axios.get('/api/stations.php?timestamp').then(({ data }) => new Date(data.timestamp))
-    if (ts.getTime() !== timestamp.value.getTime()) stationLayer = await _fetchData() // old data
-    return stationLayer
+    stationLayer.value = JSON.parse(localStorage.getItem('station') || 'null')
+    const newTimestamp = await axios.get('/api/stations.php?timestamp').then(({ data }) => new Date(data.timestamp))
+    timestamp.value = new Date(JSON.parse(localStorage.getItem('stationTimestamp') || 'null'))
+
+    if (!stationLayer.value || newTimestamp.getTime() !== timestamp.value.getTime()) {
+      const rawData = await axios.get('/api/stations.php').then(({ data }) => data)
+      localStorage.setItem('stationTimestamp', JSON.stringify(rawData[0].obs.timestamp))
+      stationLayer.value = formatStnLayer(rawData)
+      localStorage.setItem('station', JSON.stringify(stationLayer.value))
+    }
   }
 
-  const { data, isSuccess } = useQuery('station', fetchData)
-
-  const stationLayer = computed((): StationLayer => (isSuccess.value ? <StationLayer>data.value : fallbackStationLayer))
-
-  const timestamp = computed(() => new Date(JSON.parse(localStorage.getItem('stationTimestamp') || 'null')))
+  fetchData()
 
   return { timestamp, stationLayer }
 }
