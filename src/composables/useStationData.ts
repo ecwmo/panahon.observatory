@@ -36,7 +36,7 @@ const useStationData = () => {
 
   fetchData()
 
-  return { timestamp, stationLayer }
+  return { timestamp, stationLayer, fetchData }
 }
 
 export { useStationData }
