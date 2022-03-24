@@ -13,8 +13,6 @@
   import { defineComponent, toRefs, computed } from 'vue'
   import { format } from 'date-fns'
 
-  import { getMetValue } from '@/scripts/weather'
-
   export default defineComponent({
     props: {
       stationName: { type: String, required: true },
@@ -24,8 +22,8 @@
     setup(props) {
       const { data, timestamp } = toRefs(props)
 
-      const rainStr = computed(() => `${getMetValue(data.value.obs, 'rr')} mm`)
-      const rain24hStr = computed(() => `${getMetValue(data.value.obs, 'rain24h')} mm`)
+      const rainStr = computed(() => `${data.value['rr']} mm`)
+      const rain24hStr = computed(() => `${data.value['rain24h']} mm`)
 
       const timeStr = computed(() => format(timestamp.value, 'h bbb'))
 

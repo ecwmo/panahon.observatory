@@ -12,8 +12,6 @@
   import { defineComponent, toRefs, computed } from 'vue'
   import { format } from 'date-fns'
 
-  import { getMetValue } from '@/scripts/weather'
-
   export default defineComponent({
     props: {
       stationName: { type: String, required: true },
@@ -23,7 +21,7 @@
     setup(props) {
       const { data, timestamp } = toRefs(props)
 
-      const presStr = computed(() => `${getMetValue(data.value.obs, 'pres')} mb`)
+      const presStr = computed(() => `${data.value['pres']} mb`)
 
       const timeStr = computed(() => format(timestamp.value, 'h bbb'))
 
