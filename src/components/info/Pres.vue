@@ -3,29 +3,26 @@
     At <span class="font-semibold">{{ stationName }}</span
     >, the air pressure was
     <span class="font-semibold">{{ presStr }}</span>
-    at <span class="font-semibold"> {{ timeStr }}</span
+    at <span class="font-semibold"> {{ dateString }}</span
     >.
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent, toRefs, computed } from 'vue'
-  import { format } from 'date-fns'
 
   export default defineComponent({
     props: {
       stationName: { type: String, required: true },
       data: { type: Object, required: true },
-      timestamp: { type: Date, default: new Date() },
+      dateString: { type: String, required: true },
     },
     setup(props) {
-      const { data, timestamp } = toRefs(props)
+      const { data } = toRefs(props)
 
       const presStr = computed(() => `${data.value['pres']} mb`)
 
-      const timeStr = computed(() => format(timestamp.value, 'h bbb'))
-
-      return { presStr, timeStr }
+      return { presStr }
     },
   })
 </script>

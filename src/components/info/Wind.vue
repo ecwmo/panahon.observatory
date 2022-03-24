@@ -1,7 +1,7 @@
 <template>
   <div>
     At <span class="font-semibold">{{ stationName }}</span
-    >, the wind at <span class="font-semibold">{{ timeStr }}</span> was blowing from
+    >, the wind at <span class="font-semibold">{{ dateString }}</span> was blowing from
     <span class="font-semibold">{{ wdirStr }}</span> at <span class="font-semibold">{{ wspdStr }}</span
     >.
   </div>
@@ -9,23 +9,20 @@
 
 <script lang="ts">
   import { defineComponent, toRefs, computed } from 'vue'
-  import { format } from 'date-fns'
 
   export default defineComponent({
     props: {
       stationName: { type: String, required: true },
       data: { type: Object, required: true },
-      timestamp: { type: Date, default: new Date() },
+      dateString: { type: String, required: true },
     },
     setup(props) {
-      const { data, timestamp } = toRefs(props)
+      const { data } = toRefs(props)
 
       const wspdStr = computed(() => `${data.value['wspd']} m/s`)
       const wdirStr = computed(() => data.value['wdirStr'])
 
-      const timeStr = computed(() => format(timestamp.value, 'h bbb'))
-
-      return { wspdStr, wdirStr, timeStr }
+      return { wspdStr, wdirStr }
     },
   })
 </script>

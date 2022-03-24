@@ -8,7 +8,7 @@
         :isActive="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
-        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :timestamp="timestamp" />
+        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :dateString="cardDateString" />
       </Card>
     </div>
     <div class="flex flex-wrap justify-center gap-3 md:gap-6">
@@ -19,7 +19,7 @@
         :isActive="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
-        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :timestamp="timestamp" />
+        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :dateString="cardDateString" />
       </Card>
     </div>
   </div>
@@ -27,6 +27,7 @@
 
 <script lang="ts">
   import { defineComponent, toRefs, computed } from 'vue'
+  import { format } from 'date-fns'
 
   import { metValueString } from '@/scripts/weather'
 
@@ -45,9 +46,11 @@
     },
     emits: ['update:modelValue'],
     setup(props) {
-      const { data } = toRefs(props)
+      const { data, timestamp } = toRefs(props)
 
       const stationName = computed(() => data.value.name)
+
+      const cardDateString = computed(() => format(timestamp.value, 'h bbb'))
 
       const metValueStrings = computed(() => {
         const ret: { [k: string]: string } = {}
@@ -102,7 +105,7 @@
         ]
       })
 
-      return { stationName, cards, metValueStrings }
+      return { stationName, cardDateString, cards, metValueStrings }
     },
   })
 </script>
