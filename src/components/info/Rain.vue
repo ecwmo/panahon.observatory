@@ -1,6 +1,6 @@
 <template>
   <div>
-    At <span class="font-semibold">{{ data.name }}</span
+    At <span class="font-semibold">{{ stationName }}</span
     >, there was <span class="font-semibold">{{ rainStr }}</span> rainfall received at
     <span class="font-semibold">{{ timeStr }}</span
     >. There have been <span class="font-semibold">{{ rain24hStr }}</span> accumulated rainfall for the past 24 hours.
@@ -16,7 +16,11 @@
   import { getMetValue } from '@/scripts/weather'
 
   export default defineComponent({
-    props: { data: { type: Object, required: true }, timestamp: { type: Date, default: new Date() } },
+    props: {
+      stationName: { type: String, required: true },
+      data: { type: Object, required: true },
+      timestamp: { type: Date, required: true },
+    },
     setup(props) {
       const { data, timestamp } = toRefs(props)
 

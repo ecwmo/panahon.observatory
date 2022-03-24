@@ -1,6 +1,6 @@
 <template>
   <div>
-    At <span class="font-semibold">{{ data.name }}</span
+    At <span class="font-semibold">{{ stationName }}</span
     >, the wind at <span class="font-semibold">{{ timeStr }}</span> was blowing from
     <span class="font-semibold">{{ wdirStr }}</span> at <span class="font-semibold">{{ wspdStr }}</span
     >.
@@ -14,7 +14,11 @@
   import { getMetValue } from '@/scripts/weather'
 
   export default defineComponent({
-    props: { data: { type: Object, required: true }, timestamp: { type: Date, default: new Date() } },
+    props: {
+      stationName: { type: String, required: true },
+      data: { type: Object, required: true },
+      timestamp: { type: Date, default: new Date() },
+    },
     setup(props) {
       const { data, timestamp } = toRefs(props)
 

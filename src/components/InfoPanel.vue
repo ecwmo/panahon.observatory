@@ -8,7 +8,7 @@
         :isActive="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
-        <component :is="c.info" :data="data" />
+        <component :is="c.info" :data="data" :stationName="stationName" :timestamp="timestamp" />
       </Card>
     </div>
     <div class="flex flex-wrap justify-center gap-3 md:gap-6">
@@ -19,7 +19,7 @@
         :isActive="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
-        <component :is="c.info" :data="data" />
+        <component :is="c.info" :data="data" :stationName="stationName" :timestamp="timestamp" />
       </Card>
     </div>
   </div>
@@ -46,6 +46,8 @@
     emits: ['update:modelValue'],
     setup(props) {
       const { data } = toRefs(props)
+
+      const stationName = computed(() => data.value.name)
 
       const cards = computed(() => {
         const windDirStr = getMetValue(data.value.obs, 'wdirStr')
@@ -89,7 +91,7 @@
         ]
       })
 
-      return { cards }
+      return { stationName, cards }
     },
   })
 </script>
