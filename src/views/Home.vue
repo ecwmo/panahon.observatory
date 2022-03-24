@@ -75,15 +75,14 @@
       const activeVariable = ref('temp')
       const visibleStations = ref(<StationLayer['features']>[])
 
-      const activeStation = computed(() => {
-        if (visibleStations.value !== undefined) {
-          const st = visibleStations.value.find(({ properties: { id } }) => id === activeStationId.value)
-          if (st !== undefined) {
-            return st.properties
+      const activeStation = computed(
+        () =>
+          visibleStations.value?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
+            id: '',
+            name: '',
+            obs: {},
           }
-        }
-        return { id: '', name: '', obs: {} }
-      })
+      )
 
       const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
 
@@ -100,7 +99,7 @@
 
       onMounted(() => {
         setTimeout(() => {
-          visibleStations.value = stationLayer.value ? stationLayer.value.features : []
+          visibleStations.value = stationLayer.value?.features ?? []
         }, 100)
       })
 

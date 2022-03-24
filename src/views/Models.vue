@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col">
       <!-- Forecast Length -->
-      <div class="flex flex-col items-center space-y-2 px-6" x-show="isFcstTimeVisible">
+      <div class="flex flex-col items-center space-y-2 px-6" v-show="showFcstTime">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
         <div class="flex flex-row text-xs">
           <div
@@ -123,26 +123,21 @@
       const fcstTime = ref(24)
       const varName = ref('rain')
 
-      const activeVariable = computed(() => {
-        const v = metFields.find(({ varName: v }) => v === varName.value)
-        if (v) return v
-        return metFields[0]
-      })
+      const activeVariable = computed(() => metFields.find(({ varName: v }) => v === varName.value) ?? metFields[0])
 
-      const headerName = computed(() => {
-        const { headerName: hName } = activeVariable.value
-        if (hName) return hName
-        return defaultHeaderName
-      })
+      const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
-      const imgSrc = computed(() => {
-        if (!activeVariable.value.hasFcstTime) return `${imgSrcDir}/${varName.value}_latest.png`
-        return `${imgSrcDir}/wrf-${fcstTime.value}hr_${varName.value}_latest.png`
-      })
+      const showFcstTime = computed(() => activeVariable.value.hasFcstTime)
+
+      const imgSrc = computed(() =>
+        !activeVariable.value.hasFcstTime
+          ? `${imgSrcDir}/${varName.value}_latest.png`
+          : `${imgSrcDir}/wrf-${fcstTime.value}hr_${varName.value}_latest.png`
+      )
 
       const caption = computed(() => activeVariable.value.caption)
 
-      return { fcstTimes, metFields, fcstTime, varName, headerName, imgSrc, caption }
+      return { fcstTimes, metFields, fcstTime, varName, headerName, imgSrc, caption, showFcstTime }
     },
   })
 </script>

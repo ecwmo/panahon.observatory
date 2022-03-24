@@ -24,7 +24,7 @@ const useStationData = () => {
   const fetchData = async () => {
     stationLayer.value = JSON.parse(localStorage.getItem('station') || 'null')
     const newTimestamp = await axios.get('/api/stations.php?timestamp').then(({ data }) => new Date(data.timestamp))
-    timestamp.value = new Date(JSON.parse(localStorage.getItem('stationTimestamp') || 'null'))
+    timestamp.value = new Date(JSON.parse(localStorage.getItem('stationTimestamp') ?? JSON.stringify(new Date())))
 
     if (!stationLayer.value || newTimestamp.getTime() !== timestamp.value.getTime()) {
       const rawData = await axios.get('/api/stations.php').then(({ data }) => data)

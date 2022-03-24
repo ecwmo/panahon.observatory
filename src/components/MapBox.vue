@@ -34,23 +34,20 @@
 
       const { accessToken, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
 
-      const activeStation = computed(() => {
-        if (stationLayer.value && stationLayer.value.features) {
-          const st = stationLayer.value.features.find(({ properties: { id } }) => id === activeStationId.value)
-          if (st) return st
-        }
-        return { properties: { lat: 0, lon: 0 } }
-      })
+      const activeStation = computed(
+        () =>
+          stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value) ?? {
+            properties: { lat: 0, lon: 0 },
+          }
+      )
 
       watch([mapScope], () => {
-        if (map.value) {
-          if (mapScope.value === 'mm') {
-            map.value.setCenter([121.04, 14.56])
-            map.value.setZoom(9.5)
-          } else {
-            map.value.setCenter([121.80434, 12.5549])
-            map.value.setZoom(4.5)
-          }
+        if (mapScope.value === 'mm') {
+          map.value?.setCenter([121.04, 14.56])
+          map.value?.setZoom(9.5)
+        } else {
+          map.value?.setCenter([121.80434, 12.5549])
+          map.value?.setZoom(4.5)
         }
       })
 
@@ -68,23 +65,21 @@
       })
 
       watch([activeStationId], () => {
-        const dotPt = map.value ? <GeoJSONSource>map.value.getSource('active-point') : null
+        const dotPt = <GeoJSONSource>map.value?.getSource('active-point')
         const { lat, lon } = activeStation.value.properties
-        if (dotPt) {
-          dotPt.setData({
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [lon, lat], // icon position [lng, lat]
-                },
-                properties: {},
+        dotPt?.setData({
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [lon, lat], // icon position [lng, lat]
               },
-            ],
-          })
-        }
+              properties: {},
+            },
+          ],
+        })
       })
 
       onMounted(() => {
@@ -199,11 +194,9 @@
             },
           })
           map.value.on('click', 'station-pts', ({ features }: StationLayer) => {
-            if (features !== undefined) {
-              const { properties: props } = features[0]
-              if (props !== null) {
-                emit('update:activeStationId', props.id)
-              }
+            const props = features?.[0].properties
+            if (props !== null) {
+              emit('update:activeStationId', props.id)
             }
           })
           // Change the cursor to a pointer when the mouse is over the places layer.

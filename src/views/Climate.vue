@@ -141,7 +141,7 @@
       })
 
       const imgSrc = computed(() => {
-        const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) || [0, 0]
+        const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]
         return `${imgSrcDir}/ens_${activeScenario.value}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
       })
 

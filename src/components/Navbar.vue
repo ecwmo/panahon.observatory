@@ -87,8 +87,7 @@
 
       const activePage = computed(() => {
         const page = route.path.substring(1)
-        if (page === '') return 'index'
-        return page
+        return page === '' ? 'index' : page
       })
 
       return { mobileMenuOpen, activePage, lPages, rPages, isLoggedIn, handleLogout }
