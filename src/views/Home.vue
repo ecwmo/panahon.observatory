@@ -48,7 +48,6 @@
 
 <script lang="ts">
   import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
-  import axios from 'axios'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -67,10 +66,10 @@
   export default defineComponent({
     components: { Header, Loading, MapBox, InfoPanel },
     setup() {
+      const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
       const screen = useScreen()
       const { timestamp, data: stationLayer } = useStationData()
       const defaultStationId = '1'
-      const mapAccessToken = ref('')
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
       const mapScope = ref('mm')
@@ -100,8 +99,6 @@
       })
 
       onMounted(async () => {
-        mapAccessToken.value = await axios.post('api/env.php', { token: 'mapbox' }).then(({ data: tok }) => tok)
-
         visibleStations.value = stationLayer.value ? stationLayer.value.features : []
       })
 
