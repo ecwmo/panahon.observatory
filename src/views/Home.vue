@@ -21,6 +21,7 @@
     <div class="w-full flex flex-col-reverse md:flex-row md:items-center justify-center gap-4 p-6">
       <div v-if="loadMap" ref="mapContainer" class="flex relative" :style="mapStyle">
         <MapBox
+          v-if="stationLayer"
           class="flex md:flex md:flex-col m-auto md:mx-0 md:w-full md:h-full"
           :accessToken="mapAccessToken"
           :data="stationLayer"
@@ -46,7 +47,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed, onMounted, onActivated } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed, onActivated } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -67,7 +68,8 @@
     setup() {
       const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
       const screen = useScreen()
-      const { timestamp, stationLayer, fetchData } = useStationData()
+      const timestamp = ref(new Date())
+      const { stationLayer, fetchData } = useStationData()
       const defaultStationId = '1'
       const mapIsLoaded = ref(false)
       const mapContainer = ref()
@@ -98,14 +100,10 @@
         return `height:${mapHeight}px;width:${mapWidth}px;`
       })
 
-      onMounted(() => {
-        setTimeout(() => {
-          visibleStations.value = stationLayer.value?.features ?? []
-        }, 100)
-      })
-
       onActivated(async () => {
         await fetchData()
+        visibleStations.value = stationLayer.value?.features ?? []
+        timestamp.value = new Date(visibleStations.value?.[0]?.properties?.obs?.timestamp)
       })
 
       return {

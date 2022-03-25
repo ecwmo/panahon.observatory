@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 
 import { formatStnLayer, StationLayer } from '@/scripts/weather'
@@ -26,7 +26,8 @@ const useStationData = () => {
     const newTimestamp = await axios.get('/api/stations.php?timestamp').then(({ data }) => new Date(data.timestamp))
     timestamp.value = new Date(JSON.parse(localStorage.getItem('stationTimestamp') ?? JSON.stringify(new Date())))
 
-    if (!stationLayer.value || newTimestamp.getTime() !== timestamp.value.getTime()) {
+    const isNew = newTimestamp.getTime() !== timestamp.value.getTime()
+    if (!stationLayer.value || isNew) {
       const rawData = await axios.get('/api/stations.php').then(({ data }) => data)
       localStorage.setItem('stationTimestamp', JSON.stringify(rawData[0].obs.timestamp))
       stationLayer.value = formatStnLayer(rawData)
@@ -34,9 +35,9 @@ const useStationData = () => {
     }
   }
 
-  fetchData()
+  // fetchData()
 
-  return { timestamp, stationLayer, fetchData }
+  return { stationLayer, fetchData }
 }
 
 export { useStationData }
