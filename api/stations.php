@@ -32,7 +32,7 @@ if (array_key_exists('24hr', $_GET)) {
     $stn_arr = json_decode(file_get_contents($stn_file), true);
     $stn_obs_arr = json_decode(file_get_contents($stn_obs_file), true);
     $stn_mo_obs_arr = json_decode(file_get_contents($stn_mo_obs_file), true);
-    $stn_obs_arr = array_merge($stn_obs_arr, $stn_mo_obs_arr);
+    $stn_obs_arr = $stn_obs_arr + $stn_mo_obs_arr;
 
     $ts = json_decode(file_get_contents($timestamp_file), true);
 
