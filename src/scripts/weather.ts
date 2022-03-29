@@ -91,10 +91,11 @@ const dataIsValid = (val: any, varName: string) => {
 
 const metValueString = (stnObs: StationObs, varName: string) => {
   if (!stnObs || Object.keys(stnObs).length === 0) return '--'
-  const val = <number>stnObs[varName]
+  let val: number = stnObs[varName]
   if (['rr', 'rain24h', 'pres'].indexOf(varName) !== -1) {
     return dataIsValid(val, varName) ? val.toFixed() : '--'
   } else if (varName === 'wdirStr') {
+    val = stnObs['wdir']
     return windDirDeg2Str(val)
   } else {
     return dataIsValid(val, varName) ? val.toFixed(1) : '--'
