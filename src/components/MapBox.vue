@@ -21,16 +21,15 @@
       activeVariable: { type: String, required: true },
       mapScope: { type: String, required: true },
       activeStationId: { type: String },
-      visibleStations: { type: Object as PropType<StationLayer['features']>, default: [{ properties: { id: '' } }] },
       loaded: { type: Boolean, default: false },
     },
-    emits: ['update:activeStationId', 'update:visibleStations', 'update:loaded'],
+    emits: ['update:activeStationId', 'update:loaded'],
     components: { Colorbar },
     setup(props, { emit }) {
       const map = ref()
       const mapEl = ref()
 
-      const { accessToken, data, activeVariable, mapScope, activeStationId, visibleStations } = toRefs(props)
+      const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
 
       const activeStation = computed(
         () =>
@@ -138,8 +137,6 @@
         }
         const { lat, lon } = activeStation.value.properties
 
-        emit('update:visibleStations', data.value.features)
-
         map.value = new Map({
           accessToken: accessToken.value,
           container: mapEl.value,
@@ -204,24 +201,6 @@
           // Change it back to a pointer when it leaves.
           map.value.on('mouseleave', 'station-pts', () => {
             map.value.getCanvas().style.cursor = ''
-          })
-          map.value.on('zoomend', () => {
-            const _visibleStations = map.value.queryRenderedFeatures(undefined, {
-              layers: ['station-pts'],
-            })
-            const curIds = visibleStations.value.map(({ properties: { id } }) => id)
-            const newIds = (<StationLayer['features'] & MapboxGeoJSONFeature[]>_visibleStations).map(
-              ({ properties: { id } }) => id
-            )
-
-            if (curIds.sort().join(',') !== newIds.sort().join(',')) {
-              emit(
-                'update:visibleStations',
-                data.value.features.filter(
-                  ({ properties: { id } }) => [...newIds, activeStationId.value].indexOf(id) !== -1
-                )
-              )
-            }
           })
         })
       })

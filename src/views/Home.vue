@@ -12,8 +12,8 @@
         </label>
       </div>
       <!-- Station Dropdown -->
-      <select v-model="activeStationId" v-if="visibleStations.length > 0">
-        <option v-for="(st, id) in visibleStations" :key="id" :value="st.properties.id">
+      <select v-model="activeStationId" v-if="stationLayer?.features?.length > 0">
+        <option v-for="(st, id) in stationLayer?.features" :key="id" :value="st.properties.id">
           {{ st.properties.name }}
         </option>
       </select>
@@ -28,7 +28,6 @@
           :activeVariable="activeVariable"
           :mapScope="mapScope"
           v-model:activeStationId="activeStationId"
-          v-model:visibleStations="visibleStations"
           v-model:loaded="mapIsLoaded"
         />
         <loading :active="!mapIsLoaded" :is-full-page="false" />
@@ -56,8 +55,6 @@
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
 
-  import { StationLayer } from '@/scripts/weather'
-
   import Header from '@/components/Header.vue'
 
   const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
@@ -76,11 +73,10 @@
       const mapScope = ref('mm')
       const activeStationId = ref(defaultStationId)
       const activeVariable = ref('temp')
-      const visibleStations = ref(<StationLayer['features']>[])
 
       const activeStation = computed(
         () =>
-          visibleStations.value?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
+          stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
             id: '',
             name: '',
             obs: {},
@@ -102,8 +98,7 @@
 
       onActivated(async () => {
         await fetchData()
-        visibleStations.value = stationLayer.value?.features ?? []
-        timestamp.value = new Date(visibleStations.value?.[0]?.properties?.obs?.timestamp)
+        timestamp.value = new Date(stationLayer.value?.features?.[0]?.properties?.obs?.timestamp)
       })
 
       return {
@@ -114,7 +109,6 @@
         mapStyle,
         mapIsLoaded,
         mapScope,
-        visibleStations,
         activeStationId,
         activeStation,
         activeVariable,
