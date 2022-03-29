@@ -84,14 +84,21 @@ const windDirDeg2Str = (val: number) => {
   else return 'NNW'
 }
 
+const dataIsValid = (val: any, varName: string) => {
+  console.log(typeof val)
+  if (varName === 'pres') return val !== -999
+  return ![999.9, -999].includes(val)
+}
+
 const metValueString = (stnObs: StationObs, varName: string) => {
   if (!stnObs || Object.keys(stnObs).length === 0) return '--'
+  const val = <number>stnObs[varName]
   if (['rr', 'rain24h', 'pres'].indexOf(varName) !== -1) {
-    return stnObs[varName] ? (<number>stnObs[varName]).toFixed() : '--'
+    return dataIsValid(val, varName) ? val.toFixed() : '--'
   } else if (varName === 'wdirStr') {
-    return windDirDeg2Str(<number>stnObs[varName])
+    return windDirDeg2Str(val)
   } else {
-    return stnObs[varName] ? (<number>stnObs[varName]).toFixed(1) : '--'
+    return dataIsValid(val, varName) ? val.toFixed(1) : '--'
   }
 }
 
