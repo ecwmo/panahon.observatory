@@ -85,7 +85,6 @@ const windDirDeg2Str = (val: number) => {
 }
 
 const dataIsValid = (val: any, varName: string) => {
-  console.log(typeof val)
   if (varName === 'pres') return val !== -999
   return ![999.9, -999].includes(val)
 }
