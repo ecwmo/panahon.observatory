@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed, onActivated } from 'vue'
+  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -96,7 +96,7 @@
         return `height:${mapHeight}px;width:${mapWidth}px;`
       })
 
-      onActivated(async () => {
+      onMounted(async () => {
         await fetchData()
         timestamp.value = new Date(stationLayer.value?.features?.[0]?.properties?.obs?.timestamp)
       })
