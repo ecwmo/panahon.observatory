@@ -67,14 +67,15 @@
       </div>
       <div
         class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
-        v-html="caption"
-        v-show="caption"
-      ></div>
+      >
+        <component :is="caption"></component>
+      </div>
       <div
         class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
-        v-html="captionX"
         v-show="captionX && extremeToggle"
-      ></div>
+      >
+        <component :is="captionX"></component>
+      </div>
       <div
         class="italic text-sm mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
@@ -87,6 +88,11 @@
 
 <script lang="ts">
   import { defineComponent, ref, computed } from 'vue'
+
+  import ModelRainxCaption from '@/components/caption/ModelRainx.vue'
+  import ModelHixCaption from '@/components/caption/ModelHix.vue'
+  import ModelWpdCaption from '@/components/caption/ModelWpd.vue'
+  import ModelPpvCaption from '@/components/caption/ModelPpv.vue'
 
   export default defineComponent({
     setup() {
@@ -106,35 +112,14 @@
           text: 'Daily Rainfall',
           hasFcstTime: true,
           varNameX: 'rainx',
-          captionX: `
-    The figure above highlights areas with forecast 24-hour rainfall possibly exceeding the typical
-    monthly total rainfall based on data from TRMM Multi-Satellite Precipitation Analysis TMPA
-    (3B42RT; <a
-      href="https://doi.org/10.5067/TRMM/TMPA/DAY-E/7"
-      target="_blank" rel="noopener noreferrer">
-        10.5067/TRMM/TMPA/DAY-E/7
-      </a>).
-    However, caution is advised in interpreting the maps. Since TRMM underestimates rainfall for the
-    Philippines (<a
-      href="https://journals.ametsoc.org/view/journals/hydr/21/7/jhmD190276.xml"
-      target="_blank" rel="noopener noreferrer">
-        Peralta et al., 2020
-      </a>)
-    a lower extreme threshold value can result in more areas forecast to receive extreme rainfall.
-        `,
+          captionX: ModelRainxCaption,
         },
         { varName: 'temp', text: 'Temperature', hasFcstTime: true },
         {
           varName: 'hix',
           text: 'Max Heat Index',
           hasFcstTime: true,
-          caption: `
-    The figure above shows the spatial map of forecast heat stress index (HI).
-    The HI calculation is based on
-      <a
-        href="https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml"
-        target="_blank" rel="noopener noreferrer">Rothfusz (1990)</a>.
-      <img src="resources/model/static/heat_index_static_table.png" class="model-caption-img" />`,
+          caption: ModelHixCaption,
         },
         { varName: 'rh', text: 'Relative Humidity', hasFcstTime: true },
         { varName: 'wind', text: 'Winds', hasFcstTime: true },
@@ -148,20 +133,13 @@
           varName: 'wpd',
           text: 'Wind Power Forecast',
           hasFcstTime: true,
-          caption: `
-    The Wind Power Potential plot uses 100-m wind speed of the model output to approximate the wind
-    speed at 80-m, the typical height of wind turbines.
-    `,
+          caption: ModelWpdCaption,
         },
         {
           varName: 'ppv',
           text: 'Solar Power Forecast',
           hasFcstTime: true,
-          caption: `
-    The equations used for calculating Photovoltaic Power Potential were based on
-      <a
-        href="https://pubs.rsc.org/lv/content/articlelanding/2011/ee/c1ee01495a/unauth#!divAbstract"
-        target="_blank" rel="noopener noreferrer">Crook et al. (2011)</a>.`,
+          caption: ModelPpvCaption,
         },
       ]
 
@@ -215,10 +193,6 @@
 
   .model-caption a:hover {
     @apply underline text-blue-400;
-  }
-
-  .model-caption-img {
-    @apply pt-5;
   }
 
   .toggle-path {
