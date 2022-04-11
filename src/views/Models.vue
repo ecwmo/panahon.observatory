@@ -71,6 +71,11 @@
         v-show="caption"
       ></div>
       <div
+        class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
+        v-html="captionX"
+        v-show="captionX && extremeToggle"
+      ></div>
+      <div
         class="italic text-sm mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <span class="font-bold">DISCLAIMER</span>: This website contains experimental forecasts for research purposes.
@@ -96,7 +101,28 @@
       ]
 
       const metFields = [
-        { varName: 'rain', text: 'Daily Rainfall', hasFcstTime: true, varNameX: 'rainx' },
+        {
+          varName: 'rain',
+          text: 'Daily Rainfall',
+          hasFcstTime: true,
+          varNameX: 'rainx',
+          captionX: `
+    The figure above highlights areas with forecast 24-hour rainfall possibly exceeding the typical
+    monthly total rainfall based on data from TRMM Multi-Satellite Precipitation Analysis TMPA
+    (3B42RT; <a
+      href="https://doi.org/10.5067/TRMM/TMPA/DAY-E/7"
+      target="_blank" rel="noopener noreferrer">
+        10.5067/TRMM/TMPA/DAY-E/7
+      </a>).
+    However, caution is advised in interpreting the maps. Since TRMM underestimates rainfall for the
+    Philippines (<a
+      href="https://journals.ametsoc.org/view/journals/hydr/21/7/jhmD190276.xml"
+      target="_blank" rel="noopener noreferrer">
+        Peralta et al., 2020
+      </a>)
+    a lower extreme threshold value can result in more areas forecast to receive extreme rainfall.
+        `,
+        },
         { varName: 'temp', text: 'Temperature', hasFcstTime: true },
         {
           varName: 'hix',
@@ -163,6 +189,7 @@
       })
 
       const caption = computed(() => activeVariable.value.caption)
+      const captionX = computed(() => activeVariable.value.captionX)
 
       return {
         fcstTimes,
@@ -172,6 +199,7 @@
         headerName,
         imgSrc,
         caption,
+        captionX,
         showFcstTime,
         showExtremeToggle,
         extremeToggle,
