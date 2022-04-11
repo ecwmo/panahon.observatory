@@ -43,7 +43,26 @@
     </div>
     <div class="flex flex-col space-y-2 mx-12 md:w-full">
       <h2 class="text-center font-semibold text-4xl">{{ headerName }}</h2>
-      <div class="flex flex-col justify-center px-4">
+      <div class="flex flex-col justify-center px-4 relative">
+        <div v-show="showExtremeToggle" class="absolute top-1.5 left-5 p-2 flex justify-center">
+          <label for="toogleButton" class="flex items-center cursor-pointer">
+            <!-- toggle -->
+            <div class="relative">
+              <input id="toogleButton" type="checkbox" class="hidden" v-model="extremeToggle" />
+              <!-- path -->
+              <div
+                class="toggle-path w-9 h-5 border rounded-full shadow-inner"
+                :class="extremeToggle ? 'bg-red-600' : 'bg-red-200'"
+              ></div>
+              <!-- crcle -->
+              <div
+                class="toggle-circle absolute w-3.5 h-3.5 bg-white rounded-full shadow inset-y-0 left-0"
+                :class="{ 'translate-x-full': extremeToggle }"
+              ></div>
+            </div>
+            <div class="px-2" :class="extremeToggle ? 'text-red-600' : 'text-red-200'">Extreme</div>
+          </label>
+        </div>
         <img class="object-scale-down shadow-md rounded-2xl" :src="imgSrc" />
       </div>
       <div
@@ -77,7 +96,7 @@
       ]
 
       const metFields = [
-        { varName: 'rain', text: 'Daily Rainfall', hasFcstTime: true },
+        { varName: 'rain', text: 'Daily Rainfall', hasFcstTime: true, varNameX: 'rainx' },
         { varName: 'temp', text: 'Temperature', hasFcstTime: true },
         {
           varName: 'hix',
@@ -123,21 +142,40 @@
       const fcstTime = ref(24)
       const varName = ref('rain')
 
+      const extremeToggle = ref(false)
+
       const activeVariable = computed(() => metFields.find(({ varName: v }) => v === varName.value) ?? metFields[0])
 
       const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
       const showFcstTime = computed(() => activeVariable.value.hasFcstTime)
 
-      const imgSrc = computed(() =>
-        !activeVariable.value.hasFcstTime
-          ? `${imgSrcDir}/${varName.value}_latest.png`
-          : `${imgSrcDir}/wrf-${fcstTime.value}hr_${varName.value}_latest.png`
-      )
+      const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
+
+      const imgSrc = computed(() => {
+        const name =
+          extremeToggle.value && activeVariable.value.varNameX !== undefined
+            ? activeVariable.value.varNameX
+            : activeVariable.value.varName
+        return !activeVariable.value.hasFcstTime
+          ? `${imgSrcDir}/${name}_latest.png`
+          : `${imgSrcDir}/wrf-${fcstTime.value}hr_${name}_latest.png`
+      })
 
       const caption = computed(() => activeVariable.value.caption)
 
-      return { fcstTimes, metFields, fcstTime, varName, headerName, imgSrc, caption, showFcstTime }
+      return {
+        fcstTimes,
+        metFields,
+        fcstTime,
+        varName,
+        headerName,
+        imgSrc,
+        caption,
+        showFcstTime,
+        showExtremeToggle,
+        extremeToggle,
+      }
     },
   })
 </script>
@@ -153,5 +191,15 @@
 
   .model-caption-img {
     @apply pt-5;
+  }
+
+  .toggle-path {
+    transition: background 0.3s ease-in-out;
+  }
+
+  .toggle-circle {
+    top: 0.2rem;
+    left: 0.25rem;
+    transition: all 0.3s ease-in-out;
   }
 </style>
