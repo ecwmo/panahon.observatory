@@ -43,26 +43,26 @@
     </div>
     <div class="flex flex-col space-y-2 mx-12 md:w-full">
       <h2 class="text-center font-semibold text-4xl">{{ headerName }}</h2>
-      <div class="flex flex-col justify-center px-4 relative">
-        <div v-show="showExtremeToggle" class="absolute top-1.5 left-5 p-2 flex justify-center">
-          <label for="toogleButton" class="flex items-center cursor-pointer">
-            <!-- toggle -->
-            <div class="relative">
-              <input id="toogleButton" type="checkbox" class="hidden" v-model="extremeToggle" />
-              <!-- path -->
-              <div
-                class="toggle-path w-9 h-5 border rounded-full shadow-inner"
-                :class="extremeToggle ? 'bg-red-600' : 'bg-red-200'"
-              ></div>
-              <!-- crcle -->
-              <div
-                class="toggle-circle absolute w-3.5 h-3.5 bg-white rounded-full shadow inset-y-0 left-0"
-                :class="{ 'translate-x-full': extremeToggle }"
-              ></div>
-            </div>
-            <div class="px-2" :class="extremeToggle ? 'text-red-600' : 'text-red-200'">Extreme</div>
-          </label>
-        </div>
+      <div v-show="showExtremeToggle" class="flex justify-center">
+        <label for="toogleButton" class="flex items-center cursor-pointer">
+          <div class="px-2">Show extreme</div>
+          <!-- toggle -->
+          <div class="relative">
+            <input id="toogleButton" type="checkbox" class="hidden" v-model="extremeToggle" />
+            <!-- path -->
+            <div
+              class="toggle-path w-9 h-5 border rounded-full shadow-inner bg-red-600"
+              :class="{ 'opacity-50': !extremeToggle }"
+            ></div>
+            <!-- crcle -->
+            <div
+              class="toggle-circle absolute w-3.5 h-3.5 bg-white rounded-full shadow inset-y-0 left-0"
+              :class="{ 'translate-x-full': extremeToggle }"
+            ></div>
+          </div>
+        </label>
+      </div>
+      <div class="flex flex-col justify-center px-4">
         <img class="object-scale-down shadow-md rounded-2xl" :src="imgSrc" />
       </div>
       <div
