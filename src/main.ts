@@ -7,6 +7,7 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
+import VueGtag from 'vue-gtag'
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
@@ -19,4 +20,11 @@ const app = createApp(App)
 app.component('fa-icon', FontAwesomeIcon)
 app.use(router)
 app.use(store)
+app.use(
+  VueGtag,
+  {
+    config: { id: import.meta.env.VITE_GA_MEASUREMENT_ID },
+  },
+  router
+)
 app.mount('#app')
