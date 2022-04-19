@@ -87,7 +87,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, computed } from 'vue'
+  import { defineComponent, ref, computed, onMounted } from 'vue'
+  import axios from 'axios'
 
   import ModelRainxCaption from '@/components/caption/ModelRainx.vue'
   import ModelHixCaption from '@/components/caption/ModelHix.vue'
@@ -145,6 +146,7 @@
 
       const fcstTime = ref(24)
       const varName = ref('rain')
+      const imgSrcs = ref(<string[]>[])
 
       const extremeToggle = ref(false)
 
@@ -161,13 +163,16 @@
           extremeToggle.value && activeVariable.value.varNameX !== undefined
             ? activeVariable.value.varNameX
             : activeVariable.value.varName
-        return !activeVariable.value.hasFcstTime
-          ? `${imgSrcDir}/${name}_latest.png`
-          : `${imgSrcDir}/wrf-${fcstTime.value}hr_${name}_latest.png`
+        const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${fcstTime.value}hr_${name}_`
+        return imgSrcs.value.find((f) => f.includes(pattern))
       })
 
       const caption = computed(() => activeVariable.value.caption)
       const captionX = computed(() => activeVariable.value.captionX)
+
+      onMounted(async () => {
+        imgSrcs.value = await axios.get(`/api/model-img.php?`).then(({ data }) => data)
+      })
 
       return {
         fcstTimes,
