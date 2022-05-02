@@ -19,7 +19,7 @@
       class="absolute right-0 top-16 md:top-0 md:relative border border-b-0 md:border-l-0 md:border-r-0 border-black md:flex flex-col md:flex-row md:w-full justify-between bg-blue-900"
       :class="{ hidden: !mobileMenuOpen }"
     >
-      <ul class="md:flex flex-col md:flex-row">
+      <ul class="flex flex-col md:flex md:flex-row">
         <router-link
           v-for="p in lPages"
           :key="p.name"
@@ -30,7 +30,7 @@
           {{ p.label }}
         </router-link>
       </ul>
-      <ul class="md:flex flex-col md:flex-row border-t md:border-t-0 md:border-l-0 border-black">
+      <ul class="flex flex-col border-t border-black md:flex md:flex-row md:border-t-0 md:border-l-0">
         <a
           v-show="isLoggedIn"
           @click.prevent="handleLogout"
