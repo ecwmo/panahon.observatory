@@ -1,20 +1,23 @@
 <?php
-    include_once(__DIR__.'/../start.php');
+  include_once(__DIR__.'/../start.php');
 
-    $ROOT_IMG_DIR = '../resources/model/web_img';
+  $file = '../resources/model/info.json';
+  $info = file_get_contents($file);
+  $info = json_decode($info, true);
 
-    $imgSrc = $ROOT_IMG_DIR;
-    $cmapImgSrc = $ROOT_IMG_DIR.'/cmap';
+  $ROOT_IMG_DIR = '../resources/model/web_img';
+  $globPattern = "/*{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}*.png";
+  $imgs = glob($ROOT_IMG_DIR  . $globPattern, GLOB_BRACE);
 
-    $imgs = glob($imgSrc  .'/*.png', GLOB_BRACE);
-    $cmapImgs = glob($cmapImgSrc  .'/*.png', GLOB_BRACE);
+  $cmapImgSrc = $ROOT_IMG_DIR.'/cmap';
+  $cmapImgs = glob($cmapImgSrc  .'/*.png', GLOB_BRACE);
 
-    $data = [
-        "imgs" => $imgs,
-        "cmaps" => $cmapImgs
-    ];
+  $data = [
+      "imgs" => $imgs,
+      "cmaps" => $cmapImgs
+  ];
 
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
+  header('Access-Control-Allow-Origin: *');
+  header('Content-Type: application/json');
 
-    echo str_replace("..", "", json_encode($data));
+  echo str_replace("..", "", json_encode($data));
