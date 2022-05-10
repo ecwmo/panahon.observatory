@@ -52,45 +52,39 @@
   </nav>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref, computed } from 'vue'
+<script setup lang="ts">
+  import { ref, computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import useAuth from '@/composables/useAuth'
 
-  export default defineComponent({
-    setup() {
-      const route = useRoute()
-      const router = useRouter()
-      const mobileMenuOpen = ref(false)
+  const route = useRoute()
+  const router = useRouter()
+  const mobileMenuOpen = ref(false)
 
-      const { isLoggedIn, logout } = useAuth()
+  const { isLoggedIn, logout } = useAuth()
 
-      const lPages = [
-        {
-          name: 'index',
-          description: 'Latest Summaries - Weather Conditions and Maps',
-          label: 'Quick View',
-          to: '/',
-        },
-        { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: '/models' },
-        { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: '/climate' },
-        { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
-      ]
-
-      const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
-
-      const handleLogout = async () => {
-        await logout()
-        if (route.name === 'NewReport') router.push('/login')
-      }
-
-      const activePage = computed(() => {
-        const page = route.path.substring(1)
-        return page === '' ? 'index' : page
-      })
-
-      return { mobileMenuOpen, activePage, lPages, rPages, isLoggedIn, handleLogout }
+  const lPages = [
+    {
+      name: 'index',
+      description: 'Latest Summaries - Weather Conditions and Maps',
+      label: 'Quick View',
+      to: '/',
     },
+    { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: '/models' },
+    { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: '/climate' },
+    { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
+  ]
+
+  const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
+
+  const handleLogout = async () => {
+    await logout()
+    if (route.name === 'NewReport') router.push('/login')
+  }
+
+  const activePage = computed(() => {
+    const page = route.path.substring(1)
+    return page === '' ? 'index' : page
   })
 </script>

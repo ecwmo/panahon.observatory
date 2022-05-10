@@ -25,8 +25,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, toRefs, computed } from 'vue'
+<script setup lang="ts">
+  import { toRefs, computed } from 'vue'
   import { format } from 'date-fns'
 
   import { metValueString } from '@/scripts/weather'
@@ -37,75 +37,70 @@
   import WindInfo from '@/components/info/Wind.vue'
   import PresInfo from '@/components/info/Pres.vue'
 
-  export default defineComponent({
-    components: { Card },
-    props: {
-      data: { type: Object, required: true },
-      modelValue: { type: String },
-      timestamp: { type: Date, default: new Date() },
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-      const { data, timestamp } = toRefs(props)
+  const props = defineProps({
+    data: { type: Object, required: true },
+    modelValue: { type: String },
+    timestamp: { type: Date, default: new Date() },
+  })
 
-      const stationName = computed(() => data.value.name)
+  const emit = defineEmits(['update:modelValue'])
 
-      const cardDateString = computed(() => format(timestamp.value, 'h bbb'))
+  const { data, timestamp } = toRefs(props)
 
-      const metValueStrings = computed(() => {
-        const ret: { [k: string]: string } = {}
-        const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
+  const stationName = computed(() => data.value.name)
 
-        metVars.forEach((v) => {
-          ret[v] = metValueString(data.value.obs, v)
-        })
+  const cardDateString = computed(() => format(timestamp.value, 'h bbb'))
 
-        return ret
-      })
+  const metValueStrings = computed(() => {
+    const ret: { [k: string]: string } = {}
+    const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 
-      const cards = computed(() => {
-        const windDirStr = metValueStrings.value['wdirStr']
-        const winDirIcon = windDirStr ? `wi-from-${windDirStr.toLowerCase()}` : ''
-        return [
-          {
-            id: 'rain',
-            title: 'RAIN (mm)',
-            label1: 'Now',
-            value1: metValueStrings.value['rr'],
-            label2: '24hr total',
-            value2: metValueStrings.value['rain24h'],
-            iconClass: 'fas fa-cloud-rain',
-            info: RainInfo,
-          },
-          {
-            id: 'temp',
-            title: 'TEMPERATURE (°C)',
-            value1: metValueStrings.value['temp'],
-            label2: 'HI',
-            value2: metValueStrings.value['hi'],
-            iconClass: 'fas fa-thermometer-half',
-            info: TempInfo,
-          },
-          {
-            id: 'wind',
-            title: 'WIND (m/s)',
-            value1: metValueStrings.value['wspd'],
-            value2: windDirStr,
-            iconClass: 'fas fa-wind',
-            iconClass2: `wi wi-wind ${winDirIcon}`,
-            info: WindInfo,
-          },
-          {
-            id: 'pres',
-            title: 'PRESSURE (hPa)',
-            value1: metValueStrings.value['pres'],
-            iconClass: 'wi wi-barometer',
-            info: PresInfo,
-          },
-        ]
-      })
+    metVars.forEach((v) => {
+      ret[v] = metValueString(data.value.obs, v)
+    })
 
-      return { stationName, cardDateString, cards, metValueStrings }
-    },
+    return ret
+  })
+
+  const cards = computed(() => {
+    const windDirStr = metValueStrings.value['wdirStr']
+    const winDirIcon = windDirStr ? `wi-from-${windDirStr.toLowerCase()}` : ''
+    return [
+      {
+        id: 'rain',
+        title: 'RAIN (mm)',
+        label1: 'Now',
+        value1: metValueStrings.value['rr'],
+        label2: '24hr total',
+        value2: metValueStrings.value['rain24h'],
+        iconClass: 'fas fa-cloud-rain',
+        info: RainInfo,
+      },
+      {
+        id: 'temp',
+        title: 'TEMPERATURE (°C)',
+        value1: metValueStrings.value['temp'],
+        label2: 'HI',
+        value2: metValueStrings.value['hi'],
+        iconClass: 'fas fa-thermometer-half',
+        info: TempInfo,
+      },
+      {
+        id: 'wind',
+        title: 'WIND (m/s)',
+        value1: metValueStrings.value['wspd'],
+        value2: windDirStr,
+        iconClass: 'fas fa-wind',
+        iconClass2: `wi wi-wind ${winDirIcon}`,
+        info: WindInfo,
+      },
+      {
+        id: 'pres',
+        title: 'PRESSURE (hPa)',
+        value1: metValueStrings.value['pres'],
+        iconClass: 'wi wi-barometer',
+        info: PresInfo,
+      },
+    ]
   })
 </script>

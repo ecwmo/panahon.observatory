@@ -19,27 +19,22 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, toRefs, computed } from 'vue'
+<script setup lang="ts">
+  import { toRefs, computed } from 'vue'
 
   import { metVars } from '@/scripts/weather'
   import { getSwatch } from '@/scripts/color'
 
-  export default defineComponent({
-    props: {
-      name: { type: String, required: true },
-    },
-    setup(props) {
-      const { name } = toRefs(props)
+  const props = defineProps({
+    name: { type: String, required: true },
+  })
 
-      const palette = computed(() => {
-        if (Object.keys(metVars).indexOf(name.value) !== -1) {
-          const { min, max } = metVars[name.value].range
-          return getSwatch(name.value, min, max)
-        } else return null
-      })
+  const { name } = toRefs(props)
 
-      return { palette }
-    },
+  const palette = computed(() => {
+    if (Object.keys(metVars).indexOf(name.value) !== -1) {
+      const { min, max } = metVars[name.value].range
+      return getSwatch(name.value, min, max)
+    } else return null
   })
 </script>

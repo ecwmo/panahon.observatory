@@ -8,21 +8,16 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, toRefs, computed } from 'vue'
+<script setup lang="ts">
+  import { toRefs, computed } from 'vue'
 
-  export default defineComponent({
-    props: {
-      stationName: { type: String, required: true },
-      data: { type: Object, required: true },
-      dateString: { type: String, required: true },
-    },
-    setup(props) {
-      const { data } = toRefs(props)
-
-      const presStr = computed(() => `${data.value['pres']} mb`)
-
-      return { presStr }
-    },
+  const props = defineProps({
+    stationName: { type: String, required: true },
+    data: { type: Object, required: true },
+    dateString: { type: String, required: true },
   })
+
+  const { data } = toRefs(props)
+
+  const presStr = computed(() => `${data.value['pres']} mb`)
 </script>

@@ -45,8 +45,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, defineAsyncComponent, ref, computed, onMounted } from 'vue'
+<script setup lang="ts">
+  import { defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import { format } from 'date-fns'
 
   import { useScreen } from 'vue-screen'
@@ -55,67 +55,44 @@
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
 
-  import Header from '@/components/Header.vue'
-
   const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
-  export default defineComponent({
-    components: { Header, Loading, MapBox, InfoPanel },
-    setup() {
-      const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
-      const screen = useScreen()
-      const timestamp = ref(new Date())
-      const { stationLayer, fetchData } = useStationData()
-      const defaultStationId = '1'
-      const mapIsLoaded = ref(false)
-      const mapContainer = ref()
-      const mapScope = ref('mm')
-      const activeStationId = ref(defaultStationId)
-      const activeVariable = ref('temp')
+  const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
+  const screen = useScreen()
+  const timestamp = ref(new Date())
+  const { stationLayer, fetchData } = useStationData()
+  const defaultStationId = '1'
+  const mapIsLoaded = ref(false)
+  const mapContainer = ref()
+  const mapScope = ref('mm')
+  const activeStationId = ref(defaultStationId)
+  const activeVariable = ref('temp')
 
-      const activeStation = computed(
-        () =>
-          stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
-            id: '',
-            name: '',
-            obs: {},
-          }
-      )
-
-      const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
-
-      const loadMap = computed(() => screen.width > 768)
-
-      const mapStyle = computed(() => {
-        const aspectRatio = 1.2
-        const maxHeight = 540
-        let mapHeight = screen.height
-        mapHeight = mapHeight > maxHeight ? maxHeight : mapHeight
-        const mapWidth = mapHeight / aspectRatio
-        return `height:${mapHeight}px;width:${mapWidth}px;`
-      })
-
-      onMounted(async () => {
-        await fetchData()
-        timestamp.value = new Date(stationLayer.value?.features?.[0]?.properties?.obs?.timestamp)
-      })
-
-      return {
-        stationLayer,
-        loadMap,
-        mapAccessToken,
-        mapContainer,
-        mapStyle,
-        mapIsLoaded,
-        mapScope,
-        activeStationId,
-        activeStation,
-        activeVariable,
-        timestamp,
-        formatDate,
-        screen,
+  const activeStation = computed(
+    () =>
+      stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
+        id: '',
+        name: '',
+        obs: {},
       }
-    },
+  )
+
+  const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
+
+  const loadMap = computed(() => screen.width > 768)
+
+  const mapStyle = computed(() => {
+    const aspectRatio = 1.2
+    const maxHeight = 540
+    let mapHeight = screen.height
+    mapHeight = mapHeight > maxHeight ? maxHeight : mapHeight
+    const mapWidth = mapHeight / aspectRatio
+    return `height:${mapHeight}px;width:${mapWidth}px;`
+  })
+
+  onMounted(async () => {
+    await fetchData()
+    timestamp.value = new Date(stationLayer.value?.features?.[0]?.properties?.obs?.timestamp)
   })
 </script>

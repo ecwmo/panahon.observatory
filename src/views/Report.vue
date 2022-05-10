@@ -22,8 +22,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref, onMounted, computed } from 'vue'
+<script setup lang="ts">
+  import { ref, onMounted, computed } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router'
 
@@ -31,31 +31,25 @@
     [key: string]: { imgSrc: string; show: boolean }[]
   }
 
-  export default defineComponent({
-    setup() {
-      const imgRefs = ref(<Element[]>[])
-      const imgSrcs = ref(<Images>{})
-      const route = useRoute()
+  const imgRefs = ref(<Element[]>[])
+  const imgSrcs = ref(<Images>{})
+  const route = useRoute()
 
-      const showStaticImgs = computed(() => (imgSrcs.value.staticImgs ? imgSrcs.value.staticImgs.length > 0 : false))
+  const showStaticImgs = computed(() => (imgSrcs.value.staticImgs ? imgSrcs.value.staticImgs.length > 0 : false))
 
-      onMounted(async () => {
-        const rData = await axios.get(`/lib/fetch-report.php?view=${route.query.view}`).then(({ data }) => data)
+  onMounted(async () => {
+    const rData = await axios.get(`/lib/fetch-report.php?view=${route.query.view}`).then(({ data }) => data)
 
-        const reportImgs = rData.reportImgs.map((imgSrc: string, idx: number) => ({
-          show: idx < 1 ? true : false,
-          imgSrc,
-        }))
+    const reportImgs = rData.reportImgs.map((imgSrc: string, idx: number) => ({
+      show: idx < 1 ? true : false,
+      imgSrc,
+    }))
 
-        const staticImgs = rData.staticImgs.map((imgSrc: string) => ({
-          show: false,
-          imgSrc,
-        }))
+    const staticImgs = rData.staticImgs.map((imgSrc: string) => ({
+      show: false,
+      imgSrc,
+    }))
 
-        imgSrcs.value = { reportImgs, staticImgs }
-      })
-
-      return { imgRefs, imgSrcs, showStaticImgs }
-    },
+    imgSrcs.value = { reportImgs, staticImgs }
   })
 </script>

@@ -86,8 +86,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref, computed, onMounted } from 'vue'
+<script setup lang="ts">
+  import { ref, computed, onMounted } from 'vue'
   import axios from 'axios'
 
   import ModelRainxCaption from '@/components/caption/ModelRainx.vue'
@@ -95,99 +95,81 @@
   import ModelWpdCaption from '@/components/caption/ModelWpd.vue'
   import ModelPpvCaption from '@/components/caption/ModelPpv.vue'
 
-  export default defineComponent({
-    setup() {
-      const defaultHeaderName = 'Model Forecast Maps'
-      const imgSrcDir = 'resources/model/img'
-      const fcstTimes = [
-        { val: 24, text: '24hr' },
-        { val: 48, text: '48hr' },
-        { val: 72, text: '72hr' },
-        { val: 96, text: '96hr' },
-        { val: 120, text: '120hr' },
-      ]
+  const defaultHeaderName = 'Model Forecast Maps'
+  const imgSrcDir = 'resources/model/img'
+  const fcstTimes = [
+    { val: 24, text: '24hr' },
+    { val: 48, text: '48hr' },
+    { val: 72, text: '72hr' },
+    { val: 96, text: '96hr' },
+    { val: 120, text: '120hr' },
+  ]
 
-      const metFields = [
-        {
-          varName: 'rain',
-          text: 'Daily Rainfall',
-          hasFcstTime: true,
-          varNameX: 'rainx',
-          captionX: ModelRainxCaption,
-        },
-        { varName: 'temp', text: 'Temperature', hasFcstTime: true },
-        {
-          varName: 'hix',
-          text: 'Max Heat Index',
-          hasFcstTime: true,
-          caption: ModelHixCaption,
-        },
-        { varName: 'rh', text: 'Relative Humidity', hasFcstTime: true },
-        { varName: 'wind', text: 'Winds', hasFcstTime: true },
-        {
-          varName: 'wrf-ts',
-          text: 'Hourly Forecasts',
-          hasFcstTime: false,
-          headerName: 'Hourly Forecasts',
-        },
-        {
-          varName: 'wpd',
-          text: 'Wind Power Forecast',
-          hasFcstTime: true,
-          caption: ModelWpdCaption,
-        },
-        {
-          varName: 'ppv',
-          text: 'Solar Power Forecast',
-          hasFcstTime: true,
-          caption: ModelPpvCaption,
-        },
-      ]
-
-      const fcstTime = ref(24)
-      const varName = ref('rain')
-      const imgSrcs = ref(<string[]>[])
-
-      const extremeToggle = ref(false)
-
-      const activeVariable = computed(() => metFields.find(({ varName: v }) => v === varName.value) ?? metFields[0])
-
-      const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
-
-      const showFcstTime = computed(() => activeVariable.value.hasFcstTime)
-
-      const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
-
-      const imgSrc = computed(() => {
-        const name =
-          extremeToggle.value && activeVariable.value.varNameX !== undefined
-            ? activeVariable.value.varNameX
-            : activeVariable.value.varName
-        const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${fcstTime.value}hr_${name}_`
-        return imgSrcs.value.find((f) => f.includes(pattern))
-      })
-
-      const caption = computed(() => activeVariable.value.caption)
-      const captionX = computed(() => activeVariable.value.captionX)
-
-      onMounted(async () => {
-        imgSrcs.value = await axios.get(`/api/model-img.php?`).then(({ data }) => data)
-      })
-
-      return {
-        fcstTimes,
-        metFields,
-        fcstTime,
-        varName,
-        headerName,
-        imgSrc,
-        caption,
-        captionX,
-        showFcstTime,
-        showExtremeToggle,
-        extremeToggle,
-      }
+  const metFields = [
+    {
+      varName: 'rain',
+      text: 'Daily Rainfall',
+      hasFcstTime: true,
+      varNameX: 'rainx',
+      captionX: ModelRainxCaption,
     },
+    { varName: 'temp', text: 'Temperature', hasFcstTime: true },
+    {
+      varName: 'hix',
+      text: 'Max Heat Index',
+      hasFcstTime: true,
+      caption: ModelHixCaption,
+    },
+    { varName: 'rh', text: 'Relative Humidity', hasFcstTime: true },
+    { varName: 'wind', text: 'Winds', hasFcstTime: true },
+    {
+      varName: 'wrf-ts',
+      text: 'Hourly Forecasts',
+      hasFcstTime: false,
+      headerName: 'Hourly Forecasts',
+    },
+    {
+      varName: 'wpd',
+      text: 'Wind Power Forecast',
+      hasFcstTime: true,
+      caption: ModelWpdCaption,
+    },
+    {
+      varName: 'ppv',
+      text: 'Solar Power Forecast',
+      hasFcstTime: true,
+      caption: ModelPpvCaption,
+    },
+  ]
+
+  const fcstTime = ref(24)
+  const varName = ref('rain')
+  const imgSrcs = ref(<string[]>[])
+
+  const extremeToggle = ref(false)
+
+  const activeVariable = computed(() => metFields.find(({ varName: v }) => v === varName.value) ?? metFields[0])
+
+  const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
+
+  const showFcstTime = computed(() => activeVariable.value.hasFcstTime)
+
+  const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
+
+  const imgSrc = computed(() => {
+    const name =
+      extremeToggle.value && activeVariable.value.varNameX !== undefined
+        ? activeVariable.value.varNameX
+        : activeVariable.value.varName
+    const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${fcstTime.value}hr_${name}_`
+    return imgSrcs.value.find((f) => f.includes(pattern))
+  })
+
+  const caption = computed(() => activeVariable.value.caption)
+  const captionX = computed(() => activeVariable.value.captionX)
+
+  onMounted(async () => {
+    imgSrcs.value = await axios.get(`/api/model-img.php?`).then(({ data }) => data)
   })
 </script>
 

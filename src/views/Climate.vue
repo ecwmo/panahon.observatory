@@ -102,60 +102,44 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref, computed } from 'vue'
+<script setup lang="ts">
+  import { ref, computed } from 'vue'
 
-  export default defineComponent({
-    setup() {
-      const imgSrcDir = 'resources/climate/img'
-      const climateScenarios = ['RCP45', 'RCP85']
-      const climateVariables = [
-        { varName: 'tmean', desc: 'Daily Average Temperature' },
-        { varName: 'tmin', desc: 'Daily Minimum Temperature' },
-        { varName: 'tmax', desc: 'Daily Maximum Temperature' },
-        { varName: 'precip', desc: 'Daily Rainfall' },
-      ]
-      const decades = [
-        [2020, 2029],
-        [2030, 2039],
-        [2040, 2049],
-        [2050, 2059],
-        [2060, 2069],
-        [2070, 2079],
-        [2080, 2089],
-        [2090, 2099],
-      ]
+  const imgSrcDir = 'resources/climate/img'
+  const climateScenarios = ['RCP45', 'RCP85']
+  const climateVariables = [
+    { varName: 'tmean', desc: 'Daily Average Temperature' },
+    { varName: 'tmin', desc: 'Daily Minimum Temperature' },
+    { varName: 'tmax', desc: 'Daily Maximum Temperature' },
+    { varName: 'precip', desc: 'Daily Rainfall' },
+  ]
+  const decades = [
+    [2020, 2029],
+    [2030, 2039],
+    [2040, 2049],
+    [2050, 2059],
+    [2060, 2069],
+    [2070, 2079],
+    [2080, 2089],
+    [2090, 2099],
+  ]
 
-      const activeScenario = ref('RCP45')
-      const activeVariable = ref('tmean')
-      const activeDecade = ref(2020)
+  const activeScenario = ref('RCP45')
+  const activeVariable = ref('tmean')
+  const activeDecade = ref(2020)
 
-      const minDecade = computed(() => {
-        const vals = decades.map((v) => v[0])
-        return Math.min(...vals)
-      })
+  const minDecade = computed(() => {
+    const vals = decades.map((v) => v[0])
+    return Math.min(...vals)
+  })
 
-      const maxDecade = computed(() => {
-        const vals = decades.map((v) => v[0])
-        return Math.max(...vals)
-      })
+  const maxDecade = computed(() => {
+    const vals = decades.map((v) => v[0])
+    return Math.max(...vals)
+  })
 
-      const imgSrc = computed(() => {
-        const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]
-        return `${imgSrcDir}/ens_${activeScenario.value}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
-      })
-
-      return {
-        climateScenarios,
-        climateVariables,
-        decades,
-        activeScenario,
-        activeVariable,
-        activeDecade,
-        minDecade,
-        maxDecade,
-        imgSrc,
-      }
-    },
+  const imgSrc = computed(() => {
+    const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]
+    return `${imgSrcDir}/ens_${activeScenario.value}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
   })
 </script>

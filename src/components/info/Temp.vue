@@ -11,26 +11,21 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, toRefs, computed } from 'vue'
+<script setup lang="ts">
+  import { toRefs, computed } from 'vue'
 
-  export default defineComponent({
-    props: {
-      stationName: { type: String, required: true },
-      data: { type: Object, required: true },
-      dateString: { type: String, required: true },
-    },
-    setup(props) {
-      const { data } = toRefs(props)
-
-      const tempStr = computed(() => `${data.value['temp']} °C`)
-      const hiStr = computed(() => `${data.value['hi']} °C`)
-      const txStr = computed(() => `${data.value['tx']} °C`)
-      const tnStr = computed(() => `${data.value['tn']} °C`)
-
-      const showHi = computed(() => `${data.value['hi']}` !== '--')
-
-      return { tempStr, hiStr, txStr, tnStr, showHi }
-    },
+  const props = defineProps({
+    stationName: { type: String, required: true },
+    data: { type: Object, required: true },
+    dateString: { type: String, required: true },
   })
+
+  const { data } = toRefs(props)
+
+  const tempStr = computed(() => `${data.value['temp']} °C`)
+  const hiStr = computed(() => `${data.value['hi']} °C`)
+  const txStr = computed(() => `${data.value['tx']} °C`)
+  const tnStr = computed(() => `${data.value['tn']} °C`)
+
+  const showHi = computed(() => `${data.value['hi']}` !== '--')
 </script>

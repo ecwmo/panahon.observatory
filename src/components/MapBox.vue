@@ -6,65 +6,166 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { ref, toRefs, onMounted, defineComponent, watch, PropType, computed } from 'vue'
-  import { Map, GeoJSONSource, MapboxGeoJSONFeature } from 'mapbox-gl'
+<script setup lang="ts">
+  import { ref, toRefs, onMounted, watch, PropType, computed } from 'vue'
+  import { Map, GeoJSONSource } from 'mapbox-gl'
 
   import Colorbar from '@/components/Colorbar.vue'
 
   import { StationLayer } from '@/scripts/weather'
 
-  export default defineComponent({
-    props: {
-      accessToken: { type: String, required: true },
-      data: { type: Object as PropType<StationLayer>, required: true },
-      activeVariable: { type: String, required: true },
-      mapScope: { type: String, required: true },
-      activeStationId: { type: String },
-      loaded: { type: Boolean, default: false },
-    },
-    emits: ['update:activeStationId', 'update:loaded'],
-    components: { Colorbar },
-    setup(props, { emit }) {
-      const map = ref()
-      const mapEl = ref()
+  const props = defineProps({
+    accessToken: { type: String, required: true },
+    data: { type: Object as PropType<StationLayer>, required: true },
+    activeVariable: { type: String, required: true },
+    mapScope: { type: String, required: true },
+    activeStationId: { type: String },
+    loaded: { type: Boolean, default: false },
+  })
 
-      const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
+  const emit = defineEmits(['update:activeStationId', 'update:loaded'])
 
-      const activeStation = computed(
-        () =>
-          data.value?.features?.find(({ properties: { id } }) => id === activeStationId.value) ?? {
-            properties: { lat: 0, lon: 0 },
-          }
-      )
+  const map = ref()
+  const mapEl = ref()
 
-      watch([mapScope], () => {
-        if (mapScope.value === 'mm') {
-          map.value?.setCenter([121.04, 14.56])
-          map.value?.setZoom(9.5)
-        } else {
-          map.value?.setCenter([121.80434, 12.5549])
-          map.value?.setZoom(4.5)
-        }
+  const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
+
+  const activeStation = computed(
+    () =>
+      data.value?.features?.find(({ properties: { id } }) => id === activeStationId?.value) ?? {
+        properties: { lat: 0, lon: 0 },
+      }
+  )
+
+  watch([mapScope], () => {
+    if (mapScope.value === 'mm') {
+      map.value?.setCenter([121.04, 14.56])
+      map.value?.setZoom(9.5)
+    } else {
+      map.value?.setCenter([121.80434, 12.5549])
+      map.value?.setZoom(4.5)
+    }
+  })
+
+  watch([activeVariable], () => {
+    const metVars = Object.keys(<Object>data.value.features[0].properties.colors)
+
+    if (metVars.indexOf(activeVariable.value) !== -1) {
+      map.value.setPaintProperty('station-pts', 'circle-color', [
+        'to-color',
+        ['get', activeVariable.value, ['get', 'colors']],
+      ])
+    } else {
+      map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
+    }
+  })
+
+  watch([activeStationId], () => {
+    const dotPt = <GeoJSONSource>map.value?.getSource('active-point')
+    const { lat, lon } = activeStation.value.properties
+    dotPt?.setData({
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [lon, lat], // icon position [lng, lat]
+          },
+          properties: {},
+        },
+      ],
+    })
+  })
+
+  onMounted(() => {
+    const dotSize = 100
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    const pulsingDot = {
+      width: dotSize,
+      height: dotSize,
+      data: new Uint8Array(dotSize * dotSize * 4),
+
+      // When the layer is added to the map,
+      // get the rendering context for the map canvas.
+      onAdd: function () {
+        const canvas = document.createElement('canvas')
+        canvas.width = this.width
+        canvas.height = this.height
+        // @ts-ignore
+        this.context = canvas.getContext('2d')
+      },
+
+      // Call once before every frame where the icon will be used.
+      render: function () {
+        const duration = 1600
+        const t = (performance.now() % duration) / duration
+
+        const radius = (dotSize / 2) * 0.3
+        const outerRadius = (dotSize / 2) * 0.7 * t + radius
+        // @ts-ignore
+        const context = this.context
+
+        // Draw the outer circle.
+        context.clearRect(0, 0, this.width, this.height)
+        context.beginPath()
+        context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
+        context.fillStyle = 'rgba(255, 200, 200,' + (1 - t) + ')'
+        context.fill()
+
+        // Draw the inner circle.
+        context.beginPath()
+        context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
+        context.fillStyle = 'rgba(255, 100, 100, 0)'
+        context.strokeStyle = 'white'
+        context.lineWidth = 2 + 4 * (1 - t)
+        context.fill()
+        context.stroke()
+
+        // Update this image's data with data from the canvas.
+        this.data = context.getImageData(0, 0, this.width, this.height).data
+
+        // Continuously repaint the map, resulting
+        // in the smooth animation of the dot.
+        map.value.triggerRepaint()
+
+        // Return `true` to let the map know that the image was updated.
+        return true
+      },
+    }
+    const { lat, lon } = activeStation.value.properties
+
+    map.value = new Map({
+      accessToken: accessToken.value,
+      container: mapEl.value,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [121.04, 14.56],
+      zoom: 9.5,
+      attributionControl: false,
+    })
+
+    map.value.once('load', () => {
+      emit('update:loaded', true)
+      map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
+      map.value.addSource('station', {
+        type: 'geojson',
+        data: <any>data.value,
       })
-
-      watch([activeVariable], () => {
-        const metVars = Object.keys(<Object>data.value.features[0].properties.colors)
-
-        if (metVars.indexOf(activeVariable.value) !== -1) {
-          map.value.setPaintProperty('station-pts', 'circle-color', [
-            'to-color',
-            ['get', activeVariable.value, ['get', 'colors']],
-          ])
-        } else {
-          map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
-        }
+      map.value.addLayer({
+        id: 'station-pts',
+        type: 'circle',
+        source: 'station',
+        paint: {
+          'circle-radius': 5,
+          'circle-stroke-color': '#000000',
+          'circle-stroke-width': 1,
+          'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
+        },
       })
-
-      watch([activeStationId], () => {
-        const dotPt = <GeoJSONSource>map.value?.getSource('active-point')
-        const { lat, lon } = activeStation.value.properties
-        dotPt?.setData({
+      map.value.addSource('active-point', {
+        type: 'geojson',
+        data: {
           type: 'FeatureCollection',
           features: [
             {
@@ -73,139 +174,33 @@
                 type: 'Point',
                 coordinates: [lon, lat], // icon position [lng, lat]
               },
-              properties: {},
+              properties: [],
             },
           ],
-        })
+        },
       })
-
-      onMounted(() => {
-        const dotSize = 100
-        // This implements `StyleImageInterface`
-        // to draw a pulsing dot icon on the map.
-        const pulsingDot = {
-          width: dotSize,
-          height: dotSize,
-          data: new Uint8Array(dotSize * dotSize * 4),
-
-          // When the layer is added to the map,
-          // get the rendering context for the map canvas.
-          onAdd: function () {
-            const canvas = document.createElement('canvas')
-            canvas.width = this.width
-            canvas.height = this.height
-            // @ts-ignore
-            this.context = canvas.getContext('2d')
-          },
-
-          // Call once before every frame where the icon will be used.
-          render: function () {
-            const duration = 1600
-            const t = (performance.now() % duration) / duration
-
-            const radius = (dotSize / 2) * 0.3
-            const outerRadius = (dotSize / 2) * 0.7 * t + radius
-            // @ts-ignore
-            const context = this.context
-
-            // Draw the outer circle.
-            context.clearRect(0, 0, this.width, this.height)
-            context.beginPath()
-            context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
-            context.fillStyle = 'rgba(255, 200, 200,' + (1 - t) + ')'
-            context.fill()
-
-            // Draw the inner circle.
-            context.beginPath()
-            context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
-            context.fillStyle = 'rgba(255, 100, 100, 0)'
-            context.strokeStyle = 'white'
-            context.lineWidth = 2 + 4 * (1 - t)
-            context.fill()
-            context.stroke()
-
-            // Update this image's data with data from the canvas.
-            this.data = context.getImageData(0, 0, this.width, this.height).data
-
-            // Continuously repaint the map, resulting
-            // in the smooth animation of the dot.
-            map.value.triggerRepaint()
-
-            // Return `true` to let the map know that the image was updated.
-            return true
-          },
+      map.value.addLayer({
+        id: 'layer-with-pulsing-dot',
+        type: 'symbol',
+        source: 'active-point',
+        layout: {
+          'icon-image': 'pulsing-dot',
+        },
+      })
+      map.value.on('click', 'station-pts', ({ features }: StationLayer) => {
+        const props = features?.[0].properties
+        if (props !== null) {
+          emit('update:activeStationId', props.id)
         }
-        const { lat, lon } = activeStation.value.properties
-
-        map.value = new Map({
-          accessToken: accessToken.value,
-          container: mapEl.value,
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: [121.04, 14.56],
-          zoom: 9.5,
-          attributionControl: false,
-        })
-
-        map.value.once('load', () => {
-          emit('update:loaded', true)
-          map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
-          map.value.addSource('station', {
-            type: 'geojson',
-            data: <any>data.value,
-          })
-          map.value.addLayer({
-            id: 'station-pts',
-            type: 'circle',
-            source: 'station',
-            paint: {
-              'circle-radius': 5,
-              'circle-stroke-color': '#000000',
-              'circle-stroke-width': 1,
-              'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
-            },
-          })
-          map.value.addSource('active-point', {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [
-                {
-                  type: 'Feature',
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [lon, lat], // icon position [lng, lat]
-                  },
-                  properties: [],
-                },
-              ],
-            },
-          })
-          map.value.addLayer({
-            id: 'layer-with-pulsing-dot',
-            type: 'symbol',
-            source: 'active-point',
-            layout: {
-              'icon-image': 'pulsing-dot',
-            },
-          })
-          map.value.on('click', 'station-pts', ({ features }: StationLayer) => {
-            const props = features?.[0].properties
-            if (props !== null) {
-              emit('update:activeStationId', props.id)
-            }
-          })
-          // Change the cursor to a pointer when the mouse is over the places layer.
-          map.value.on('mouseenter', 'station-pts', () => {
-            map.value.getCanvas().style.cursor = 'pointer'
-          })
-          // Change it back to a pointer when it leaves.
-          map.value.on('mouseleave', 'station-pts', () => {
-            map.value.getCanvas().style.cursor = ''
-          })
-        })
       })
-
-      return { mapEl }
-    },
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.value.on('mouseenter', 'station-pts', () => {
+        map.value.getCanvas().style.cursor = 'pointer'
+      })
+      // Change it back to a pointer when it leaves.
+      map.value.on('mouseleave', 'station-pts', () => {
+        map.value.getCanvas().style.cursor = ''
+      })
+    })
   })
 </script>

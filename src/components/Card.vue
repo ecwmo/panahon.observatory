@@ -43,8 +43,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+  import { PropType } from 'vue'
 
   interface CardData {
     title: string
@@ -56,10 +56,8 @@
     iconClass2?: string
   }
 
-  export default defineComponent({
-    props: {
-      data: { type: Object as PropType<CardData>, required: true },
-      isActive: { type: Boolean, default: false },
-    },
+  const props = defineProps({
+    data: { type: Object as PropType<CardData>, required: true },
+    isActive: { type: Boolean, default: false },
   })
 </script>
