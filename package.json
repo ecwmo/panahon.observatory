@@ -37,7 +37,6 @@
     "vue-gtag": "^2.0.1",
     "vue-loading-overlay": "^5.0",
     "vue-router": "^4.0.14",
-    "vue-screen": "^2.1.0-beta.1",
     "vuex": "^4.0.2",
     "weather-icons": "https://github.com/erikflowers/weather-icons.git"
   }
