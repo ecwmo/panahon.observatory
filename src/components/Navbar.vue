@@ -18,6 +18,7 @@
     <div
       class="absolute right-0 top-16 md:top-0 md:relative border border-b-0 md:border-l-0 md:border-r-0 border-black md:flex flex-col md:flex-row md:w-full justify-between bg-blue-900"
       :class="{ hidden: !mobileMenuOpen }"
+      @click="mobileMenuOpen = false"
     >
       <ul class="flex flex-col md:flex md:flex-row">
         <router-link
