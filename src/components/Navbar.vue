@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-between md:w-full flex-wrap md:flex-no-wrap">
+  <nav class="flex justify-between md:w-full flex-wrap md:flex-no-wrap z-50">
     <div class="flex justify-end items-center w-full">
       <button
         @click.prevent="mobileMenuOpen = !mobileMenuOpen"
