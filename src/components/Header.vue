@@ -3,7 +3,11 @@
     class="bg-blue-900 pt-1 border border-black md:flex-col flex flex-row justify-between shadow-lg text-gray-200"
   >
     <div class="flex text-xs m-1 mb-2">
-      <img alt="Manila Observatory Logo" class="h-12 ml-1" src="/resources/static/logo.png" />
+      <img
+        alt="Manila Observatory Logo"
+        class="h-12 ml-1"
+        src="/resources/static/img/logo/android-chrome-192x192.png"
+      />
       <p class="md:hidden font-bold text-2xl ml-3 my-auto">Manila Observatory</p>
       <div class="hidden md:inline px-2">
         <p class="font-bold">Manila Observatory</p>

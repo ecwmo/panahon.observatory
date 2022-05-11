@@ -13,6 +13,19 @@ import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+
+const intervalMS = 60 * 60 * 1000
+
+const updateServiceWorker = useRegisterSW({
+  onRegistered(r) {
+    r &&
+      setInterval(() => {
+        r.update()
+      }, intervalMS)
+  },
+})
+
 library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt)
 dom.watch()
 

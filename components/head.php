@@ -42,11 +42,16 @@
 
 <head lang="en">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Panahon - Manila Observatory" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Panahon - Manila Observatory</title>
-
-  <link rel="shortcut icon" href="/resources/static/logo.png">
+  <meta name="description" content="Panahon - Manila Observatory">
+  <link rel="icon" type="image/png" sizes="32x32" href="/resources/static/img/logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/resources/static/img/logo/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/resources/static/img/logo/apple-touch-icon.png">
+  <link rel="mask-icon" href="/resources/static/img/logo/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/resources/static/img/logo/favicon.ico">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="/public/app.webmanifest">
 
   <?php echo vite_assets(); ?>
 </head>

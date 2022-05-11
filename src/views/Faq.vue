@@ -7,7 +7,7 @@
         <img class="h-14" src="/resources/static/img/caltex_new.png" />
         <img class="h-14" src="/resources/static/img/globe_full.png" />
         <img class="h-14" src="/resources/static/img/chevron.png" />
-        <img class="h-14" src="/resources/static/logo.png" />
+        <img class="h-14" src="/resources/static/img/logo/mo.png" />
         <img class="h-14" src="/resources/static/img/mmda.png" />
       </div>
     </div>
