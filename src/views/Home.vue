@@ -24,7 +24,7 @@
           v-show="stationLayer"
           class="w-full h-full"
           :accessToken="mapAccessToken"
-          :data="stationLayer"
+          :data="stationLayer ?? {} as StationLayer"
           :activeVariable="activeVariable"
           :mapScope="mapScope"
           v-model:activeStationId="activeStationId"
@@ -48,10 +48,9 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref, computed } from 'vue'
   import { format } from 'date-fns'
-  import axios from 'axios'
-  import { useQuery } from 'vue-query'
 
-  import { formatStnLayer, StationLayer } from '@/scripts/weather'
+  import type { StationLayer } from '@/scripts/weather'
+  import useStationData from '@/composables/useStationData'
 
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
@@ -66,10 +65,7 @@
   const activeStationId = ref(defaultStationId)
   const activeVariable = ref('temp')
 
-  const fetchData = async () => await axios.get('/api/stations.php').then(({ data }) => formatStnLayer(data))
-  const { data } = useQuery('stationData', fetchData)
-
-  const stationLayer = computed(() => data.value ?? <StationLayer>{})
+  const { data: stationLayer, status: stationDataStatus } = useStationData()
 
   const activeStation = computed(
     () =>
