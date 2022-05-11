@@ -38,7 +38,7 @@
   const showStaticImgs = computed(() => (imgSrcs.value.staticImgs ? imgSrcs.value.staticImgs.length > 0 : false))
 
   onMounted(async () => {
-    const rData = await axios.get(`/lib/fetch-report.php?view=${route.query.view}`).then(({ data }) => data)
+    const rData = await axios.get(`/api/report.php?view=${route.query.view}`).then(({ data }) => data)
 
     const reportImgs = rData.reportImgs.map((imgSrc: string, idx: number) => ({
       show: idx < 1 ? true : false,

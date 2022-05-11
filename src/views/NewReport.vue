@@ -128,7 +128,7 @@
 
         formData.append('publish', '1')
 
-        const res = await axios.post('/lib/publish-report.php', formData, {
+        const res = await axios.post('/api/report.php', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -150,7 +150,7 @@
         })
         formData.append('upload', '1')
 
-        const res = await axios.post('/lib/upload-report.php', formData, {
+        const res = await axios.post('/api/report.php', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

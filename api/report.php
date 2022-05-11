@@ -1,7 +1,9 @@
 <?php
-require_once 'Config/Lite.php';
 require_once(__DIR__.'/helper.php');
 require_once(__DIR__.'/../start.php');
+
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
 ini_set('max_execution_time', 300);
 
@@ -29,10 +31,13 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
         }
 
         if (move_uploaded_file($reportFile['tmp_name'], $reportLocalPath)) {
-            $cfg = new Config_Lite(RES_REPORTS_DIR.'/report.ini', LOCK_EX);
-            $cfg->set('draft', 'tccode', $tccode);
-            $cfg->set('draft', 'reportnum', $repnum);
-            $cfg->save();
+            $file = RES_REPORTS_DIR.'/report.json';
+            $info = file_get_contents($file);
+            $info = json_decode($info, true);
+
+            $info['draft']['tccode'] = $tccode;
+            $info['draft']['reportnum'] = $repnum;
+            file_put_contents($file, json_encode($info));
         }
 
         $images = new imagick();
@@ -48,9 +53,41 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
 
         xcopy($imgDraftDir, $imgDir);
 
-        header('Content-Type: application/json');
         echo json_encode('success');
     } catch (Exception $e) {
         echo $e;
     }
+} elseif (isset($_POST['publish'])) {
+    $file = RES_REPORTS_DIR.'/report.json';
+    $info = file_get_contents($file);
+    $info = json_decode($info, true);
+
+    $info['public']['tccode'] = $info['draft']['tccode'];
+    $info['public']['reportnum'] = $info['draft']['reportnum'];
+    file_put_contents($file, json_encode($info));
+
+    echo json_encode('success');
+} else {
+    $ROOT_IMG_DIR = '../resources/reports';
+    if ($_GET['view']=="draft") {
+        $imgSrc = $ROOT_IMG_DIR.'/img/draft';
+        $simgSrc = $ROOT_IMG_DIR.'/img/sdraft';
+    } else {
+        $file = RES_REPORTS_DIR.'/report.json';
+        $info = file_get_contents($file);
+        $info = json_decode($info, true);
+        $tccode = $info['public']['tccode'];
+        $repnum = $info['public']['reportnum'];
+        $imgSrc = $ROOT_IMG_DIR.'/'.$tccode .'/'.$repnum .'/img';
+        $simgSrc = $ROOT_IMG_DIR.'/img/static';
+    }
+    $reportImgs = glob($imgSrc  .'/*.{jpg,png}', GLOB_BRACE);
+    $reportSImgs = glob($simgSrc  .'/*.{jpg,png}', GLOB_BRACE);
+
+    $data = [
+        "reportImgs" => $reportImgs,
+        "staticImgs" => $reportSImgs
+    ];
+
+    echo str_replace("..", "", json_encode($data));
 }

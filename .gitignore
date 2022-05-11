@@ -191,4 +191,4 @@ tools/
 
 resources/*
 !resources/static/
-!resources/reports/sample-report.ini
+!resources/reports/report.json.sample
