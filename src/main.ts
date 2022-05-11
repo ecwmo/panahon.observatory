@@ -10,6 +10,8 @@ import store from '@/store'
 import VueGtag from 'vue-gtag'
 
 import { VueQueryPlugin } from 'vue-query'
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
@@ -43,4 +45,5 @@ app.use(
   router
 )
 app.use(VueQueryPlugin)
+app.use(VueLoading)
 app.mount('#app')

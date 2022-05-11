@@ -10,6 +10,8 @@
   import { ref, toRefs, onMounted, watch, PropType, computed } from 'vue'
   import { Map, GeoJSONSource } from 'mapbox-gl'
 
+  import { useLoading } from 'vue-loading-overlay'
+
   import Colorbar from '@/components/Colorbar.vue'
 
   import { StationLayer } from '@/scripts/weather'
@@ -20,15 +22,16 @@
     activeVariable: { type: String, required: true },
     mapScope: { type: String, required: true },
     activeStationId: { type: String },
-    loaded: { type: Boolean, default: false },
   })
 
-  const emit = defineEmits(['update:activeStationId', 'update:loaded'])
+  const emit = defineEmits(['update:activeStationId'])
 
   const map = ref()
   const mapEl = ref()
 
   const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
+
+  const $loading = useLoading()
 
   const activeStation = computed(
     () =>
@@ -136,6 +139,8 @@
     }
     const { lat, lon } = activeStation.value.properties
 
+    const loader = $loading.show({ container: mapEl.value.parentNode, isFullPage: false })
+
     map.value = new Map({
       accessToken: accessToken.value,
       container: mapEl.value,
@@ -146,7 +151,6 @@
     })
 
     map.value.once('load', () => {
-      emit('update:loaded', true)
       map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
       map.value.addSource('station', {
         type: 'geojson',
@@ -163,6 +167,7 @@
           'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
         },
       })
+      loader.hide()
       map.value.addSource('active-point', {
         type: 'geojson',
         data: {

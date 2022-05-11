@@ -19,19 +19,15 @@
       </select>
     </div>
     <div class="w-full flex-grow flex flex-col md:flex-row md:items-center justify-center md:gap-4 md:p-4">
-      <div class="relative w-full md:w-1/2 h-full">
-        <MapBox
-          v-show="stationLayer"
-          class="w-full h-full"
-          :accessToken="mapAccessToken"
-          :data="stationLayer ?? {} as StationLayer"
-          :activeVariable="activeVariable"
-          :mapScope="mapScope"
-          v-model:activeStationId="activeStationId"
-          v-model:loaded="mapIsLoaded"
-        />
-        <loading :active="!mapIsLoaded" :is-full-page="false" />
-      </div>
+      <MapBox
+        v-show="stationLayer"
+        class="w-full md:w-1/2 h-full"
+        :accessToken="mapAccessToken"
+        :data="stationLayer ?? {} as StationLayer"
+        :activeVariable="activeVariable"
+        :mapScope="mapScope"
+        v-model:activeStationId="activeStationId"
+      />
       <div class="hidden md:flex text-sm text-center items-center justify-center">
         <div class="flex flex-col items-center gap-2 md:gap-4">
           <div class="flex flex-col md:items-start w-full">
@@ -52,15 +48,11 @@
   import type { StationLayer } from '@/scripts/weather'
   import useStationData from '@/composables/useStationData'
 
-  import Loading from 'vue-loading-overlay'
-  import 'vue-loading-overlay/dist/vue-loading.css'
-
   const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
   const defaultStationId = '1'
-  const mapIsLoaded = ref(false)
   const mapScope = ref('mm')
   const activeStationId = ref(defaultStationId)
   const activeVariable = ref('temp')
