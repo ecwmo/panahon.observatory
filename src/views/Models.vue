@@ -169,7 +169,7 @@
   const captionX = computed(() => activeVariable.value.captionX)
 
   onMounted(async () => {
-    imgSrcs.value = await axios.get(`/api/model-img.php?`).then(({ data }) => data)
+    imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
   })
 </script>
 
