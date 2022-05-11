@@ -36,13 +36,13 @@
         <h1 class="p-4 flex justify-center text-3xl font-medium">Report Upload</h1>
         <form @submit.prevent="handleUpload">
           <div class="mb-4">
-            <label for="tccode" class="block text-gray-700 text-sm font-bold mb-2">TC Code</label>
+            <label for="repcode" class="block text-gray-700 text-sm font-bold mb-2">Report Code</label>
             <input
-              v-model="report.tccode"
+              v-model="report.repcode"
               type="text"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="tccode"
-              name="tccode"
+              id="repcode"
+              name="repcode"
               placeholder="wp<CY><YYYY>"
               required
             />
@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed, ref, onMounted } from 'vue'
+  import { defineComponent, computed, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import axios from 'axios'
 
@@ -98,7 +98,7 @@
 
   interface ReportData {
     [key: string]: any
-    tccode: string
+    repcode: string
     reportnum: number
     report: any
   }

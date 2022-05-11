@@ -13,9 +13,9 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
         $reportFile = $_FILES['report'];
         $reportFilename = $reportFile['name'];
 
-        $tccode = $_POST['tccode'];
-        $repnum = sprintf('%03d', $_POST['reportnum']);
-        $uploadDir = RES_REPORTS_DIR.'/'.$tccode.'/'.$repnum;
+        $repCode = $_POST['repcode'];
+        $repNum = sprintf('%03d', $_POST['reportnum']);
+        $uploadDir = RES_REPORTS_DIR.'/'.$repCode.'/'.$repNum;
         $imgDraftDir = RES_REPORTS_DIR.'/img/draft';
         $imgDir = $uploadDir.'/img';
         $reportLocalPath = $uploadDir.'/'.$reportFilename;
@@ -35,8 +35,8 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
             $info = file_get_contents($file);
             $info = json_decode($info, true);
 
-            $info['draft']['tccode'] = $tccode;
-            $info['draft']['reportnum'] = $repnum;
+            $info['draft']['repcode'] = $repCode;
+            $info['draft']['reportnum'] = $repNum;
             file_put_contents($file, json_encode($info));
         }
 
@@ -62,7 +62,7 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
     $info = file_get_contents($file);
     $info = json_decode($info, true);
 
-    $info['public']['tccode'] = $info['draft']['tccode'];
+    $info['public']['repcode'] = $info['draft']['repcode'];
     $info['public']['reportnum'] = $info['draft']['reportnum'];
     file_put_contents($file, json_encode($info));
 
@@ -76,9 +76,9 @@ if (isset($_POST['upload']) && isset($_FILES['report']['name'])) {
         $file = RES_REPORTS_DIR.'/report.json';
         $info = file_get_contents($file);
         $info = json_decode($info, true);
-        $tccode = $info['public']['tccode'];
-        $repnum = $info['public']['reportnum'];
-        $imgSrc = $ROOT_IMG_DIR.'/'.$tccode .'/'.$repnum .'/img';
+        $repCode = $info['public']['repcode'];
+        $repNum = $info['public']['reportnum'];
+        $imgSrc = $ROOT_IMG_DIR.'/'.$repCode .'/'.$repNum .'/img';
         $simgSrc = $ROOT_IMG_DIR.'/img/static';
     }
     $reportImgs = glob($imgSrc  .'/*.{jpg,png}', GLOB_BRACE);
