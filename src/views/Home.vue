@@ -12,7 +12,7 @@
         </label>
       </div>
       <!-- Station Dropdown -->
-      <select v-model="activeStationId" v-if="stationLayer?.features?.length > 0">
+      <select v-model="activeStationId" v-if="stationLayer?.features?.length">
         <option v-for="(st, id) in stationLayer?.features" :key="id" :value="st.properties.id">
           {{ st.properties.name }}
         </option>
@@ -46,10 +46,12 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, ref, computed, onMounted } from 'vue'
+  import { defineAsyncComponent, ref, computed } from 'vue'
   import { format } from 'date-fns'
+  import axios from 'axios'
+  import { useQuery } from 'vue-query'
 
-  import { useStationData } from '@/composables/useStationData'
+  import { formatStnLayer, StationLayer } from '@/scripts/weather'
 
   import Loading from 'vue-loading-overlay'
   import 'vue-loading-overlay/dist/vue-loading.css'
@@ -58,27 +60,27 @@
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
-  const timestamp = ref(new Date())
-  const { stationLayer, fetchData } = useStationData()
   const defaultStationId = '1'
   const mapIsLoaded = ref(false)
   const mapScope = ref('mm')
   const activeStationId = ref(defaultStationId)
   const activeVariable = ref('temp')
 
+  const fetchData = async () => await axios.get('/api/stations.php').then(({ data }) => formatStnLayer(data))
+  const { data } = useQuery('stationData', fetchData)
+
+  const stationLayer = computed(() => data.value ?? <StationLayer>{})
+
   const activeStation = computed(
     () =>
       stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
         id: '',
         name: '',
-        obs: {},
+        obs: { timestamp: null },
       }
   )
 
-  const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
+  const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp))
 
-  onMounted(async () => {
-    await fetchData()
-    timestamp.value = new Date(stationLayer.value?.features?.[0]?.properties?.obs?.timestamp)
-  })
+  const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
 </script>

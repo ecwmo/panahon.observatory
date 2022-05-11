@@ -9,6 +9,8 @@ import router from '@/router'
 import store from '@/store'
 import VueGtag from 'vue-gtag'
 
+import { VueQueryPlugin } from 'vue-query'
+
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -40,4 +42,5 @@ app.use(
   },
   router
 )
+app.use(VueQueryPlugin)
 app.mount('#app')
