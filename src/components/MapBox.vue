@@ -2,19 +2,22 @@
   <div class="relative">
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
+    <Dot :xy="dotProps.xy" color="#ffc8c8" />
     <Colorbar :name="activeVariable" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs, onMounted, watch, PropType, computed } from 'vue'
-  import { Map, GeoJSONSource } from 'mapbox-gl'
+  import { ref, toRefs, onMounted, watch, PropType, computed, defineAsyncComponent } from 'vue'
+  import { Map, Point } from 'mapbox-gl'
 
   import { useLoading } from 'vue-loading-overlay'
 
   import Colorbar from '@/components/Colorbar.vue'
 
   import { StationLayer } from '@/scripts/weather'
+
+  const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
 
   const props = defineProps({
     accessToken: { type: String, required: true },
@@ -28,6 +31,7 @@
 
   const map = ref()
   const mapEl = ref()
+  const dotProps = ref({ xy: <Point>{}, color: undefined })
 
   const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
 
@@ -64,81 +68,11 @@
   })
 
   watch([activeStationId], () => {
-    const dotPt = <GeoJSONSource>map.value?.getSource('active-point')
     const { lat, lon } = activeStation.value.properties
-    dotPt?.setData({
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [lon, lat], // icon position [lng, lat]
-          },
-          properties: {},
-        },
-      ],
-    })
+    dotProps.value.xy = map.value.project([lon, lat])
   })
 
   onMounted(() => {
-    const dotSize = 100
-    // This implements `StyleImageInterface`
-    // to draw a pulsing dot icon on the map.
-    const pulsingDot = {
-      width: dotSize,
-      height: dotSize,
-      data: new Uint8Array(dotSize * dotSize * 4),
-
-      // When the layer is added to the map,
-      // get the rendering context for the map canvas.
-      onAdd: function () {
-        const canvas = document.createElement('canvas')
-        canvas.width = this.width
-        canvas.height = this.height
-        // @ts-ignore
-        this.context = canvas.getContext('2d')
-      },
-
-      // Call once before every frame where the icon will be used.
-      render: function () {
-        const duration = 1600
-        const t = (performance.now() % duration) / duration
-
-        const radius = (dotSize / 2) * 0.3
-        const outerRadius = (dotSize / 2) * 0.7 * t + radius
-        // @ts-ignore
-        const context = this.context
-
-        // Draw the outer circle.
-        context.clearRect(0, 0, this.width, this.height)
-        context.beginPath()
-        context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
-        context.fillStyle = 'rgba(255, 200, 200,' + (1 - t) + ')'
-        context.fill()
-
-        // Draw the inner circle.
-        context.beginPath()
-        context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
-        context.fillStyle = 'rgba(255, 100, 100, 0)'
-        context.strokeStyle = 'white'
-        context.lineWidth = 2 + 4 * (1 - t)
-        context.fill()
-        context.stroke()
-
-        // Update this image's data with data from the canvas.
-        this.data = context.getImageData(0, 0, this.width, this.height).data
-
-        // Continuously repaint the map, resulting
-        // in the smooth animation of the dot.
-        map.value.triggerRepaint()
-
-        // Return `true` to let the map know that the image was updated.
-        return true
-      },
-    }
-    const { lat, lon } = activeStation.value.properties
-
     const loader = $loading.show({ container: mapEl.value.parentNode, isFullPage: false })
 
     map.value = new Map({
@@ -151,7 +85,8 @@
     })
 
     map.value.once('load', () => {
-      map.value.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
+      const { lat, lon } = activeStation.value.properties
+      dotProps.value.xy = map.value.project([lon, lat])
       map.value.addSource('station', {
         type: 'geojson',
         data: <any>data.value,
@@ -168,30 +103,7 @@
         },
       })
       loader.hide()
-      map.value.addSource('active-point', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [lon, lat], // icon position [lng, lat]
-              },
-              properties: [],
-            },
-          ],
-        },
-      })
-      map.value.addLayer({
-        id: 'layer-with-pulsing-dot',
-        type: 'symbol',
-        source: 'active-point',
-        layout: {
-          'icon-image': 'pulsing-dot',
-        },
-      })
+
       map.value.on('click', 'station-pts', ({ features }: StationLayer) => {
         const props = features?.[0].properties
         if (props !== null) {
