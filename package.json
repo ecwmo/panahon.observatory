@@ -39,7 +39,6 @@
     "vue-loading-overlay": "^5.0",
     "vue-query": "^1.23.0",
     "vue-router": "^4.0.14",
-    "vuex": "^4.0.2",
     "weather-icons": "https://github.com/erikflowers/weather-icons.git"
   }
 }

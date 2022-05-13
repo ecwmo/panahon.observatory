@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
         $_SESSION['username'] = $username;
         @ldap_close($ldap);
 
-        $res = array("message"=>"success", "type"=>"login");
+        $res = $_SESSION;
     } else {
         $res = array("message"=>"fail", "type"=>"login");
     }

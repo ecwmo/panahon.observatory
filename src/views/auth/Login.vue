@@ -46,8 +46,7 @@
   import { defineComponent, ref } from 'vue'
   import { useRouter } from 'vue-router'
 
-  import { User } from '@/services/auth.service'
-  import useAuth from '@/composables/useAuth'
+  import useAuth, { User } from '@/composables/useAuth'
 
   export default defineComponent({
     setup() {

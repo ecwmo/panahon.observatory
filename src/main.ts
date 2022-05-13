@@ -6,7 +6,6 @@ import 'weather-icons/css/weather-icons-wind.css'
 import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
-import store from '@/store'
 import VueGtag from 'vue-gtag'
 
 import { VueQueryPlugin } from 'vue-query'
@@ -36,7 +35,6 @@ dom.watch()
 const app = createApp(App)
 app.component('fa-icon', FontAwesomeIcon)
 app.use(router)
-app.use(store)
 app.use(
   VueGtag,
   {
