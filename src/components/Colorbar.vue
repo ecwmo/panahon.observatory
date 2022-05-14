@@ -1,12 +1,9 @@
 <template>
-  <div
-    v-show="palette"
-    class="absolute flex flex-col justify-center m-1 bottom-0 right-0 bg-white p-2 rounded-md shadow opacity-90"
-  >
-    <!-- <div class="flex justify-center mb-2">
-      <div class="text-xs font-semibold justify-center" >{{`${varName} (${varUnit})`}}</div>
-    </div> -->
-    <div class="flex">
+  <div class="absolute flex flex-col justify-center m-1 bottom-0 right-0 bg-white p-2 rounded-md shadow opacity-90">
+    <div class="flex justify-center" :class="{ 'mb-2': palette && palette.length > 0 }">
+      <div class="text-xs font-semibold justify-center">{{ `${varTitle} (${varUnits})` }}</div>
+    </div>
+    <div v-show="palette" class="flex">
       <div v-for="(p, idx) in palette" :key="p.color" class="flex flex-col">
         <div
           class="w-8 h-5 border border-black"
@@ -30,7 +27,10 @@
 
   const { name } = toRefs(props)
 
-  const { getSwatch } = useWeather()
+  const { weatherVariables, getSwatch } = useWeather()
+
+  const varTitle = computed(() => weatherVariables[name.value].name)
+  const varUnits = computed(() => weatherVariables[name.value].units)
 
   const palette = computed(() => getSwatch(name.value))
 </script>

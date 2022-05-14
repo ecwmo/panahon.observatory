@@ -39,11 +39,11 @@ export interface WeatherVariables {
   [key: string]: {
     name: string
     units: string
-    range: {
+    range?: {
       min: number
       max: number
     }
-    gradient: { val: number; rgb: number[] }[]
+    gradient?: { val: number; rgb: number[] }[]
   }
 }
 
@@ -80,6 +80,14 @@ const weatherVariables: WeatherVariables = {
       { val: 1, rgb: [103, 0, 31] },
     ],
   },
+  wind: {
+    name: 'Wind',
+    units: 'm/s',
+  },
+  pres: {
+    name: 'Pressure',
+    units: 'hPa',
+  },
 }
 
 export default () => {
@@ -95,10 +103,11 @@ export default () => {
           const colors: GeoJsonProperties = {}
           Object.keys(weatherVariables).forEach((varName) => {
             let val = varName === 'rain' ? obs['rain24h'] : obs[varName]
-            const _val =
-              (val - weatherVariables[varName].range.min) /
-              (weatherVariables[varName].range.max - weatherVariables[varName].range.min)
-            colors[varName] = getColor(_val, varName)
+            const { min, max } = weatherVariables[varName]?.range ?? { min: 0, max: 0 }
+            if (min !== max) {
+              const _val = (val - min) / (max - min)
+              colors[varName] = getColor(_val, varName)
+            }
           })
 
           return {
@@ -183,7 +192,7 @@ export default () => {
   const getSwatch = (varName: string) => {
     const gradient = getGradient(varName)
     if (gradient.length) {
-      const { min, max } = weatherVariables[varName]?.range
+      const { min, max } = weatherVariables[varName]?.range ?? { min: 0, max: 0 }
 
       return gradient.map((g) => {
         const label = min + +((max - min) * g.val).toFixed()
