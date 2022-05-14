@@ -29,7 +29,7 @@
   import { toRefs, computed } from 'vue'
   import { format } from 'date-fns'
 
-  import { metValueString } from '@/scripts/weather'
+  import useWeather from '@/composables/useWeather'
 
   import Card from '@/components/Card.vue'
   import RainInfo from '@/components/info/Rain.vue'
@@ -46,6 +46,8 @@
   const emit = defineEmits(['update:modelValue'])
 
   const { data, timestamp } = toRefs(props)
+
+  const { metValueString } = useWeather()
 
   const stationName = computed(() => data.value.name)
 

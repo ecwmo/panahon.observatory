@@ -45,8 +45,8 @@
   import { defineAsyncComponent, ref, computed } from 'vue'
   import { format } from 'date-fns'
 
-  import type { StationLayer } from '@/scripts/weather'
-  import useStationData from '@/composables/useStationData'
+  import type { StationLayer } from '@/composables/useWeather'
+  import useWeather from '@/composables/useWeather'
 
   const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
@@ -57,7 +57,7 @@
   const activeStationId = ref(defaultStationId)
   const activeVariable = ref('temp')
 
-  const { data: stationLayer, status: stationDataStatus } = useStationData()
+  const { data: stationLayer, status: stationDataStatus } = useWeather()
 
   const activeStation = computed(
     () =>

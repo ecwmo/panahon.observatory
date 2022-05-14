@@ -12,11 +12,9 @@
   import { Map, Point } from 'mapbox-gl'
 
   import { useLoading } from 'vue-loading-overlay'
+  import { StationLayer } from '@/composables/useWeather'
 
-  import Colorbar from '@/components/Colorbar.vue'
-
-  import { StationLayer } from '@/scripts/weather'
-
+  const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
   const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
 
   const props = defineProps({
