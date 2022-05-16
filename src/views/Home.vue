@@ -52,9 +52,8 @@
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
-  const defaultStationId = '1'
   const mapScope = ref('mm')
-  const activeStationId = ref(defaultStationId)
+  const activeStationId = ref(1)
   const activeVariable = ref('temp')
 
   const { data: stationLayer, status: stationDataStatus } = useWeather()

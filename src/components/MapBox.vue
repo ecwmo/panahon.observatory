@@ -22,7 +22,7 @@
     data: { type: Object as PropType<StationLayer>, required: true },
     activeVariable: { type: String, required: true },
     mapScope: { type: String, required: true },
-    activeStationId: { type: String },
+    activeStationId: { type: Number },
   })
 
   const emit = defineEmits(['update:activeStationId'])

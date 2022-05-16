@@ -23,26 +23,28 @@ if (array_key_exists('24hr', $_GET)) {
     $timestamp_file = '../resources/station/stn_obs_timestamp.json';
     $ts = json_decode(file_get_contents($timestamp_file), true);
     echo json_encode($ts);
+} elseif (array_key_exists('weather_conf', $_GET)) {
+    $conf_file = '../resources/station/weather.json';
+    $conf = json_decode(file_get_contents($conf_file), true);
+    echo json_encode($conf);
 } else {
-    $stn_file = '../resources/station/stn_map_ph.json';
     $stn_obs_file = '../resources/station/stn_obs.json';
     $stn_mo_obs_file = '../resources/station/stn_mo_obs.json';
-    $timestamp_file = '../resources/station/stn_obs_timestamp.json';
 
-    $stn_arr = json_decode(file_get_contents($stn_file), true);
     $stn_obs_arr = json_decode(file_get_contents($stn_obs_file), true);
     $stn_mo_obs_arr = json_decode(file_get_contents($stn_mo_obs_file), true);
-    $stn_obs_arr = $stn_obs_arr + $stn_mo_obs_arr;
+    $stn_obs_arr = array_merge($stn_obs_arr, $stn_mo_obs_arr);
 
-    $ts = json_decode(file_get_contents($timestamp_file), true);
-
-    $dat_arr = array();
+    $dat_arr = array('type' => "FeatureCollection", 'features' => array());
 
     foreach ($stn_obs_arr as $stn_id => $stn_obs) {
-        $dat = $stn_arr[$stn_id];
-        $dat['obs'] = $stn_obs;
-        $dat['obs']['timestamp'] = $ts['timestamp'];
-        array_push($dat_arr, $dat);
+        $dat = array('type' => "Feature");
+        $dat['geometry'] = array(
+            'type' => "Point",
+            'coordinates' => array($stn_obs['lon'], $stn_obs['lat'])
+        );
+        $dat['properties'] = $stn_obs;
+        array_push($dat_arr['features'], $dat);
     }
 
     echo json_encode($dat_arr);
