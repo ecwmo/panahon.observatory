@@ -11,6 +11,7 @@
   "devDependencies": {
     "@babel/types": "^7.17.0",
     "@types/mapbox-gl": "^2.6.3",
+    "@types/tailwindcss": "^3.0.10",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "@vitejs/plugin-vue": "^2.2.0",

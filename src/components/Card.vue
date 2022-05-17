@@ -25,26 +25,17 @@
       v-show="isActive"
     >
       <i class="fas fa-info"></i>
-      <div
-        class="absolute w-32 bottom-full px-3 py-2 z-10 opacity-0 bg-black text-white text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none"
-      >
-        <slot></slot>
-        <svg
-          class="absolute text-black h-2 w-full left-0 top-full"
-          x="0px"
-          y="0px"
-          viewBox="0 0 255 255"
-          xml:space="preserve"
-        >
-          <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-        </svg>
-      </div>
+      <Popup class="w-32 px-3 py-2 opacity-0 text-center text-xs rounded-lg group-hover:opacity-100 pointer-events-none"
+        ><slot></slot
+      ></Popup>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { PropType } from 'vue'
+
+  import Popup from '@/components/Popup.vue'
 
   interface CardData {
     title: string
