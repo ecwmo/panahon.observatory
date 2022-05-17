@@ -17,7 +17,7 @@ export type StationLayer = {
   type: string
   features: {
     type: string
-    geometry: Geometry
+    geometry: Geometry & { coordinates: [number, number] }
     properties: StationGeoJsonProperties
   }[]
 }

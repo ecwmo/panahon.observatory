@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
   import { ref, toRefs, onMounted, watch, PropType, computed, defineAsyncComponent } from 'vue'
-  import { Map, Point } from 'mapbox-gl'
+  import { Map, MapLayerMouseEvent, Point } from 'mapbox-gl'
 
   import { useLoading } from 'vue-loading-overlay'
   import { StationLayer } from '@/composables/useWeather'
@@ -104,11 +104,11 @@
       })
       loader.hide()
 
-      map.value.on('click', 'station-pts', ({ features }: StationLayer) => {
-        const props = features?.[0].properties
-        if (props !== null) {
-          emit('update:activeStationId', props.id)
-        }
+      map.value.on('click', 'station-pts', (e: MapLayerMouseEvent & StationLayer) => {
+        const {
+          properties: { id },
+        } = e.features?.[0]
+        emit('update:activeStationId', id)
       })
       // Change the cursor to a pointer when the mouse is over the places layer.
       map.value.on('mouseenter', 'station-pts', () => {
