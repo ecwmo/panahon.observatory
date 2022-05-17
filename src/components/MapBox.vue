@@ -2,7 +2,11 @@
   <div class="relative">
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
-    <Dot :xy="dotProps.xy" color="#ffc8c8" />
+    <Dot :xy="dotProps.xy" color="#ffc8c8" class="group">
+      <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 opacity-0 group-hover:opacity-100 drop-shadow-lg">
+        <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
+      </Popup>
+    </Dot>
     <WeatherButtons :modelValue="activeVariable" @update:modelValue="$emit('update:activeVariable', $event)" />
     <Colorbar :name="activeVariable" />
   </div>
@@ -13,11 +17,17 @@
   import { Map, MapLayerMouseEvent, Point } from 'mapbox-gl'
 
   import { useLoading } from 'vue-loading-overlay'
-  import { StationLayer } from '@/composables/useWeather'
+  import useWeather, { StationLayer } from '@/composables/useWeather'
 
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
   const WeatherButtons = defineAsyncComponent({ loader: () => import('@/components/WeatherButtons.vue') })
   const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
+  const Popup = defineAsyncComponent({ loader: () => import('@/components/Popup.vue') })
+
+  import RainInfo from '@/components/info/Rain.vue'
+  import TempInfo from '@/components/info/Temp.vue'
+  import WindInfo from '@/components/info/Wind.vue'
+  import PresInfo from '@/components/info/Pres.vue'
 
   const props = defineProps({
     accessToken: { type: String, required: true },
@@ -36,6 +46,7 @@
   const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
 
   const $loading = useLoading()
+  const { metValueString } = useWeather()
 
   const activeStation = computed(
     () =>
@@ -43,6 +54,30 @@
         properties: { lat: 0, lon: 0 },
       }
   )
+
+  const activeInfo = computed(() => {
+    switch (activeVariable.value) {
+      case 'rain':
+        return RainInfo
+      case 'wind':
+        return WindInfo
+      case 'pres':
+        return PresInfo
+      default:
+        return TempInfo
+    }
+  })
+
+  const metValueStrings = computed(() => {
+    const ret: { [k: string]: string } = {}
+    const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
+
+    metVars.forEach((v) => {
+      ret[v] = metValueString(activeStation.value.properties.obs, v)
+    })
+
+    return ret
+  })
 
   watch([mapScope], () => {
     if (mapScope.value === 'mm') {

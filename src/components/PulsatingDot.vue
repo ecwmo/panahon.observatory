@@ -8,6 +8,7 @@
       </circle>
       <!-- <circle :cx="rMax" :cy="rMax" :fill="color" :r="size" /> -->
     </svg>
+    <slot></slot>
   </div>
 </template>
 

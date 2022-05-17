@@ -1,11 +1,9 @@
 <template>
-  <div>
-    At <span class="font-semibold">{{ stationName }}</span
-    >, there was <span class="font-semibold">{{ rainStr }}</span> rainfall received at
-    <span class="font-semibold">{{ dateString }}</span
-    >. There have been <span class="font-semibold">{{ rain24hStr }}</span> accumulated rainfall for the past 24 hours.
-    <!-- This is <span class="font-semibold">{ratio}%</span> of the historical maximum 24hr rainfall for this area which was
-    <span class="font-semibold">{rain} mm</span>. -->
+  <div class="flex flex-col">
+    <div>
+      {{ rain24hStr }}
+    </div>
+    <div class="text-[0.6rem]">(24hr)</div>
   </div>
 </template>
 
@@ -13,13 +11,10 @@
   import { toRefs, computed } from 'vue'
 
   const props = defineProps({
-    stationName: { type: String, required: true },
     data: { type: Object, required: true },
-    dateString: { type: String, required: true },
   })
 
   const { data } = toRefs(props)
 
-  const rainStr = computed(() => `${data.value['rr']} mm`)
   const rain24hStr = computed(() => `${data.value['rain24h']} mm`)
 </script>

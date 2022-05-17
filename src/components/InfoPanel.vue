@@ -32,10 +32,10 @@
   import useWeather from '@/composables/useWeather'
 
   import Card from '@/components/Card.vue'
-  import RainInfo from '@/components/info/Rain.vue'
-  import TempInfo from '@/components/info/Temp.vue'
-  import WindInfo from '@/components/info/Wind.vue'
-  import PresInfo from '@/components/info/Pres.vue'
+  import RainInfo from '@/components/longinfo/Rain.vue'
+  import TempInfo from '@/components/longinfo/Temp.vue'
+  import WindInfo from '@/components/longinfo/Wind.vue'
+  import PresInfo from '@/components/longinfo/Pres.vue'
 
   const props = defineProps({
     data: { type: Object, required: true },
