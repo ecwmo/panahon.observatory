@@ -1,5 +1,7 @@
 <template>
-  <div class="absolute right-0 bottom-24 bg-white flex flex-col items-center px-1 py-2 m-1 gap-2 rounded-full">
+  <div
+    class="absolute right-0 bottom-28 bg-white flex flex-col items-center px-1 py-2 m-2 gap-2 rounded-full drop-shadow-md opacity-90"
+  >
     <div
       v-for="btn in buttons"
       :key="btn.id"
