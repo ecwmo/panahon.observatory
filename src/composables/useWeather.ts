@@ -13,13 +13,15 @@ type StationGeoJsonProperties = GeoJsonProperties & {
   colors?: { [key: string]: string }
 }
 
+export type StationLayerFeature = {
+  type: string
+  geometry: Geometry & { coordinates: [number, number] }
+  properties: StationGeoJsonProperties
+}
+
 export type StationLayer = {
   type: string
-  features: {
-    type: string
-    geometry: Geometry & { coordinates: [number, number] }
-    properties: StationGeoJsonProperties
-  }[]
+  features: StationLayerFeature[]
 }
 
 export default () => {

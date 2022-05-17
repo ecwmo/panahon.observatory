@@ -51,7 +51,7 @@
   const activeStation = computed(
     () =>
       data.value?.features?.find(({ properties: { id } }) => id === activeStationId?.value) ?? {
-        properties: { lat: 0, lon: 0 },
+        properties: { lat: 0, lon: 0, obs: {} },
       }
   )
 
