@@ -3,6 +3,7 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
     <Dot :xy="dotProps.xy" color="#ffc8c8" />
+    <WeatherButtons :modelValue="activeVariable" @update:modelValue="$emit('update:activeVariable', $event)" />
     <Colorbar :name="activeVariable" />
   </div>
 </template>
@@ -15,17 +16,18 @@
   import { StationLayer } from '@/composables/useWeather'
 
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
+  const WeatherButtons = defineAsyncComponent({ loader: () => import('@/components/WeatherButtons.vue') })
   const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
 
   const props = defineProps({
     accessToken: { type: String, required: true },
     data: { type: Object as PropType<StationLayer>, required: true },
-    activeVariable: { type: String, required: true },
     mapScope: { type: String, required: true },
-    activeStationId: { type: Number },
+    activeVariable: { type: String, required: true },
+    activeStationId: { type: Number, required: true },
   })
 
-  const emit = defineEmits(['update:activeStationId'])
+  const emit = defineEmits(['update:activeVariable', 'update:activeStationId'])
 
   const map = ref()
   const mapEl = ref()

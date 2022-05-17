@@ -24,8 +24,8 @@
         class="w-full md:w-1/2 h-full"
         :accessToken="mapAccessToken"
         :data="stationLayer ?? {} as StationLayer"
-        :activeVariable="activeVariable"
         :mapScope="mapScope"
+        v-model:activeVariable="activeVariable"
         v-model:activeStationId="activeStationId"
       />
       <div class="hidden md:flex text-sm text-center items-center justify-center">
