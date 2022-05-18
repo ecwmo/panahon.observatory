@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute bottom-full z-10" :class="bgTheme">
+  <div v-show="show" class="absolute bottom-full z-10" :class="bgTheme">
     <slot></slot>
     <svg
       class="absolute h-2 w-full left-0 top-full"
@@ -19,6 +19,7 @@
 
   const props = defineProps({
     theme: { type: String, default: 'bg-black text-black text-white' },
+    show: { type: Boolean, default: true },
   })
 
   const { theme } = toRefs(props)

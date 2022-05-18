@@ -2,8 +2,8 @@
   <div class="relative">
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
-    <Dot :xy="dotProps.xy" color="#ffc8c8" class="group">
-      <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 opacity-0 group-hover:opacity-100 drop-shadow-lg">
+    <Dot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
+      <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
         <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
       </Popup>
     </Dot>
@@ -41,7 +41,7 @@
 
   const map = ref()
   const mapEl = ref()
-  const dotProps = ref({ xy: <Point>{}, color: undefined })
+  const dotProps = ref({ xy: <Point>{}, color: undefined, show: false, showPopup: false })
 
   const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
 
@@ -79,6 +79,11 @@
     return ret
   })
 
+  const showPoint = () => {
+    const { lat, lon } = activeStation.value.properties
+    dotProps.value = { ...dotProps.value, xy: map.value.project([lon, lat]), show: true, showPopup: true }
+  }
+
   watch([mapScope], () => {
     if (mapScope.value === 'mm') {
       map.value?.setCenter([121.04, 14.56])
@@ -103,8 +108,7 @@
   })
 
   watch([activeStationId], () => {
-    const { lat, lon } = activeStation.value.properties
-    dotProps.value.xy = map.value.project([lon, lat])
+    showPoint()
   })
 
   onMounted(() => {
@@ -120,8 +124,7 @@
     })
 
     map.value.once('load', () => {
-      const { lat, lon } = activeStation.value.properties
-      dotProps.value.xy = map.value.project([lon, lat])
+      showPoint()
       map.value.addSource('station', {
         type: 'geojson',
         data: <any>data.value,
@@ -143,6 +146,7 @@
         const {
           properties: { id },
         } = e.features?.[0]
+        // showPopup.value = true
         emit('update:activeStationId', id)
       })
       // Change the cursor to a pointer when the mouse is over the places layer.
@@ -152,6 +156,14 @@
       // Change it back to a pointer when it leaves.
       map.value.on('mouseleave', 'station-pts', () => {
         map.value.getCanvas().style.cursor = ''
+      })
+
+      map.value.on('movestart', () => {
+        dotProps.value = { ...dotProps.value, show: false, showPopup: false }
+      })
+
+      map.value.on('moveend', () => {
+        showPoint()
       })
     })
   })
