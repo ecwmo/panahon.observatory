@@ -26,16 +26,17 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed } from 'vue'
+  import { toRefs, computed, defineAsyncComponent } from 'vue'
   import { format } from 'date-fns'
 
   import useWeather from '@/composables/useWeather'
 
   import Card from '@/components/Card.vue'
-  import RainInfo from '@/components/longinfo/Rain.vue'
-  import TempInfo from '@/components/longinfo/Temp.vue'
-  import WindInfo from '@/components/longinfo/Wind.vue'
-  import PresInfo from '@/components/longinfo/Pres.vue'
+
+  const RainInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Rain.vue') })
+  const TempInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Temp.vue') })
+  const WindInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
+  const PresInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
   const props = defineProps({
     data: { type: Object, required: true },
