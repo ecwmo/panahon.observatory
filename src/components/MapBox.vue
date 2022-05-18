@@ -19,15 +19,15 @@
   import { useLoading } from 'vue-loading-overlay'
   import useWeather, { StationLayer } from '@/composables/useWeather'
 
-  import RainInfo from '@/components/info/Rain.vue'
-  import TempInfo from '@/components/info/Temp.vue'
-  import WindInfo from '@/components/info/Wind.vue'
-  import PresInfo from '@/components/info/Pres.vue'
-
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
   const WeatherButtons = defineAsyncComponent({ loader: () => import('@/components/WeatherButtons.vue') })
   const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
   const Popup = defineAsyncComponent({ loader: () => import('@/components/Popup.vue') })
+
+  const RainInfo = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
+  const TempInfo = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
+  const WindInfo = defineAsyncComponent({ loader: () => import('@/components/info/Wind.vue') })
+  const PresInfo = defineAsyncComponent({ loader: () => import('@/components/info/Pres.vue') })
 
   const props = defineProps({
     accessToken: { type: String, required: true },
