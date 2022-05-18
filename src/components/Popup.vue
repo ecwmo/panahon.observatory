@@ -26,14 +26,13 @@
 
   const bgTheme = computed(() => {
     const colors = theme.value.split(' ')
-    const bgColor = colors.filter((c) => c.includes('bg-'))?.[0] ?? 'bg-black'
+    const bgColor = colors.find((c) => c.includes('bg-')) ?? 'bg-black'
     const txtColor =
-      colors.filter((c) => c.includes('text-') && c !== `text-${bgColor.split('-').slice(1).join('-')}`)?.[0] ??
-      'text-white'
+      colors.find((c) => c.includes('text-') && c !== `text-${bgColor.split('-').slice(1).join('-')}`) ?? 'text-white'
     return `${bgColor} ${txtColor}`
   })
   const theme2 = computed(() => {
     const colors = bgTheme.value.split(' ')
-    return theme.value.split(' ').filter((c) => colors.indexOf(c) === -1)?.[0] ?? 'text-white'
+    return theme.value.split(' ').find((c) => colors.indexOf(c) === -1) ?? 'text-white'
   })
 </script>
