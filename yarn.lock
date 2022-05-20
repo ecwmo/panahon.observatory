@@ -4250,10 +4250,10 @@ vue-loading-overlay@^5.0:
   resolved "https://registry.npmjs.org/vue-loading-overlay/-/vue-loading-overlay-5.0.3.tgz"
   integrity sha512-6JWZalwlHF4do3HXsFZGt6PcWYseAI5FuNKpveEkljkzqskDWRr7rYmYHVx2kKu4qIvK0vLpL25T/hpFMNoevQ==
 
-vue-query@^1.23.0:
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/vue-query/-/vue-query-1.23.0.tgz#c189136d265abf6b099e849fee03592d31f19951"
-  integrity sha512-KvKnxTOTgC0Ts+aahCBGoDWSqpp52dVEZ+2CS4OzMCahHYf5HTrX5K/O7tsx/g76fTb8/tHyHKrZKeo/rBFK7g==
+vue-query@^1.24.0:
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/vue-query/-/vue-query-1.24.0.tgz#2166c56046c80b67e556336a0dc7734f20a03338"
+  integrity sha512-MoVO2W+PLwdeZhu4MMfCuF+kUavVSD3FD9r+5CWXR3zgaWJdVpA20KVrSP6WzttS2gJkizcSeovj/3KUgU510w==
   dependencies:
     "@vue/devtools-api" "^6.1.4"
     match-sorter "^6.3.1"
