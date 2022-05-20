@@ -1163,10 +1163,10 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.10.tgz"
   integrity sha512-BLO9bBq59vW3fxCpD4o0N4U+DXsvwvIcl+jofw0frQo/GrBFC+/jRZj1E7kgp6dvTyNmA4y6JCV5Id/r3mNP5A==
 
-"@types/mapbox-gl@^2.6.3":
-  version "2.6.3"
-  resolved "https://registry.npmjs.org/@types/mapbox-gl/-/mapbox-gl-2.6.3.tgz"
-  integrity sha512-oF5eQmczkoPQfxfRSwpF9GcrWi3YleptJ67uiCQKps+7aKxwIbww0EHHqIrxvOg49l07+AZBtJU2FPKZm1jKAg==
+"@types/mapbox-gl@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-2.7.1.tgz#d848793a3a350bdec48043b9fcf68c1b87733348"
+  integrity sha512-qr2cWQIJ12TMQg6cYc/FELgwXgcuLlDxcFyQH2EMdr3R8Mg5PFQUNZP5M4ZUanRVwJdQ10pMEVRTAjW9HqLdzg==
   dependencies:
     "@types/geojson" "*"
 
@@ -3140,10 +3140,10 @@ magic-string@^0.25.0, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
-mapbox-gl@^2.3.1:
-  version "2.7.0"
-  resolved "https://registry.npmjs.org/mapbox-gl/-/mapbox-gl-2.7.0.tgz"
-  integrity sha512-7sNoQIpizMjoQkFIcxpWzFCcMd8GJFN0Po00oFZGm1X7xS5XMrzwu+ClfO/ehZqKLa9IS7E3Pj0e2PT+9KeqaA==
+mapbox-gl@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.8.2.tgz#d1e68536878018645ba484e434cea00b5b3ab7f8"
+  integrity sha512-73TgEQlh15TF1UeYhej9Tz1iU4ZhuxIwM6t+e6MxaA7Mu9vqUCZc1kZtZRAXrVeMcDHBSO6gUUjeDBOnsUZVmQ==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.1"
     "@mapbox/geojson-types" "^1.0.2"
