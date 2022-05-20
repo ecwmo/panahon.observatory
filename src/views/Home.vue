@@ -23,7 +23,7 @@
         v-show="stationLayer"
         class="w-full md:w-1/2 h-full"
         :accessToken="mapAccessToken"
-        :data="stationLayer ?? {} as StationLayer"
+        :data="stationLayer"
         :mapScope="mapScope"
         v-model:activeVariable="activeVariable"
         v-model:activeStationId="activeStationId"
@@ -46,7 +46,7 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref, computed, watch, onMounted } from 'vue'
 
-  import type { StationLayer } from '@/composables/useWeather'
+  import { StationLayer } from '@/composables/useWeather'
   import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
@@ -60,8 +60,10 @@
   const activeVariable = ref('temp')
 
   const { formatDate } = useDate()
-  const { data: stationLayer, status: stationDataStatus } = useWeather()
+  const { data: stationData, status: stationDataStatus } = useWeather()
   const { data: userPosition, status: positionStatus } = useLocation()
+
+  const stationLayer = computed(() => stationData.value ?? <StationLayer>{})
 
   const activeStation = computed(
     () =>

@@ -1,28 +1,19 @@
 import axios from 'axios'
 import { useQuery } from 'vue-query'
 
-import { Geometry, GeoJsonProperties } from 'geojson'
+import { Point, GeoJsonProperties, FeatureCollection } from 'geojson'
 
-type StationObs = {
+interface StationObs {
   [key: string]: any
 }
 
-type StationGeoJsonProperties = GeoJsonProperties & {
+interface StationGeoJsonProperties {
   id: number
-  obs: StationObs
+  obs: { [key: string]: any }
   colors?: { [key: string]: string }
 }
 
-export type StationLayerFeature = {
-  type: string
-  geometry: Geometry & { coordinates: [number, number] }
-  properties: StationGeoJsonProperties
-}
-
-export type StationLayer = {
-  type: string
-  features: StationLayerFeature[]
-}
+export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties & GeoJsonProperties>
 
 export default () => {
   const fetchData = () => axios.get('/api/stations.php').then(({ data }) => <StationLayer>data)

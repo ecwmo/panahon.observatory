@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
   import { ref, toRefs, onMounted, watch, PropType, computed, defineAsyncComponent } from 'vue'
-  import { Map, MapLayerMouseEvent, Point } from 'mapbox-gl'
+  import { Map, Point } from 'mapbox-gl'
 
   import { useLoading } from 'vue-loading-overlay'
   import useWeather, { StationLayer } from '@/composables/useWeather'
@@ -142,7 +142,7 @@
       })
       loader.hide()
 
-      map.value.on('click', 'station-pts', (e: MapLayerMouseEvent & StationLayer) => {
+      map.value.on('click', 'station-pts', (e: StationLayer) => {
         const {
           properties: { id },
         } = e.features?.[0]
