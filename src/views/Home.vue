@@ -32,7 +32,9 @@
         <div class="flex flex-col items-center gap-2 md:gap-4">
           <div class="flex flex-col md:items-start w-full">
             <div class="text-lg font-semibold">{{ activeStation.name }}</div>
-            <div class="text-base italic font-light">{{ `as of ${formatDate()}` }}</div>
+            <div class="text-base italic font-light">
+              {{ `as of ${dateString}` }}
+            </div>
           </div>
           <InfoPanel :data="activeStation" :timestamp="timestamp" v-model="activeVariable" />
         </div>
@@ -43,9 +45,9 @@
 
 <script setup lang="ts">
   import { defineAsyncComponent, ref, computed, watch, onMounted } from 'vue'
-  import { format } from 'date-fns'
 
   import type { StationLayer } from '@/composables/useWeather'
+  import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
 
@@ -57,6 +59,7 @@
   const activeStationId = ref(1)
   const activeVariable = ref('temp')
 
+  const { formatDate } = useDate()
   const { data: stationLayer, status: stationDataStatus } = useWeather()
   const { data: userPosition, status: positionStatus } = useLocation()
 
@@ -70,8 +73,7 @@
   )
 
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp))
-
-  const formatDate = (strFormat = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, strFormat)
+  const dateString = computed(() => formatDate(timestamp.value, 'MMMM d, yyyy h:00 bbb'))
 
   const getClosestPoint = () => {
     if (positionStatus.value == 'success' && positionStatus.value == 'success') {

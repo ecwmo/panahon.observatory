@@ -27,8 +27,8 @@
 
 <script setup lang="ts">
   import { toRefs, computed, defineAsyncComponent } from 'vue'
-  import { format } from 'date-fns'
 
+  import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
 
   import Card from '@/components/Card.vue'
@@ -48,11 +48,12 @@
 
   const { data, timestamp } = toRefs(props)
 
+  const { formatDate } = useDate()
   const { metValueString } = useWeather()
 
   const stationName = computed(() => data.value.name)
 
-  const cardDateString = computed(() => format(timestamp.value, 'h bbb'))
+  const cardDateString = computed(() => formatDate(timestamp.value, 'h bbb'))
 
   const metValueStrings = computed(() => {
     const ret: { [k: string]: string } = {}
