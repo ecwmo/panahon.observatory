@@ -33,7 +33,7 @@
       </ul>
       <ul class="flex flex-col border-t border-black md:flex md:flex-row md:border-t-0 md:border-l-0">
         <a
-          v-show="isLoggedIn"
+          v-show="auth.isLoggedIn"
           @click.prevent="handleLogout"
           href="#"
           class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
@@ -57,13 +57,12 @@
   import { ref, computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
-  import useAuth from '@/composables/useAuth'
+  import { useAuthStore } from '@/stores/auth'
 
   const route = useRoute()
   const router = useRouter()
   const mobileMenuOpen = ref(false)
-
-  const { isLoggedIn, logout } = useAuth()
+  const auth = useAuthStore()
 
   const lPages = [
     {
@@ -80,7 +79,7 @@
   const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
 
   const handleLogout = async () => {
-    await logout()
+    await auth.logout()
     if (route.name === 'NewReport') router.push('/login')
   }
 

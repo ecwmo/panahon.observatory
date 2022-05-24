@@ -94,7 +94,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import axios from 'axios'
 
-  import useAuth from '@/composables/useAuth'
+  import { useAuthStore } from '@/stores/auth'
 
   interface ReportData {
     [key: string]: any
@@ -107,7 +107,7 @@
     beforeRouteEnter(to, from, next) {
       next((vm) => {
         //@ts-ignore
-        if (!vm.isLoggedIn) {
+        if (!vm.auth.isLoggedIn) {
           vm.$router.push('/login')
         }
       })
@@ -116,7 +116,7 @@
       const route = useRoute()
       const router = useRouter()
 
-      const { isLoggedIn } = useAuth()
+      const auth = useAuthStore()
 
       const report = ref(<ReportData>{})
 
@@ -159,7 +159,7 @@
         if (res.data === 'success') router.push('/newreport?uploaded')
       }
 
-      return { isLoggedIn, report, handleFile, publishedView, uploadedView, handleUpload, handlePublish }
+      return { auth, report, handleFile, publishedView, uploadedView, handleUpload, handlePublish }
     },
   })
 </script>

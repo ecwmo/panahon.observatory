@@ -1,13 +1,13 @@
 <template>
   <div class="bg-gray-300 border-l border-r border-b border-black flex py-4 justify-center">
     <div class="flex flex-col bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <h3 v-show="isLoggedIn" class="text-xl font-medium">{{ `Hello ${loggedInUser}!!!` }}</h3>
-      <h1 v-show="!isLoggedIn" class="p-4 flex justify-center text-3xl font-medium">Login</h1>
-      <form v-show="!isLoggedIn" @submit.prevent="handleLogin">
+      <h3 v-show="auth.isLoggedIn" class="text-xl font-medium">{{ `Hello ${auth.user.username}!!!` }}</h3>
+      <h1 v-show="!auth.isLoggedIn" class="p-4 flex justify-center text-3xl font-medium">Login</h1>
+      <form v-show="!auth.isLoggedIn" @submit.prevent="handleLogin">
         <div class="mb-4">
           <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
           <input
-            v-model="user.username"
+            v-model="userForm.username"
             type="text"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="username"
@@ -19,7 +19,7 @@
         <div class="mb-6">
           <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
           <input
-            v-model="user.password"
+            v-model="userForm.password"
             type="password"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="password"
@@ -46,21 +46,26 @@
   import { defineComponent, ref } from 'vue'
   import { useRouter } from 'vue-router'
 
-  import useAuth, { User } from '@/composables/useAuth'
+  import { useAuthStore } from '@/stores/auth'
+
+  interface UserForm {
+    username: string
+    password: string
+  }
 
   export default defineComponent({
     setup() {
       const router = useRouter()
-      const user = ref(<User>{})
+      const userForm = ref(<UserForm>{})
 
-      const { loggedInUser, isLoggedIn, login } = useAuth()
+      const auth = useAuthStore()
 
       const handleLogin = async () => {
-        const res = await login(user.value)
-        if (res.hasOwnProperty('username')) router.go(-1)
+        await auth.login(userForm.value)
+        if (auth.isLoggedIn) router.go(-1)
       }
 
-      return { user, handleLogin, isLoggedIn, loggedInUser }
+      return { userForm, handleLogin, auth }
     },
   })
 </script>

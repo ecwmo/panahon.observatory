@@ -8,6 +8,8 @@ import App from '@/App.vue'
 import router from '@/router'
 import VueGtag from 'vue-gtag'
 
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { VueQueryPlugin } from 'vue-query'
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
@@ -17,6 +19,9 @@ import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 const intervalMS = 60 * 60 * 1000
 
@@ -34,6 +39,7 @@ dom.watch()
 
 const app = createApp(App)
 app.component('fa-icon', FontAwesomeIcon)
+app.use(pinia)
 app.use(router)
 app.use(
   VueGtag,
