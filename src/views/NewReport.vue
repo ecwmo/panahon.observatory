@@ -89,12 +89,10 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, computed, ref } from 'vue'
+<script setup lang="ts">
+  import { computed, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import axios from 'axios'
-
-  import { useAuthStore } from '@/stores/auth'
 
   interface ReportData {
     [key: string]: any
@@ -103,63 +101,47 @@
     report: any
   }
 
-  export default defineComponent({
-    beforeRouteEnter(to, from, next) {
-      next((vm) => {
-        //@ts-ignore
-        if (!vm.auth.isLoggedIn) {
-          vm.$router.push('/login')
-        }
-      })
-    },
-    setup() {
-      const route = useRoute()
-      const router = useRouter()
+  const route = useRoute()
+  const router = useRouter()
 
-      const auth = useAuthStore()
+  const report = ref(<ReportData>{})
 
-      const report = ref(<ReportData>{})
+  const publishedView = computed(() => route.query.hasOwnProperty('published'))
+  const uploadedView = computed(() => route.query.hasOwnProperty('uploaded'))
 
-      const publishedView = computed(() => route.query.hasOwnProperty('published'))
-      const uploadedView = computed(() => route.query.hasOwnProperty('uploaded'))
+  const handlePublish = async () => {
+    const formData = new FormData()
 
-      const handlePublish = async () => {
-        const formData = new FormData()
+    formData.append('publish', '1')
 
-        formData.append('publish', '1')
+    const res = await axios.post('/api/report.php', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
 
-        const res = await axios.post('/api/report.php', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+    if (res.data === 'success') router.push('/newreport?published')
+  }
 
-        if (res.data === 'success') router.push('/newreport?published')
-      }
+  const handleFile = (e: Event) => {
+    const el = <HTMLInputElement>e.target
+    report.value.report = el && el.files ? el.files[0] : {}
+  }
 
-      const handleFile = (e: Event) => {
-        const el = <HTMLInputElement>e.target
-        report.value.report = el && el.files ? el.files[0] : {}
-      }
+  const handleUpload = async () => {
+    const formData = new FormData()
 
-      const handleUpload = async () => {
-        const formData = new FormData()
+    Object.keys(report.value).forEach((k) => {
+      formData.append(k, report.value[k])
+    })
+    formData.append('upload', '1')
 
-        Object.keys(report.value).forEach((k) => {
-          formData.append(k, report.value[k])
-        })
-        formData.append('upload', '1')
+    const res = await axios.post('/api/report.php', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
 
-        const res = await axios.post('/api/report.php', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-
-        if (res.data === 'success') router.push('/newreport?uploaded')
-      }
-
-      return { auth, report, handleFile, publishedView, uploadedView, handleUpload, handlePublish }
-    },
-  })
+    if (res.data === 'success') router.push('/newreport?uploaded')
+  }
 </script>

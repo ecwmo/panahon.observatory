@@ -1,5 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
+import { useAuthStore } from '@/stores/auth'
+
 const Home = () => import('@/views/Home.vue')
 const Models = () => import('@/views/Models.vue')
 const Climate = () => import('@/views/Climate.vue')
@@ -41,6 +43,7 @@ const routes = [
     path: '/newreport',
     name: 'NewReport',
     component: NewReport,
+    meta: { requiresAuth: true },
   },
   {
     path: '/login',
@@ -52,6 +55,11 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+})
+
+router.beforeEach((to) => {
+  const auth = useAuthStore()
+  if (to.meta.requiresAuth && !auth.isLoggedIn) return { path: '/login', query: { redirect: to.fullPath } }
 })
 
 export default router
