@@ -15,6 +15,24 @@ interface StationGeoJsonProperties {
 
 export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties & GeoJsonProperties>
 
+export const initialStationData: StationLayer = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-999, -999],
+      },
+      properties: {
+        id: -999,
+        name: '',
+        obs: { timestamp: null },
+      },
+    },
+  ],
+}
+
 export default () => {
   const fetchData = async () => await axios.get('/api/stations.php').then(({ data }) => <StationLayer>data)
 
@@ -68,7 +86,7 @@ export default () => {
   }
 
   return {
-    ...useQuery('stationData', fetchData),
+    ...useQuery('stationData', fetchData, { initialData: initialStationData }),
     weatherConf,
     windDirDeg2Str,
     metValueString,

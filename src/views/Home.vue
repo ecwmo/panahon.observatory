@@ -51,7 +51,7 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref, computed, watch, onMounted } from 'vue'
 
-  import { StationLayer } from '@/composables/useWeather'
+  import { initialStationData } from '@/composables/useWeather'
   import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
@@ -70,15 +70,12 @@
   const { data: stationData, status: stationDataStatus } = useWeather()
   const { data: userPosition, status: positionStatus } = useLocation()
 
-  const stationLayer = computed(() => stationData.value ?? <StationLayer>{})
+  const stationLayer = computed(() => stationData.value ?? initialStationData)
 
   const activeStation = computed(
     () =>
-      stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ?? {
-        id: '',
-        name: '',
-        obs: { timestamp: null },
-      }
+      stationLayer.value?.features?.find(({ properties: { id } }) => id === activeStationId.value)?.properties ??
+      initialStationData.features[0].properties
   )
 
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp))
