@@ -36,7 +36,7 @@ export default () => {
   }
 
   const windDirDeg2Str = (val: number) => {
-    if (val === null || val < 0) return ''
+    if (!dataIsValid(val, 'wdir')) return ''
     if (val <= 22.5) return 'N'
     else if (val <= 45) return 'NNE'
     else if (val <= 67.5) return 'NE'
@@ -55,8 +55,9 @@ export default () => {
     else return 'NNW'
   }
 
-  const dataIsValid = (val: any, varName: string) => {
+  const dataIsValid = (val: number, varName: string) => {
     if (varName === 'pres') return val !== -999
+    if (varName === 'wdir') return val >= 0 && val <= 360
     return ![999.9, -999].includes(val)
   }
 
