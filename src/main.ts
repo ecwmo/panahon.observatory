@@ -2,7 +2,6 @@ import '@/tailwind.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'weather-icons/css/weather-icons.css'
 import 'weather-icons/css/weather-icons-wind.css'
-import 'vue-loading-overlay/dist/vue-loading.css'
 
 import { createApp } from 'vue'
 import App from '@/App.vue'

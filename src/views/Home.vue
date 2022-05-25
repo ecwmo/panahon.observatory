@@ -30,9 +30,7 @@
           v-model:activeStationId="activeStationId"
         />
         <template #fallback>
-          <div class="relative w-full md:w-1/2 h-full">
-            <loading :active="true" :isFullPage="false"></loading>
-          </div>
+          <LoadingIcon class="w-full md:w-1/2 h-full" svgClass="w-16 h-16 text-slate-500" />
         </template>
       </Suspense>
       <div
@@ -53,12 +51,12 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref, computed, watch, onMounted } from 'vue'
 
-  import Loading from 'vue-loading-overlay'
-
   import { StationLayer } from '@/composables/useWeather'
   import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
+
+  import LoadingIcon from '@/LoadingIcon.vue'
 
   const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
   const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
