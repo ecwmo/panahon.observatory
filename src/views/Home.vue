@@ -82,7 +82,7 @@
   const dateString = computed(() => formatDate('MMMM d, yyyy h:00 bbb', timestamp.value))
 
   const getClosestPoint = () => {
-    if (positionStatus.value == 'success' && positionStatus.value == 'success') {
+    if (stationDataStatus.value == 'success' && positionStatus.value == 'success') {
       const { latitude: userLat, longitude: userLng } = userPosition.value
       const d =
         stationLayer.value?.features?.map(
