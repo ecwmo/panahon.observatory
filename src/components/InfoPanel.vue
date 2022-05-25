@@ -46,7 +46,7 @@
 
   const stationName = computed(() => data.value.name)
 
-  const cardDateString = computed(() => formatDate(timestamp.value, 'h bbb'))
+  const cardDateString = computed(() => formatDate('h bbb', timestamp.value))
 
   const metValueStrings = computed(() => {
     const ret: { [k: string]: string } = {}

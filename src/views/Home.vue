@@ -79,7 +79,7 @@
   )
 
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp))
-  const dateString = computed(() => formatDate(timestamp.value, 'MMMM d, yyyy h:00 bbb'))
+  const dateString = computed(() => formatDate('MMMM d, yyyy h:00 bbb', timestamp.value))
 
   const getClosestPoint = () => {
     if (positionStatus.value == 'success' && positionStatus.value == 'success') {

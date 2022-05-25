@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 
 export default (dateTime = new Date()) => {
-  const formatDate = (d = dateTime, strFormat: string) => format(d, strFormat)
+  const formatDate = (strFormat: string, d = dateTime) => format(d, strFormat)
 
   return { formatDate }
 }
