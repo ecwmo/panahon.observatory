@@ -16,7 +16,6 @@
   import { ref, toRefs, onMounted, watch, PropType, computed, defineAsyncComponent } from 'vue'
   import { Map, Point } from 'mapbox-gl'
 
-  import { useLoading } from 'vue-loading-overlay'
   import useWeather, { StationLayer } from '@/composables/useWeather'
 
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
@@ -45,7 +44,6 @@
 
   const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
 
-  const $loading = useLoading()
   const { metValueString } = useWeather()
 
   const activeStation = computed(
@@ -112,8 +110,6 @@
   })
 
   onMounted(() => {
-    const loader = $loading.show({ container: mapEl.value.parentNode, isFullPage: false })
-
     map.value = new Map({
       accessToken: accessToken.value,
       container: mapEl.value,
@@ -140,7 +136,6 @@
           'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
         },
       })
-      loader.hide()
 
       map.value.on('click', 'station-pts', (e: StationLayer) => {
         const {
