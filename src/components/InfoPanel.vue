@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col mt-3 md:mt-6 gap-3 md:gap-6">
-    <div class="flex flex-wrap justify-center gap-3 md:gap-6">
+  <div class="flex flex-wrap justify-center gap-3 md:gap-6">
+    <Suspense>
       <Card
-        v-for="c in cards.slice(0, 2)"
+        v-for="c in cards"
         :key="c.title"
         :data="c"
         :isActive="c.id === modelValue"
@@ -10,18 +10,10 @@
       >
         <component :is="c.info" :data="metValueStrings" :stationName="stationName" :dateString="cardDateString" />
       </Card>
-    </div>
-    <div class="flex flex-wrap justify-center gap-3 md:gap-6">
-      <Card
-        v-for="c in cards.slice(2, 4)"
-        :key="c.title"
-        :data="c"
-        :isActive="c.id === modelValue"
-        @click="$emit('update:modelValue', c.id)"
-      >
-        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :dateString="cardDateString" />
-      </Card>
-    </div>
+      <template #fallback>
+        <FakeCard v-for="c in fakeCards" :key="c.title" />
+      </template>
+    </Suspense>
   </div>
 </template>
 
@@ -31,8 +23,9 @@
   import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
 
-  import Card from '@/components/Card.vue'
+  import FakeCard from '@/components/FakeCard.vue'
 
+  const Card = defineAsyncComponent({ loader: () => import('@/components/Card.vue') })
   const RainInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Rain.vue') })
   const TempInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Temp.vue') })
   const WindInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
@@ -65,6 +58,25 @@
 
     return ret
   })
+
+  const fakeCards = [
+    {
+      id: 'rain',
+      title: 'RAIN (mm)',
+    },
+    {
+      id: 'temp',
+      title: 'TEMPERATURE (°C)',
+    },
+    {
+      id: 'wind',
+      title: 'WIND (m/s)',
+    },
+    {
+      id: 'pres',
+      title: 'PRESSURE (hPa)',
+    },
+  ]
 
   const cards = computed(() => {
     const windDirStr = metValueStrings.value['wdirStr']
