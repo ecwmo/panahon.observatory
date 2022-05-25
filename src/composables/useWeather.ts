@@ -1,5 +1,9 @@
+import { computed } from 'vue'
 import axios from 'axios'
+import { getMinutes, getSeconds, getMilliseconds } from 'date-fns'
 import { useQuery } from 'vue-query'
+
+import useDate from '@/composables/useDate'
 
 import { Point, GeoJsonProperties, FeatureCollection } from 'geojson'
 
@@ -34,10 +38,43 @@ export const initialStationData: StationLayer = {
 }
 
 export default () => {
-  const fetchData = async () => await axios.get('/api/stations.php').then(({ data }) => <StationLayer>data)
+  const { formatDate } = useDate()
 
-  const { data: weatherConf } = useQuery('weatherConf', () =>
-    axios.get('/api/stations.php?weather_conf').then(({ data }) => data)
+  const fetchData = async (timestamp: string) => {
+    const { data } = await axios.get(`/api/stations.php?ts=${timestamp}`)
+    return <StationLayer>data
+  }
+
+  const stationDataTimestamp = computed(() => formatDate('yyyyMMddHH'))
+
+  const stationDataStaleTime = computed(() => {
+    const curDate = new Date()
+    const hourInMs = 60 * 60 * 1000
+    const numMs = (getMinutes(curDate) * 60 + getSeconds(curDate)) * 1000 + getMilliseconds(curDate)
+    return hourInMs - numMs
+  })
+
+  const stationDataQuery = useQuery(
+    ['stationData', stationDataTimestamp],
+    () => {
+      return fetchData(stationDataTimestamp.value)
+    },
+    {
+      placeholderData: initialStationData,
+      staleTime: stationDataStaleTime,
+    }
+  )
+
+  const { data: weatherConf } = useQuery(
+    'weatherConf',
+    async () => {
+      const { data } = await axios.get('/api/stations.php?weather_conf')
+      return data
+    },
+    {
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    }
   )
 
   const metValueString = (stnObs: StationObs, varName: string) => {
@@ -86,7 +123,7 @@ export default () => {
   }
 
   return {
-    ...useQuery('stationData', fetchData, { initialData: initialStationData }),
+    ...stationDataQuery,
     weatherConf,
     windDirDeg2Str,
     metValueString,
