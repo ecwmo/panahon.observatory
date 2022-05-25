@@ -23,16 +23,16 @@ export default () => {
   )
 
   const metValueString = (stnObs: StationObs, varName: string) => {
-    if (!stnObs || Object.keys(stnObs).length === 0) return '--'
-    let val: number = stnObs[varName]
-    if (['rr', 'rain24h', 'pres'].indexOf(varName) !== -1) {
-      return dataIsValid(val, varName) ? val.toFixed() : '--'
-    } else if (varName === 'wdirStr') {
-      val = stnObs['wdir']
-      return windDirDeg2Str(val)
-    } else {
-      return dataIsValid(val, varName) ? val.toFixed(1) : '--'
+    let fracDigits = 1
+    const val: number = stnObs?.[varName] ?? -999
+    if (varName === 'wdirStr') {
+      return windDirDeg2Str(stnObs?.['wdir'])
     }
+    if (!dataIsValid(val, varName)) return '--'
+    if (['rr', 'rain24h', 'pres'].indexOf(varName) !== -1) {
+      fracDigits = 0
+    }
+    return val.toFixed(fracDigits)
   }
 
   const windDirDeg2Str = (val: number) => {
