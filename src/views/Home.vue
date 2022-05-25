@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, ref, computed, watch, onMounted } from 'vue'
+  import { defineAsyncComponent, ref, computed, watchEffect } from 'vue'
 
   import { initialStationData } from '@/composables/useWeather'
   import useDate from '@/composables/useDate'
@@ -94,6 +94,7 @@
     }
   }
 
-  watch([positionStatus, stationDataStatus], getClosestPoint)
-  onMounted(getClosestPoint)
+  watchEffect(() => {
+    getClosestPoint()
+  })
 </script>
