@@ -7,6 +7,21 @@
         <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
       </Popup>
     </Dot>
+    <div
+      class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
+    >
+      <Switch class="scale-[0.8] p-0.5" v-model:isOn="mapToggle" labelRight="All data" />
+      <select
+        :value="activeStationId"
+        @change="$emit('update:activeStationId', +($event.target as HTMLSelectElement).value)"
+        v-if="data?.features?.length"
+        class="w-24 text-xs border-2 border-slate-700"
+      >
+        <option v-for="(st, id) in data?.features" :key="id" :value="st.properties.id">
+          {{ st.properties.name }}
+        </option>
+      </select>
+    </div>
     <WeatherButtons :modelValue="activeVariable" @update:modelValue="$emit('update:activeVariable', $event)" />
     <Colorbar :name="activeVariable" />
   </div>
@@ -18,6 +33,7 @@
 
   import useWeather, { StationLayer } from '@/composables/useWeather'
 
+  const Switch = defineAsyncComponent({ loader: () => import('@/components/Switch.vue') })
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
   const WeatherButtons = defineAsyncComponent({ loader: () => import('@/components/WeatherButtons.vue') })
   const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
@@ -31,7 +47,6 @@
   const props = defineProps({
     accessToken: { type: String, required: true },
     data: { type: Object as PropType<StationLayer>, required: true },
-    mapScope: { type: String, required: true },
     activeVariable: { type: String, required: true },
     activeStationId: { type: Number, required: true },
   })
@@ -41,8 +56,9 @@
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: <Point>{}, color: undefined, show: false, showPopup: false })
+  const mapToggle = ref(false)
 
-  const { accessToken, data, activeVariable, mapScope, activeStationId } = toRefs(props)
+  const { accessToken, data, activeVariable, activeStationId } = toRefs(props)
 
   const { metValueString } = useWeather()
 
@@ -82,13 +98,13 @@
     dotProps.value = { ...dotProps.value, xy: map.value.project([lon, lat]), show: true, showPopup: true }
   }
 
-  watch([mapScope], () => {
-    if (mapScope.value === 'mm') {
-      map.value?.setCenter([121.04, 14.56])
-      map.value?.setZoom(9.5)
-    } else {
+  watch([mapToggle], () => {
+    if (mapToggle.value) {
       map.value?.setCenter([121.80434, 12.5549])
       map.value?.setZoom(4.5)
+    } else {
+      map.value?.setCenter([121.04, 14.56])
+      map.value?.setZoom(9.5)
     }
   })
 
