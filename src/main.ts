@@ -1,7 +1,4 @@
 import '@/tailwind.css'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import 'weather-icons/css/weather-icons.css'
-import 'weather-icons/css/weather-icons-wind.css'
 
 import App from '@/App.vue'
 import router from '@/router'

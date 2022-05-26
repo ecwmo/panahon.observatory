@@ -12,6 +12,11 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: 'src/main.ts',
+      manualChunks: {
+        mapboxgl: ['mapbox-gl'],
+        datefns: ['date-fns'],
+        fa: ['@fortawesome/fontawesome-svg-core', '@fortawesome/free-solid-svg-icons', '@fortawesome/vue-fontawesome'],
+      },
     },
   },
   plugins: [
