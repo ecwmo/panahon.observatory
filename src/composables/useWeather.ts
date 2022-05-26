@@ -2,26 +2,14 @@ import axios from 'axios'
 import { getMinutes, getSeconds, getMilliseconds } from 'date-fns'
 import { useQuery } from 'vue-query'
 
-import { Point, GeoJsonProperties, FeatureCollection } from 'geojson'
-
-interface StationObs {
-  [key: string]: any
-}
-
-export type StationGeoJsonProperties = GeoJsonProperties & {
-  id: number
-  obs: { [key: string]: any }
-  colors?: { [key: string]: string }
-}
-
-export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties>
+import { Station, StationData } from '@/types/station'
 
 export default () => {
   const { formatDate } = useDate()
 
   const fetchData = async (timestamp: string) => {
     const { data } = await axios.get(`/api/stations.php?ts=${timestamp}`)
-    return <StationLayer>data
+    return <StationData>data
   }
 
   const stationDataTimestamp = computed(() => formatDate('yyyyMMddHH'))
@@ -55,7 +43,7 @@ export default () => {
     }
   )
 
-  const metValueString = (stnObs: StationObs, varName: string) => {
+  const metValueString = (stnObs: Station['obs'], varName: string) => {
     let fracDigits = 1
     const val: number = stnObs?.[varName] ?? -999
     if (varName === 'wdirStr') {

@@ -27,6 +27,13 @@
         </option>
       </select>
     </div>
+
+    <div
+      class="absolute flex md:hidden justify-between top-2 right-2 bg-white py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
+    >
+      {{ stationStore.dateString() }}
+    </div>
+
     <WeatherButtons :modelValue="activeVariable" @update:modelValue="$emit('update:activeVariable', $event)" />
     <Colorbar :name="activeVariable" />
   </div>
@@ -35,7 +42,7 @@
 <script setup lang="ts">
   import { Map, Point } from 'mapbox-gl'
 
-  import { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
+  import { Station, StationData } from '@/types/station'
 
   const InfoRain = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
   const InfoTemp = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
@@ -45,18 +52,18 @@
   const props = defineProps({
     accessToken: { type: String, required: true },
     activeVariable: { type: String, required: true },
-    activeStation: { type: Object },
   })
 
-  const emit = defineEmits(['update:activeVariable', 'update:activeStationId', 'update:activeStation'])
+  const emit = defineEmits(['update:activeVariable'])
 
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: <Point>{}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
   const activeStationId = ref(1)
+  const stationStore = useStationStore()
 
-  const { accessToken, activeVariable, activeStation } = toRefs(props)
+  const { accessToken, activeVariable } = toRefs(props)
 
   const { data: stationData, isSuccess: stationDataIsReady, metValueString } = useWeather()
   const { data: userPosition, isSuccess: positionIsReady } = useLocation()
@@ -79,13 +86,13 @@
     const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 
     metVars.forEach((v) => {
-      ret[v] = metValueString(activeStation?.value?.properties?.obs, v)
+      ret[v] = metValueString(stationStore.station?.obs, v)
     })
 
     return ret
   })
 
-  const showPoint = (st: StationGeoJsonProperties) => {
+  const showPoint = (st: Station) => {
     try {
       const { lat, lon } = st
       const xy = map.value?.project([lon, lat])
@@ -112,10 +119,10 @@
   }
 
   const handleStationIdChange = (newId: number) => {
-    const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)
+    const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)?.properties
     activeStationId.value = newId
-    emit('update:activeStation', newActiveStation)
-    showPoint(<StationGeoJsonProperties>newActiveStation?.properties)
+    stationStore.update(newActiveStation)
+    showPoint(<Station>newActiveStation)
   }
 
   const handleMapScopeChange = () => {
@@ -190,7 +197,7 @@
     map.value.once('load', () => {
       loadData()
 
-      map.value.on('click', 'station-pts', (e: StationLayer) => {
+      map.value.on('click', 'station-pts', (e: StationData) => {
         const {
           properties: { id },
         } = e.features?.[0]
@@ -210,7 +217,7 @@
       })
 
       map.value.on('moveend', () => {
-        showPoint(activeStation?.value?.properties)
+        showPoint(stationStore.station)
       })
     })
   })

@@ -8,7 +8,12 @@
         :isActive="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
-        <component :is="c.info" :data="metValueStrings" :stationName="stationName" :dateString="cardDateString" />
+        <component
+          :is="c.info"
+          :data="metValueStrings"
+          :stationName="stationStore.stationName"
+          :dateString="stationStore.dateString('h bbb')"
+        />
       </Card>
       <template #fallback>
         <FakeCard v-for="c in fakeCards" :key="c.title" />
@@ -24,28 +29,20 @@
   const LonginfoPres = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
   const props = defineProps({
-    data: { type: Object },
     modelValue: { type: String },
-    timestamp: { type: Date, default: new Date() },
   })
 
   const emit = defineEmits(['update:modelValue'])
 
-  const { data, timestamp } = toRefs(props)
-
-  const { formatDate } = useDate()
   const { metValueString } = useWeather()
-
-  const stationName = computed(() => data?.value?.name)
-
-  const cardDateString = computed(() => formatDate('h bbb', timestamp.value))
+  const stationStore = useStationStore()
 
   const metValueStrings = computed(() => {
     const ret: { [k: string]: string } = {}
     const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 
     metVars.forEach((v) => {
-      ret[v] = metValueString(data?.value?.obs, v)
+      ret[v] = metValueString(stationStore.station?.obs, v)
     })
 
     return ret
