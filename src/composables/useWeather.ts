@@ -19,24 +19,6 @@ interface StationGeoJsonProperties {
 
 export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties & GeoJsonProperties>
 
-export const initialStationData: StationLayer = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-999, -999],
-      },
-      properties: {
-        id: -999,
-        name: '',
-        obs: { timestamp: null },
-      },
-    },
-  ],
-}
-
 export default () => {
   const { formatDate } = useDate()
 
@@ -60,7 +42,6 @@ export default () => {
       return fetchData(stationDataTimestamp.value)
     },
     {
-      placeholderData: initialStationData,
       staleTime: stationDataStaleTime,
     }
   )

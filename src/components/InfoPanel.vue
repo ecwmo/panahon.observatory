@@ -32,7 +32,7 @@
   const PresInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
   const props = defineProps({
-    data: { type: Object, required: true },
+    data: { type: Object },
     modelValue: { type: String },
     timestamp: { type: Date, default: new Date() },
   })
@@ -44,7 +44,7 @@
   const { formatDate } = useDate()
   const { metValueString } = useWeather()
 
-  const stationName = computed(() => data.value.name)
+  const stationName = computed(() => data?.value?.name)
 
   const cardDateString = computed(() => formatDate('h bbb', timestamp.value))
 
@@ -53,7 +53,7 @@
     const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 
     metVars.forEach((v) => {
-      ret[v] = metValueString(data.value.obs, v)
+      ret[v] = metValueString(data?.value?.obs, v)
     })
 
     return ret

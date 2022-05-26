@@ -46,7 +46,7 @@
 
   const props = defineProps({
     accessToken: { type: String, required: true },
-    data: { type: Object as PropType<StationLayer>, required: true },
+    data: { type: Object as PropType<StationLayer> },
     activeVariable: { type: String, required: true },
     activeStationId: { type: Number, required: true },
   })
@@ -64,7 +64,7 @@
 
   const activeStation = computed(
     () =>
-      data.value?.features?.find(({ properties: { id } }) => id === activeStationId?.value) ?? {
+      data?.value?.features?.find(({ properties: { id } }) => id === activeStationId?.value) ?? {
         properties: { lat: 0, lon: 0, obs: {} },
       }
   )
@@ -94,8 +94,9 @@
   })
 
   const showPoint = () => {
-    const { lat, lon } = activeStation.value.properties
-    dotProps.value = { ...dotProps.value, xy: map.value.project([lon, lat]), show: true, showPopup: true }
+    const { lat, lon } = activeStation.value?.properties
+    const xy = map.value?.project([lon, lat])
+    if (xy) dotProps.value = { ...dotProps.value, xy, show: true, showPopup: true }
   }
 
   watch([mapToggle], () => {
@@ -109,7 +110,7 @@
   })
 
   watch([activeVariable], () => {
-    const metVars = Object.keys(<Object>data.value.features[0].properties.colors)
+    const metVars = Object.keys(<Object>data?.value?.features[0].properties.colors)
 
     if (metVars.indexOf(activeVariable.value) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', [
@@ -139,7 +140,7 @@
       showPoint()
       map.value.addSource('station', {
         type: 'geojson',
-        data: <any>data.value,
+        data: <any>data?.value,
       })
       map.value.addLayer({
         id: 'station-pts',
