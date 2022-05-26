@@ -12,12 +12,12 @@
     >
       <Switch class="scale-[0.8] p-0.5" v-model:isOn="mapToggle" labelRight="All data" />
       <select
+        v-if="stationDataIsReady"
         :value="activeStationId"
-        @change="$emit('update:activeStationId', +($event.target as HTMLSelectElement).value)"
-        v-if="data?.features?.length"
+        @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
         class="w-24 text-xs border-2 border-slate-700"
       >
-        <option v-for="(st, id) in data?.features" :key="id" :value="st.properties.id">
+        <option v-for="(st, id) in stationData?.features" :key="id" :value="st.properties.id">
           {{ st.properties.name }}
         </option>
       </select>
@@ -28,10 +28,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs, onMounted, watch, PropType, computed, defineAsyncComponent } from 'vue'
+  import { ref, toRefs, onMounted, watch, computed, defineAsyncComponent } from 'vue'
   import { Map, Point } from 'mapbox-gl'
 
-  import useWeather, { StationLayer } from '@/composables/useWeather'
+  import useWeather, { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
+  import useLocation from '@/composables/useLocation'
 
   const Switch = defineAsyncComponent({ loader: () => import('@/components/Switch.vue') })
   const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
@@ -46,28 +47,22 @@
 
   const props = defineProps({
     accessToken: { type: String, required: true },
-    data: { type: Object as PropType<StationLayer> },
     activeVariable: { type: String, required: true },
-    activeStationId: { type: Number, required: true },
+    activeStation: { type: Object },
   })
 
-  const emit = defineEmits(['update:activeVariable', 'update:activeStationId'])
+  const emit = defineEmits(['update:activeVariable', 'update:activeStationId', 'update:activeStation'])
 
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: <Point>{}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
+  const activeStationId = ref(1)
 
-  const { accessToken, data, activeVariable, activeStationId } = toRefs(props)
+  const { accessToken, activeVariable, activeStation } = toRefs(props)
 
-  const { metValueString } = useWeather()
-
-  const activeStation = computed(
-    () =>
-      data?.value?.features?.find(({ properties: { id } }) => id === activeStationId?.value) ?? {
-        properties: { lat: 0, lon: 0, obs: {} },
-      }
-  )
+  const { data: stationData, isSuccess: stationDataIsReady, metValueString } = useWeather()
+  const { data: userPosition, isSuccess: positionIsReady } = useLocation()
 
   const activeInfo = computed(() => {
     switch (activeVariable.value) {
@@ -87,16 +82,40 @@
     const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 
     metVars.forEach((v) => {
-      ret[v] = metValueString(activeStation.value.properties.obs, v)
+      ret[v] = metValueString(activeStation?.value?.properties?.obs, v)
     })
 
     return ret
   })
 
-  const showPoint = () => {
-    const { lat, lon } = activeStation.value?.properties
-    const xy = map.value?.project([lon, lat])
-    if (xy) dotProps.value = { ...dotProps.value, xy, show: true, showPopup: true }
+  const showPoint = (st: StationGeoJsonProperties) => {
+    try {
+      const { lat, lon } = st
+      const xy = map.value?.project([lon, lat])
+      if (xy) dotProps.value = { ...dotProps.value, xy, show: true, showPopup: true }
+    } catch {}
+  }
+
+  const getClosestPoint = () => {
+    if (stationDataIsReady.value && positionIsReady.value) {
+      const { latitude: userLat, longitude: userLng } = userPosition.value
+      const d =
+        stationData.value?.features?.map(
+          ({ geometry: { coordinates } }) =>
+            Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
+        ) ?? []
+      const i = d.indexOf(Math.min(...d))
+      const newId = stationData.value?.features?.[i].properties?.id ?? 1
+      activeStationId.value = newId
+      handleStationIdChange(newId)
+    }
+  }
+
+  const handleStationIdChange = (newId: number) => {
+    const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)
+    activeStationId.value = newId
+    emit('update:activeStation', newActiveStation)
+    showPoint(<StationGeoJsonProperties>newActiveStation?.properties)
   }
 
   watch([mapToggle], () => {
@@ -110,7 +129,7 @@
   })
 
   watch([activeVariable], () => {
-    const metVars = Object.keys(<Object>data?.value?.features[0].properties.colors)
+    const metVars = Object.keys(<Object>stationData?.value?.features[0].properties.colors)
 
     if (metVars.indexOf(activeVariable.value) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', [
@@ -120,10 +139,6 @@
     } else {
       map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
     }
-  })
-
-  watch([activeStationId], () => {
-    showPoint()
   })
 
   onMounted(() => {
@@ -136,11 +151,12 @@
       attributionControl: false,
     })
 
+    getClosestPoint()
+
     map.value.once('load', () => {
-      showPoint()
       map.value.addSource('station', {
         type: 'geojson',
-        data: <any>data?.value,
+        data: <any>stationData?.value,
       })
       map.value.addLayer({
         id: 'station-pts',
@@ -158,8 +174,7 @@
         const {
           properties: { id },
         } = e.features?.[0]
-        // showPopup.value = true
-        emit('update:activeStationId', id)
+        handleStationIdChange(id)
       })
       // Change the cursor to a pointer when the mouse is over the places layer.
       map.value.on('mouseenter', 'station-pts', () => {
@@ -175,7 +190,7 @@
       })
 
       map.value.on('moveend', () => {
-        showPoint()
+        showPoint(activeStation?.value?.properties)
       })
     })
   })

@@ -11,13 +11,13 @@ interface StationObs {
   [key: string]: any
 }
 
-interface StationGeoJsonProperties {
+export type StationGeoJsonProperties = GeoJsonProperties & {
   id: number
   obs: { [key: string]: any }
   colors?: { [key: string]: string }
 }
 
-export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties & GeoJsonProperties>
+export type StationLayer = FeatureCollection<Point, StationGeoJsonProperties>
 
 export default () => {
   const { formatDate } = useDate()
