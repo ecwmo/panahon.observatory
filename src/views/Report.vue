@@ -23,9 +23,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, computed } from 'vue'
   import axios from 'axios'
-  import { useRoute } from 'vue-router'
 
   interface Images {
     [key: string]: { imgSrc: string; show: boolean }[]

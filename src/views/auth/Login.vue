@@ -45,11 +45,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-
-  import { useAuthStore } from '@/store/auth'
-
   const route = useRoute()
   const router = useRouter()
   const userForm = ref({ username: '', password: '' })

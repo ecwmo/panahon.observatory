@@ -1,7 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import { useAuthStore } from '@/store/auth'
-
 const Home = () => import('@/views/Home.vue')
 const Models = () => import('@/views/Models.vue')
 const Climate = () => import('@/views/Climate.vue')

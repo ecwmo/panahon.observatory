@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed } from 'vue'
-
   const props = defineProps({
     theme: { type: String, default: 'bg-black text-black text-white' },
     show: { type: Boolean, default: true },

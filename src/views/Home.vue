@@ -28,10 +28,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
-
-  import useDate from '@/composables/useDate'
-
   const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
   const activeStation = ref()
   const activeVariable = ref('temp')

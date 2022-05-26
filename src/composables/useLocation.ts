@@ -1,4 +1,3 @@
-import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useQuery } from 'vue-query'
 

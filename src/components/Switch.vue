@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watchEffect, toRefs } from 'vue'
   const props = defineProps({
     isOn: { type: Boolean, default: false },
     label: { type: String, default: '' },

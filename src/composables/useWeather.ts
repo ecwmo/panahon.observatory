@@ -1,9 +1,6 @@
-import { computed } from 'vue'
 import axios from 'axios'
 import { getMinutes, getSeconds, getMilliseconds } from 'date-fns'
 import { useQuery } from 'vue-query'
-
-import useDate from '@/composables/useDate'
 
 import { Point, GeoJsonProperties, FeatureCollection } from 'geojson'
 

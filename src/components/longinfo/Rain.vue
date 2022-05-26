@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed } from 'vue'
-
   const props = defineProps({
     stationName: { type: String },
     data: { type: Object, required: true },

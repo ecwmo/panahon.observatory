@@ -13,8 +13,9 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType, computed, toRefs } from 'vue'
+  import { PropType } from 'vue'
   import type { Point } from 'mapbox-gl'
+
   const props = defineProps({
     size: { type: Number, default: 5 },
     xy: { type: Object as PropType<Point>, required: true },

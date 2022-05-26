@@ -3,7 +3,6 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import 'weather-icons/css/weather-icons.css'
 import 'weather-icons/css/weather-icons-wind.css'
 
-import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import VueGtag from 'vue-gtag'
@@ -36,6 +35,7 @@ library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt)
 dom.watch()
 
 const app = createApp(App)
+//@ts-ignore
 app.component('fa-icon', FontAwesomeIcon)
 app.use(pinia)
 app.use(router)

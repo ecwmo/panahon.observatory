@@ -33,11 +33,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs, onMounted, watch, computed, defineAsyncComponent } from 'vue'
   import { Map, Point } from 'mapbox-gl'
 
-  import useWeather, { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
-  import useLocation from '@/composables/useLocation'
+  import { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
 
   const InfoRain = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
   const InfoTemp = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })

@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed } from 'vue'
-
   const props = defineProps({
     data: { type: Object, required: true },
   })

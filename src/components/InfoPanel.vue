@@ -18,11 +18,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed, defineAsyncComponent } from 'vue'
-
-  import useDate from '@/composables/useDate'
-  import useWeather from '@/composables/useWeather'
-
   const LonginfoRain = defineAsyncComponent({ loader: () => import('@/components/longinfo/Rain.vue') })
   const LonginfoTemp = defineAsyncComponent({ loader: () => import('@/components/longinfo/Temp.vue') })
   const LonginfoWind = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })

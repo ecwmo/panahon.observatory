@@ -69,7 +69,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import axios from 'axios'
 
   const CaptionModelRainx = defineAsyncComponent({ loader: () => import('@/components/caption/ModelRainx.vue') })

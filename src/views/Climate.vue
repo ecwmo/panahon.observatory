@@ -103,8 +103,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
-
   const imgSrcDir = 'resources/climate/img'
   const climateScenarios = ['RCP45', 'RCP85']
   const climateVariables = [

@@ -20,10 +20,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, computed } from 'vue'
-
-  import useWeather from '@/composables/useWeather'
-
   const props = defineProps({
     name: { type: String, required: true },
   })
