@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 
@@ -15,7 +16,18 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    VitePWA(),
+    Pages({
+      importMode: 'async',
+      extendRoute(route, parent) {
+        if (route.path === '/newreport') {
+          return {
+            ...route,
+            meta: { requiresAuth: true },
+          }
+        }
+        return route
+      },
+    }),
     AutoImport({
       imports: ['vue', 'vue-router'],
       dts: 'src/auto-imports.d.ts',
@@ -23,6 +35,7 @@ export default defineConfig({
       vueTemplate: true,
     }),
     Components({ dts: 'src/components.d.ts', directoryAsNamespace: true }),
+    VitePWA(),
   ],
   resolve: {
     alias: {
