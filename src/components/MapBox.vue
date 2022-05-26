@@ -34,8 +34,12 @@
       {{ stationStore.dateString() }}
     </div>
 
-    <WeatherButtons :modelValue="activeVariable" @update:modelValue="$emit('update:activeVariable', $event)" />
-    <Colorbar :name="activeVariable" />
+    <WeatherButtons
+      :modelValue="activeVariable"
+      @update:modelValue="$emit('update:activeVariable', $event)"
+      class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
+    />
+    <Colorbar :name="activeVariable" class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
   </div>
 </template>
 

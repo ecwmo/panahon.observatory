@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-show="varTitle"
-    class="absolute flex flex-col justify-center m-2 bottom-0 right-0 bg-white p-2 rounded-md drop-shadow-lg opacity-90"
-  >
+  <div v-show="varTitle" class="absolute flex flex-col justify-center bg-white p-2">
     <div class="flex justify-center" :class="{ 'mb-2': palette?.colors?.length > 0 }">
       <div class="text-xs font-semibold justify-center">{{ `${varTitle} (${varUnits})` }}</div>
     </div>
