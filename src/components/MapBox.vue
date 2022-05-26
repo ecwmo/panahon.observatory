@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
   import { ref, toRefs, onMounted, watch, computed, defineAsyncComponent } from 'vue'
-  import { Map, Point } from 'mapbox-gl'
+  import { Point } from 'mapbox-gl'
 
   import useWeather, { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
@@ -146,7 +146,8 @@
     }
   })
 
-  onMounted(() => {
+  onMounted(async () => {
+    const { Map } = await import('mapbox-gl')
     map.value = new Map({
       accessToken: accessToken.value,
       container: mapEl.value,
