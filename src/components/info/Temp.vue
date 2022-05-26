@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col">
+  <div v-if="tempStr" class="flex flex-col">
     <div>
       {{ tempStr }}
     </div>
-    <div class="text-[0.6rem]">{{ `HI: ${hiStr}` }}</div>
+    <div v-if="showHi" class="text-[0.6rem]">{{ `HI: ${hiStr}` }}</div>
   </div>
 </template>
 
@@ -16,8 +16,8 @@
 
   const { data } = toRefs(props)
 
-  const tempStr = computed(() => `${data.value['temp']} °C`)
-  const hiStr = computed(() => `${data.value['hi']} °C`)
+  const tempStr = computed(() => (data.value?.['temp'] ? `${data.value?.['temp']} °C` : ''))
+  const hiStr = computed(() => (data.value?.['hi'] ? `${data.value?.['hi']} °C` : ''))
 
-  // const showHi = computed(() => `${data.value['hi']}` !== '--')
+  const showHi = computed(() => data.value['hi'] !== '--')
 </script>

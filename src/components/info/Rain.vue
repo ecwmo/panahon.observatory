@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div v-if="rain24hStr" class="flex flex-col">
     <div>
       {{ rain24hStr }}
     </div>
@@ -16,5 +16,5 @@
 
   const { data } = toRefs(props)
 
-  const rain24hStr = computed(() => `${data.value['rain24h']} mm`)
+  const rain24hStr = computed(() => (data.value?.['rain24h'] ? `${data.value?.['rain24h']} mm` : ''))
 </script>

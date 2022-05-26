@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="stationName">
     At <span class="font-semibold">{{ stationName }}</span
     >, there was <span class="font-semibold">{{ rainStr }}</span> rainfall received at
     <span class="font-semibold">{{ dateString }}</span
@@ -13,13 +13,13 @@
   import { toRefs, computed } from 'vue'
 
   const props = defineProps({
-    stationName: { type: String, required: true },
+    stationName: { type: String },
     data: { type: Object, required: true },
     dateString: { type: String, required: true },
   })
 
   const { data } = toRefs(props)
 
-  const rainStr = computed(() => `${data.value['rr']} mm`)
-  const rain24hStr = computed(() => `${data.value['rain24h']} mm`)
+  const rainStr = computed(() => `${data.value?.['rr']} mm`)
+  const rain24hStr = computed(() => `${data.value?.['rain24h']} mm`)
 </script>

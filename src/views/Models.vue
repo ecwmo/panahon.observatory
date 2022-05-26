@@ -69,15 +69,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, onMounted } from 'vue'
+  import { defineAsyncComponent, ref, computed, onMounted } from 'vue'
   import axios from 'axios'
 
-  import Switch from '@/components/Switch.vue'
-
-  import ModelRainxCaption from '@/components/caption/ModelRainx.vue'
-  import ModelHixCaption from '@/components/caption/ModelHix.vue'
-  import ModelWpdCaption from '@/components/caption/ModelWpd.vue'
-  import ModelPpvCaption from '@/components/caption/ModelPpv.vue'
+  const CaptionModelRainx = defineAsyncComponent({ loader: () => import('@/components/caption/ModelRainx.vue') })
+  const CaptionModelHix = defineAsyncComponent({ loader: () => import('@/components/caption/ModelHix.vue') })
+  const CaptionModelWpd = defineAsyncComponent({ loader: () => import('@/components/caption/ModelWpd.vue') })
+  const CaptionModelPpv = defineAsyncComponent({ loader: () => import('@/components/caption/ModelPpv.vue') })
 
   const defaultHeaderName = 'Model Forecast Maps'
   const imgSrcDir = 'resources/model/img'
@@ -95,14 +93,14 @@
       text: 'Daily Rainfall',
       hasFcstTime: true,
       varNameX: 'rainx',
-      captionX: ModelRainxCaption,
+      captionX: CaptionModelRainx,
     },
     { varName: 'temp', text: 'Temperature', hasFcstTime: true },
     {
       varName: 'hix',
       text: 'Max Heat Index',
       hasFcstTime: true,
-      caption: ModelHixCaption,
+      caption: CaptionModelHix,
     },
     { varName: 'rh', text: 'Relative Humidity', hasFcstTime: true },
     { varName: 'wind', text: 'Winds', hasFcstTime: true },
@@ -116,13 +114,13 @@
       varName: 'wpd',
       text: 'Wind Power Forecast',
       hasFcstTime: true,
-      caption: ModelWpdCaption,
+      caption: CaptionModelWpd,
     },
     {
       varName: 'ppv',
       text: 'Solar Power Forecast',
       hasFcstTime: true,
-      caption: ModelPpvCaption,
+      caption: CaptionModelPpv,
     },
   ]
 

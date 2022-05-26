@@ -32,8 +32,8 @@
 
   const { weatherConf, getSwatch } = useWeather()
 
-  const varTitle = computed(() => weatherConf.value[name.value]?.desc ?? '')
-  const varUnits = computed(() => weatherConf.value[name.value]?.units ?? '')
+  const varTitle = computed(() => weatherConf.value?.[name.value]?.desc ?? '')
+  const varUnits = computed(() => weatherConf.value?.[name.value]?.units ?? '')
 
   const palette = computed(() => getSwatch(name.value))
 </script>

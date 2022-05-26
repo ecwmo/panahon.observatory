@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="presStr">
     {{ presStr }}
   </div>
 </template>
@@ -13,5 +13,5 @@
 
   const { data } = toRefs(props)
 
-  const presStr = computed(() => `${data.value['pres']} hPa`)
+  const presStr = computed(() => (data.value?.['pres'] ? `${data.value?.['pres']} hPa` : ''))
 </script>

@@ -2,12 +2,13 @@
   <div class="relative">
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
-    <Dot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
+    <PulsatingDot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
       <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
         <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
       </Popup>
-    </Dot>
+    </PulsatingDot>
     <div
+      v-if="stationDataIsReady"
       class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
     >
       <Switch
@@ -17,7 +18,6 @@
         labelRight="All data"
       />
       <select
-        v-if="stationDataIsReady"
         :value="activeStationId"
         @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
         class="w-24 text-xs border-2 border-slate-700"
@@ -34,21 +34,15 @@
 
 <script setup lang="ts">
   import { ref, toRefs, onMounted, watch, computed, defineAsyncComponent } from 'vue'
-  import { Point } from 'mapbox-gl'
+  import { Map, Point } from 'mapbox-gl'
 
   import useWeather, { StationGeoJsonProperties, StationLayer } from '@/composables/useWeather'
   import useLocation from '@/composables/useLocation'
 
-  const Switch = defineAsyncComponent({ loader: () => import('@/components/Switch.vue') })
-  const Colorbar = defineAsyncComponent({ loader: () => import('@/components/Colorbar.vue') })
-  const WeatherButtons = defineAsyncComponent({ loader: () => import('@/components/WeatherButtons.vue') })
-  const Dot = defineAsyncComponent({ loader: () => import('@/components/PulsatingDot.vue') })
-  const Popup = defineAsyncComponent({ loader: () => import('@/components/Popup.vue') })
-
-  const RainInfo = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
-  const TempInfo = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
-  const WindInfo = defineAsyncComponent({ loader: () => import('@/components/info/Wind.vue') })
-  const PresInfo = defineAsyncComponent({ loader: () => import('@/components/info/Pres.vue') })
+  const InfoRain = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
+  const InfoTemp = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
+  const InfoWind = defineAsyncComponent({ loader: () => import('@/components/info/Wind.vue') })
+  const InfoPres = defineAsyncComponent({ loader: () => import('@/components/info/Pres.vue') })
 
   const props = defineProps({
     accessToken: { type: String, required: true },
@@ -72,13 +66,13 @@
   const activeInfo = computed(() => {
     switch (activeVariable.value) {
       case 'rain':
-        return RainInfo
+        return InfoRain
       case 'wind':
-        return WindInfo
+        return InfoWind
       case 'pres':
-        return PresInfo
+        return InfoPres
       default:
-        return TempInfo
+        return InfoTemp
     }
   })
 
@@ -113,6 +107,9 @@
       const newId = stationData.value?.features?.[i].properties?.id ?? 1
       activeStationId.value = newId
       handleStationIdChange(newId)
+    } else {
+      activeStationId.value = 1
+      handleStationIdChange(1)
     }
   }
 
@@ -133,6 +130,38 @@
     }
   }
 
+  const loadData = () => {
+    if (stationDataIsReady.value) {
+      const sourceId = 'station'
+      const styleLoadStatus = map.value.isStyleLoaded()
+      if (styleLoadStatus) {
+        let sourceLoaded = false
+        try {
+          sourceLoaded = map.value.getSource(sourceId)
+        } catch {}
+        if (!sourceLoaded) {
+          map.value.addSource(sourceId, {
+            type: 'geojson',
+            data: <any>stationData?.value,
+          })
+
+          map.value.addLayer({
+            id: 'station-pts',
+            type: 'circle',
+            source: sourceId,
+            paint: {
+              'circle-radius': 5,
+              'circle-stroke-color': '#000000',
+              'circle-stroke-width': 1,
+              'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
+            },
+          })
+          getClosestPoint()
+        }
+      }
+    }
+  }
+
   watch([activeVariable], () => {
     const metVars = Object.keys(<Object>stationData?.value?.features[0].properties.colors)
 
@@ -146,8 +175,11 @@
     }
   })
 
-  onMounted(async () => {
-    const { Map } = await import('mapbox-gl')
+  watch([stationDataIsReady, map], () => {
+    loadData()
+  })
+
+  onMounted(() => {
     map.value = new Map({
       accessToken: accessToken.value,
       container: mapEl.value,
@@ -157,24 +189,8 @@
       attributionControl: false,
     })
 
-    getClosestPoint()
-
     map.value.once('load', () => {
-      map.value.addSource('station', {
-        type: 'geojson',
-        data: <any>stationData?.value,
-      })
-      map.value.addLayer({
-        id: 'station-pts',
-        type: 'circle',
-        source: 'station',
-        paint: {
-          'circle-radius': 5,
-          'circle-stroke-color': '#000000',
-          'circle-stroke-width': 1,
-          'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
-        },
-      })
+      loadData()
 
       map.value.on('click', 'station-pts', (e: StationLayer) => {
         const {

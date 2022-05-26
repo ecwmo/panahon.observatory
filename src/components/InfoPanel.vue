@@ -23,13 +23,10 @@
   import useDate from '@/composables/useDate'
   import useWeather from '@/composables/useWeather'
 
-  import FakeCard from '@/components/FakeCard.vue'
-
-  const Card = defineAsyncComponent({ loader: () => import('@/components/Card.vue') })
-  const RainInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Rain.vue') })
-  const TempInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Temp.vue') })
-  const WindInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
-  const PresInfo = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
+  const LonginfoRain = defineAsyncComponent({ loader: () => import('@/components/longinfo/Rain.vue') })
+  const LonginfoTemp = defineAsyncComponent({ loader: () => import('@/components/longinfo/Temp.vue') })
+  const LonginfoWind = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
+  const LonginfoPres = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
   const props = defineProps({
     data: { type: Object },
@@ -90,7 +87,7 @@
         label2: '24hr total',
         value2: metValueStrings.value['rain24h'],
         iconClass: 'fas fa-cloud-rain',
-        info: RainInfo,
+        info: LonginfoRain,
       },
       {
         id: 'temp',
@@ -99,7 +96,7 @@
         label2: 'HI',
         value2: metValueStrings.value['hi'],
         iconClass: 'fas fa-thermometer-half',
-        info: TempInfo,
+        info: LonginfoTemp,
       },
       {
         id: 'wind',
@@ -108,14 +105,14 @@
         value2: windDirStr,
         iconClass: 'fas fa-wind',
         iconClass2: `wi wi-wind ${winDirIcon}`,
-        info: WindInfo,
+        info: LonginfoWind,
       },
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
         value1: metValueStrings.value['pres'],
         iconClass: 'wi wi-barometer',
-        info: PresInfo,
+        info: LonginfoPres,
       },
     ]
   })

@@ -98,7 +98,7 @@ export default () => {
   }
 
   const getSwatch = (varName: string) => {
-    const { colors, levels } = weatherConf.value[varName]?.palette ?? { colors: [], levels: [] }
+    const { colors, levels } = weatherConf.value?.[varName]?.palette ?? { colors: [], levels: [] }
 
     return { colors, levels }
   }

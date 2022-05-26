@@ -28,14 +28,9 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, ref, computed } from 'vue'
+  import { ref, computed } from 'vue'
 
   import useDate from '@/composables/useDate'
-
-  import LoadingIcon from '@/LoadingIcon.vue'
-
-  const MapBox = defineAsyncComponent({ loader: () => import('@/components/MapBox.vue') })
-  const InfoPanel = defineAsyncComponent({ loader: () => import('@/components/InfoPanel.vue') })
 
   const mapAccessToken = <string>import.meta.env.VITE_MAPBOX_TOKEN
   const activeStation = ref()

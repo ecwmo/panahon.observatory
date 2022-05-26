@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="stationName">
     At <span class="font-semibold">{{ stationName }}</span
     >, the air pressure was
     <span class="font-semibold">{{ presStr }}</span>
@@ -12,12 +12,12 @@
   import { toRefs, computed } from 'vue'
 
   const props = defineProps({
-    stationName: { type: String, required: true },
+    stationName: { type: String },
     data: { type: Object, required: true },
     dateString: { type: String, required: true },
   })
 
   const { data } = toRefs(props)
 
-  const presStr = computed(() => `${data.value['pres']} mb`)
+  const presStr = computed(() => `${data.value?.['pres']} mb`)
 </script>

@@ -35,8 +35,6 @@
 <script setup lang="ts">
   import { PropType, ref } from 'vue'
 
-  import Popup from '@/components/Popup.vue'
-
   interface CardData {
     title: string
     label1?: string
