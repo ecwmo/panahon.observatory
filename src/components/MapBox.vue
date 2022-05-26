@@ -10,7 +10,12 @@
     <div
       class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
     >
-      <Switch class="scale-[0.8] p-0.5" v-model:isOn="mapToggle" labelRight="All data" />
+      <Switch
+        class="scale-[0.8] p-0.5"
+        v-model:isOn="mapToggle"
+        @update:isOn="handleMapScopeChange"
+        labelRight="All data"
+      />
       <select
         v-if="stationDataIsReady"
         :value="activeStationId"
@@ -118,7 +123,7 @@
     showPoint(<StationGeoJsonProperties>newActiveStation?.properties)
   }
 
-  watch([mapToggle], () => {
+  const handleMapScopeChange = () => {
     if (mapToggle.value) {
       map.value?.setCenter([121.80434, 12.5549])
       map.value?.setZoom(4.5)
@@ -126,7 +131,7 @@
       map.value?.setCenter([121.04, 14.56])
       map.value?.setZoom(9.5)
     }
-  })
+  }
 
   watch([activeVariable], () => {
     const metVars = Object.keys(<Object>stationData?.value?.features[0].properties.colors)
