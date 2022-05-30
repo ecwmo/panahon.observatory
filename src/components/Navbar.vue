@@ -25,7 +25,6 @@
           v-for="p in lPages"
           :key="p.name"
           :to="p.to"
-          :class="{ 'text-gray-100 bg-blue-600': activePage === p.name }"
           class="py-1 px-2 border-b md:border-r md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
         >
           {{ p.label }}
@@ -36,14 +35,13 @@
           v-show="auth.isLoggedIn"
           @click.prevent="handleLogout"
           href="#"
-          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
+          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black uppercase text-gray-300 hover:text-gray-100 hover:bg-blue-600"
           >Logout</a
         >
         <router-link
           v-for="p in rPages"
           :key="p.name"
           :to="p.to"
-          :class="{ 'text-gray-100 bg-blue-600': activePage === p.name }"
           class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
         >
           {{ p.label }}
@@ -77,9 +75,14 @@
     await auth.logout()
     if (route.name === 'NewReport') router.push('/login')
   }
-
-  const activePage = computed(() => {
-    const page = route.path.substring(1)
-    return page === '' ? 'index' : page
-  })
 </script>
+
+<style lang="scss" scoped>
+  a {
+    @apply text-gray-300 hover:text-gray-100 hover:bg-blue-600;
+    &.router-link-active,
+    &.router-link-exact-active {
+      @apply text-gray-100 bg-blue-600;
+    }
+  }
+</style>
