@@ -22,8 +22,8 @@
         @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
         class="w-24 text-xs border-2 border-slate-700"
       >
-        <option v-for="(st, id) in stationData?.features" :key="id" :value="st.properties.id">
-          {{ st.properties.name }}
+        <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
+          {{ st?.properties?.name }}
         </option>
       </select>
     </div>
@@ -71,6 +71,22 @@
 
   const { data: stationData, isSuccess: stationDataIsReady, metValueString } = useWeather()
   const { data: userPosition, isSuccess: positionIsReady } = useLocation()
+
+  const visibleStations = computed(() => {
+    try {
+      const mapBounds = map.value.getBounds()
+      const { lng: minLon, lat: minLat } = mapBounds.getSouthWest()
+      const { lng: maxLon, lat: maxLat } = mapBounds.getNorthEast()
+
+      return stationData?.value?.features
+        ?.filter(({ properties: { lon, lat } }) => {
+          const validLon = lon >= minLon && lon <= maxLon
+          const validLat = lat >= minLat && lat <= maxLat
+          return validLon && validLat
+        })
+        ?.sort(({ properties: { id: id1 } }, { properties: { id: id2 } }) => id1 - id2)
+    } catch {}
+  })
 
   const activeInfo = computed(() => {
     switch (activeVariable.value) {
