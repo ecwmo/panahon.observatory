@@ -100,8 +100,16 @@
     try {
       const { lat, lon } = st
       const xy = map.value?.project([lon, lat])
-      if (xy) dotProps.value = { ...dotProps.value, xy, show: true, showPopup: true }
+      const show = true
+      const showPopup = true
+      if (xy) dotProps.value = { ...dotProps.value, xy, show, showPopup }
     } catch {}
+  }
+
+  const hidePoint = () => {
+    const show = false
+    const showPopup = false
+    dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
   const getClosestPoint = () => {
@@ -217,7 +225,7 @@
       })
 
       map.value.on('movestart', () => {
-        dotProps.value = { ...dotProps.value, show: false, showPopup: false }
+        hidePoint()
       })
 
       map.value.on('moveend', () => {

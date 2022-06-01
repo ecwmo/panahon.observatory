@@ -4,7 +4,13 @@
       <div v-if="label" class="px-2">{{ label }}</div>
       <!-- toggle -->
       <div class="relative">
-        <input id="toogleButton" type="checkbox" class="hidden" v-model="checked" />
+        <input
+          id="toogleButton"
+          type="checkbox"
+          class="hidden"
+          :checked="isOn"
+          @change="$emit('update:isOn', ($event.target as HTMLInputElement).checked)"
+        />
         <!-- path -->
         <div
           class="toggle-path border rounded-full shadow-inner w-9 h-5"
@@ -32,12 +38,6 @@
   const emit = defineEmits(['update:isOn'])
 
   const { isOn } = toRefs(props)
-
-  const checked = ref(isOn.value)
-
-  watchEffect(() => {
-    emit('update:isOn', checked.value)
-  })
 </script>
 
 <style scoped>
