@@ -2,12 +2,7 @@
   <div
     class="w-full h-screen bg-gray-300 border border-t-0 border-black flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4"
   >
-    <Suspense>
-      <MapBox :accessToken="mapAccessToken" v-model:activeVariable="activeVariable" class="w-full md:w-1/2 h-full" />
-      <template #fallback>
-        <LoadingIcon class="w-full md:w-1/2 h-full" svgClass="w-16 h-16 text-slate-500" />
-      </template>
-    </Suspense>
+    <MapBox :accessToken="mapAccessToken" v-model:activeVariable="activeVariable" class="w-full md:w-1/2 h-full" />
     <div
       class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"
     >

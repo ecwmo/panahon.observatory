@@ -2,44 +2,46 @@
   <div class="relative">
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
-    <PulsatingDot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
-      <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
-        <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
-      </Popup>
-    </PulsatingDot>
-    <div
-      v-if="stationDataIsReady"
-      class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
-    >
-      <Switch
-        class="scale-[0.8] p-0.5"
-        v-model:isOn="mapToggle"
-        @update:isOn="handleMapScopeChange"
-        labelRight="All data"
-      />
-      <select
-        :value="activeStationId"
-        @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
-        class="w-24 text-xs border-2 border-slate-700"
+
+    <div v-if="stationDataIsReady">
+      <PulsatingDot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
+        <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
+          <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
+        </Popup>
+      </PulsatingDot>
+      <div
+        class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
       >
-        <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
-          {{ st?.properties?.name }}
-        </option>
-      </select>
-    </div>
+        <Switch
+          class="scale-[0.8] p-0.5"
+          v-model:isOn="mapToggle"
+          @update:isOn="handleMapScopeChange"
+          labelRight="All data"
+        />
+        <select
+          :value="activeStationId"
+          @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
+          class="w-24 text-xs border-2 border-slate-700"
+        >
+          <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
+            {{ st?.properties?.name }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="absolute flex md:hidden justify-between top-2 right-2 bg-white py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
+      >
+        {{ stationStore.dateString() }}
+      </div>
 
-    <div
-      class="absolute flex md:hidden justify-between top-2 right-2 bg-white py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
-    >
-      {{ stationStore.dateString() }}
+      <WeatherButtons
+        :modelValue="activeVariable"
+        @update:modelValue="$emit('update:activeVariable', $event)"
+        class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
+      />
+      <Colorbar :name="activeVariable" class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
     </div>
-
-    <WeatherButtons
-      :modelValue="activeVariable"
-      @update:modelValue="$emit('update:activeVariable', $event)"
-      class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
-    />
-    <Colorbar :name="activeVariable" class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
+    <LoadingIcon v-else class="absolute top-0 left-0 w-full h-full" svgClass="w-16 h-16 text-slate-500" />
   </div>
 </template>
 
