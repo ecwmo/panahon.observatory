@@ -5,7 +5,7 @@
     <div class="flex text-xs m-1 mb-2">
       <img
         alt="Manila Observatory Logo"
-        class="h-12 ml-1"
+        class="w-9 h-9 md:w-12 md:h-12 ml-1"
         src="/resources/static/img/logo/android-chrome-192x192.png"
       />
       <p class="md:hidden font-bold text-2xl ml-3 my-auto">Manila Observatory</p>
