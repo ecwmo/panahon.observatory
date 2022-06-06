@@ -41,25 +41,28 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-2 mx-12 md:w-full">
-      <h2 class="text-center font-semibold text-4xl">{{ headerName }}</h2>
-      <Switch v-show="showExtremeToggle" v-model:isOn="extremeToggle" label="Show extreme" />
-      <div class="flex flex-col justify-center px-4">
-        <img class="object-scale-down shadow-md rounded-2xl" :src="imgSrc" />
-      </div>
+    <div class="flex flex-col space-y-2 w-full md:mx-20">
+      <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
+      <Switch
+        class="text-sm md:text-base"
+        v-show="showExtremeToggle"
+        v-model:isOn="extremeToggle"
+        label="Show extreme"
+      />
+      <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
-        class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
+        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <component :is="caption"></component>
       </div>
       <div
-        class="text-sm mx-5 font-semibold text-justify self-center break-words md:break-normal model-caption w-11/12"
+        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
         v-show="captionX && extremeToggle"
       >
         <component :is="captionX"></component>
       </div>
       <div
-        class="italic text-sm mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
+        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <span class="font-bold">DISCLAIMER</span>: This website contains experimental forecasts for research purposes.
         For official updates and warnings, please refer to PAGASA and other government agencies.

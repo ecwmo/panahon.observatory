@@ -41,8 +41,8 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col items-center space-y-2 mx-12 md:w-full">
-      <h2 class="text-center font-semibold text-4xl">Climate Anomaly</h2>
+    <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
+      <h2 class="text-center font-semibold text-2xl md:text-4xl">Climate Anomaly</h2>
       <div class="flex flex-col w-1/2">
         <fieldset class="w-full mb-2">
           <input
@@ -89,11 +89,9 @@
           </svg>
         </fieldset>
       </div>
-      <div class="flex flex-col justify-center px-4">
-        <img class="object-center shadow-md rounded-2xl" :src="imgSrc" />
-      </div>
+      <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
-        class="italic text-sm mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
+        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <span class="font-bold">DISCLAIMER</span>: This website contains experimental forecasts for research purposes.
         For official updates and warnings, please refer to PAGASA and other government agencies.
