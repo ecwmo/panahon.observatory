@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.APP_ENV === 'development' ? '/' : '/dist/',
   build: {
     manifest: true,
     rollupOptions: {
@@ -21,6 +22,34 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    VitePWA({
+      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'Manila Observatory - Panahon',
+        short_name: 'MO - Panahon',
+        background_color: '#ffffff',
+        description: 'Manila Observatory - Panahon website',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/resources/static/img/logo/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/resources/static/img/logo/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/resources/static/img/logo/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
     Pages({
       importMode: 'async',
       extendRoute(route, parent) {
@@ -40,7 +69,6 @@ export default defineConfig({
       vueTemplate: true,
     }),
     Components({ dts: 'src/components.d.ts', directoryAsNamespace: true }),
-    VitePWA(),
   ],
   resolve: {
     alias: {
