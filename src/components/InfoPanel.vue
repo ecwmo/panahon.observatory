@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap justify-center gap-3 md:gap-6">
-    <Suspense>
+    <template v-if="stationStore.stationName">
       <Card
         v-for="c in cards"
         :key="c.title"
@@ -15,10 +15,10 @@
           :dateString="stationStore.dateString('h bbb')"
         />
       </Card>
-      <template #fallback>
-        <FakeCard v-for="c in fakeCards" :key="c.title" />
-      </template>
-    </Suspense>
+    </template>
+    <template v-else>
+      <FakeCard v-for="c in fakeCards" :key="c.title" />
+    </template>
   </div>
 </template>
 
