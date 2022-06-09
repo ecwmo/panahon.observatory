@@ -15,11 +15,12 @@
           v-for="mf in metFields"
           :key="mf.val"
           class="w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
-          :class="{
-            'bg-blue-600': mf.val === varName,
-            'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': mf.val !== varName,
-          }"
-          @click="varName = mf.val"
+          :class="
+            mf.val === activeVariable.val
+              ? 'bg-blue-600'
+              : 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white'
+          "
+          @click="activeVariable = mf"
         >
           {{ mf.text }}
         </div>
@@ -96,12 +97,10 @@
   ]
 
   const activeFcstTime = ref(fcstTimes[0])
-  const varName = ref('rain')
+  const activeVariable = ref(metFields[0])
   const imgSrcs = ref(<string[]>[])
 
   const extremeToggle = ref(false)
-
-  const activeVariable = computed(() => metFields.find(({ val: v }) => v === varName.value) ?? metFields[0])
 
   const varNameX = computed(() => (activeVariable.value.val === 'rain' ? 'rainx' : ''))
   const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
