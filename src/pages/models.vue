@@ -6,23 +6,7 @@
       <!-- Forecast Length -->
       <div class="flex flex-col items-center space-y-2 px-6" v-show="showFcstTime">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
-        <div class="flex flex-row text-xs">
-          <div
-            v-for="(ft, i) in fcstTimes"
-            :key="i"
-            class="flex text-gray-200 justify-center p-1"
-            :class="{
-              'rounded-l-lg pl-3': i === 0,
-              'rounded-r-lg pr-3': i === 4,
-              'border-l border-r border-gray-200': i > 0 && i < 4,
-              'bg-blue-600': ft.val === fcstTime,
-              'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': ft.val !== fcstTime,
-            }"
-            @click="fcstTime = ft.val"
-          >
-            {{ ft.text }}
-          </div>
-        </div>
+        <RowGroupBtns class="text-xs" :buttons="fcstTimes" v-model:activeBtn="activeFcstTime" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -80,7 +64,7 @@
   const CaptionModelPpv = defineAsyncComponent({ loader: () => import('@/components/caption/ModelPpv.vue') })
 
   const defaultHeaderName = 'Model Forecast Maps'
-  const imgSrcDir = 'resources/model/img'
+
   const fcstTimes = [
     { val: 24, text: '24hr' },
     { val: 48, text: '48hr' },
@@ -126,7 +110,7 @@
     },
   ]
 
-  const fcstTime = ref(24)
+  const activeFcstTime = ref(fcstTimes[0])
   const varName = ref('rain')
   const imgSrcs = ref(<string[]>[])
 
@@ -145,7 +129,7 @@
       extremeToggle.value && activeVariable.value.varNameX !== undefined
         ? activeVariable.value.varNameX
         : activeVariable.value.varName
-    const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${fcstTime.value}hr_${name}_`
+    const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
   })
 

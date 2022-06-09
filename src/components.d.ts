@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    RowGroupBtns: typeof import('./components/RowGroupBtns.vue')['default']
     Switch: typeof import('./components/Switch.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
   }

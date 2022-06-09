@@ -6,23 +6,7 @@
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Scenario</h3>
-        <div class="flex flex-row text-xs">
-          <div
-            v-for="(s, i) in climateScenarios"
-            :key="i"
-            class="flex text-gray-200 justify-center p-1"
-            :class="{
-              'rounded-l-lg pl-3': i === 0,
-              'rounded-r-lg pr-3': i === climateScenarios.length - 1,
-              'border-l border-r border-gray-200': i > 0 && i < 4,
-              'bg-blue-600': s === activeScenario,
-              'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': s !== activeScenario,
-            }"
-            @click="activeScenario = s"
-          >
-            {{ s }}
-          </div>
-        </div>
+        <RowGroupBtns class="text-xs" :buttons="scenarios" v-model:activeBtn="activeScenario" />
       </div>
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -102,7 +86,10 @@
 
 <script setup lang="ts">
   const imgSrcDir = 'resources/climate/img'
-  const climateScenarios = ['RCP45', 'RCP85']
+  const scenarios = [
+    { val: 'RCP45', text: 'RCP45' },
+    { val: 'RCP85', text: 'RCP85' },
+  ]
   const climateVariables = [
     { varName: 'tmean', desc: 'Daily Average Temperature' },
     { varName: 'tmin', desc: 'Daily Minimum Temperature' },
@@ -120,7 +107,7 @@
     [2090, 2099],
   ]
 
-  const activeScenario = ref('RCP45')
+  const activeScenario = ref(scenarios[0])
   const activeVariable = ref('tmean')
   const activeDecade = ref(2020)
 
@@ -136,6 +123,6 @@
 
   const imgSrc = computed(() => {
     const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]
-    return `${imgSrcDir}/ens_${activeScenario.value}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
+    return `${imgSrcDir}/ens_${activeScenario.value.val}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
   })
 </script>
