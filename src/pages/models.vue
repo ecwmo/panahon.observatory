@@ -84,7 +84,6 @@
     {
       val: 'hix',
       text: 'Max Heat Index',
-      caption: CaptionModelHix,
     },
     { val: 'rh', text: 'Relative Humidity' },
     { val: 'wind', text: 'Winds' },
@@ -96,12 +95,10 @@
     {
       val: 'wpd',
       text: 'Wind Power Forecast',
-      caption: CaptionModelWpd,
     },
     {
       val: 'ppv',
       text: 'Solar Power Forecast',
-      caption: CaptionModelPpv,
     },
   ]
 
@@ -128,7 +125,12 @@
     return imgSrcs.value.find((f) => f.includes(pattern))
   })
 
-  const caption = computed(() => activeVariable.value.caption)
+  const caption = computed(() => {
+    if (activeVariable.value.val === 'hix') return CaptionModelHix
+    if (activeVariable.value.val === 'wpd') return CaptionModelWpd
+    if (activeVariable.value.val === 'ppv') return CaptionModelPpv
+    return
+  })
   const captionX = computed(() => activeVariable.value.captionX)
 
   onMounted(async () => {
