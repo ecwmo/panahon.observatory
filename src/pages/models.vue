@@ -13,13 +13,13 @@
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
         <div
           v-for="mf in metFields"
-          :key="mf.varName"
+          :key="mf.val"
           class="w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
           :class="{
-            'bg-blue-600': mf.varName === varName,
-            'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': mf.varName !== varName,
+            'bg-blue-600': mf.val === varName,
+            'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': mf.val !== varName,
           }"
-          @click="varName = mf.varName"
+          @click="varName = mf.val"
         >
           {{ mf.text }}
         </div>
@@ -75,31 +75,31 @@
 
   const metFields = [
     {
-      varName: 'rain',
+      val: 'rain',
       text: 'Daily Rainfall',
       varNameX: 'rainx',
       captionX: CaptionModelRainx,
     },
-    { varName: 'temp', text: 'Temperature' },
+    { val: 'temp', text: 'Temperature' },
     {
-      varName: 'hix',
+      val: 'hix',
       text: 'Max Heat Index',
       caption: CaptionModelHix,
     },
-    { varName: 'rh', text: 'Relative Humidity' },
-    { varName: 'wind', text: 'Winds' },
+    { val: 'rh', text: 'Relative Humidity' },
+    { val: 'wind', text: 'Winds' },
     {
-      varName: 'wrf-ts',
+      val: 'wrf-ts',
       text: 'Hourly Forecasts',
       headerName: 'Hourly Forecasts',
     },
     {
-      varName: 'wpd',
+      val: 'wpd',
       text: 'Wind Power Forecast',
       caption: CaptionModelWpd,
     },
     {
-      varName: 'ppv',
+      val: 'ppv',
       text: 'Solar Power Forecast',
       caption: CaptionModelPpv,
     },
@@ -111,11 +111,11 @@
 
   const extremeToggle = ref(false)
 
-  const activeVariable = computed(() => metFields.find(({ varName: v }) => v === varName.value) ?? metFields[0])
+  const activeVariable = computed(() => metFields.find(({ val: v }) => v === varName.value) ?? metFields[0])
 
   const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => activeVariable.value.varName !== 'wrf-ts')
+  const showFcstTime = computed(() => activeVariable.value.val !== 'wrf-ts')
 
   const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
 
@@ -123,7 +123,7 @@
     const name =
       extremeToggle.value && activeVariable.value.varNameX !== undefined
         ? activeVariable.value.varNameX
-        : activeVariable.value.varName
+        : activeVariable.value.val
     const pattern = !showFcstTime.value ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
   })
