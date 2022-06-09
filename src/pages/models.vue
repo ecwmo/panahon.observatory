@@ -77,35 +77,30 @@
     {
       varName: 'rain',
       text: 'Daily Rainfall',
-      hasFcstTime: true,
       varNameX: 'rainx',
       captionX: CaptionModelRainx,
     },
-    { varName: 'temp', text: 'Temperature', hasFcstTime: true },
+    { varName: 'temp', text: 'Temperature' },
     {
       varName: 'hix',
       text: 'Max Heat Index',
-      hasFcstTime: true,
       caption: CaptionModelHix,
     },
-    { varName: 'rh', text: 'Relative Humidity', hasFcstTime: true },
-    { varName: 'wind', text: 'Winds', hasFcstTime: true },
+    { varName: 'rh', text: 'Relative Humidity' },
+    { varName: 'wind', text: 'Winds' },
     {
       varName: 'wrf-ts',
       text: 'Hourly Forecasts',
-      hasFcstTime: false,
       headerName: 'Hourly Forecasts',
     },
     {
       varName: 'wpd',
       text: 'Wind Power Forecast',
-      hasFcstTime: true,
       caption: CaptionModelWpd,
     },
     {
       varName: 'ppv',
       text: 'Solar Power Forecast',
-      hasFcstTime: true,
       caption: CaptionModelPpv,
     },
   ]
@@ -120,7 +115,7 @@
 
   const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => activeVariable.value.hasFcstTime)
+  const showFcstTime = computed(() => activeVariable.value.varName !== 'wrf-ts')
 
   const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
 
@@ -129,7 +124,7 @@
       extremeToggle.value && activeVariable.value.varNameX !== undefined
         ? activeVariable.value.varNameX
         : activeVariable.value.varName
-    const pattern = !activeVariable.value.hasFcstTime ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
+    const pattern = !showFcstTime.value ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
   })
 
