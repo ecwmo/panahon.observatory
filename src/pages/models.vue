@@ -27,12 +27,7 @@
     </div>
     <div class="flex flex-col space-y-2 w-full md:mx-20">
       <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
-      <Switch
-        class="text-sm md:text-base"
-        v-show="showExtremeToggle"
-        v-model:isOn="extremeToggle"
-        label="Show extreme"
-      />
+      <Switch class="text-sm md:text-base" v-show="varNameX" v-model:isOn="extremeToggle" label="Show extreme" />
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
@@ -77,8 +72,6 @@
     {
       val: 'rain',
       text: 'Daily Rainfall',
-      varNameX: 'rainx',
-      captionX: CaptionModelRainx,
     },
     { val: 'temp', text: 'Temperature' },
     {
@@ -110,17 +103,13 @@
 
   const activeVariable = computed(() => metFields.find(({ val: v }) => v === varName.value) ?? metFields[0])
 
+  const varNameX = computed(() => (activeVariable.value.val === 'rain' ? 'rainx' : ''))
   const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
   const showFcstTime = computed(() => activeVariable.value.val !== 'wrf-ts')
 
-  const showExtremeToggle = computed(() => activeVariable.value.varNameX !== undefined)
-
   const imgSrc = computed(() => {
-    const name =
-      extremeToggle.value && activeVariable.value.varNameX !== undefined
-        ? activeVariable.value.varNameX
-        : activeVariable.value.val
+    const name = extremeToggle.value && varNameX.value ? varNameX.value : activeVariable.value.val
     const pattern = !showFcstTime.value ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
   })
@@ -131,7 +120,10 @@
     if (activeVariable.value.val === 'ppv') return CaptionModelPpv
     return
   })
-  const captionX = computed(() => activeVariable.value.captionX)
+  const captionX = computed(() => {
+    if (activeVariable.value.val === 'rain') return CaptionModelRainx
+    return
+  })
 
   onMounted(async () => {
     imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
