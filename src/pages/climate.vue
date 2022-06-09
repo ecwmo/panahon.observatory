@@ -11,18 +11,14 @@
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Variable</h3>
-        <div
+        <Button
           v-for="climVar in climateVariables"
-          :key="climVar.varName"
-          class="w-40 flex justify-center text-center text-gray-200 font-bold py-2 px-4 rounded-lg"
-          :class="{
-            'bg-blue-600': climVar.varName === activeVariable,
-            'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white': climVar.varName !== activeVariable,
-          }"
-          @click="activeVariable = climVar.varName"
-        >
-          {{ climVar.desc }}
-        </div>
+          :key="climVar.val"
+          :label="climVar.text"
+          :isActive="climVar.val === activeVariable.val"
+          @click="activeVariable = climVar"
+          class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded-lg"
+        />
       </div>
     </div>
     <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
@@ -91,10 +87,10 @@
     { val: 'RCP85', text: 'RCP85' },
   ]
   const climateVariables = [
-    { varName: 'tmean', desc: 'Daily Average Temperature' },
-    { varName: 'tmin', desc: 'Daily Minimum Temperature' },
-    { varName: 'tmax', desc: 'Daily Maximum Temperature' },
-    { varName: 'precip', desc: 'Daily Rainfall' },
+    { val: 'tmean', text: 'Daily Average Temperature' },
+    { val: 'tmin', text: 'Daily Minimum Temperature' },
+    { val: 'tmax', text: 'Daily Maximum Temperature' },
+    { val: 'precip', text: 'Daily Rainfall' },
   ]
   const decades = [
     [2020, 2029],
@@ -108,7 +104,7 @@
   ]
 
   const activeScenario = ref(scenarios[0])
-  const activeVariable = ref('tmean')
+  const activeVariable = ref(climateVariables[0])
   const activeDecade = ref(2020)
 
   const minDecade = computed(() => {
@@ -123,6 +119,6 @@
 
   const imgSrc = computed(() => {
     const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]
-    return `${imgSrcDir}/ens_${activeScenario.value.val}_${activeVariable.value}_${sYear}-${eYear}_anomaly_timmean.png`
+    return `${imgSrcDir}/ens_${activeScenario.value.val}_${activeVariable.value.val}_${sYear}-${eYear}_anomaly_timmean.png`
   })
 </script>

@@ -1,21 +1,18 @@
 <template>
   <div class="flex flex-row text-xs">
-    <div
+    <Button
       v-for="(btn, i) in buttons"
-      :key="btn.text"
+      :key="btn.val"
+      :label="btn.text"
+      :isActive="btn.val === activeBtn?.val"
       class="flex text-gray-200 justify-center p-1"
-      :class="[
-        {
-          'rounded-l-lg pl-3': i === 0,
-          'rounded-r-lg pr-3': i === nbuttons - 1,
-          'border-l border-r border-gray-200': i > 0 && i < nbuttons - 1,
-        },
-        btn.val === activeBtn?.val ? activeClass : defaultClass,
-      ]"
+      :class="{
+        'rounded-l-lg pl-3': i === 0,
+        'rounded-r-lg pr-3': i === nbuttons - 1,
+        'border-l border-r border-gray-200': i > 0 && i < nbuttons - 1,
+      }"
       @click="$emit('update:activeBtn', btn)"
-    >
-      {{ btn.text }}
-    </div>
+    />
   </div>
 </template>
 
@@ -30,8 +27,6 @@
   const props = defineProps({
     buttons: { type: Object as PropType<Button[]>, default: [] },
     activeBtn: { type: Object as PropType<Button> },
-    defaultClass: { type: String, default: 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white' },
-    activeClass: { type: String, default: 'bg-blue-600' },
   })
 
   const emit = defineEmits(['update:activeBtn'])

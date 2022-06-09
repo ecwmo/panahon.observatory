@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Button: typeof import('./components/Button.vue')['default']
     CaptionModelHix: typeof import('./components/caption/ModelHix.vue')['default']
     CaptionModelPpv: typeof import('./components/caption/ModelPpv.vue')['default']
     CaptionModelRainx: typeof import('./components/caption/ModelRainx.vue')['default']

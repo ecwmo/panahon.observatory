@@ -11,19 +11,14 @@
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
-        <div
+        <Button
           v-for="mf in metFields"
           :key="mf.val"
-          class="w-full flex justify-center text-gray-200 font-bold py-2 px-4 rounded-lg"
-          :class="
-            mf.val === activeVariable.val
-              ? 'bg-blue-600'
-              : 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white'
-          "
+          :label="mf.text"
+          :isActive="mf.val === activeVariable.val"
           @click="activeVariable = mf"
-        >
-          {{ mf.text }}
-        </div>
+          class="w-full flex justify-center font-bold py-2 px-4 rounded-lg"
+        />
       </div>
     </div>
     <div class="flex flex-col space-y-2 w-full md:mx-20">
