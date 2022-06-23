@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "vite-plugin-pages/client"],
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"]
