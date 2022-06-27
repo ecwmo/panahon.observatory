@@ -50,7 +50,7 @@
     <link rel="apple-touch-icon" href="/resources/static/img/logo/apple-touch-icon.png" sizes="180x180">
     <link rel="mask-icon" href="/resources/static/img/logo/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
-    <!-- <link rel="manifest" href="/dist/manifest.webmanifest"> -->
+    <link rel="manifest" href="/dist/manifest.webmanifest">
 
     <?php echo vite_assets(); ?>
 </head>
