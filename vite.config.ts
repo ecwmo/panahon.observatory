@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import { VitePWA } from 'vite-plugin-pwa'
+import { VitePWA } from 'vite-plugin-pwa'
 import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -22,34 +22,34 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    // VitePWA({
-    //   includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
-    //   manifest: {
-    //     name: 'Manila Observatory - Panahon',
-    //     short_name: 'MO - Panahon',
-    //     background_color: '#ffffff',
-    //     description: 'Manila Observatory - Panahon website',
-    //     theme_color: '#ffffff',
-    //     icons: [
-    //       {
-    //         src: '/resources/static/img/logo/android-chrome-192x192.png',
-    //         sizes: '192x192',
-    //         type: 'image/png',
-    //       },
-    //       {
-    //         src: '/resources/static/img/logo/android-chrome-512x512.png',
-    //         sizes: '512x512',
-    //         type: 'image/png',
-    //       },
-    //       {
-    //         src: '/resources/static/img/logo/android-chrome-512x512.png',
-    //         sizes: '512x512',
-    //         type: 'image/png',
-    //         purpose: 'any maskable',
-    //       },
-    //     ],
-    //   },
-    // }),
+    VitePWA({
+      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'Manila Observatory - Panahon',
+        short_name: 'MO - Panahon',
+        background_color: '#ffffff',
+        description: 'Manila Observatory - Panahon website',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/resources/static/img/logo/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/resources/static/img/logo/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/resources/static/img/logo/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
     Pages({
       importMode: 'async',
       extendRoute(route, parent) {
