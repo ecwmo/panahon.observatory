@@ -9,13 +9,20 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { VueQueryPlugin } from 'vue-query'
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
-import { faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faInfo,
+  faCloudRain,
+  faThermometerHalf,
+  faWind,
+  faCloudUploadAlt,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
-library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt)
+library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt, faXmark)
 dom.watch()
 
 const app = createApp(App)

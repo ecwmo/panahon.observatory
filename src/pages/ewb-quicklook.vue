@@ -16,23 +16,47 @@
             >{{ mf.text }}</span
           >
         </div>
-        <div v-for="ft in fcstTimes" :key="ft.text" class="flex flex-col justify-center items-center">
+        <div v-for="(ft, ift) in fcstTimes" :key="ft.text" class="flex flex-col justify-center items-center">
           <span>{{ ft.text }}</span>
-          <div v-for="mf in metFields" :key="mf.val">
-            <img class="border border-black shadow-md rounded-2xl" :src="getFcstImg(mf.val, ft.text)" />
+          <div v-for="(mf, imf) in metFields" :key="mf.val" @click="handleThumbnailClick(imf, ift)">
+            <img class="border cursor-pointer hover:border-black" :src="getFcstImg(mf.val, ft.text)" />
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        v-if="imgPopUp"
+        class="flex fixed w-full h-screen top-0 left-0 bg-black bg-opacity-50 z-50"
+        @click="imgPopUp = false"
+      >
+        <div class="absolute top-2 right-2 cursor-pointer" @click="imgPopUp = false">
+          <i class="fa-solid fa-xmark text-white text-3xl"></i>
+        </div>
+        <div class="flex relative h-screen m-auto py-5">
+          <img
+            class="object-cover rounded-2xl drop-shadow-xl"
+            :src="getFcstImg(activeMetField.val, activeFcstTime.text)"
+          />
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
   import axios from 'axios'
 
-  const imgSrcs = ref(<string[]>[])
   const jtwcImg = 'https://www.metoc.navy.mil/jtwc/products/abpwsair.jpg'
   const pagasaTCThreatImg = 'https://pubfiles.pagasa.dost.gov.ph/climps/tcthreat/TC_Threat_and_S2S_Forecast.png'
+
+  const imgSrcs = ref(<string[]>[])
+  const imgPopUp = ref(false)
+  const activeMetField = ref()
+  const activeFcstTime = ref()
 
   const metFields = [
     {
@@ -62,7 +86,29 @@
     return imgSrcs.value.find((f) => f.includes(pattern))
   }
 
+  const handleThumbnailClick = (imf: number, ift: number) => {
+    activeMetField.value = metFields[imf]
+    activeFcstTime.value = fcstTimes[ift]
+    imgPopUp.value = true
+  }
+
   onMounted(async () => {
     imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
   })
 </script>
+
+<style>
+  .modal-enter-from {
+    opacity: 0;
+  }
+
+  .modal-leave-to {
+    opacity: 0;
+  }
+
+  .modal-enter-from .modal-container,
+  .modal-leave-to .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+</style>
