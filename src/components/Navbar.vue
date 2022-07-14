@@ -69,7 +69,8 @@
     { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
   ]
 
-  const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
+  const rPages = []
+  // const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
 
   const handleLogout = async () => {
     await auth.logout()
