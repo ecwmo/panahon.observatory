@@ -6,24 +6,40 @@
     <div class="md:m-6">
       <img class="border border-black shadow-md rounded-2xl" :src="pagasaTCThreatImg" />
     </div>
-    <div class="md:m-6">
-      <div class="flex">
-        <div class="flex flex-col w-full m-2">
-          <span
-            v-for="mf in metFields"
-            :key="mf.val"
-            class="flex h-full w-full text-center justify-center items-center -rotate-90"
-            >{{ mf.text }}</span
-          >
-        </div>
-        <div v-for="(ft, ift) in fcstTimes" :key="ft.text" class="flex flex-col justify-center items-center">
-          <span>{{ ft.text }}</span>
-          <div v-for="(mf, imf) in metFields" :key="mf.val" @click="handleThumbnailClick(imf, ift)">
+
+    <table class="table-auto md:m-6">
+      <thead>
+        <tr>
+          <th class="w-1/12"></th>
+          <th v-for="ft in fcstTimes" :key="`hd_${ft.text}`">{{ ft.text }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(mf, imf) in metFields" :key="mf.val">
+          <th class="w-1/12 h-44 writing-mode-vertical-rl rotate-180">{{ mf.text }}</th>
+          <td v-for="(ft, ift) in fcstTimes" :key="ft.text" @click="handleThumbnailClick(imf, ift, 'fcst')">
             <img class="border cursor-pointer hover:border-black" :src="getFcstImg(mf.val, ft.text)" />
-          </div>
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-auto md:m-6">
+      <thead>
+        <tr>
+          <th class="w-1/12"></th>
+          <th v-for="ot in obsTimes" :key="`hd_${ot.text}`">{{ ot.text }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(obs, iobs) in obsTypes" :key="obs.val">
+          <th class="w-1/12 writing-mode-vertical-rl rotate-180">{{ obs.text }}</th>
+          <td v-for="(ot, iot) in obsTimes" :key="ot.text" @click="handleThumbnailClick(iobs, iot, 'obs')">
+            <img class="border cursor-pointer hover:border-black" :src="getObsImg(obs.val, ot.text)" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <Teleport to="body">
@@ -38,8 +54,14 @@
         </div>
         <div class="flex relative h-screen m-auto py-5">
           <img
+            v-if="activeImgType === 'fcst'"
             class="object-cover rounded-2xl drop-shadow-xl"
             :src="getFcstImg(activeMetField.val, activeFcstTime.text)"
+          />
+          <img
+            v-else
+            class="object-cover rounded-2xl drop-shadow-xl"
+            :src="getObsImg(activeObsType.val, activeObsTime.text)"
           />
         </div>
       </div>
@@ -55,8 +77,11 @@
 
   const imgSrcs = ref(<string[]>[])
   const imgPopUp = ref(false)
+  const activeImgType = ref()
   const activeMetField = ref()
   const activeFcstTime = ref()
+  const activeObsType = ref()
+  const activeObsTime = ref()
 
   const metFields = [
     {
@@ -81,14 +106,45 @@
     { val: 120, text: '120hr' },
   ]
 
+  const obsTypes = [
+    {
+      val: 'gsmap',
+      text: 'GSMap',
+    },
+    {
+      val: 'station',
+      text: 'Stations',
+    },
+  ]
+
+  const obsTimes = [
+    { val: 1, text: '1day' },
+    { val: 3, text: '3day' },
+    { val: 5, text: '5day' },
+    { val: 7, text: '7day' },
+    { val: 30, text: '30day' },
+  ]
+
   const getFcstImg = (mf: string, fcst: string) => {
     const pattern = `${fcst}_${mf}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
   }
 
-  const handleThumbnailClick = (imf: number, ift: number) => {
-    activeMetField.value = metFields[imf]
-    activeFcstTime.value = fcstTimes[ift]
+  const getObsImg = (obsName: string, obsTime: string) => {
+    const imgDir = 'resources/model/img/ewb'
+    const imgName = `${obsName}_${obsTime}_totalprecip_latest.png`
+    return `${imgDir}/${imgName}`
+  }
+
+  const handleThumbnailClick = (idx: number, idx2: number, imgType: string) => {
+    activeImgType.value = imgType
+    if (imgType === 'fcst') {
+      activeMetField.value = metFields[idx]
+      activeFcstTime.value = fcstTimes[idx2]
+    }
+
+    activeObsType.value = obsTypes[idx]
+    activeObsTime.value = obsTimes[idx2]
     imgPopUp.value = true
   }
 
@@ -110,5 +166,9 @@
   .modal-leave-to .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+  }
+
+  .writing-mode-vertical-rl {
+    writing-mode: vertical-rl;
   }
 </style>
