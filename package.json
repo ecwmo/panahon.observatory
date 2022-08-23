@@ -10,7 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/types": "^7.17.0",
-    "@types/mapbox-gl": "^2.7.1",
+    "@types/mapbox-gl": "^2.7.5",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "@vitejs/plugin-vue": "^3.0.3",
@@ -39,7 +39,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
-    "mapbox-gl": "^2.8.2",
+    "mapbox-gl": "^2.9.2",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.6.0",
     "vue": "^3.2.37",
