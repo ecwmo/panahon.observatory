@@ -1,41 +1,41 @@
 <?php
-    include_once(__DIR__ . '/../start.php');
+include_once(__DIR__ . '/../start.php');
 
-    function vite_assets()
-    {
-        $devServerIsRunning = false;
-        $hostIP = $_ENV['HOST_IP'];
-        $vitePort = $_ENV['VITE_PORT'];
-        $subURL = $_ENV['APP_SUBURL'];
+function vite_assets()
+{
+    $devServerIsRunning = false;
+    $hostIP = $_ENV['HOST_IP'];
+    $vitePort = $_ENV['VITE_PORT'];
+    $subURL = $_ENV['APP_SUBURL'];
 
-        if (strlen($subURL) > 0) {
-            $subURL = "/{$subURL}";
-        }
-
-        if ($_ENV['APP_ENV'] == "local") {
-            $url = "http://{$hostIP}:{$vitePort}/@vite/client";
-
-            if (@file_get_contents($url, false, null, 0, 1)) {
-                $devServerIsRunning = true;
-            }
-        }
-
-        if ($devServerIsRunning) {
-            return <<<HTML
-            <script type="module" src="http://{$hostIP}:{$vitePort}/@vite/client"></script>
-            <script type="module" src="http://{$hostIP}:{$vitePort}/src/main.ts"></script>
-        HTML;
-        }
-
-        $manifest = json_decode(file_get_contents(
-            LOCAL_PATH_ROOT. '/dist/manifest.json'
-        ), true);
-
-        return <<<HTML
-        <link rel="stylesheet" href="{$subURL}/dist/{$manifest['src/main.ts']['css'][0]}" />
-        <script type="module" src="{$subURL}/dist/{$manifest['src/main.ts']['file']}"></script>
-    HTML;
+    if (strlen($subURL) > 0) {
+        $subURL = "/{$subURL}";
     }
+
+    if ($_ENV['APP_ENV'] == "local") {
+        $url = "http://{$hostIP}:{$vitePort}/@vite/client";
+
+        if (@file_get_contents($url, false, null, 0, 1)) {
+            $devServerIsRunning = true;
+        }
+    }
+
+    if ($devServerIsRunning) {
+        return <<<HTML
+                    <script type="module" src="http://{$hostIP}:{$vitePort}/@vite/client"></script>
+                    <script type="module" src="http://{$hostIP}:{$vitePort}/src/main.ts"></script>
+                HTML;
+    }
+
+    $manifest = json_decode(file_get_contents(
+        LOCAL_PATH_ROOT . '/dist/manifest.json'
+    ), true);
+
+    return <<<HTML
+                <link rel="stylesheet" href="{$subURL}/dist/{$manifest['src/main.ts']['css'][0]}" />
+                <script type="module" src="{$subURL}/dist/{$manifest['src/main.ts']['file']}"></script>
+            HTML;
+}
 ?>
 
 <!DOCTYPE html>

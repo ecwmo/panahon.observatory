@@ -1,5 +1,6 @@
 <?php
-include_once(__DIR__.'/../start.php');
+
+include_once(__DIR__ . '/start.php');
 
 header('Content-Type: application/json');
 
@@ -8,7 +9,7 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $auth_user=LDAP_USER_ATTR."=".$username.",".LDAP_DC;
+    $auth_user = LDAP_USER_ATTR . "=" . $username . "," . LDAP_DC;
 
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
@@ -23,7 +24,7 @@ if (isset($_POST['login'])) {
 
         $res = $_SESSION;
     } else {
-        $res = array("message"=>"fail", "type"=>"login");
+        $res = ["message" => "fail", "type" => "login"];
     }
     echo json_encode($res);
 } elseif (isset($_POST['logout'])) {
@@ -31,7 +32,7 @@ if (isset($_POST['login'])) {
     unset($_SESSION['timeout']);
     unset($_SESSION['username']);
 
-    $res = array("message"=>"success", "type"=>"logout");
+    $res = ["message" => "success", "type" => "logout"];
     echo json_encode($res);
 } else {
     if (isset($_SESSION['username'])) { //if login in session is not set

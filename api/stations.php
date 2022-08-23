@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 
 if (array_key_exists('24hr', $_GET)) {
-    if ($_GET["type"]=="csv") {
+    if ($_GET["type"] == "csv") {
         $stn_obs_file = '../resources/station/stn_obs_24hr.csv';
         // output headers so that the file is downloaded rather than displayed
         header('Content-type: text/csv');
