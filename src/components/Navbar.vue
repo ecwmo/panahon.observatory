@@ -57,7 +57,14 @@
   const mobileMenuOpen = ref(false)
   const auth = useAuthStore()
 
-  const lPages = [
+  interface Page {
+    name: string
+    description: string
+    label: string
+    to: string
+  }
+
+  const lPages: Page[] = [
     {
       name: 'index',
       description: 'Latest Summaries - Weather Conditions and Maps',
@@ -69,7 +76,7 @@
     { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
   ]
 
-  const rPages = []
+  const rPages: Page[] = []
   // const rPages = [{ name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' }]
 
   const handleLogout = async () => {
