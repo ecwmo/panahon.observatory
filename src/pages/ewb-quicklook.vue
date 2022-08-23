@@ -125,6 +125,18 @@
     { val: 30, text: '30day' },
   ]
 
+  const randomStr = (length = 8) => {
+    // Declare all characters
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+    // Pick characers randomly
+    let str = ''
+    for (let i = 0; i < length; i++) {
+      str += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return str
+  }
+
   const getFcstImg = (mf: string, fcst: string) => {
     const pattern = `${fcst}_${mf}_`
     return imgSrcs.value.find((f) => f.includes(pattern))
@@ -133,7 +145,7 @@
   const getObsImg = (obsName: string, obsTime: string) => {
     const imgDir = 'resources/model/img/ewb'
     const imgName = `${obsName}_${obsTime}_totalprecip_latest.png`
-    return `${imgDir}/${imgName}`
+    return `${imgDir}/${imgName}?rand=${randomStr()}`
   }
 
   const handleThumbnailClick = (idx: number, idx2: number, imgType: string) => {
