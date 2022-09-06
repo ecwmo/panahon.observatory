@@ -8,11 +8,11 @@
           <div class="mb-4">
             <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
             <input
+              id="username"
               v-model="userForm.username"
               type="text"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="username"
-              id="username"
               placeholder="mobservatory"
               required
             />
@@ -20,11 +20,11 @@
           <div class="mb-6">
             <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
             <input
+              id="password"
               v-model="userForm.password"
               type="password"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="password"
-              id="password"
               placeholder="************"
               required
             />
@@ -53,7 +53,7 @@
 
   const handleLogin = async () => {
     await auth.login(userForm.value)
-    if (auth.isLoggedIn) route?.query?.redirect ? router.push(<string>route?.query?.redirect) : router.go(-1)
+    if (auth.isLoggedIn) route?.query?.redirect ? router.push(route?.query?.redirect as string) : router.go(-1)
     else userForm.value = { username: '', password: '' }
   }
 </script>

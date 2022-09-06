@@ -2,8 +2,8 @@
   <nav class="flex justify-between md:w-full flex-wrap md:flex-no-wrap z-50">
     <div class="flex justify-end items-center w-full">
       <button
-        @click.prevent="mobileMenuOpen = !mobileMenuOpen"
         class="md:hidden my-auto mr-2 w-8 h-8 bg-gray-200 text-gray-600 p-1"
+        @click.prevent="mobileMenuOpen = !mobileMenuOpen"
       >
         <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -33,9 +33,9 @@
       <ul class="flex flex-col border-t border-black md:flex md:flex-row md:border-t-0 md:border-l-0">
         <a
           v-show="auth.isLoggedIn"
-          @click.prevent="handleLogout"
           href="#"
           class="py-1 px-2 border-b md:border-l md:border-b-0 border-black uppercase text-gray-300 hover:text-gray-100 hover:bg-blue-600"
+          @click.prevent="handleLogout"
           >Logout</a
         >
         <router-link

@@ -4,7 +4,7 @@
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
     <div v-if="stationDataIsReady">
-      <PulsatingDot :xy="dotProps.xy" color="#ffc8c8" v-show="dotProps.show">
+      <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
           <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
         </Popup>
@@ -13,15 +13,15 @@
         class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
       >
         <Switch
-          class="scale-[0.8] p-0.5"
           v-model:isOn="mapToggle"
-          @update:isOn="handleMapScopeChange"
-          labelRight="All data"
+          class="scale-[0.8] p-0.5"
+          label-right="All data"
+          @update:is-on="handleMapScopeChange"
         />
         <select
           :value="activeStationId"
-          @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
           class="w-24 text-xs border-2 border-slate-700"
+          @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
         >
           <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
             {{ st?.properties?.name }}
@@ -35,18 +35,18 @@
       </div>
 
       <WeatherButtons
-        :modelValue="activeVariable"
-        @update:modelValue="$emit('update:activeVariable', $event)"
+        :model-value="activeVariable"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
+        @update:model-value="$emit('update:activeVariable', $event)"
       />
       <Colorbar :name="activeVariable" class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
     </div>
-    <LoadingIcon v-else class="absolute top-0 left-0 w-full h-full" svgClass="w-16 h-16 text-slate-500" />
+    <LoadingIcon v-else class="absolute top-0 left-0 w-full h-full" svg-class="w-16 h-16 text-slate-500" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Map, Point } from 'mapbox-gl'
+  import { Map } from 'mapbox-gl'
 
   import { Station, StationData } from '@/types/station'
 
@@ -60,11 +60,11 @@
     activeVariable: { type: String, required: true },
   })
 
-  const emit = defineEmits(['update:activeVariable'])
+  defineEmits(['update:activeVariable'])
 
   const map = ref()
   const mapEl = ref()
-  const dotProps = ref({ xy: <Point>{}, color: undefined, show: false, showPopup: false })
+  const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
   const activeStationId = ref(1)
   const stationStore = useStationStore()
@@ -152,7 +152,7 @@
     const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)?.properties
     activeStationId.value = newId
     stationStore.update(newActiveStation)
-    showPoint(<Station>newActiveStation)
+    showPoint(newActiveStation as Station)
   }
 
   const handleMapScopeChange = () => {
@@ -177,7 +177,7 @@
         if (!sourceLoaded) {
           map.value.addSource(sourceId, {
             type: 'geojson',
-            data: <any>stationData?.value,
+            data: stationData?.value,
           })
 
           map.value.addLayer({
@@ -198,7 +198,7 @@
   }
 
   watch([activeVariable], () => {
-    const metVars = Object.keys(<Object>stationData?.value?.features[0].properties.colors)
+    const metVars = Object.keys(stationData?.value?.features[0].properties.colors as object)
 
     if (metVars.indexOf(activeVariable.value) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', [

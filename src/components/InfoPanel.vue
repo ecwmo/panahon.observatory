@@ -5,14 +5,14 @@
         v-for="c in cards"
         :key="c.title"
         :data="c"
-        :isActive="c.id === modelValue"
+        :is-active="c.id === modelValue"
         @click="$emit('update:modelValue', c.id)"
       >
         <component
           :is="c.info"
           :data="metValueStrings"
-          :stationName="stationStore.stationName"
-          :dateString="stationStore.dateString('h bbb')"
+          :station-name="stationStore.stationName"
+          :date-string="stationStore.dateString('h bbb')"
         />
       </Card>
     </template>
@@ -28,11 +28,8 @@
   const LonginfoWind = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
   const LonginfoPres = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
-  const props = defineProps({
-    modelValue: { type: String },
-  })
-
-  const emit = defineEmits(['update:modelValue'])
+  defineProps<{ modelValue: string }>()
+  defineEmits(['update:modelValue'])
 
   const { metValueString } = useWeather()
   const stationStore = useStationStore()

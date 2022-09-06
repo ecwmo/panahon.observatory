@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
+  defineProps({
     svgClass: { type: String, default: 'h-12 w-12 text-white' },
   })
 </script>

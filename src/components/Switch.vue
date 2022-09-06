@@ -35,7 +35,7 @@
     bgColor: { type: String, default: 'bg-red-600' },
   })
 
-  const emit = defineEmits(['update:isOn'])
+  defineEmits(['update:isOn'])
 
   const { isOn } = toRefs(props)
 </script>

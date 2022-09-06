@@ -19,8 +19,8 @@
       </div>
     </div>
     <div
-      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
       v-show="isActive"
+      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
       @mouseover="showPopup = true"
       @mouseout="showPopup = false"
     >
@@ -45,7 +45,7 @@
     iconClass2?: string
   }
 
-  const props = defineProps({
+  defineProps({
     data: { type: Object as PropType<CardData>, required: true },
     isActive: { type: Boolean, default: false },
   })

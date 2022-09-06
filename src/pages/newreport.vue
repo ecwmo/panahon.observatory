@@ -38,10 +38,10 @@
           <div class="mb-4">
             <label for="repcode" class="block text-gray-700 text-sm font-bold mb-2">Report Code</label>
             <input
+              id="repcode"
               v-model="report.repcode"
               type="text"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="repcode"
               name="repcode"
               placeholder="wp<CY><YYYY>"
               required
@@ -51,10 +51,10 @@
           <div class="mb-4">
             <label for="reportnum" class="block text-gray-700 text-sm font-bold mb-2">Report Number</label>
             <input
+              id="reportnum"
               v-model="report.reportnum"
               type="number"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="reportnum"
               name="reportnum"
               placeholder="1"
               required
@@ -67,10 +67,8 @@
               class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue-500 appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-blue-500 hover:text-white"
             >
               <i class="fas fa-cloud-upload-alt fa-2x"></i>
-              <span class="mt-2 text-base truncate">{{
-                report.report ? report.report.name.replace(/^.*[\\\/]/, '') : 'Select a file'
-              }}</span>
-              <input type="file" name="filename" class="hidden" @change="handleFile" required />
+              <span class="mt-2 text-base truncate">{{ reportName }}</span>
+              <input type="file" name="filename" class="hidden" required @change="handleFile" />
             </label>
           </div>
 
@@ -92,20 +90,20 @@
 <script setup lang="ts">
   import axios from 'axios'
 
-  interface ReportData {
-    [key: string]: any
+  interface Report {
     repcode: string
-    reportnum: number
-    report: any
+    reportnum?: number | string
+    report?: File
   }
 
   const route = useRoute()
   const router = useRouter()
 
-  const report = ref(<ReportData>{})
+  const report = ref({ repcode: '', reportnum: undefined } as Report)
 
   const publishedView = computed(() => route.query.hasOwnProperty('published'))
   const uploadedView = computed(() => route.query.hasOwnProperty('uploaded'))
+  const reportName = computed(() => report.value?.report?.name ?? 'Select a file')
 
   const handlePublish = async () => {
     const formData = new FormData()
@@ -122,16 +120,16 @@
   }
 
   const handleFile = (e: Event) => {
-    const el = <HTMLInputElement>e.target
-    report.value.report = el && el.files ? el.files[0] : {}
+    const el = e.target as HTMLInputElement
+    report.value.report = el && el.files ? el.files[0] : ({} as File)
   }
 
   const handleUpload = async () => {
     const formData = new FormData()
 
-    Object.keys(report.value).forEach((k) => {
-      formData.append(k, report.value[k])
-    })
+    formData.append('repcode', report.value.repcode)
+    formData.append('reportnum', `${report.value.reportnum}`)
+    formData.append('report', report.value.report as Blob)
     formData.append('upload', '1')
 
     const res = await axios.post('/api/report.php', formData, {

@@ -4,7 +4,7 @@
       v-for="(btn, i) in buttons"
       :key="btn.val"
       :label="btn.text"
-      :isActive="btn.val === activeBtn?.val"
+      :is-active="btn.val === activeBtn?.val"
       class="flex text-gray-200 justify-center p-1"
       :class="{
         'rounded-l-lg pl-3': i === 0,
@@ -17,19 +17,14 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType } from 'vue'
-
   interface Button {
     val: number | string
     text: string
   }
 
-  const props = defineProps({
-    buttons: { type: Object as PropType<Button[]>, default: [] },
-    activeBtn: { type: Object as PropType<Button> },
-  })
+  const props = defineProps<{ buttons: Button[]; activeBtn: Button }>()
 
-  const emit = defineEmits(['update:activeBtn'])
+  defineEmits(['update:activeBtn'])
 
   const { buttons } = toRefs(props)
 

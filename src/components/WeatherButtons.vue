@@ -13,11 +13,8 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
-    modelValue: { type: String, required: true },
-  })
-
-  const emit = defineEmits(['update:modelValue'])
+  defineProps<{ modelValue: string }>()
+  defineEmits(['update:modelValue'])
 
   const buttons = ref([
     {

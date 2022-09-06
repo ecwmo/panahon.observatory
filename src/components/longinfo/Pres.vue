@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
   const props = defineProps({
-    stationName: { type: String },
+    stationName: { type: String, default: '' },
     data: { type: Object, required: true },
     dateString: { type: String, required: true },
   })

@@ -6,7 +6,7 @@
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Scenario</h3>
-        <RowGroupBtns class="text-xs" :buttons="scenarios" v-model:activeBtn="activeScenario" />
+        <RowGroupBtns v-model:activeBtn="activeScenario" class="text-xs" :buttons="scenarios" />
       </div>
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -15,9 +15,9 @@
           v-for="climVar in climateVariables"
           :key="climVar.val"
           :label="climVar.text"
-          :isActive="climVar.val === activeVariable.val"
-          @click="activeVariable = climVar"
+          :is-active="climVar.val === activeVariable.val"
           class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded-lg"
+          @click="activeVariable = climVar"
         />
       </div>
     </div>
@@ -26,12 +26,12 @@
       <div class="flex flex-col w-1/2">
         <fieldset class="w-full mb-2">
           <input
+            v-model.number="activeDecade"
             type="range"
             name="decade"
             :min="minDecade"
             :max="maxDecade"
             step="10"
-            v-model.number="activeDecade"
             class="relative w-full h-2 -bottom-1 m-0 cursor-pointer"
           />
           <svg

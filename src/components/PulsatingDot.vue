@@ -13,12 +13,9 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType } from 'vue'
-  import type { Point } from 'mapbox-gl'
-
   const props = defineProps({
     size: { type: Number, default: 5 },
-    xy: { type: Object as PropType<Point>, required: true },
+    xy: { type: Object, required: true },
     color: { type: String, default: '#383a36' },
     fillColor: { type: String, default: 'none' },
   })

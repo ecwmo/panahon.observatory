@@ -20,10 +20,10 @@ export const useAuthStore = defineStore(
     const isLoggedIn = computed(() => user?.value?.username?.length > 0)
 
     const login = async (userData: User) => {
-      const loginData: { [k: string]: any } = { ...userData, login: 1 }
+      const loginData: { [k: string]: string | number } = { ...userData, login: 1 }
       const formData = new FormData()
       Object.keys(loginData).forEach((k) => {
-        formData.append(k, loginData[k])
+        formData.append(k, `${loginData[k]}`)
       })
 
       const { data } = await axios.post(API_URL, formData, {

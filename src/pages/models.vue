@@ -4,9 +4,9 @@
   >
     <div class="flex flex-col">
       <!-- Forecast Length -->
-      <div class="flex flex-col items-center space-y-2 px-6" v-show="showFcstTime">
+      <div v-show="showFcstTime" class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
-        <RowGroupBtns class="text-xs" :buttons="fcstTimes" v-model:activeBtn="activeFcstTime" />
+        <RowGroupBtns v-model:activeBtn="activeFcstTime" class="text-xs" :buttons="fcstTimes" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -15,15 +15,15 @@
           v-for="mf in metFields"
           :key="mf.val"
           :label="mf.text"
-          :isActive="mf.val === activeVariable.val"
-          @click="activeVariable = mf"
+          :is-active="mf.val === activeVariable.val"
           class="w-full flex justify-center font-bold py-2 px-4 rounded-lg"
+          @click="activeVariable = mf"
         />
       </div>
     </div>
     <div class="flex flex-col space-y-2 w-full md:mx-20">
       <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
-      <Switch class="text-sm md:text-base" v-show="varNameX" v-model:isOn="extremeToggle" label="Show extreme" />
+      <Switch v-show="varNameX" v-model:isOn="extremeToggle" class="text-sm md:text-base" label="Show extreme" />
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
@@ -31,8 +31,8 @@
         <component :is="caption"></component>
       </div>
       <div
-        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
         v-show="captionX && extremeToggle"
+        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <component :is="captionX"></component>
       </div>
@@ -93,7 +93,7 @@
 
   const activeFcstTime = ref(fcstTimes[0])
   const activeVariable = ref(metFields[0])
-  const imgSrcs = ref(<string[]>[])
+  const imgSrcs = ref([])
 
   const extremeToggle = ref(false)
 
@@ -105,7 +105,7 @@
   const imgSrc = computed(() => {
     const name = extremeToggle.value && varNameX.value ? varNameX.value : activeVariable.value.val
     const pattern = !showFcstTime.value ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
-    return imgSrcs.value.find((f) => f.includes(pattern))
+    return imgSrcs.value.find((f: string) => f.includes(pattern))
   })
 
   const caption = computed(() => {

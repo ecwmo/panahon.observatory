@@ -75,7 +75,7 @@
   const jtwcImg = 'https://www.metoc.navy.mil/jtwc/products/abpwsair.jpg'
   const pagasaTCThreatImg = 'https://pubfiles.pagasa.dost.gov.ph/climps/tcthreat/TC_Threat_and_S2S_Forecast.png'
 
-  const imgSrcs = ref(<string[]>[])
+  const imgSrcs = ref([])
   const imgPopUp = ref(false)
   const activeImgType = ref()
   const activeMetField = ref()
@@ -137,9 +137,9 @@
     return str
   }
 
-  const getFcstImg = (mf: string, fcst: string) => {
+  const getFcstImg = (mf: string, fcst: string): string | undefined => {
     const pattern = `${fcst}_${mf}_`
-    return imgSrcs.value.find((f) => f.includes(pattern))
+    return imgSrcs.value.find((f: string) => f.includes(pattern))
   }
 
   const getObsImg = (obsName: string, obsTime: string) => {
