@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-full h-screen bg-gray-300 border border-t-0 border-black flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4"
-  >
+  <div class="h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
     <MapBox v-model:activeVariable="activeVariable" :access-token="mapAccessToken" class="w-full md:w-1/2 h-full" />
     <div
       class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"

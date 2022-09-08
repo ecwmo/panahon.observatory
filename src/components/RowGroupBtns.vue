@@ -5,7 +5,7 @@
       :key="btn.val"
       :label="btn.text"
       :is-active="btn.val === activeBtn?.val"
-      class="flex text-gray-200 justify-center p-1"
+      class="flex text-skin-inverted justify-center p-1"
       :class="{
         'rounded-l-lg pl-3': i === 0,
         'rounded-r-lg pr-3': i === nbuttons - 1,

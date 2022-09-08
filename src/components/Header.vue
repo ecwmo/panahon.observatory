@@ -1,7 +1,5 @@
 <template>
-  <header
-    class="bg-blue-900 pt-1 border border-black md:flex-col flex flex-row justify-between shadow-lg text-gray-200"
-  >
+  <header class="bg-skin-header-fill pt-1 md:flex-col flex flex-row justify-between shadow-lg text-skin-inverted">
     <div class="flex text-xs m-1 mb-2">
       <RouterLink to="/" class="flex">
         <img
@@ -21,7 +19,10 @@
         <p>Tel: (632) 8426-5921</p>
         <p>
           Email:
-          <a href="mailto:manila@observatory.ph" title="Manila Observatory email address" class="hover:text-blue-400"
+          <a
+            href="mailto:manila@observatory.ph"
+            title="Manila Observatory email address"
+            class="hover:text-skin-muted-inv"
             >manila@observatory.ph</a
           >
         </p>

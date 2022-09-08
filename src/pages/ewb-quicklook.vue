@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
+  <div class="flex flex-col">
     <div class="md:m-6">
       <img class="border border-black shadow-md rounded-2xl" :src="jtwcImg" />
     </div>

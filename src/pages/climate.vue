@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-gray-300 border-l border-r border-b border-black flex flex-col-reverse md:flex-row py-4 justify-center"
-  >
+  <div class="flex flex-col-reverse md:flex-row py-4 justify-center">
     <div class="flex flex-col">
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">

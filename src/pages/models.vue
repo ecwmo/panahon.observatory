@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-gray-300 border-l border-r border-b border-black flex flex-col-reverse md:flex-row py-4 justify-center w-full"
-  >
+  <div class="flex flex-col-reverse md:flex-row py-4 justify-center w-full">
     <div class="flex flex-col">
       <!-- Forecast Length -->
       <div v-show="showFcstTime" class="flex flex-col items-center space-y-2 px-6">
@@ -126,10 +124,10 @@
 
 <style>
   .model-caption a {
-    @apply underline text-blue-600;
+    @apply underline text-skin-link;
   }
 
   .model-caption a:hover {
-    @apply underline text-blue-400;
+    @apply underline text-skin-link-active;
   }
 </style>

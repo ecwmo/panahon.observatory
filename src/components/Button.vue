@@ -1,5 +1,12 @@
 <template>
-  <div class="text-gray-200" :class="isActive ? activeClass : defaultClass">
+  <div
+    class="text-skin-inverted"
+    :class="
+      isActive
+        ? 'bg-skin-button-inv'
+        : 'cursor-pointer bg-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
+    "
+  >
     {{ label }}
   </div>
 </template>
@@ -8,7 +15,5 @@
   defineProps({
     label: { type: String, required: true },
     isActive: { type: Boolean, default: false },
-    defaultClass: { type: String, default: 'cursor-pointer bg-gray-700 hover:bg-gray-500 hover:text-white' },
-    activeClass: { type: String, default: 'bg-blue-600' },
   })
 </script>

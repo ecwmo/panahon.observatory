@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-300 border-l border-r border-b border-black flex flex-col">
+  <div class="flex flex-col">
     <div class="m-6 space-y-6">
       <img
         v-for="(img, idx) in imgSrcs?.reportImgs"

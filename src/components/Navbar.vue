@@ -16,7 +16,7 @@
     </div>
 
     <div
-      class="absolute right-0 top-16 md:top-0 md:relative border border-b-0 md:border-l-0 md:border-r-0 border-black md:flex flex-col md:flex-row md:w-full justify-between bg-blue-900"
+      class="absolute right-0 top-16 md:top-0 md:relative border border-b-0 md:border-l-0 md:border-r-0 border-black md:flex flex-col md:flex-row md:w-full justify-between bg-skin-header-fill"
       :class="{ hidden: !mobileMenuOpen }"
       @click="mobileMenuOpen = false"
     >
@@ -25,7 +25,12 @@
           v-for="p in lPages"
           :key="p.name"
           :to="p.to"
-          class="py-1 px-2 border-b md:border-r md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
+          class="py-1 px-2 border-b md:border-r md:border-b-0 border-black text-skin-inverted uppercase"
+          :class="[
+            $route.name === p.name
+              ? 'bg-skin-button-inv cursor-default'
+              : 'bg-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent',
+          ]"
         >
           {{ p.label }}
         </router-link>
@@ -34,7 +39,7 @@
         <a
           v-show="auth.isLoggedIn"
           href="#"
-          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black uppercase text-gray-300 hover:text-gray-100 hover:bg-blue-600"
+          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black uppercase text-skin-inverted hover:bg-skin-button-accent hover:text-skin-button-accent"
           @click.prevent="handleLogout"
           >Logout</a
         >
@@ -42,7 +47,12 @@
           v-for="p in rPages"
           :key="p.name"
           :to="p.to"
-          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-gray-300 uppercase hover:text-gray-100 hover:bg-blue-600"
+          class="py-1 px-2 border-b md:border-l md:border-b-0 border-black text-skin-inverted uppercase"
+          :class="[
+            $route.name === p.name
+              ? 'bg-skin-button-inv cursor-default'
+              : 'bg-skin-button hover:bg-skin-button-accent hover:text-white hover:opacity-75',
+          ]"
         >
           {{ p.label }}
         </router-link>
@@ -84,13 +94,3 @@
     if (route.name === 'NewReport') router.push('/login')
   }
 </script>
-
-<style lang="scss" scoped>
-  a {
-    @apply text-gray-300 hover:text-gray-100 hover:bg-blue-600;
-    &.router-link-active,
-    &.router-link-exact-active {
-      @apply text-gray-100 bg-blue-600;
-    }
-  }
-</style>

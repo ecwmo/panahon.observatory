@@ -1,13 +1,11 @@
 <template>
-  <div class="bg-gray-300 border-l border-r border-b border-black flex py-4 justify-center">
+  <div class="flex py-4 justify-center">
     <div class="flex flex-col bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div v-if="publishedView">
         <h4 class="p-4 flex justify-center text-3xl font-medium">Publish success!</h4>
         <p class="p-1 mb-3">
           Click
-          <router-link to="report" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
-            >here</router-link
-          >
+          <router-link to="report" class="underline text-skin-link hover:text-skin-link-active">here</router-link>
         </p>
       </div>
       <div v-else-if="uploadedView">
@@ -17,7 +15,7 @@
           <router-link
             to="/report?view=draft"
             target="_blank"
-            class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+            class="underline text-skin-link hover:text-skin-link-active"
             >here</router-link
           >
         </p>
@@ -25,7 +23,7 @@
           <button
             type="submit"
             name="publish"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="bg-skin-button hover:bg-skin-button-accent text-skin-inverted hover:text-skin-button-accent uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             @click.prevent="handlePublish"
           >
             Publish
@@ -64,7 +62,7 @@
           <div class="mb-4">
             <span>Attachments</span>
             <label
-              class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue-500 appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-blue-500 hover:text-white"
+              class="w-64 flex flex-col items-center px-4 py-6 bg-white text-skin-button-inv appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-skin-button hover:text-skin-button"
             >
               <i class="fas fa-cloud-upload-alt fa-2x"></i>
               <span class="mt-2 text-base truncate">{{ reportName }}</span>
@@ -76,7 +74,7 @@
             <button
               type="submit"
               name="upload"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              class="bg-skin-button hover:bg-skin-button-accent text-skin-inverted hover:text-skin-button-accent uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Upload
             </button>

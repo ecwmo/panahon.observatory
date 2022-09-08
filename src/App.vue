@@ -1,10 +1,8 @@
 <template>
-  <div class="flex flex-col max-h-screen">
+  <div class="flex flex-col" :class="[{ 'h-screen': $route.name === 'index' }]">
     <Header></Header>
-    <router-view> </router-view>
+    <div class="bg-skin-body-fill h-full">
+      <router-view />
+    </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  import Header from '@/components/Header.vue'
-</script>
