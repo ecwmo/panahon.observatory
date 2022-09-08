@@ -3,7 +3,10 @@
 <html lang="en">
 <?php include_once('./components/head.php'); ?>
 
-<body class="bg-gray-600 w-full md:w-11/12 lg:w-5/6 mx-auto">
+<body>
+    <noscript>
+        <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
     <div id="app">
     </div>
 </body>

@@ -3,16 +3,16 @@
     <Button
       v-for="(btn, i) in buttons"
       :key="btn.val"
-      :label="btn.text"
       :is-active="btn.val === activeBtn?.val"
-      class="flex text-skin-inverted justify-center p-1"
+      class="flex justify-center p-1"
       :class="{
-        'rounded-l-lg pl-3': i === 0,
+        'rounded-l-lg pl-3 border-r border-gray-200': i === 0,
         'rounded-r-lg pr-3': i === nbuttons - 1,
-        'border-l border-r border-gray-200': i > 0 && i < nbuttons - 1,
+        'border-r border-gray-200': i > 0 && i < nbuttons - 1,
       }"
-      @click="$emit('update:activeBtn', btn)"
-    />
+      @click.prevent="$emit('update:activeBtn', btn)"
+      >{{ btn.text }}</Button
+    >
   </div>
 </template>
 

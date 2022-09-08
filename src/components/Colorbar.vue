@@ -1,5 +1,5 @@
 <template>
-  <div v-show="varTitle" class="absolute flex flex-col justify-center bg-white p-2">
+  <div v-show="varTitle" class="absolute flex flex-col justify-center bg-white text-black p-2">
     <div class="flex justify-center" :class="{ 'mb-2': palette?.colors?.length > 0 }">
       <div class="text-xs font-semibold justify-center">{{ `${varTitle} (${varUnits})` }}</div>
     </div>

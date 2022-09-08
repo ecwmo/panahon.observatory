@@ -10,17 +10,18 @@
         </Popup>
       </PulsatingDot>
       <div
-        class="absolute flex justify-between top-2 left-2 bg-white pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
+        class="absolute flex justify-between top-2 left-2 bg-white text-black pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
       >
         <Switch
           v-model:isOn="mapToggle"
+          bg-color="bg-skin-body-fill"
           class="scale-[0.8] p-0.5"
           label-right="All data"
           @update:is-on="handleMapScopeChange"
         />
         <select
           :value="activeStationId"
-          class="w-24 text-xs border-2 border-slate-700"
+          class="text-xs border-2 border-slate-700"
           @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
         >
           <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
@@ -29,9 +30,9 @@
         </select>
       </div>
       <div
-        class="absolute flex md:hidden justify-between top-2 right-2 bg-white py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
+        class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
-        {{ stationStore.dateString() }}
+        {{ stationStore.dateString('d MMM yyyy, h bbb') }}
       </div>
 
       <WeatherButtons

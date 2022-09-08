@@ -1,7 +1,11 @@
 <template>
   <div
-    :class="[isActive ? 'bg-blue-600 text-gray-900' : 'bg-blue-300 text-gray-800']"
-    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 border border-black w-52"
+    :class="[
+      isActive
+        ? 'bg-skin-button-active text-skin-button-active'
+        : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent',
+    ]"
+    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 h-32 w-52 md:w-60"
   >
     <div class="flex justify-evenly items-center">
       <i :class="`${data.iconClass} text-4xl md:text-5xl`"></i>

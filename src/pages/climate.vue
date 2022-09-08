@@ -12,60 +12,17 @@
         <Button
           v-for="climVar in climateVariables"
           :key="climVar.val"
-          :label="climVar.text"
           :is-active="climVar.val === activeVariable.val"
-          class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded-lg"
-          @click="activeVariable = climVar"
-        />
+          class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded"
+          @click.prevent="activeVariable = climVar"
+          >{{ climVar.text }}</Button
+        >
       </div>
     </div>
     <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
       <h2 class="text-center font-semibold text-2xl md:text-4xl">Climate Anomaly</h2>
       <div class="flex flex-col w-1/2">
-        <fieldset class="w-full mb-2">
-          <input
-            v-model.number="activeDecade"
-            type="range"
-            name="decade"
-            :min="minDecade"
-            :max="maxDecade"
-            step="10"
-            class="relative w-full h-2 -bottom-1 m-0 cursor-pointer"
-          />
-          <svg
-            class="w-full px-2 overflow-visible stroke-current text-gray-500"
-            role="presentation"
-            height="5"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              v-for="(d, i) in decades"
-              :key="d[0]"
-              class=""
-              :x="`${(100 * i) / (decades.length - 1)}%`"
-              y="3"
-              width="0.5"
-              height="5"
-            ></rect>
-          </svg>
-          <svg
-            class="w-full px-2 overflow-visible mt-1"
-            role="presentation"
-            height="10"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <text
-              v-for="(d, i) in decades"
-              :key="d[0]"
-              class="text-xs font-semibold"
-              :x="`${(100 * i) / (decades.length - 1)}%`"
-              y="10"
-              text-anchor="middle"
-            >
-              {{ d[0] }}
-            </text>
-          </svg>
-        </fieldset>
+        <Range v-model.number="activeDecade" :data="decades.map((d) => d[0])" class="w-full mb-2" />
       </div>
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
@@ -104,16 +61,6 @@
   const activeScenario = ref(scenarios[0])
   const activeVariable = ref(climateVariables[0])
   const activeDecade = ref(2020)
-
-  const minDecade = computed(() => {
-    const vals = decades.map((v) => v[0])
-    return Math.min(...vals)
-  })
-
-  const maxDecade = computed(() => {
-    const vals = decades.map((v) => v[0])
-    return Math.max(...vals)
-  })
 
   const imgSrc = computed(() => {
     const [sYear, eYear] = decades.find((d) => d[0] === activeDecade.value) ?? [0, 0]

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap justify-center gap-3 md:gap-6">
+  <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
     <template v-if="stationStore.stationName">
       <Card
         v-for="c in cards"

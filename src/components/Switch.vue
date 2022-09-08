@@ -4,13 +4,7 @@
       <div v-if="label" class="px-2">{{ label }}</div>
       <!-- toggle -->
       <div class="relative">
-        <input
-          id="toogleButton"
-          type="checkbox"
-          class="hidden"
-          :checked="isOn"
-          @change="$emit('update:isOn', ($event.target as HTMLInputElement).checked)"
-        />
+        <input id="toogleButton" type="checkbox" class="hidden" :checked="isOn" @change="handleOnChange" />
         <!-- path -->
         <div
           class="toggle-path border rounded-full shadow-inner w-9 h-5"
@@ -28,16 +22,18 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
+  defineProps({
     isOn: { type: Boolean, default: false },
     label: { type: String, default: '' },
     labelRight: { type: String, default: '' },
     bgColor: { type: String, default: 'bg-red-600' },
   })
 
-  defineEmits(['update:isOn'])
+  const emit = defineEmits(['update:isOn'])
 
-  const { isOn } = toRefs(props)
+  const handleOnChange = (ev: Event) => {
+    emit('update:isOn', (ev.target as HTMLInputElement).checked)
+  }
 </script>
 
 <style scoped>

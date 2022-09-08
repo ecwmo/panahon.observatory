@@ -12,16 +12,22 @@
         <Button
           v-for="mf in metFields"
           :key="mf.val"
-          :label="mf.text"
           :is-active="mf.val === activeVariable.val"
-          class="w-full flex justify-center font-bold py-2 px-4 rounded-lg"
-          @click="activeVariable = mf"
-        />
+          class="w-full flex justify-center font-bold py-2 px-4 rounded"
+          @click.prevent="activeVariable = mf"
+          >{{ mf.text }}</Button
+        >
       </div>
     </div>
     <div class="flex flex-col space-y-2 w-full md:mx-20">
       <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
-      <Switch v-show="varNameX" v-model:isOn="extremeToggle" class="text-sm md:text-base" label="Show extreme" />
+      <Switch
+        v-show="varNameX"
+        v-model:isOn="extremeToggle"
+        bg-color="bg-skin-button-accent"
+        class="text-sm md:text-base"
+        label="Show extreme"
+      />
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"

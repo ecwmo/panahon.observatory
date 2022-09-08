@@ -5,10 +5,10 @@
       class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"
     >
       <div class="flex flex-col md:items-start w-full mb-6">
-        <div class="text-lg font-semibold">{{ stationStore.stationName }}</div>
-        <div class="text-base italic font-light">
-          {{ `as of ${stationStore.dateString()}` }}
+        <div class="text-sm font-extralight">
+          {{ stationStore.dateString('d MMM yyyy, h bbb') }}
         </div>
+        <div class="text-3xl font-semibold">{{ stationStore.stationName }}</div>
       </div>
       <InfoPanel v-model="activeVariable" />
     </div>

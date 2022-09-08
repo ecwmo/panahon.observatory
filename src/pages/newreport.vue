@@ -1,6 +1,6 @@
 <template>
   <div class="flex py-4 justify-center">
-    <div class="flex flex-col bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="flex flex-col bg-skin-body-fill-inv text-skin-inverted shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div v-if="publishedView">
         <h4 class="p-4 flex justify-center text-3xl font-medium">Publish success!</h4>
         <p class="p-1 mb-3">
@@ -20,26 +20,24 @@
           >
         </p>
         <div class="flex items-center justify-between">
-          <button
+          <Button
             type="submit"
-            name="publish"
-            class="bg-skin-button hover:bg-skin-button-accent text-skin-inverted hover:text-skin-button-accent uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             @click.prevent="handlePublish"
+            >Publish</Button
           >
-            Publish
-          </button>
         </div>
       </div>
       <div v-else>
         <h1 class="p-4 flex justify-center text-3xl font-medium">Report Upload</h1>
         <form @submit.prevent="handleUpload">
           <div class="mb-4">
-            <label for="repcode" class="block text-gray-700 text-sm font-bold mb-2">Report Code</label>
+            <label for="repcode" class="block text-sm font-bold mb-2">Report Code</label>
             <input
               id="repcode"
               v-model="report.repcode"
               type="text"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               name="repcode"
               placeholder="wp<CY><YYYY>"
               required
@@ -47,12 +45,12 @@
           </div>
 
           <div class="mb-4">
-            <label for="reportnum" class="block text-gray-700 text-sm font-bold mb-2">Report Number</label>
+            <label for="reportnum" class="block text-sm font-bold mb-2">Report Number</label>
             <input
               id="reportnum"
               v-model="report.reportnum"
               type="number"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               name="reportnum"
               placeholder="1"
               required
@@ -62,7 +60,7 @@
           <div class="mb-4">
             <span>Attachments</span>
             <label
-              class="w-64 flex flex-col items-center px-4 py-6 bg-white text-skin-button-inv appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-skin-button hover:text-skin-button"
+              class="w-64 flex flex-col items-center px-4 py-6 bg-white text-skin-button-active appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-skin-button hover:text-skin-button"
             >
               <i class="fas fa-cloud-upload-alt fa-2x"></i>
               <span class="mt-2 text-base truncate">{{ reportName }}</span>
@@ -71,13 +69,9 @@
           </div>
 
           <div class="flex items-center justify-between">
-            <button
-              type="submit"
-              name="upload"
-              class="bg-skin-button hover:bg-skin-button-accent text-skin-inverted hover:text-skin-button-accent uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            <Button type="submit" class="uppercase font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >Upload</Button
             >
-              Upload
-            </button>
           </div>
         </form>
       </div>
