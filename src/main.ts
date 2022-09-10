@@ -1,5 +1,6 @@
 import '@/tailwind.css'
 
+import { DefineComponent } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import VueGtag from 'vue-gtag'
@@ -19,7 +20,7 @@ import {
   faChevronDown,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/vue-fontawesome'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -28,8 +29,9 @@ library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt, fa
 dom.watch()
 
 const app = createApp(App)
-//@ts-ignore
-app.component('fa-icon', FontAwesomeIcon)
+
+// https://github.com/FortAwesome/vue-fontawesome/issues/295#issuecomment-823411585
+app.component('fa-icon', FontAwesomeIcon as unknown as DefineComponent<FontAwesomeIconProps>)
 app.use(pinia)
 app.use(router)
 app.use(
