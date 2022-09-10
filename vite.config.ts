@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import Pages from 'vite-plugin-pages'
+import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 
@@ -69,7 +70,7 @@ export default defineConfig({
       dirs: ['src/composables', 'src/store'],
       vueTemplate: true,
     }),
-    Components({ dts: 'src/components.d.ts', directoryAsNamespace: true }),
+    Components({ resolvers: [HeadlessUiResolver()], dts: 'src/components.d.ts', directoryAsNamespace: true }),
   ],
   resolve: {
     alias: {

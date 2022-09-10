@@ -19,15 +19,23 @@
         >
       </div>
     </div>
-    <div class="flex flex-col space-y-2 w-full md:mx-20">
+    <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
       <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
-      <Switch
-        v-show="varNameX"
-        v-model:isOn="extremeToggle"
-        bg-color="bg-skin-button-accent"
-        class="text-sm md:text-base"
-        label="Show extreme"
-      />
+      <SwitchGroup v-show="varNameX">
+        <div class="flex items-center gap-1.5">
+          <Switch
+            v-model="extremeToggle"
+            :class="extremeToggle ? 'bg-skin-button' : 'bg-skin-button-accent'"
+            class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
+          >
+            <span
+              :class="extremeToggle ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+              class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
+            />
+          </Switch>
+          <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
+        </div>
+      </SwitchGroup>
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"

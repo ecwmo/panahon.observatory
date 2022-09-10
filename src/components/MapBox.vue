@@ -10,15 +10,24 @@
         </Popup>
       </PulsatingDot>
       <div
-        class="absolute flex justify-between top-2 left-2 bg-white text-black pl-0.5 pr-3 py-1 rounded-full drop-shadow-md opacity-90 -space-x-2.5"
+        class="absolute flex justify-between top-2 left-2 bg-white text-black pr-3 py-1 rounded-full drop-shadow-md opacity-90"
       >
-        <Switch
-          v-model:isOn="mapToggle"
-          bg-color="bg-skin-body-fill"
-          class="scale-[0.8] p-0.5"
-          label-right="All data"
-          @update:is-on="handleMapScopeChange"
-        />
+        <SwitchGroup>
+          <div class="flex items-center px-2 gap-1.5">
+            <Switch
+              v-model="mapToggle"
+              :class="mapToggle ? 'bg-skin-button' : 'bg-skin-button-accent'"
+              class="relative inline-flex h-3 w-6 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
+              @update:model-value="handleMapScopeChange"
+            >
+              <span
+                :class="mapToggle ? 'translate-x-3 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+                class="inline-block h-3 w-3 transform rounded-full transition-transform"
+              />
+            </Switch>
+            <SwitchLabel class="text-xs">All Data</SwitchLabel>
+          </div>
+        </SwitchGroup>
         <select
           :value="activeStationId"
           class="text-xs border-2 border-slate-700"

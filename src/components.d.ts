@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     CaptionModelWpd: typeof import('./components/caption/ModelWpd.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Colorbar: typeof import('./components/Colorbar.vue')['default']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     FakeCard: typeof import('./components/FakeCard.vue')['default']
     InfoPanel: typeof import('./components/InfoPanel.vue')['default']
     InfoPres: typeof import('./components/info/Pres.vue')['default']
@@ -33,7 +34,10 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     RowGroupBtns: typeof import('./components/RowGroupBtns.vue')['default']
-    Switch: typeof import('./components/Switch.vue')['default']
+    Switch: typeof import('@headlessui/vue')['Switch']
+    Switch0: typeof import('./components/Switch0.vue')['default']
+    SwitchGroup: typeof import('@headlessui/vue')['SwitchGroup']
+    SwitchLabel: typeof import('@headlessui/vue')['SwitchLabel']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
   }
 }
