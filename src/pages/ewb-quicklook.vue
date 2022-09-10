@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col justify-between items-center">
     <div class="md:m-6">
       <img class="border border-black shadow-md rounded-2xl" :src="jtwcImg" />
     </div>
@@ -7,39 +7,43 @@
       <img class="border border-black shadow-md rounded-2xl" :src="pagasaTCThreatImg" />
     </div>
 
-    <table class="table-auto md:m-6">
-      <thead>
-        <tr>
-          <th class="w-1/12"></th>
-          <th v-for="ft in fcstTimes" :key="`hd_${ft.text}`">{{ ft.text }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(mf, imf) in metFields" :key="mf.val">
-          <th class="w-1/12 h-44 writing-mode-vertical-rl rotate-180">{{ mf.text }}</th>
-          <td v-for="(ft, ift) in fcstTimes" :key="ft.text" @click="handleThumbnailClick(imf, ift, 'fcst')">
-            <img class="border cursor-pointer hover:border-black" :src="getFcstImg(mf.val, ft.text)" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="md:m-6">
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th></th>
+            <th v-for="ft in fcstTimes" :key="`hd_${ft.text}`">{{ ft.text }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(mf, imf) in metFields" :key="mf.val">
+            <th class="[writing-mode:vertical-rl] rotate-180">{{ mf.text }}</th>
+            <td v-for="(ft, ift) in fcstTimes" :key="ft.text" @click="handleThumbnailClick(imf, ift, 'fcst')">
+              <img class="border cursor-pointer hover:border-black" :src="getFcstImg(mf.val, ft.text)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <table class="table-auto md:m-6">
-      <thead>
-        <tr>
-          <th class="w-1/12"></th>
-          <th v-for="ot in obsTimes" :key="`hd_${ot.text}`">{{ ot.text }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(obs, iobs) in obsTypes" :key="obs.val">
-          <th class="w-1/12 writing-mode-vertical-rl rotate-180">{{ obs.text }}</th>
-          <td v-for="(ot, iot) in obsTimes" :key="ot.text" @click="handleThumbnailClick(iobs, iot, 'obs')">
-            <img class="border cursor-pointer hover:border-black" :src="getObsImg(obs.val, ot.text)" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="md:m-6">
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th></th>
+            <th v-for="ot in obsTimes" :key="`hd_${ot.text}`">{{ ot.text }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(obs, iobs) in obsTypes" :key="obs.val">
+            <th class="[writing-mode:vertical-rl] rotate-180">{{ obs.text }}</th>
+            <td v-for="(ot, iot) in obsTimes" :key="ot.text" @click="handleThumbnailClick(iobs, iot, 'obs')">
+              <img class="border cursor-pointer hover:border-black" :src="getObsImg(obs.val, ot.text)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <Teleport to="body">
@@ -178,9 +182,5 @@
   .modal-leave-to .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
-  }
-
-  .writing-mode-vertical-rl {
-    writing-mode: vertical-rl;
   }
 </style>
