@@ -18,6 +18,7 @@ module.exports = {
           'header-link': colors.gray['500'],
           'header-link-active': colors.gray['900'],
           'header-link-accent': colors.blue['500'],
+          'listbox-active': colors.blue['700'],
         },
       },
       backgroundColor: {
@@ -28,6 +29,7 @@ module.exports = {
           button: colors.gray['500'],
           'button-active': colors.gray['200'],
           'button-accent': colors.gray['200'],
+          'listbox-active': colors.blue['100'],
         },
       },
     },

@@ -16,13 +16,15 @@ import {
   faWind,
   faCloudUploadAlt,
   faXmark,
+  faChevronDown,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
-library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt, faXmark)
+library.add(faInfo, faCloudRain, faThermometerHalf, faWind, faCloudUploadAlt, faXmark, faChevronDown, faCheck)
 dom.watch()
 
 const app = createApp(App)

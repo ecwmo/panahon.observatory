@@ -28,15 +28,54 @@
             <SwitchLabel class="text-xs">All Data</SwitchLabel>
           </div>
         </SwitchGroup>
-        <select
-          :value="activeStationId"
-          class="text-xs border-2 border-slate-700"
-          @change="handleStationIdChange(+($event.target as HTMLSelectElement).value)"
-        >
-          <option v-for="(st, id) in visibleStations" :key="id" :value="st?.properties?.id">
-            {{ st?.properties?.name }}
-          </option>
-        </select>
+        <div class="w-32 sm:w-48">
+          <Listbox v-model="activeStation" by="id" @update:model-value="handleStationChange">
+            <div class="relative">
+              <ListboxButton
+                class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv py-1 pl-2 pr-6 text-xs sm:text-sm text-left shadow-md ring-gray-700 ring-1"
+              >
+                <span class="block truncate">{{ stationStore.stationName ?? 'Loading...' }}</span>
+                <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <i class="fas fa-chevron-down" />
+                </span>
+              </ListboxButton>
+              <transition
+                leave-active-class="transition duration-100 ease-in"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+              >
+                <ListboxOptions
+                  class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
+                >
+                  <ListboxOption
+                    v-for="(st, id) in visibleStations"
+                    :key="id"
+                    v-slot="{ active, selected }"
+                    :value="st?.properties"
+                    as="template"
+                  >
+                    <li
+                      :class="[
+                        active ? 'bg-skin-listbox-active text-skin-listbox-active' : 'text-skin-inverted',
+                        'relative cursor-default select-none py-1 pl-2 sm:pl-8 pr-2',
+                      ]"
+                    >
+                      <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
+                        st?.properties?.name
+                      }}</span>
+                      <span
+                        v-if="selected"
+                        class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-skin-listbox-active"
+                      >
+                        <i v-show="selected" class="fas fa-check" aria-hidden="true" />
+                      </span>
+                    </li>
+                  </ListboxOption>
+                </ListboxOptions>
+              </transition>
+            </div>
+          </Listbox>
+        </div>
       </div>
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
@@ -76,7 +115,7 @@
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const activeStationId = ref(1)
+  const activeStation = ref()
   const stationStore = useStationStore()
 
   const { accessToken, activeVariable } = toRefs(props)
@@ -150,19 +189,21 @@
         ) ?? []
       const i = d.indexOf(Math.min(...d))
       const newId = stationData.value?.features?.[i].properties?.id ?? 1
-      activeStationId.value = newId
       handleStationIdChange(newId)
     } else {
-      activeStationId.value = 1
       handleStationIdChange(1)
     }
   }
 
   const handleStationIdChange = (newId: number) => {
     const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)?.properties
-    activeStationId.value = newId
-    stationStore.update(newActiveStation)
-    showPoint(newActiveStation as Station)
+    activeStation.value = newActiveStation
+    handleStationChange()
+  }
+
+  const handleStationChange = () => {
+    stationStore.update(activeStation.value)
+    showPoint(activeStation.value as Station)
   }
 
   const handleMapScopeChange = () => {
