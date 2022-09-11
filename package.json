@@ -4,7 +4,8 @@
   "description": "MO Panahon Website",
   "scripts": {
     "dev": "APP_ENV=development vite",
-    "build": "APP_ENV=production vue-tsc --noEmit && vite build"
+    "build": "APP_ENV=production vue-tsc --noEmit && vite build",
+    "test": "vitest"
   },
   "author": "Emilio Gozo",
   "license": "ISC",
@@ -15,11 +16,13 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
+    "@vue/test-utils": "^2.0.2",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^9.0.1",
+    "jsdom": "^20.0.0",
     "postcss": "^8.4.16",
     "prettier": "^2.6.2",
     "sass": "^1.52.1",
@@ -31,6 +34,7 @@
     "vite": "^3.0.9",
     "vite-plugin-pages": "^0.25.0",
     "vite-plugin-pwa": "^0.12.3",
+    "vitest": "^0.23.2",
     "vue-eslint-parser": "^9.0.3",
     "vue-tsc": "^0.39.5"
   },

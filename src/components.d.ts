@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     LonginfoTemp: typeof import('./components/longinfo/Temp.vue')['default']
     LonginfoWind: typeof import('./components/longinfo/Wind.vue')['default']
     MapBox: typeof import('./components/MapBox.vue')['default']
+    MapStationSelector: typeof import('./components/MapStationSelector.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
     Popup: typeof import('./components/Popup.vue')['default']
     PulsatingDot: typeof import('./components/PulsatingDot.vue')['default']

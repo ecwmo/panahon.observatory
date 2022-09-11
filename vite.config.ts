@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -65,7 +67,7 @@ export default defineConfig({
       },
     }),
     AutoImport({
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', 'vue-router', 'vitest'],
       dts: 'src/auto-imports.d.ts',
       dirs: ['src/composables', 'src/store'],
       vueTemplate: true,
@@ -77,5 +79,10 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
       vue: 'vue/dist/vue.esm-bundler.js',
     },
+  },
+  test: {
+    include: ['src/tests/**/*.test.ts'],
+    globals: true,
+    environment: 'jsdom',
   },
 })
