@@ -1,47 +1,30 @@
+import { Ref } from 'vue'
 import axios from 'axios'
-import { getMinutes, getSeconds, getMilliseconds } from 'date-fns'
 import { useQuery } from 'vue-query'
 
-import { Station, StationData } from '@/types/station'
+import { Station } from '@/types/station'
 
 export default () => {
   const { formatDate } = useDate()
 
-  const fetchData = async (timestamp: string) => {
-    const { data } = await axios.get(`/api/stations.php?ts=${timestamp}`)
-    return <StationData>data
+  const fetchData = async (timestamp: Ref<string> | string) => {
+    const { data } = await axios.get(`/api/stations.php?ts=${unref(timestamp)}`)
+    return data
   }
 
-  const stationDataTimestamp = computed(() => formatDate('yyyyMMddHH'))
+  const fetchConfData = async () => {
+    const { data } = await axios.get('/api/stations.php?weather_conf')
+    return data
+  }
 
-  const stationDataStaleTime = computed(() => {
-    const curDate = new Date()
-    const hourInMs = 60 * 60 * 1000
-    const numMs = (getMinutes(curDate) * 60 + getSeconds(curDate)) * 1000 + getMilliseconds(curDate)
-    return hourInMs - numMs
+  const stationDataTimestamp = computed(() => formatDate('yyyyMMddHH', new Date()))
+
+  const stationDataQuery = useQuery(['stationData', stationDataTimestamp], () => fetchData(stationDataTimestamp))
+
+  const { data: weatherConf } = useQuery('weatherConf', fetchConfData, {
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   })
-
-  const stationDataQuery = useQuery(
-    ['stationData', stationDataTimestamp],
-    () => {
-      return fetchData(stationDataTimestamp.value)
-    },
-    {
-      staleTime: stationDataStaleTime,
-    }
-  )
-
-  const { data: weatherConf } = useQuery(
-    'weatherConf',
-    async () => {
-      const { data } = await axios.get('/api/stations.php?weather_conf')
-      return data
-    },
-    {
-      staleTime: Infinity,
-      refetchOnWindowFocus: false,
-    }
-  )
 
   const metValueString = (stnObs: Station['obs'], varName: string) => {
     let fracDigits = 1

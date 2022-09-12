@@ -87,7 +87,7 @@
       const { lng: minLon, lat: minLat } = mapBounds.getSouthWest()
       const { lng: maxLon, lat: maxLat } = mapBounds.getNorthEast()
 
-      return stationData?.value?.features
+      return (stationData?.value as StationData)?.features
         ?.map(({ properties }) => properties)
         ?.filter(({ lon, lat }) => {
           const validLon = lon >= minLon && lon <= maxLon
@@ -142,7 +142,7 @@
     if (stationDataIsReady.value && positionIsReady.value) {
       const { latitude: userLat, longitude: userLng } = userPosition.value
       const d =
-        stationData.value?.features?.map(
+        (stationData.value as StationData)?.features?.map(
           ({ geometry: { coordinates } }) =>
             Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
         ) ?? []
@@ -155,7 +155,9 @@
   }
 
   const handleStationIdChange = (newId: number) => {
-    const newActiveStation = stationData?.value?.features?.find(({ properties: { id } }) => id === newId)?.properties
+    const newActiveStation = (stationData?.value as StationData)?.features?.find(
+      ({ properties: { id } }) => id === newId
+    )?.properties
     activeStation.value = newActiveStation
     handleStationChange()
   }
