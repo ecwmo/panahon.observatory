@@ -12,6 +12,7 @@
       </div>
       <InfoPanel v-model="activeVariable" />
     </div>
+    <ReloadPrompt />
   </div>
 </template>
 

@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     Popup: typeof import('./components/Popup.vue')['default']
     PulsatingDot: typeof import('./components/PulsatingDot.vue')['default']
     Range: typeof import('./components/Range.vue')['default']
+    ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     RowGroupBtns: typeof import('./components/RowGroupBtns.vue')['default']
