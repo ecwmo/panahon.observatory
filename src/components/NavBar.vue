@@ -17,7 +17,7 @@
           </svg>
         </button>
       </div>
-      <div :class="open ? 'relative w-full z-50' : 'hidden'" class="md:flex">
+      <div :class="open ? 'relative w-full' : 'hidden'" class="md:flex">
         <div
           class="flex flex-col flex-grow items-center md:flex-row md:justify-end"
           :class="open ? 'absolute right-0 bg-white shadow-lg' : ''"
