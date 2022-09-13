@@ -10,34 +10,25 @@
       @input="handleChange"
     />
     <svg
-      class="w-full px-2 overflow-visible fill-current text-skin-base"
+      class="w-full overflow-visible fill-current text-skin-base"
       role="presentation"
-      height="5"
+      height="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect
         v-for="(d, i) in data"
         :key="d"
-        class="hidden md:block"
         :x="`${(100 * i) / (data.length - 1)}%`"
-        y="3"
+        y="1"
         width="0.5"
         height="5"
       ></rect>
-    </svg>
-    <svg
-      class="w-full px-2 overflow-visible md:mt-1 fill-current text-skin-base"
-      role="presentation"
-      height="10"
-      xmlns="http://www.w3.org/2000/svg"
-    >
       <text
         v-for="(d, i) in data"
         :key="d"
         class="text-xs font-semibold"
-        :class="{ 'hidden md:block': i > 0 && i < data.length - 1 }"
         :x="`${(100 * i) / (data.length - 1)}%`"
-        y="10"
+        y="18"
         text-anchor="middle"
       >
         {{ d }}
