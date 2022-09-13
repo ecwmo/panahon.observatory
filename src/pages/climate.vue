@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col-reverse md:flex-row py-4 justify-center">
+  <div class="flex flex-col-reverse md:flex-row py-2 md:py-4 justify-center">
     <div class="flex flex-col">
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
@@ -19,12 +19,12 @@
         >
       </div>
     </div>
-    <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
-      <h2 class="text-center font-semibold text-2xl md:text-4xl">Climate Anomaly</h2>
-      <div class="flex flex-col w-1/2">
-        <Range v-model.number="activeDecade" :data="decades.map((d) => d[0])" class="w-full mb-2" />
+    <div class="flex flex-col items-center gap-2 w-full">
+      <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
+      <Range v-model.number="activeDecade" :data="decades.map((d) => d[0])" class="max-w-lg scale-90 md:scale-100" />
+      <div class="max-w-lg">
+        <img class="shadow-md rounded-2xl" :src="imgSrc" />
       </div>
-      <img class="shadow-md rounded-2xl" :src="imgSrc" />
     </div>
   </div>
 </template>

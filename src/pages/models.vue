@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col-reverse md:flex-row py-4 justify-center w-full">
+  <div class="flex flex-col-reverse md:flex-row py-2 md:py-4 justify-center w-full">
     <div class="flex flex-col">
       <!-- Forecast Length -->
       <div v-show="showFcstTime" class="flex flex-col items-center space-y-2 px-6">
@@ -19,9 +19,9 @@
         >
       </div>
     </div>
-    <div class="flex flex-col items-center space-y-2 w-full md:mx-20">
-      <h2 class="text-center font-semibold text-2xl md:text-4xl">{{ headerName }}</h2>
-      <SwitchGroup v-show="varNameX">
+    <div class="flex flex-col items-center gap-2 w-full">
+      <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
+      <SwitchGroup v-show="varNameX" class="scale-75 md:scale-100">
         <div class="flex items-center gap-1.5">
           <Switch
             v-model="extremeToggle"
@@ -36,7 +36,9 @@
           <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
         </div>
       </SwitchGroup>
-      <img class="shadow-md rounded-2xl" :src="imgSrc" />
+      <div :class="[activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
+        <img class="shadow-md rounded-2xl" :src="imgSrc" />
+      </div>
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
