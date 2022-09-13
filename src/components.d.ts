@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     Card: typeof import('./components/Card.vue')['default']
     Colorbar: typeof import('./components/Colorbar.vue')['default']
     FakeCard: typeof import('./components/FakeCard.vue')['default']
+    Footer: typeof import('./components/Footer.vue')['default']
     InfoPanel: typeof import('./components/InfoPanel.vue')['default']
     InfoPres: typeof import('./components/info/Pres.vue')['default']
     InfoRain: typeof import('./components/info/Rain.vue')['default']

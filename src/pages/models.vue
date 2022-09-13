@@ -48,12 +48,6 @@
       >
         <component :is="captionX"></component>
       </div>
-      <div
-        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-      >
-        <span class="font-bold">DISCLAIMER</span>: This website contains experimental forecasts for research purposes.
-        For official updates and warnings, please refer to PAGASA and other government agencies.
-      </div>
     </div>
   </div>
 </template>

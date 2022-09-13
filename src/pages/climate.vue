@@ -25,12 +25,6 @@
         <Range v-model.number="activeDecade" :data="decades.map((d) => d[0])" class="w-full mb-2" />
       </div>
       <img class="shadow-md rounded-2xl" :src="imgSrc" />
-      <div
-        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-      >
-        <span class="font-bold">DISCLAIMER</span>: This website contains experimental forecasts for research purposes.
-        For official updates and warnings, please refer to PAGASA and other government agencies.
-      </div>
     </div>
   </div>
 </template>
