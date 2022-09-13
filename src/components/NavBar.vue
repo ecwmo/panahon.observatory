@@ -26,14 +26,14 @@
             v-for="tab in tabs"
             :key="tab.label"
             :to="tab.to"
-            class="p-2 font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
+            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
             @click="open = false"
             >{{ tab.label }}</router-link
           >
           <a
             v-if="auth.isLoggedIn"
             href="#"
-            class="p-2 font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
+            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
             @click.prevent="handleLogout"
             >Logout</a
           >
