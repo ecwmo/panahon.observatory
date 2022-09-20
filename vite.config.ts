@@ -68,7 +68,7 @@ export default defineConfig({
       },
     }),
     AutoImport({
-      imports: ['vue', 'vue-router', 'vitest'],
+      imports: ['vue', 'vue-router', 'vitest', { '@vueuse/core': ['useSwipe'] }],
       dts: 'src/auto-imports.d.ts',
       dirs: ['src/composables', 'src/store'],
       vueTemplate: true,

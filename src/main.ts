@@ -17,7 +17,10 @@ import {
   faWind,
   faCloudUploadAlt,
   faXmark,
+  faChevronUp,
   faChevronDown,
+  faChevronLeft,
+  faChevronRight,
   faCheck,
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +36,10 @@ library.add(
   faWind,
   faCloudUploadAlt,
   faXmark,
+  faChevronUp,
   faChevronDown,
+  faChevronLeft,
+  faChevronRight,
   faCheck,
   faTriangleExclamation
 )

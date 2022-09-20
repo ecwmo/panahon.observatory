@@ -46,31 +46,23 @@
     </div>
   </div>
 
-  <Teleport to="body">
-    <Transition name="modal">
-      <div
-        v-if="imgPopUp"
-        class="flex fixed w-full h-screen top-0 left-0 bg-black bg-opacity-50 z-50"
-        @click="imgPopUp = false"
-      >
-        <div class="absolute top-2 right-2 cursor-pointer" @click="imgPopUp = false">
-          <i class="fa-solid fa-xmark text-white text-3xl"></i>
-        </div>
-        <div class="flex relative h-screen m-auto py-5">
-          <img
-            v-if="activeImgType === 'fcst'"
-            class="object-cover rounded-2xl drop-shadow-xl"
-            :src="getFcstImg(activeMetField.val, activeFcstTime.text)"
-          />
-          <img
-            v-else
-            class="object-cover rounded-2xl drop-shadow-xl"
-            :src="getObsImg(activeObsType.val, activeObsTime.text)"
-          />
-        </div>
-      </div>
-    </Transition>
-  </Teleport>
+  <ImageModal
+    :open="imgPopUp"
+    @close="imgPopUp = false"
+    @up="handleUpBtnClick"
+    @right="handleNextBtnClick"
+    @down="handleDownBtnClick"
+    @left="handlePrevBtnClick"
+  >
+    <img
+      class="object-contain rounded-2xl drop-shadow-xl"
+      :src="
+        activeImgType === 'fcst'
+          ? getFcstImg(activeMetField.val, activeFcstTime.text)
+          : getObsImg(activeObsType.val, activeObsTime.text)
+      "
+    />
+  </ImageModal>
 </template>
 
 <script setup lang="ts">
@@ -164,23 +156,55 @@
     imgPopUp.value = true
   }
 
+  const handleUpBtnClick = () => {
+    if (activeImgType.value === 'fcst') {
+      const idx = metFields.findIndex((f) => f.val === activeMetField.value.val)
+      const newIdx = idx === 0 ? metFields.length - 1 : idx - 1
+      activeMetField.value = metFields[newIdx]
+    } else {
+      const idx = obsTypes.findIndex((f) => f.val === activeObsType.value.val)
+      const newIdx = idx === 0 ? obsTypes.length - 1 : idx - 1
+      activeObsType.value = obsTypes[newIdx]
+    }
+  }
+
+  const handleDownBtnClick = () => {
+    if (activeImgType.value === 'fcst') {
+      const idx = metFields.findIndex((f) => f.val === activeMetField.value.val)
+      const newIdx = idx === metFields.length - 1 ? 0 : idx + 1
+      activeMetField.value = metFields[newIdx]
+    } else {
+      const idx = obsTypes.findIndex((f) => f.val === activeObsType.value.val)
+      const newIdx = idx === obsTypes.length - 1 ? 0 : idx + 1
+      activeObsType.value = obsTypes[newIdx]
+    }
+  }
+
+  const handlePrevBtnClick = () => {
+    if (activeImgType.value === 'fcst') {
+      const idx = fcstTimes.findIndex((f) => f.val === activeFcstTime.value.val)
+      const newIdx = idx === 0 ? fcstTimes.length - 1 : idx - 1
+      activeFcstTime.value = fcstTimes[newIdx]
+    } else {
+      const idx = obsTimes.findIndex((f) => f.val === activeObsTime.value.val)
+      const newIdx = idx === 0 ? obsTimes.length - 1 : idx - 1
+      activeObsTime.value = obsTimes[newIdx]
+    }
+  }
+
+  const handleNextBtnClick = () => {
+    if (activeImgType.value === 'fcst') {
+      const idx = fcstTimes.findIndex((f) => f.val === activeFcstTime.value.val)
+      const newIdx = idx === fcstTimes.length - 1 ? 0 : idx + 1
+      activeFcstTime.value = fcstTimes[newIdx]
+    } else {
+      const idx = obsTimes.findIndex((f) => f.val === activeObsTime.value.val)
+      const newIdx = idx === obsTimes.length - 1 ? 0 : idx + 1
+      activeObsTime.value = obsTimes[newIdx]
+    }
+  }
+
   onMounted(async () => {
     imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
   })
 </script>
-
-<style>
-  .modal-enter-from {
-    opacity: 0;
-  }
-
-  .modal-leave-to {
-    opacity: 0;
-  }
-
-  .modal-enter-from .modal-container,
-  .modal-leave-to .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-</style>

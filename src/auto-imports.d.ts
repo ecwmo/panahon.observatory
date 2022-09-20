@@ -65,6 +65,7 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
   const useStationStore: typeof import('./store/station')['useStationStore']
+  const useSwipe: typeof import('@vueuse/core')['useSwipe']
   const useWeather: typeof import('./composables/useWeather')['default']
   const vi: typeof import('vitest')['vi']
   const vitest: typeof import('vitest')['vitest']
@@ -141,6 +142,7 @@ declare module '@vue/runtime-core' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useStationStore: UnwrapRef<typeof import('./store/station')['useStationStore']>
+    readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
     readonly useWeather: UnwrapRef<typeof import('./composables/useWeather')['default']>
     readonly vi: UnwrapRef<typeof import('vitest')['vi']>
     readonly vitest: UnwrapRef<typeof import('vitest')['vitest']>
