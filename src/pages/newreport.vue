@@ -80,8 +80,6 @@
 </template>
 
 <script setup lang="ts">
-  import axios from 'axios'
-
   interface Report {
     repcode: string
     reportnum?: number | string

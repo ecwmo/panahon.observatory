@@ -1,5 +1,4 @@
 import { Ref } from 'vue'
-import axios from 'axios'
 import { useQuery } from 'vue-query'
 
 import { Station } from '@/types/station'

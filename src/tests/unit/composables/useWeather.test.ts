@@ -1,6 +1,5 @@
 import { mount, flushPromises } from '@vue/test-utils'
 import { VueQueryPlugin } from 'vue-query'
-import axios from 'axios'
 import { format } from 'date-fns'
 
 vi.mock('axios', () => ({

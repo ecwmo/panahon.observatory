@@ -23,8 +23,6 @@
 </template>
 
 <script setup lang="ts">
-  import axios from 'axios'
-
   interface Image {
     imgSrc: string
     show: boolean

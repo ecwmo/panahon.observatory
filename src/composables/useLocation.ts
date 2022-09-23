@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useQuery } from 'vue-query'
 
 export default () => {

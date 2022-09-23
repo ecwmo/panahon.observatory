@@ -66,8 +66,6 @@
 </template>
 
 <script setup lang="ts">
-  import axios from 'axios'
-
   const jtwcImg = 'https://www.metoc.navy.mil/jtwc/products/abpwsair.jpg'
   const pagasaTCThreatImg = 'https://pubfiles.pagasa.dost.gov.ph/climps/tcthreat/TC_Threat_and_S2S_Forecast.png'
 

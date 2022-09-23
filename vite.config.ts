@@ -1,7 +1,8 @@
-/// <reference types="vitest" />
+// /// <reference types="vitest" />
+// import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import Pages from 'vite-plugin-pages'
@@ -9,7 +10,6 @@ import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.APP_ENV === 'development' ? '/' : '/dist/',
   build: {
@@ -68,7 +68,15 @@ export default defineConfig({
       },
     }),
     AutoImport({
-      imports: ['vue', 'vue-router', 'vitest', { '@vueuse/core': ['useSwipe'] }],
+      imports: [
+        'vue',
+        'vue-router',
+        'vitest',
+        {
+          '@vueuse/core': ['useSwipe'],
+          axios: [['default', 'axios']],
+        },
+      ],
       dts: 'src/auto-imports.d.ts',
       dirs: ['src/composables', 'src/store'],
       vueTemplate: true,
