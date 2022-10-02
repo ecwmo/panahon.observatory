@@ -74,6 +74,7 @@ export default defineConfig({
         'vitest',
         {
           '@vueuse/core': ['useSwipe'],
+          'vue-query': ['useQuery'],
           axios: [['default', 'axios']],
         },
       ],

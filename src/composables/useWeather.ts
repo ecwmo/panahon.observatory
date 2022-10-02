@@ -1,5 +1,4 @@
 import { Ref } from 'vue'
-import { useQuery } from 'vue-query'
 
 import { Station } from '@/types/station'
 

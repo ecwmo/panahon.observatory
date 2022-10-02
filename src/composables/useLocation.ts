@@ -1,5 +1,3 @@
-import { useQuery } from 'vue-query'
-
 export default () => {
   const fetchLocation = async () => {
     try {

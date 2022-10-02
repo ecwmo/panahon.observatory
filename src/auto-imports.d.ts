@@ -62,6 +62,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useDate: typeof import('./composables/useDate')['default']
   const useLocation: typeof import('./composables/useLocation')['default']
+  const useQuery: typeof import('vue-query')['useQuery']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -140,6 +141,7 @@ declare module '@vue/runtime-core' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDate: UnwrapRef<typeof import('./composables/useDate')['default']>
     readonly useLocation: UnwrapRef<typeof import('./composables/useLocation')['default']>
+    readonly useQuery: UnwrapRef<typeof import('vue-query')['useQuery']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
