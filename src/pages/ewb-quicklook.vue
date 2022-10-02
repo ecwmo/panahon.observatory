@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col justify-between items-center">
     <div class="md:m-6">
-      <img class="border border-black shadow-md rounded-2xl" :src="jtwcImg" />
+      <img class="border border-black shadow-md rounded-2xl" :src="ewbImgs?.jtwc" />
     </div>
     <div class="md:m-6">
-      <img class="border border-black shadow-md rounded-2xl" :src="pagasaTCThreatImg" />
+      <img class="border border-black shadow-md rounded-2xl" :src="ewbImgs?.pagasa" />
     </div>
 
     <div class="md:m-6">
@@ -16,10 +16,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(mf, imf) in metFields" :key="mf.val">
-            <th class="[writing-mode:vertical-rl] rotate-180">{{ mf.text }}</th>
-            <td v-for="(ft, ift) in fcstTimes" :key="ft.text" @click="handleThumbnailClick(imf, ift, 'fcst')">
-              <img class="border cursor-pointer hover:border-black" :src="getFcstImg(mf.val, ft.text)" />
+          <tr v-for="(fvar, gIdx) in fcstVars" :key="fvar.id">
+            <th class="[writing-mode:vertical-rl] rotate-180">{{ fvar.text }}</th>
+            <td
+              v-for="(imgSrc, imgIdx) in ewbImgs?.fcst?.[fvar.id]"
+              :key="imgSrc"
+              @click="handleThumbnailClick(imgIdx, gIdx, 'fcst')"
+            >
+              <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
             </td>
           </tr>
         </tbody>
@@ -35,10 +39,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(obs, iobs) in obsTypes" :key="obs.val">
+          <tr v-for="(obs, gIdx) in obsTypes" :key="obs.id">
             <th class="[writing-mode:vertical-rl] rotate-180">{{ obs.text }}</th>
-            <td v-for="(ot, iot) in obsTimes" :key="ot.text" @click="handleThumbnailClick(iobs, iot, 'obs')">
-              <img class="border cursor-pointer hover:border-black" :src="getObsImg(obs.val, ot.text)" />
+            <td
+              v-for="(imgSrc, imgIdx) in ewbImgs?.obs?.[obs.id]"
+              :key="imgSrc"
+              @click="handleThumbnailClick(imgIdx, gIdx, 'obs')"
+            >
+              <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
             </td>
           </tr>
         </tbody>
@@ -54,44 +62,35 @@
     @down="handleDownBtnClick"
     @left="handlePrevBtnClick"
   >
-    <img
-      class="object-contain rounded-2xl drop-shadow-xl"
-      :src="
-        activeImgType === 'fcst'
-          ? getFcstImg(activeMetField.val, activeFcstTime.text)
-          : getObsImg(activeObsType.val, activeObsTime.text)
-      "
-    />
+    <img class="object-contain rounded-2xl drop-shadow-xl" :src="activeImg" />
   </ImageModal>
 </template>
 
 <script setup lang="ts">
-  const jtwcImg = 'https://www.metoc.navy.mil/jtwc/products/abpwsair.jpg'
-  const pagasaTCThreatImg = 'https://pubfiles.pagasa.dost.gov.ph/climps/tcthreat/TC_Threat_and_S2S_Forecast.png'
+  import { Images } from '@/schemas/ewb'
+  import type { DynamicImages, ForecastVariables, ObservationTypes } from '@/types/ewb'
 
-  const imgSrcs = ref([])
   const imgPopUp = ref(false)
-  const activeImgType = ref()
-  const activeMetField = ref()
-  const activeFcstTime = ref()
-  const activeObsType = ref()
-  const activeObsTime = ref()
+  const activeImgType = ref('fcst')
+  const activeGroupIdx = ref(0)
+  const activeIdx = ref(0)
 
-  const metFields = [
+  const fcstVars: ForecastVariables = [
     {
-      val: 'rain',
+      id: 'rain',
       text: 'Daily Rainfall',
     },
     {
-      val: 'rainx',
+      id: 'rainx',
       text: 'Extreme Daily Rainfall',
     },
-    { val: 'wind', text: 'Winds' },
+    { id: 'wind', text: 'Winds' },
     {
-      val: 'hix',
+      id: 'hix',
       text: 'Max Heat Index',
     },
   ]
+
   const fcstTimes = [
     { val: 24, text: '24hr' },
     { val: 48, text: '48hr' },
@@ -100,13 +99,13 @@
     { val: 120, text: '120hr' },
   ]
 
-  const obsTypes = [
+  const obsTypes: ObservationTypes = [
     {
-      val: 'gsmap',
+      id: 'gsmap',
       text: 'GSMap',
     },
     {
-      val: 'station',
+      id: 'station',
       text: 'Stations',
     },
   ]
@@ -119,90 +118,41 @@
     { val: 30, text: '30day' },
   ]
 
-  const randomStr = (length = 8) => {
-    // Declare all characters
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const { data: ewbImgs } = useQuery(
+    ['ewbImgs'],
+    async () => await axios('api/ewb.php').then(({ data }) => Images.parse(data))
+  )
 
-    // Pick characers randomly
-    let str = ''
-    for (let i = 0; i < length; i++) {
-      str += chars.charAt(Math.floor(Math.random() * chars.length))
-    }
-    return str
-  }
+  const activeVars = computed(() => (activeImgType.value === 'fcst' ? fcstVars : obsTypes))
 
-  const getFcstImg = (mf: string, fcst: string): string | undefined => {
-    const pattern = `${fcst}_${mf}_`
-    return imgSrcs.value.find((f: string) => f.includes(pattern))
-  }
+  const activeImgs = computed(() => {
+    const imgs = ewbImgs.value?.[activeImgType.value as keyof DynamicImages]
+    const activeVar = activeVars.value[activeGroupIdx.value].id
+    return (imgs as { [key: string]: string[] })?.[activeVar]
+  })
 
-  const getObsImg = (obsName: string, obsTime: string) => {
-    const imgDir = 'resources/model/img/ewb'
-    const imgName = `${obsName}_${obsTime}_totalprecip_latest.png`
-    return `${imgDir}/${imgName}?rand=${randomStr()}`
-  }
+  const activeImg = computed(() => activeImgs.value[activeIdx.value])
 
-  const handleThumbnailClick = (idx: number, idx2: number, imgType: string) => {
+  const handleThumbnailClick = (imgIdx: number, grpIdx: number, imgType: string) => {
     activeImgType.value = imgType
-    if (imgType === 'fcst') {
-      activeMetField.value = metFields[idx]
-      activeFcstTime.value = fcstTimes[idx2]
-    }
-
-    activeObsType.value = obsTypes[idx]
-    activeObsTime.value = obsTimes[idx2]
+    activeIdx.value = imgIdx
+    activeGroupIdx.value = grpIdx
     imgPopUp.value = true
   }
 
   const handleUpBtnClick = () => {
-    if (activeImgType.value === 'fcst') {
-      const idx = metFields.findIndex((f) => f.val === activeMetField.value.val)
-      const newIdx = idx === 0 ? metFields.length - 1 : idx - 1
-      activeMetField.value = metFields[newIdx]
-    } else {
-      const idx = obsTypes.findIndex((f) => f.val === activeObsType.value.val)
-      const newIdx = idx === 0 ? obsTypes.length - 1 : idx - 1
-      activeObsType.value = obsTypes[newIdx]
-    }
+    activeGroupIdx.value = activeGroupIdx.value === 0 ? activeVars.value.length - 1 : activeGroupIdx.value - 1
   }
 
   const handleDownBtnClick = () => {
-    if (activeImgType.value === 'fcst') {
-      const idx = metFields.findIndex((f) => f.val === activeMetField.value.val)
-      const newIdx = idx === metFields.length - 1 ? 0 : idx + 1
-      activeMetField.value = metFields[newIdx]
-    } else {
-      const idx = obsTypes.findIndex((f) => f.val === activeObsType.value.val)
-      const newIdx = idx === obsTypes.length - 1 ? 0 : idx + 1
-      activeObsType.value = obsTypes[newIdx]
-    }
+    activeGroupIdx.value = activeGroupIdx.value === activeVars.value.length - 1 ? 0 : activeGroupIdx.value + 1
   }
 
   const handlePrevBtnClick = () => {
-    if (activeImgType.value === 'fcst') {
-      const idx = fcstTimes.findIndex((f) => f.val === activeFcstTime.value.val)
-      const newIdx = idx === 0 ? fcstTimes.length - 1 : idx - 1
-      activeFcstTime.value = fcstTimes[newIdx]
-    } else {
-      const idx = obsTimes.findIndex((f) => f.val === activeObsTime.value.val)
-      const newIdx = idx === 0 ? obsTimes.length - 1 : idx - 1
-      activeObsTime.value = obsTimes[newIdx]
-    }
+    activeIdx.value = activeIdx.value === 0 ? activeImgs.value.length - 1 : activeIdx.value - 1
   }
 
   const handleNextBtnClick = () => {
-    if (activeImgType.value === 'fcst') {
-      const idx = fcstTimes.findIndex((f) => f.val === activeFcstTime.value.val)
-      const newIdx = idx === fcstTimes.length - 1 ? 0 : idx + 1
-      activeFcstTime.value = fcstTimes[newIdx]
-    } else {
-      const idx = obsTimes.findIndex((f) => f.val === activeObsTime.value.val)
-      const newIdx = idx === obsTimes.length - 1 ? 0 : idx + 1
-      activeObsTime.value = obsTimes[newIdx]
-    }
+    activeIdx.value = activeIdx.value === activeImgs.value.length - 1 ? 0 : activeIdx.value + 1
   }
-
-  onMounted(async () => {
-    imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
-  })
 </script>
