@@ -10,7 +10,7 @@
       >
         <component
           :is="c.info"
-          :data="metValueStrings"
+          :data="stationStore.metValueStrings"
           :station-name="stationStore.stationName"
           :date-string="stationStore.dateString('h bbb')"
         />
@@ -31,19 +31,7 @@
   defineProps<{ modelValue: string }>()
   defineEmits(['update:modelValue'])
 
-  const { metValueString } = useWeather()
   const stationStore = useStationStore()
-
-  const metValueStrings = computed(() => {
-    const ret: { [k: string]: string } = {}
-    const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
-
-    metVars.forEach((v) => {
-      ret[v] = metValueString(stationStore.station?.obs, v)
-    })
-
-    return ret
-  })
 
   const fakeCards = [
     {
@@ -65,32 +53,32 @@
   ]
 
   const cards = computed(() => {
-    const windDirStr = metValueStrings.value['wdirStr']
+    const windDirStr = stationStore.metValueStrings['wdirStr']
     const winDirIcon = windDirStr ? `wi-from-${windDirStr.toLowerCase()}` : ''
     return [
       {
         id: 'rain',
         title: 'RAIN (mm)',
         label1: 'Now',
-        value1: metValueStrings.value['rr'],
+        value1: stationStore.metValueStrings['rr'],
         label2: '24hr total',
-        value2: metValueStrings.value['rain24h'],
+        value2: stationStore.metValueStrings['rain24h'],
         iconClass: 'fas fa-cloud-rain',
         info: LonginfoRain,
       },
       {
         id: 'temp',
         title: 'TEMPERATURE (°C)',
-        value1: metValueStrings.value['temp'],
+        value1: stationStore.metValueStrings['temp'],
         label2: 'HI',
-        value2: metValueStrings.value['hi'],
+        value2: stationStore.metValueStrings['hi'],
         iconClass: 'fas fa-thermometer-half',
         info: LonginfoTemp,
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
-        value1: metValueStrings.value['wspd'],
+        value1: stationStore.metValueStrings['wspd'],
         value2: windDirStr,
         iconClass: 'fas fa-wind',
         iconClass2: `wi wi-wind ${winDirIcon}`,
@@ -99,7 +87,7 @@
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
-        value1: metValueStrings.value['pres'],
+        value1: stationStore.metValueStrings['pres'],
         iconClass: 'wi wi-barometer',
         info: LonginfoPres,
       },

@@ -48,18 +48,18 @@
 </template>
 
 <script setup lang="ts">
-  import { Station } from '@/types/station'
+  import type { StationProperties } from '@/types/station'
 
   defineProps<{
-    modelValue?: Station
-    stations?: Station[]
+    modelValue?: StationProperties
+    stations?: StationProperties[]
   }>()
 
   const emit = defineEmits(['update:modelValue'])
 
   const selectedStation = ref()
 
-  const handleChange = (newStation: Station) => {
+  const handleChange = (newStation: StationProperties) => {
     emit('update:modelValue', newStation)
   }
 </script>

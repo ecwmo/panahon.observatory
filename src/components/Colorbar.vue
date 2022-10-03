@@ -23,10 +23,10 @@
 
   const { name } = toRefs(props)
 
-  const { weatherConf, getSwatch } = useWeather()
+  const stationStore = useStationStore()
 
-  const varTitle = computed(() => weatherConf.value?.[name.value]?.desc ?? '')
-  const varUnits = computed(() => weatherConf.value?.[name.value]?.units ?? '')
+  const varTitle = computed(() => stationStore.stationConf?.[name.value]?.desc ?? '')
+  const varUnits = computed(() => stationStore.stationConf?.[name.value]?.units ?? '')
 
-  const palette = computed(() => getSwatch(name.value))
+  const palette = computed(() => stationStore.getSwatch(name.value))
 </script>

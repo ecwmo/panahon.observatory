@@ -3,10 +3,10 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
-    <div v-if="stationDataIsReady">
+    <div v-if="stationStore.data">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
-          <component :is="activeInfo" :data="metValueStrings" class="text-xs text-center" />
+          <component :is="activeInfo" :data="stationStore.metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -29,7 +29,7 @@
           </div>
         </SwitchGroup>
         <MapStationSelector
-          v-model="activeStation"
+          :model-value="stationStore.activeStation"
           :stations="visibleStations"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
@@ -38,6 +38,7 @@
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
+        s
         {{ stationStore.dateString('d MMM yyyy, h bbb') }}
       </div>
 
@@ -55,7 +56,7 @@
 <script setup lang="ts">
   import { Map } from 'mapbox-gl'
 
-  import { Station, StationData } from '@/types/station'
+  import type { Station, StationProperties } from '@/types/station'
 
   const InfoRain = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
   const InfoTemp = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
@@ -73,13 +74,11 @@
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const activeStation = ref()
   const stationStore = useStationStore()
 
   const { accessToken, activeVariable } = toRefs(props)
 
-  const { data: stationData, isSuccess: stationDataIsReady, metValueString } = useWeather()
-  const { data: userPosition, isSuccess: positionIsReady } = useLocation()
+  const { data: userPosition } = useLocation()
 
   const visibleStations = computed(() => {
     try {
@@ -87,7 +86,7 @@
       const { lng: minLon, lat: minLat } = mapBounds.getSouthWest()
       const { lng: maxLon, lat: maxLat } = mapBounds.getNorthEast()
 
-      return (stationData?.value as StationData)?.features
+      return stationStore.data?.features
         ?.map(({ properties }) => properties)
         ?.filter(({ lon, lat }) => {
           const validLon = lon >= minLon && lon <= maxLon
@@ -111,20 +110,9 @@
     }
   })
 
-  const metValueStrings = computed(() => {
-    const ret: { [k: string]: string } = {}
-    const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
-
-    metVars.forEach((v) => {
-      ret[v] = metValueString(stationStore.station?.obs, v)
-    })
-
-    return ret
-  })
-
-  const showPoint = (st: Station) => {
+  const showPoint = () => {
     try {
-      const { lat, lon } = st
+      const { lat, lon } = stationStore.activeStation
       const xy = map.value?.project([lon, lat])
       const show = true
       const showPopup = true
@@ -139,32 +127,25 @@
   }
 
   const getClosestPoint = () => {
-    if (stationDataIsReady.value && positionIsReady.value) {
-      const { latitude: userLat, longitude: userLng } = userPosition.value
-      const d =
-        (stationData.value as StationData)?.features?.map(
-          ({ geometry: { coordinates } }) =>
-            Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
-        ) ?? []
-      const i = d.indexOf(Math.min(...d))
-      const newId = stationData.value?.features?.[i].properties?.id ?? 1
-      handleStationIdChange(newId)
-    } else {
-      handleStationIdChange(1)
+    const { latitude: userLat, longitude: userLng } = userPosition.value
+    const d =
+      stationStore.data?.features?.map(
+        ({ geometry: { coordinates } }) => Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
+      ) ?? []
+    const i = d.indexOf(Math.min(...d))
+    const newId = stationStore.data?.features?.[i].properties?.id ?? 1
+    handleStationChange(newId)
+  }
+
+  const handleStationChange = (st: number | StationProperties) => {
+    let newActiveStation = st
+    if (typeof st === 'number') {
+      newActiveStation =
+        stationStore.data?.features?.find(({ properties: { id } }) => id === st)?.properties ??
+        ({} as StationProperties)
     }
-  }
-
-  const handleStationIdChange = (newId: number) => {
-    const newActiveStation = (stationData?.value as StationData)?.features?.find(
-      ({ properties: { id } }) => id === newId
-    )?.properties
-    activeStation.value = newActiveStation
-    handleStationChange()
-  }
-
-  const handleStationChange = () => {
-    stationStore.update(activeStation.value)
-    showPoint(activeStation.value as Station)
+    stationStore.setActiveStation(newActiveStation as StationProperties)
+    showPoint()
   }
 
   const handleMapScopeChange = () => {
@@ -178,39 +159,37 @@
   }
 
   const loadData = () => {
-    if (stationDataIsReady.value) {
-      const sourceId = 'station'
-      const styleLoadStatus = map.value.isStyleLoaded()
-      if (styleLoadStatus) {
-        let sourceLoaded = false
-        try {
-          sourceLoaded = map.value.getSource(sourceId)
-        } catch {}
-        if (!sourceLoaded) {
-          map.value.addSource(sourceId, {
-            type: 'geojson',
-            data: stationData?.value,
-          })
+    const sourceId = 'station'
+    const styleLoadStatus = map.value.isStyleLoaded()
+    if (styleLoadStatus) {
+      let sourceLoaded = false
+      try {
+        sourceLoaded = map.value.getSource(sourceId)
+      } catch {}
+      if (!sourceLoaded) {
+        map.value.addSource(sourceId, {
+          type: 'geojson',
+          data: stationStore.data,
+        })
 
-          map.value.addLayer({
-            id: 'station-pts',
-            type: 'circle',
-            source: sourceId,
-            paint: {
-              'circle-radius': 5,
-              'circle-stroke-color': '#000000',
-              'circle-stroke-width': 1,
-              'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
-            },
-          })
-          getClosestPoint()
-        }
+        map.value.addLayer({
+          id: 'station-pts',
+          type: 'circle',
+          source: sourceId,
+          paint: {
+            'circle-radius': 5,
+            'circle-stroke-color': '#000000',
+            'circle-stroke-width': 1,
+            'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
+          },
+        })
+        getClosestPoint()
       }
     }
   }
 
   watch([activeVariable], () => {
-    const metVars = Object.keys(stationData?.value?.features[0].properties.colors as object)
+    const metVars = Object.keys(stationStore.data?.features[0].properties.colors ?? {})
 
     if (metVars.indexOf(activeVariable.value) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', [
@@ -220,10 +199,6 @@
     } else {
       map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
     }
-  })
-
-  watch([stationDataIsReady, map], () => {
-    loadData()
   })
 
   onMounted(() => {
@@ -238,12 +213,11 @@
 
     map.value.once('load', () => {
       loadData()
-
-      map.value.on('click', 'station-pts', (e: StationData) => {
+      map.value.on('click', 'station-pts', (e: Station) => {
         const {
           properties: { id },
         } = e.features?.[0]
-        handleStationIdChange(id)
+        handleStationChange(id)
       })
       // Change the cursor to a pointer when the mouse is over the places layer.
       map.value.on('mouseenter', 'station-pts', () => {
@@ -259,7 +233,7 @@
       })
 
       map.value.on('moveend', () => {
-        showPoint(stationStore.station)
+        showPoint()
       })
     })
   })

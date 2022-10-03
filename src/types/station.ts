@@ -1,10 +1,15 @@
-import { Point, FeatureCollection } from 'geojson'
-import { GenericObject, StringObject } from '@/types/common'
+import { z } from 'zod'
 
-export type Station = GenericObject & {
-  id: number
-  obs: GenericObject
-  colors?: StringObject
-}
+import {
+  Station as StationSchema,
+  StationProperties as StationPropsSchema,
+  ObservationVariables as ObsVarSchema,
+} from '@/schemas/station'
 
-export type StationData = FeatureCollection<Point, Station>
+export type Station = z.infer<typeof StationSchema>
+
+export type StationProperties = z.infer<typeof StationPropsSchema>
+
+export type ObservationVariables = z.infer<typeof ObsVarSchema>
+
+export type ObservationVariableEnums = keyof ObservationVariables
