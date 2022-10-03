@@ -46,6 +46,7 @@ declare module '@vue/runtime-core' {
     Switch: typeof import('@headlessui/vue')['Switch']
     SwitchGroup: typeof import('@headlessui/vue')['SwitchGroup']
     SwitchLabel: typeof import('@headlessui/vue')['SwitchLabel']
+    ValidationDateSelector: typeof import('./components/ValidationDateSelector.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
   }
 }

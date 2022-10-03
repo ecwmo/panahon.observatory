@@ -69,6 +69,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useStationStore: typeof import('./store/station')['useStationStore']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
+  const useValidationStore: typeof import('./store/validation')['useValidationStore']
   const vi: typeof import('vitest')['vi']
   const vitest: typeof import('vitest')['vitest']
   const watch: typeof import('vue')['watch']
@@ -148,6 +149,7 @@ declare module '@vue/runtime-core' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useStationStore: UnwrapRef<typeof import('./store/station')['useStationStore']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
+    readonly useValidationStore: UnwrapRef<typeof import('./store/validation')['useValidationStore']>
     readonly vi: UnwrapRef<typeof import('vitest')['vi']>
     readonly vitest: UnwrapRef<typeof import('vitest')['vitest']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
