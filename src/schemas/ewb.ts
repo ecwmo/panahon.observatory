@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const imgSrc = z.string().regex(/\.(jpe?g|png)$/i)
+import { imgSrc } from '@/schemas/common'
 
 const imgSrcArr = imgSrc.array().length(5)
 
