@@ -2,7 +2,7 @@
   <div class="flex flex-col justify-between items-center">
     <ValidationDateSelector v-model="valStore.selectedDate" class="m-2 md:m-6 w-36" />
     <div class="md:m-6">
-      <table class="table-auto">
+      <table class="table-auto text-xs md:text-base">
         <thead>
           <tr>
             <th>Lead time (days)</th>
@@ -11,12 +11,12 @@
         </thead>
         <tbody>
           <tr v-for="(gName, gIdx) in valStore.imageGroups" :key="gIdx">
-            <th class="[writing-mode:vertical-rl] rotate-180">{{ gName.text }}</th>
+            <th class="[writing-mode:vertical-rl] rotate-180 h-min">{{ gName.text }}</th>
             <td
               v-for="(imgSrc, imgIdx) in valStore.data?.[gName.id]"
               :key="`${gIdx}_${imgIdx}`"
               :class="{ 'cursor-pointer': imgSrc }"
-              class="w-48"
+              class="w-1/5"
               @click.prevent="handleThumbnailClick(imgIdx, gIdx)"
             >
               <img v-if="imgSrc" class="border hover:border-black" :src="imgSrc" />
