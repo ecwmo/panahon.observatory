@@ -1,19 +1,21 @@
+import { IP } from '@/schemas/location'
+
 export default () => {
   const fetchLocation = async () => {
     try {
-      const { coords } = await new Promise((resolve: (pos: GeolocationPosition) => void, reject) => {
+      const {
+        coords: { latitude, longitude },
+      } = await new Promise((resolve: (pos: GeolocationPosition) => void, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
       })
-      return coords
+      return { latitude, longitude }
     } catch {
       try {
-        const { data } = await axios.get('https://ipapi.co/json')
-        return data
-      } catch (err) {
-        console.log(err)
+        const { latitude, longitude } = await axios.get('https://ipapi.co/json').then(({ data }) => IP.parse(data))
+        return { latitude, longitude }
+      } catch {
+        return undefined
       }
-      console.log('blocked')
-      return { lat: -1, lng: -1 }
     }
   }
 

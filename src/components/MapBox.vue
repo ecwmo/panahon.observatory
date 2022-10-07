@@ -127,14 +127,17 @@
   }
 
   const getClosestPoint = () => {
-    const { latitude: userLat, longitude: userLng } = userPosition.value
-    const d =
-      stationStore.data?.features?.map(
-        ({ geometry: { coordinates } }) => Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
-      ) ?? []
-    const i = d.indexOf(Math.min(...d))
-    const newId = stationStore.data?.features?.[i].properties?.id ?? 1
-    handleStationChange(newId)
+    if (userPosition.value) {
+      const { latitude: userLat, longitude: userLng } = userPosition.value
+      const d =
+        stationStore.data?.features?.map(
+          ({ geometry: { coordinates } }) =>
+            Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
+        ) ?? []
+      const i = d.indexOf(Math.min(...d))
+      const newId = stationStore.data?.features?.[i].properties?.id ?? 1
+      handleStationChange(newId)
+    }
   }
 
   const handleStationChange = (st: number | StationProperties) => {
