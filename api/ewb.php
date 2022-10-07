@@ -23,7 +23,7 @@ $imgs = array_merge($imgs, ['fcst' => $mod_imgs]);
 $obs_img_dir = '../resources/model/img/ewb';
 $day_array = [1, 3, 5, 7, 30];
 $file_prfxs = ['gsmap', 'station'];
-$obs_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $obs_img_dir . "/" . $i . "_" .  $dy . "day_totalprecip_latest.png", $day_array)]), []);
+$obs_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $obs_img_dir . "/" . $i . "_" .  $dy . "day_totalprecip_" . $date_str . ".png", $day_array)]), []);
 $imgs = array_merge($imgs, ['obs' => $obs_imgs]);
 
 echo str_replace("..", "", json_encode($imgs));
