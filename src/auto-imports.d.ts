@@ -62,6 +62,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useDate: typeof import('./composables/useDate')['default']
   const useEWBStore: typeof import('./store/ewb')['useEWBStore']
+  const useForecastStore: typeof import('./store/forecast')['useForecastStore']
   const useLocation: typeof import('./composables/useLocation')['default']
   const useQuery: typeof import('vue-query')['useQuery']
   const useRoute: typeof import('vue-router')['useRoute']
@@ -142,6 +143,7 @@ declare module '@vue/runtime-core' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDate: UnwrapRef<typeof import('./composables/useDate')['default']>
     readonly useEWBStore: UnwrapRef<typeof import('./store/ewb')['useEWBStore']>
+    readonly useForecastStore: UnwrapRef<typeof import('./store/forecast')['useForecastStore']>
     readonly useLocation: UnwrapRef<typeof import('./composables/useLocation')['default']>
     readonly useQuery: UnwrapRef<typeof import('vue-query')['useQuery']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

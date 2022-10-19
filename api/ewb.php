@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . '/start.php');
+include_once(__DIR__ . '/helper.php');
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -9,23 +10,22 @@ $imgs = [
     'pagasa' => 'https://pubfiles.pagasa.dost.gov.ph/climps/tcthreat/TC_Threat_and_S2S_Forecast.png'
 ];
 
-$file = '../resources/model/info.json';
-$info = file_get_contents($file);
-$info = json_decode($info, true);
-$mod_img_dir = '../resources/model/img';
 $hr_array = [24, 48, 72, 96, 120];
 $file_prfxs = ['rain', 'rainx', 'wind', 'hix'];
-$date_str = "{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}PHT";
+
+$tsPHT = get_latest_date();
+$tsUTC = $tsPHT->copy()->tz('UTC');
+$mod_img_dir = "../resources/model/img/24hrly/" . $tsUTC->format('Ymd/H');
+$date_str = $tsPHT->format('Y-m-d_H') . "PHT";
 $mod_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($hr) => $mod_img_dir . "/wrf-" . $hr . "hr_" . $i . "_" . $date_str . ".png", $hr_array)]), []);
 $imgs = array_merge($imgs, ['fcst' => $mod_imgs]);
 
-$file = '../resources/model/info_ewb.json';
-$info = file_get_contents($file);
-$info = json_decode($info, true);
+
+$tsPHT = get_latest_date("ewb");
 $obs_img_dir = '../resources/model/img/ewb';
 $day_array = [1, 3, 5, 7, 30];
 $file_prfxs = ['gsmap', 'station'];
-$date_str = "{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}PHT";
+$date_str = $tsPHT->format('Y-m-d_H') . "PHT";
 $obs_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $obs_img_dir . "/" . $i . "_" .  $dy . "day_totalprecip_" . $date_str . ".png", $day_array)]), []);
 $imgs = array_merge($imgs, ['obs' => $obs_imgs]);
 

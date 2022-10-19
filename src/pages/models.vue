@@ -4,17 +4,17 @@
       <!-- Forecast Length -->
       <div v-show="showFcstTime" class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
-        <RowGroupBtns v-model:activeBtn="activeFcstTime" class="text-xs" :buttons="fcstTimes" />
+        <RowGroupBtns v-model:activeBtn="fcstStore.activeFcstTime" class="text-xs" :buttons="fcstStore.fcstTimes" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
         <Button
-          v-for="mf in metFields"
+          v-for="mf in fcstStore.metFields"
           :key="mf.val"
-          :is-active="mf.val === activeVariable.val"
+          :is-active="mf.val === fcstStore.activeVariable.val"
           class="w-full flex justify-center font-bold py-2 px-4 rounded"
-          @click.prevent="activeVariable = mf"
+          @click.prevent="fcstStore.activeVariable = mf"
           >{{ mf.text }}</Button
         >
       </div>
@@ -36,7 +36,7 @@
           <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
         </div>
       </SwitchGroup>
-      <div :class="[activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
+      <div :class="[fcstStore.activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
         <img class="shadow-md rounded-2xl" :src="imgSrc" />
       </div>
       <div
@@ -62,71 +62,30 @@
 
   const defaultHeaderName = 'Model Forecast Maps'
 
-  const fcstTimes = [
-    { val: 24, text: '24hr' },
-    { val: 48, text: '48hr' },
-    { val: 72, text: '72hr' },
-    { val: 96, text: '96hr' },
-    { val: 120, text: '120hr' },
-  ]
-
-  const metFields = [
-    {
-      val: 'rain',
-      text: 'Daily Rainfall',
-    },
-    { val: 'temp', text: 'Temperature' },
-    {
-      val: 'hix',
-      text: 'Max Heat Index',
-    },
-    { val: 'rh', text: 'Relative Humidity' },
-    { val: 'wind', text: 'Winds' },
-    {
-      val: 'wrf-ts',
-      text: 'Hourly Forecasts',
-      headerName: 'Hourly Forecasts',
-    },
-    {
-      val: 'wpd',
-      text: 'Wind Power Forecast',
-    },
-    {
-      val: 'ppv',
-      text: 'Solar Power Forecast',
-    },
-  ]
-
-  const activeFcstTime = ref(fcstTimes[0])
-  const activeVariable = ref(metFields[0])
-  const imgSrcs = ref([])
+  const fcstStore = useForecastStore()
 
   const extremeToggle = ref(false)
 
-  const varNameX = computed(() => (activeVariable.value.val === 'rain' ? 'rainx' : ''))
-  const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
+  const varNameX = computed(() => (fcstStore.activeVariable.val === 'rain' ? 'rainx' : ''))
+  const headerName = computed(() => fcstStore.activeVariable.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => activeVariable.value.val !== 'wrf-ts')
+  const showFcstTime = computed(() => fcstStore.activeVariable.val !== 'wrf-ts')
 
   const imgSrc = computed(() => {
-    const name = extremeToggle.value && varNameX.value ? varNameX.value : activeVariable.value.val
-    const pattern = !showFcstTime.value ? `${name}_` : `${activeFcstTime.value.val}hr_${name}_`
-    return imgSrcs.value.find((f: string) => f.includes(pattern))
+    const name = extremeToggle.value && varNameX.value ? varNameX.value : fcstStore.activeVariable.val
+    const pattern = !showFcstTime.value ? `${name}_` : `${fcstStore.activeFcstTime.val}hr_${name}_`
+    return fcstStore.modelImgs?.find((f: string) => f.includes(pattern))
   })
 
   const caption = computed(() => {
-    if (activeVariable.value.val === 'hix') return CaptionModelHix
-    if (activeVariable.value.val === 'wpd') return CaptionModelWpd
-    if (activeVariable.value.val === 'ppv') return CaptionModelPpv
+    if (fcstStore.activeVariable.val === 'hix') return CaptionModelHix
+    if (fcstStore.activeVariable.val === 'wpd') return CaptionModelWpd
+    if (fcstStore.activeVariable.val === 'ppv') return CaptionModelPpv
     return
   })
   const captionX = computed(() => {
-    if (activeVariable.value.val === 'rain') return CaptionModelRainx
+    if (fcstStore.activeVariable.val === 'rain') return CaptionModelRainx
     return
-  })
-
-  onMounted(async () => {
-    imgSrcs.value = await axios.get(`/api/forecast.php?img`).then(({ data }) => data)
   })
 </script>
 

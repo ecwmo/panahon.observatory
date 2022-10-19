@@ -1,19 +1,19 @@
 <?php
 include_once(__DIR__ . '/start.php');
+include_once(__DIR__ . '/helper.php');
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-$ROOT_DIR = '../resources/model';
+$mod_img_dir = '../resources/model';
 
-$file = $ROOT_DIR . '/info.json';
-$info = file_get_contents($file);
-$info = json_decode($info, true);
+$tsPHT = get_latest_date();
+$tsUTC = $tsPHT->copy()->tz('UTC');
 
 if (isset($_GET['img'])) {
     if ($_GET['img'] == "2") {
-        $imgDir = $ROOT_DIR . '/web_img';
-        $globPattern = "/*{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}*.png";
+        $imgDir = $mod_img_dir . '/web_img';
+        $globPattern = "/*" . $tsPHT->format('Y-m-d_H') . "*.png";
         $imgs = glob($imgDir . $globPattern, GLOB_BRACE);
 
         $cmapImgSrc = $imgDir . '/cmap';
@@ -26,14 +26,18 @@ if (isset($_GET['img'])) {
 
         echo str_replace("..", "", json_encode($data));
     } else {
-        $imgDir = $ROOT_DIR . '/img';
-        $globPattern = "/*{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}*.png";
+        $imgDir = $mod_img_dir . "/img/24hrly/" . $tsUTC->format('Ymd/H');
+        $globPattern = "/*.png";
         $imgs = glob($imgDir . $globPattern, GLOB_BRACE);
 
-        echo str_replace("..", "", json_encode($imgs));
+        $imgDir = $mod_img_dir . "/img";
+        $globPattern = "/wrf-ts_" . $tsPHT->format('Y-m-d_H') . "PHT.png";
+        $imgs2 = glob($imgDir . $globPattern, GLOB_BRACE);
+
+        echo str_replace("..", "", json_encode(array_merge($imgs, $imgs2)));
     }
 } else {
-    $file = $ROOT_DIR . "/forecast_{$info['year']}-{$info['month']}-{$info['day']}_{$info['hour']}PHT.json";
+    $file = $mod_img_dir . "/forecast_" . $tsPHT->format('Y-m-d_H') . "PHT.json";
     $data = file_get_contents($file);
     $obj = json_decode($data, true);
 
