@@ -30,6 +30,7 @@ if (isset($_GET['img'])) {
         $imgDir = $modImgDir . "/img/" . $imgFreq . "/" . $tsUTC->format('Ymd/H');
         $globPattern = "/*.png";
         $imgs = glob($imgDir . $globPattern, GLOB_BRACE);
+        natsort($imgs);
 
         $imgDir = $modImgDir . "/img";
         $globPattern = "/wrf-ts_" . $tsPHT->format('Y-m-d_H') . "PHT.png";
