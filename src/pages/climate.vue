@@ -28,7 +28,13 @@
         class="max-w-lg w-9/12 md:scale-[.8]"
       />
       <div class="max-w-lg">
-        <img class="shadow-md rounded-2xl" :src="climStore.activeImg" />
+        <Transition name="fade" mode="out-in">
+          <img
+            :key="`${climStore.activeScenario.val}.${climStore.activeVariable.val}`"
+            class="shadow-md rounded-2xl"
+            :src="climStore.activeImg"
+          />
+        </Transition>
       </div>
     </div>
   </div>
@@ -37,3 +43,15 @@
 <script setup lang="ts">
   const climStore = useClimateStore()
 </script>
+
+<style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+</style>

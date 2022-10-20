@@ -26,30 +26,41 @@
     </div>
     <div class="flex flex-1 flex-col items-center gap-2">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
-      <Range
-        v-if="showFcstTime"
-        v-model.number="fcstStore.activeFcstTime"
-        :ticks="ticks"
-        :step="step"
-        class="max-w-lg w-9/12 md:scale-[.8]"
-      />
-      <SwitchGroup v-show="showExtremeToggle" class="scale-75 md:scale-100">
-        <div class="flex items-center gap-1.5">
-          <Switch
-            v-model="fcstStore.isExtreme"
-            :class="fcstStore.isExtreme ? 'bg-skin-button' : 'bg-skin-button-accent'"
-            class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
-          >
-            <span
-              :class="fcstStore.isExtreme ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
-              class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
-            />
-          </Switch>
-          <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
-        </div>
-      </SwitchGroup>
+      <Transition name="fade" mode="out-in">
+        <Range
+          v-if="showFcstTime"
+          :key="fcstStore.activeImageFrequency.val"
+          v-model.number="fcstStore.activeFcstTime"
+          :ticks="ticks"
+          :step="step"
+          class="max-w-lg w-9/12 md:scale-[.8]"
+        />
+      </Transition>
+      <Transition name="fade">
+        <SwitchGroup v-show="showExtremeToggle" class="scale-75 md:scale-100">
+          <div class="flex items-center gap-1.5">
+            <Switch
+              v-model="fcstStore.isExtreme"
+              :class="fcstStore.isExtreme ? 'bg-skin-button' : 'bg-skin-button-accent'"
+              class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
+            >
+              <span
+                :class="fcstStore.isExtreme ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+                class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
+              />
+            </Switch>
+            <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
+          </div>
+        </SwitchGroup>
+      </Transition>
       <div :class="[fcstStore.activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
-        <img class="shadow-md rounded-2xl" :src="fcstStore.activeImage" />
+        <Transition name="fade" mode="out-in">
+          <img
+            :key="`${fcstStore.activeImageFrequency.val}.${fcstStore.activeVariable.val}.${fcstStore.isExtreme}`"
+            class="shadow-md rounded-2xl"
+            :src="fcstStore.activeImage"
+          />
+        </Transition>
       </div>
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
@@ -113,12 +124,22 @@
   })
 </script>
 
-<style>
+<style scoped>
   .model-caption a {
     @apply underline text-skin-link;
   }
 
   .model-caption a:hover {
     @apply underline text-skin-link-active;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
   }
 </style>
