@@ -58,6 +58,7 @@ declare global {
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('./store/auth')['useAuthStore']
+  const useClimateStore: typeof import('./store/climate')['useClimateStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDate: typeof import('./composables/useDate')['default']
@@ -139,6 +140,7 @@ declare module '@vue/runtime-core' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('./store/auth')['useAuthStore']>
+    readonly useClimateStore: UnwrapRef<typeof import('./store/climate')['useClimateStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDate: UnwrapRef<typeof import('./composables/useDate')['default']>
