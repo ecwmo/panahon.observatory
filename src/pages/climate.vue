@@ -21,7 +21,12 @@
     </div>
     <div class="flex flex-col items-center gap-2 w-full">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
-      <Range v-model.number="activeDecade" :data="decades.map((d) => d[0])" class="max-w-lg scale-90 md:scale-100" />
+      <Range
+        v-model.number="activeDecade"
+        :data="decades.map((d) => d[0])"
+        :step="10"
+        class="max-w-lg scale-90 md:scale-100"
+      />
       <div class="max-w-lg">
         <img class="shadow-md rounded-2xl" :src="imgSrc" />
       </div>

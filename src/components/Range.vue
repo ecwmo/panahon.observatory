@@ -4,8 +4,8 @@
       :value="modelValue"
       :min="Math.min(...data)"
       :max="Math.max(...data)"
+      :step="step"
       type="range"
-      step="10"
       class="appearance-none w-full h-0.5 bg-skin-body-fill-inv rounded outline-none slider-thumb"
       @input="handleChange"
     />
@@ -38,14 +38,15 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType } from 'vue'
-
-  defineProps({
-    modelValue: { type: Number, required: true },
-    data: { type: Object as PropType<number[]>, default: [] },
+  withDefaults(defineProps<{ modelValue: number; data: number[]; step?: number }>(), {
+    modelValue: 0,
+    data: () => [],
+    step: 1,
   })
 
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    (e: 'update:modelValue', value: number): void
+  }>()
 
-  const handleChange = (ev: Event) => emit('update:modelValue', (ev.target as HTMLInputElement).value)
+  const handleChange = (ev: Event) => emit('update:modelValue', +(ev.target as HTMLInputElement).value)
 </script>
