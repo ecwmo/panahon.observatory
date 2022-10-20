@@ -1,10 +1,14 @@
 <template>
-  <div class="flex flex-col-reverse md:flex-row py-2 md:py-4 justify-center w-full">
+  <div class="flex flex-col-reverse md:flex-row py-2 md:py-4 justify-center">
     <div class="flex flex-col">
-      <!-- Forecast Length -->
-      <div v-show="showFcstTime" class="flex flex-col items-center space-y-2 px-6">
-        <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Forecast Length</h3>
-        <RowGroupBtns v-model:activeBtn="fcstStore.activeFcstTime" class="text-xs" :buttons="fcstStore.fcstTimes" />
+      <!-- Forecast Interval -->
+      <div class="flex flex-col items-center space-y-2 px-6">
+        <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
+        <RowGroupBtns
+          v-model:activeBtn="fcstStore.activeImageFrequency"
+          class="text-xs"
+          :buttons="fcstStore.imageFrequencies"
+        />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -20,8 +24,15 @@
         </Button>
       </div>
     </div>
-    <div class="flex flex-col items-center gap-2 w-full">
+    <div class="flex flex-1 flex-col items-center gap-2">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
+      <Range
+        v-if="showFcstTime"
+        v-model.number="fcstStore.activeFcstTime"
+        :ticks="ticks"
+        :step="step"
+        class="max-w-lg w-9/12 md:scale-[.8]"
+      />
       <SwitchGroup v-show="showExtremeToggle" class="scale-75 md:scale-100">
         <div class="flex items-center gap-1.5">
           <Switch
@@ -56,6 +67,8 @@
 </template>
 
 <script setup lang="ts">
+  import { format, parse, getHours, addDays, addHours } from 'date-fns'
+
   const CaptionModelRainx = defineAsyncComponent({ loader: () => import('@/components/caption/ModelRainx.vue') })
   const CaptionModelHix = defineAsyncComponent({ loader: () => import('@/components/caption/ModelHix.vue') })
   const CaptionModelWpd = defineAsyncComponent({ loader: () => import('@/components/caption/ModelWpd.vue') })
@@ -70,6 +83,22 @@
   const showExtremeToggle = computed(() => 'extVal' in fcstStore.activeVariable)
 
   const showFcstTime = computed(() => fcstStore.activeVariable.mult !== false)
+
+  const step = computed(() => +fcstStore.activeImageFrequency.val.slice(0, -4))
+
+  const ticks = computed(() => {
+    const startTime =
+      getHours(fcstStore.initTime) !== 0
+        ? addDays(parse(format(fcstStore.initTime, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()), 1)
+        : fcstStore.initTime
+    const dates = fcstStore.fcstTimes.map((f, i) => addHours(fcstStore.initTime, i * step.value))
+    const idx = dates.findIndex((d) => d >= startTime)
+    const nts = 24 / step.value
+    return fcstStore.fcstTimes.map((f, i) => ({
+      val: f,
+      text: !((i - idx) % nts) ? format(dates[i], 'MMM dd') : undefined,
+    }))
+  })
 
   const caption = computed(() => {
     if (fcstStore.activeVariable.val === 'hix') return CaptionModelHix
