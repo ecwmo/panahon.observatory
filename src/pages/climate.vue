@@ -23,9 +23,9 @@
       <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
       <Range
         v-model.number="activeDecade"
-        :data="decades.map((d) => d[0])"
+        :ticks="decades.map((d) => ({ val: d[0], text: `${d[0]}` }))"
         :step="10"
-        class="max-w-lg scale-90 md:scale-100"
+        class="max-w-lg w-9/12 md:scale-[.8]"
       />
       <div class="max-w-lg">
         <img class="shadow-md rounded-2xl" :src="imgSrc" />
