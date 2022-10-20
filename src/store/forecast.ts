@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 import { imgSrcArr } from '@/schemas/forecast'
 
-export const useForecastStore = defineStore('validation', () => {
+export const useForecastStore = defineStore('forecast', () => {
   const fcstTimes = [
     { val: 24, text: '24hr' },
     { val: 48, text: '48hr' },
@@ -15,6 +15,7 @@ export const useForecastStore = defineStore('validation', () => {
     {
       val: 'rain',
       text: 'Daily Rainfall',
+      extVal: 'rainx',
     },
     { val: 'temp', text: 'Temperature' },
     {
@@ -27,6 +28,7 @@ export const useForecastStore = defineStore('validation', () => {
       val: 'wrf-ts',
       text: 'Hourly Forecasts',
       headerName: 'Hourly Forecasts',
+      mult: false,
     },
     {
       val: 'wpd',
@@ -38,13 +40,30 @@ export const useForecastStore = defineStore('validation', () => {
     },
   ]
 
-  const { data: modelImgs } = useQuery(['modelImgs'], async () => {
-    const dat = await axios('api/forecast.php?img').then(({ data }) => imgSrcArr.parse(data))
+  const isExtreme = ref(false)
+  const imgFreq = ref('24hrly')
+
+  const { data: modelImgs } = useQuery(['modelImgs', imgFreq], async () => {
+    const dat = await axios(`api/forecast.php?img=${imgFreq.value}`).then(({ data }) =>
+      imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
+    )
     return dat
   })
 
   const activeFcstTime = ref(fcstTimes[0])
   const activeVariable = ref(metFields[0])
+
+  const activeImageGroup = computed(() => {
+    const name =
+      isExtreme.value && 'extVal' in activeVariable.value ? activeVariable.value.extVal : activeVariable.value.val
+    return modelImgs.value?.filter((f) => f.includes(`${name}_`))
+  })
+
+  const activeImage = computed(() =>
+    activeVariable.value.mult === false
+      ? activeImageGroup.value?.[0]
+      : activeImageGroup.value?.find((f: string) => f.includes(`${activeFcstTime.value.val}hr_`))
+  )
 
   return {
     modelImgs,
@@ -52,5 +71,8 @@ export const useForecastStore = defineStore('validation', () => {
     metFields,
     activeFcstTime,
     activeVariable,
+    activeImageGroup,
+    activeImage,
+    isExtreme,
   }
 })

@@ -15,21 +15,22 @@
           :is-active="mf.val === fcstStore.activeVariable.val"
           class="w-full flex justify-center font-bold py-2 px-4 rounded"
           @click.prevent="fcstStore.activeVariable = mf"
-          >{{ mf.text }}</Button
         >
+          {{ mf.text }}
+        </Button>
       </div>
     </div>
     <div class="flex flex-col items-center gap-2 w-full">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
-      <SwitchGroup v-show="varNameX" class="scale-75 md:scale-100">
+      <SwitchGroup v-show="showExtremeToggle" class="scale-75 md:scale-100">
         <div class="flex items-center gap-1.5">
           <Switch
-            v-model="extremeToggle"
-            :class="extremeToggle ? 'bg-skin-button' : 'bg-skin-button-accent'"
+            v-model="fcstStore.isExtreme"
+            :class="fcstStore.isExtreme ? 'bg-skin-button' : 'bg-skin-button-accent'"
             class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
           >
             <span
-              :class="extremeToggle ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+              :class="fcstStore.isExtreme ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
               class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
             />
           </Switch>
@@ -37,7 +38,7 @@
         </div>
       </SwitchGroup>
       <div :class="[fcstStore.activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
-        <img class="shadow-md rounded-2xl" :src="imgSrc" />
+        <img class="shadow-md rounded-2xl" :src="fcstStore.activeImage" />
       </div>
       <div
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
@@ -45,7 +46,7 @@
         <component :is="caption"></component>
       </div>
       <div
-        v-show="captionX && extremeToggle"
+        v-show="captionX && fcstStore.isExtreme"
         class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
       >
         <component :is="captionX"></component>
@@ -64,18 +65,11 @@
 
   const fcstStore = useForecastStore()
 
-  const extremeToggle = ref(false)
-
-  const varNameX = computed(() => (fcstStore.activeVariable.val === 'rain' ? 'rainx' : ''))
   const headerName = computed(() => fcstStore.activeVariable.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => fcstStore.activeVariable.val !== 'wrf-ts')
+  const showExtremeToggle = computed(() => 'extVal' in fcstStore.activeVariable)
 
-  const imgSrc = computed(() => {
-    const name = extremeToggle.value && varNameX.value ? varNameX.value : fcstStore.activeVariable.val
-    const pattern = !showFcstTime.value ? `${name}_` : `${fcstStore.activeFcstTime.val}hr_${name}_`
-    return fcstStore.modelImgs?.find((f: string) => f.includes(pattern))
-  })
+  const showFcstTime = computed(() => fcstStore.activeVariable.mult !== false)
 
   const caption = computed(() => {
     if (fcstStore.activeVariable.val === 'hix') return CaptionModelHix
@@ -83,6 +77,7 @@
     if (fcstStore.activeVariable.val === 'ppv') return CaptionModelPpv
     return
   })
+
   const captionX = computed(() => {
     if (fcstStore.activeVariable.val === 'rain') return CaptionModelRainx
     return
