@@ -30,6 +30,13 @@ module.exports = {
           'button-active': colors.gray['200'],
           'button-accent': colors.gray['200'],
           'listbox-active': colors.blue['100'],
+          'popup-fill': colors.gray['500'],
+        },
+      },
+      fill: {
+        skin: {
+          body: colors.gray['700'],
+          base: colors.gray['500'],
         },
       },
     },
