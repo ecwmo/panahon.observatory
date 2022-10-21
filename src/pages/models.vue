@@ -37,7 +37,7 @@
         />
       </Transition>
       <Transition name="fade">
-        <SwitchGroup v-show="showExtremeToggle" class="scale-75 md:scale-100">
+        <SwitchGroup v-show="fcstStore.hasExtreme" class="scale-75 md:scale-100">
           <div class="flex items-center gap-1.5">
             <Switch
               v-model="fcstStore.isExtreme"
@@ -90,8 +90,6 @@
   const fcstStore = useForecastStore()
 
   const headerName = computed(() => fcstStore.activeVariable.headerName ?? defaultHeaderName)
-
-  const showExtremeToggle = computed(() => 'extVal' in fcstStore.activeVariable)
 
   const showFcstTime = computed(() => fcstStore.activeVariable.mult !== false)
 

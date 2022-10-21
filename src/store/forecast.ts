@@ -71,9 +71,10 @@ export const useForecastStore = defineStore('forecast', () => {
     return dat
   })
 
+  const hasExtreme = computed(() => activeImageFrequency.value.val === '24hrly' && 'extVal' in activeVariable.value)
+
   const activeImageGroup = computed(() => {
-    const name =
-      isExtreme.value && 'extVal' in activeVariable.value ? activeVariable.value.extVal : activeVariable.value.val
+    const name = hasExtreme.value && isExtreme.value ? activeVariable.value.extVal : activeVariable.value.val
     return modelImgs.value?.filter((f) => f.includes(`${name}_`))
   })
 
@@ -89,11 +90,12 @@ export const useForecastStore = defineStore('forecast', () => {
     fcstTimes,
     metFields,
     imageFrequencies,
+    isExtreme,
+    hasExtreme,
     activeFcstTime,
     activeVariable,
     activeImageFrequency,
     activeImageGroup,
     activeImage,
-    isExtreme,
   }
 })
