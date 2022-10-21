@@ -34,7 +34,7 @@
           :ticks="ticks"
           :step="step"
           :can-play="true"
-          class="max-w-lg w-9/12 md:scale-[.8]"
+          class="max-w-lg w-full md:w-9/12 scale-[.8]"
           @next="handleNext"
         />
       </Transition>
@@ -112,6 +112,7 @@
     return fcstStore.fcstTimes.map((f, i) => ({
       val: f,
       text: !((i - idx) % nts) ? format(dates[i], 'MMM dd') : undefined,
+      popup: format(dates[i], 'MMM dd h aaa'),
     }))
   })
 

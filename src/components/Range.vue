@@ -1,17 +1,26 @@
 <template>
   <div class="flex justify-center items-center">
-    <fieldset class="flex flex-col flex-1 mt-4 md:mt-8">
+    <fieldset class="relative flex flex-col flex-1 mt-4 md:mt-8">
+      <Popup
+        class="absolute w-12 -ml-[1.6rem] md:-ml-6 mb-2.5 md:mb-4 px-1 py-0.5 text-center text-xs rounded-lg pointer-events-none"
+        :style="{ left: xPos }"
+        :show="ticks[curValIdx].popup !== undefined"
+        theme="bg-skin-popup-fill text-skin-base fill-skin-base"
+      >
+        {{ ticks[curValIdx].popup }}
+      </Popup>
       <input
+        ref="rangeEl"
         :value="modelValue"
-        :min="Math.min(...tickVals)"
-        :max="Math.max(...tickVals)"
+        :min="minVal"
+        :max="maxVal"
         :step="step"
         type="range"
-        class="appearance-none w-full h-0.5 bg-skin-body-fill-inv rounded outline-none slider-thumb"
+        class="appearance-none w-full h-0.5 bg-skin-body-fill-inv rounded outline-none"
         @input="handleChange"
       />
       <svg
-        class="w-full overflow-visible fill-current text-skin-base px-1.5"
+        class="w-full overflow-visible fill-current text-skin-base px-1.5 md:px-2"
         role="presentation"
         viewBox="0 0 400 24"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +28,7 @@
         <g v-for="(t, i) in ticks" :key="t.text">
           <rect
             :x="`${(100 * i) / (ticks.length - 1)}%`"
-            y="2"
+            y="6"
             :width="t.val === modelValue ? 1.4 : 0.5"
             :height="t.val === modelValue ? 7 : 4"
           />
@@ -27,7 +36,7 @@
             v-if="t.text"
             class="text-xs font-semibold"
             :x="`${(100 * i) / (ticks.length - 1)}%`"
-            y="18"
+            y="24"
             text-anchor="middle"
           >
             {{ t.text }}
@@ -48,6 +57,7 @@
     ticks: {
       val: number
       text?: string
+      popup?: string
     }[]
     step?: number
     canPlay?: boolean
@@ -64,11 +74,23 @@
     (e: 'next'): void
   }>()
 
-  const isPlaying = ref(true)
+  const rangeEl = ref()
+  const isPlaying = ref(false)
   const sliderTimer = ref()
   const sliderInterval = 1000
 
   const tickVals = computed(() => props.ticks.map(({ val }) => val))
+
+  const curValIdx = computed(() => props.ticks.findIndex(({ val }) => val === props.modelValue))
+
+  const maxVal = computed(() => Math.max(...tickVals.value))
+  const minVal = computed(() => Math.min(...tickVals.value))
+
+  const xPos = computed(() => {
+    const thumbWidth = innerWidth >= 768 ? 16 : 12
+    const ratio = (props.modelValue - minVal.value) / (maxVal.value - minVal.value)
+    return `calc(${100 * ratio}% + (${8 - ratio * thumbWidth}px))`
+  })
 
   const handleChange = (ev: Event) => emit('update:modelValue', +(ev.target as HTMLInputElement).value)
 
@@ -102,11 +124,7 @@
 </script>
 
 <style>
-  .slider-thumb::-webkit-slider-thumb {
-    @apply appearance-none bg-skin-button w-3 h-3 rounded-full cursor-pointer;
-  }
-
-  .slider-thumb::-webkit-slider-thumb:hover {
-    @apply bg-skin-button-accent;
+  input[type='range']::-webkit-slider-thumb {
+    @apply appearance-none bg-skin-button hover:bg-skin-button-accent w-3 h-3 md:w-4 md:h-4 rounded-full cursor-pointer;
   }
 </style>
