@@ -54,7 +54,6 @@
 
   const cards = computed(() => {
     const windDirStr = stationStore.metValueStrings['wdirStr']
-    const winDirIcon = windDirStr ? `wi-from-${windDirStr.toLowerCase()}` : ''
     return [
       {
         id: 'rain',
@@ -63,7 +62,7 @@
         value1: stationStore.metValueStrings['rr'],
         label2: '24hr total',
         value2: stationStore.metValueStrings['rain24h'],
-        iconClass: 'fas fa-cloud-rain',
+        iconName: 'fa6s-cloud-rain',
         info: LonginfoRain,
       },
       {
@@ -72,7 +71,7 @@
         value1: stationStore.metValueStrings['temp'],
         label2: 'HI',
         value2: stationStore.metValueStrings['hi'],
-        iconClass: 'fas fa-thermometer-half',
+        iconName: 'fas-thermometer-half',
         info: LonginfoTemp,
       },
       {
@@ -80,15 +79,15 @@
         title: 'WIND (m/s)',
         value1: stationStore.metValueStrings['wspd'],
         value2: windDirStr,
-        iconClass: 'fas fa-wind',
-        iconClass2: `wi wi-wind ${winDirIcon}`,
+        iconName: 'fa6s-wind',
+        iconName2: 'wi-wind-deg',
         info: LonginfoWind,
       },
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
         value1: stationStore.metValueStrings['pres'],
-        iconClass: 'wi wi-barometer',
+        iconName: 'wi-barometer',
         info: LonginfoPres,
       },
     ]

@@ -62,7 +62,7 @@
             <label
               class="w-64 flex flex-col items-center px-4 py-6 bg-white text-skin-button-active appearance-none border rounded-lg shadow tracking-wide uppercase cursor-pointer hover:bg-skin-button hover:text-skin-button"
             >
-              <i class="fas fa-cloud-upload-alt fa-2x"></i>
+              <i-fa-solid-cloud-upload-alt class="text-5xl" />
               <span class="mt-2 text-base truncate">{{ reportName }}</span>
               <input type="file" name="filename" class="hidden" required @change="handleFile" />
             </label>

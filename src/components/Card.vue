@@ -8,7 +8,10 @@
     class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 h-32 w-52 md:w-60"
   >
     <div class="flex justify-evenly items-center">
-      <i :class="`${data.iconClass} text-4xl md:text-5xl`"></i>
+      <i-fa6-solid-cloud-rain v-if="data.iconName === 'fa6s-cloud-rain'" class="text-4xl md:text-5xl" />
+      <i-fa-solid-thermometer-half v-else-if="data.iconName === 'fas-thermometer-half'" class="text-4xl md:text-5xl" />
+      <i-fa6-solid-wind v-else-if="data.iconName === 'fa6s-wind'" class="text-4xl md:text-5xl" />
+      <i-wi-barometer v-else-if="data.iconName === 'wi-barometer'" class="text-4xl md:text-5xl scale-150" />
       <div class="flex flex-col">
         <div class="text-base md:text-lg">{{ data.title }}</div>
         <div class="flex justify-evenly items-end">
@@ -17,7 +20,11 @@
         </div>
         <div v-show="data.value2" class="flex justify-center items-center space-x-1 md:space-x-1.5">
           <div v-if="data.label2" class="text-sm font-light">{{ data.label2 }}</div>
-          <i v-if="data.iconClass2" :class="`${data.iconClass2} text-lg md:text-xl`"></i>
+          <i-wi-wind-deg
+            v-if="data.iconName2 === 'wi-wind-deg'"
+            class="text-lg md:text-xl"
+            :style="{ transform: `rotate(${windDirStr2Deg[data.value2 ?? '']}deg)` }"
+          />
           <div class="text-xl md:text-2xl font-bold">{{ data.value2 }}</div>
         </div>
       </div>
@@ -28,7 +35,7 @@
       @mouseover="showPopup = true"
       @mouseout="showPopup = false"
     >
-      <i class="fas fa-info"></i>
+      <i-fa-solid-info class="text-xs scale-75" />
       <Popup class="w-32 px-3 py-2 text-center text-xs rounded-lg pointer-events-none" :show="showPopup">
         <slot></slot>
       </Popup>
@@ -45,13 +52,25 @@
     value1: string
     label2?: string
     value2?: string
-    iconClass: string
-    iconClass2?: string
+    iconName: string
+    iconName2?: string
   }
 
   defineProps({
     data: { type: Object as PropType<CardData>, required: true },
     isActive: { type: Boolean, default: false },
+  })
+
+  const windDirStr2Deg = computed(() => {
+    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+    const step = 360 / dirs.length
+
+    const r = dirs.reduce((o, c, i) => {
+      o[c] = i * step + 180
+      return o
+    }, {} as { [key: string]: number })
+
+    return r
   })
 
   const showPopup = ref(false)
