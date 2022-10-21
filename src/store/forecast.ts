@@ -11,7 +11,7 @@ export const useForecastStore = defineStore('forecast', () => {
   const metFields = [
     {
       val: 'rain',
-      text: 'Daily Rainfall',
+      text: 'Rainfall',
       extVal: 'rainx',
     },
     { val: 'temp', text: 'Temperature' },
