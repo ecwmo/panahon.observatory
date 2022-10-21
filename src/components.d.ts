@@ -22,6 +22,8 @@ declare module '@vue/runtime-core' {
     IFa6SolidChevronLeft: typeof import('~icons/fa6-solid/chevron-left')['default']
     IFa6SolidChevronRight: typeof import('~icons/fa6-solid/chevron-right')['default']
     IFa6SolidChevronUp: typeof import('~icons/fa6-solid/chevron-up')['default']
+    IFa6SolidCirclePause: typeof import('~icons/fa6-solid/circle-pause')['default']
+    IFa6SolidCirclePlay: typeof import('~icons/fa6-solid/circle-play')['default']
     IFa6SolidCloudRain: typeof import('~icons/fa6-solid/cloud-rain')['default']
     IFa6SolidTriangleExclamation: typeof import('~icons/fa6-solid/triangle-exclamation')['default']
     IFa6SolidWind: typeof import('~icons/fa6-solid/wind')['default']

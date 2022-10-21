@@ -33,7 +33,9 @@
           v-model.number="fcstStore.activeFcstTime"
           :ticks="ticks"
           :step="step"
+          :can-play="true"
           class="max-w-lg w-9/12 md:scale-[.8]"
+          @next="handleNext"
         />
       </Transition>
       <Transition name="fade">
@@ -132,6 +134,11 @@
   const handleVariableChange = (mf: typeof fcstStore.activeVariable) => {
     showCaption.value = false
     fcstStore.activeVariable = mf
+  }
+
+  const handleNext = () => {
+    let idx = fcstStore.fcstTimes.indexOf(fcstStore.activeFcstTime)
+    fcstStore.$patch({ activeFcstTime: fcstStore.fcstTimes[(idx + 1) % fcstStore.fcstTimes.length] })
   }
 </script>
 
