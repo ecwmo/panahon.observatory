@@ -18,7 +18,7 @@
           :key="mf.val"
           :is-active="mf.val === fcstStore.activeVariable.val"
           class="w-full flex justify-center font-bold py-2 px-4 rounded"
-          @click.prevent="fcstStore.activeVariable = mf"
+          @click.prevent="handleVariableChange(mf)"
         >
           {{ mf.text }}
         </Button>
@@ -59,19 +59,22 @@
             :key="`${fcstStore.activeImageFrequency.val}.${fcstStore.activeVariable.val}.${fcstStore.isExtreme}`"
             class="shadow-md rounded-2xl"
             :src="fcstStore.activeImage"
+            @load="handleImageLoad"
           />
         </Transition>
       </div>
-      <div
-        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-      >
-        <component :is="caption"></component>
-      </div>
-      <div
-        v-show="captionX && fcstStore.isExtreme"
-        class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-      >
-        <component :is="captionX"></component>
+      <div v-show="showCaption">
+        <div
+          class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
+        >
+          <component :is="caption"></component>
+        </div>
+        <div
+          v-show="captionX && fcstStore.isExtreme"
+          class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
+        >
+          <component :is="captionX"></component>
+        </div>
       </div>
     </div>
   </div>
@@ -86,6 +89,7 @@
   const CaptionModelPpv = defineAsyncComponent({ loader: () => import('@/components/caption/ModelPpv.vue') })
 
   const defaultHeaderName = 'Model Forecast Maps'
+  const showCaption = ref(false)
 
   const fcstStore = useForecastStore()
 
@@ -120,6 +124,15 @@
     if (fcstStore.activeVariable.val === 'rain') return CaptionModelRainx
     return
   })
+
+  const handleImageLoad = () => {
+    showCaption.value = true
+  }
+
+  const handleVariableChange = (mf: typeof fcstStore.activeVariable) => {
+    showCaption.value = false
+    fcstStore.activeVariable = mf
+  }
 </script>
 
 <style scoped>
