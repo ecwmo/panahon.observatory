@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { format as dfFormat } from 'date-fns'
 
 import { Station as StationSchema, StationConfigurations } from '@/schemas/station'
 import type { StationProperties, ObservationVariables, ObservationVariableEnums } from '@/types/station'
@@ -24,8 +25,7 @@ export const useStationStore = defineStore('station', () => {
   const stationName = computed(() => activeStation.value.name)
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp ?? Date.now()))
 
-  const { formatDate } = useDate(timestamp.value)
-  const dateString = (format = 'MMMM d, yyyy h:00 bbb') => formatDate(format)
+  const dateString = (format = 'MMMM d, yyyy h:00 bbb') => dfFormat(timestamp.value, format)
 
   const setActiveStation = (st: StationProperties) => {
     activeStation.value = st

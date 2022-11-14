@@ -61,7 +61,6 @@ declare global {
   const useClimateStore: typeof import('./store/climate')['useClimateStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
-  const useDate: typeof import('./composables/useDate')['default']
   const useEWBStore: typeof import('./store/ewb')['useEWBStore']
   const useForecastStore: typeof import('./store/forecast')['useForecastStore']
   const useLocation: typeof import('./composables/useLocation')['default']
@@ -143,7 +142,6 @@ declare module '@vue/runtime-core' {
     readonly useClimateStore: UnwrapRef<typeof import('./store/climate')['useClimateStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useDate: UnwrapRef<typeof import('./composables/useDate')['default']>
     readonly useEWBStore: UnwrapRef<typeof import('./store/ewb')['useEWBStore']>
     readonly useForecastStore: UnwrapRef<typeof import('./store/forecast')['useForecastStore']>
     readonly useLocation: UnwrapRef<typeof import('./composables/useLocation')['default']>

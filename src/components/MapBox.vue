@@ -38,7 +38,6 @@
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
-        s
         {{ stationStore.dateString('d MMM yyyy, h bbb') }}
       </div>
 
