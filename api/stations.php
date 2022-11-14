@@ -1,10 +1,13 @@
 <?php
+include_once(__DIR__ . '/start.php');
+
+use Carbon\Carbon;
 
 header('Content-Type: application/json');
 
 if (array_key_exists('24hr', $_GET)) {
     if ($_GET["type"] == "csv") {
-        $stn_obs_file = '../resources/station/stn_obs_24hr.csv';
+        $stnObsFile = '../resources/station/stn_obs_24hr.csv';
         // output headers so that the file is downloaded rather than displayed
         header('Content-type: text/csv');
         header('Content-Disposition: attachment; filename="stn_obs_24hr.csv"');
@@ -13,39 +16,46 @@ if (array_key_exists('24hr', $_GET)) {
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        readfile($stn_obs_file);
+        readfile($stnObsFile);
     } else {
-        $stn_obs_file = '../resources/station/stn_obs_24hr.json';
-        $stn_obs_arr = json_decode(file_get_contents($stn_obs_file), true);
-        echo json_encode($stn_obs_arr);
+        $stnObsFile = '../resources/station/stn_obs_24hr.json';
+        $stnObsArr = json_decode(file_get_contents($stnObsFile), true);
+        echo json_encode($stnObsArr);
     }
 } elseif (array_key_exists('timestamp', $_GET)) {
-    $timestamp_file = '../resources/station/stn_obs_timestamp.json';
-    $ts = json_decode(file_get_contents($timestamp_file), true);
+    $tsFile = '../resources/station/stn_obs_timestamp.json';
+    $ts = json_decode(file_get_contents($tsFile), true);
     echo json_encode($ts);
 } elseif (array_key_exists('weather_conf', $_GET)) {
-    $conf_file = '../resources/station/weather.json';
-    $conf = json_decode(file_get_contents($conf_file), true);
+    $confFile = '../resources/station/weather.json';
+    $conf = json_decode(file_get_contents($confFile), true);
     echo json_encode($conf);
 } else {
-    $stn_obs_file = '../resources/station/stn_obs.json';
-    $stn_mo_obs_file = '../resources/station/stn_mo_obs.json';
+    $tsFile = '../resources/station/stn_obs_timestamp.json';
+    $ts = json_decode(file_get_contents($tsFile), true);
+    $ts = Carbon::parse($ts['timestamp'])->setTime(0, 0, 0)->subDays(5);
 
-    $stn_obs_arr = json_decode(file_get_contents($stn_obs_file), true);
-    $stn_mo_obs_arr = json_decode(file_get_contents($stn_mo_obs_file), true);
-    $stn_obs_arr = array_merge($stn_obs_arr, $stn_mo_obs_arr);
+    $stnObsFile = '../resources/station/stn_obs.json';
+    $stnMOObsFile = '../resources/station/stn_mo_obs.json';
 
-    $dat_arr = array('type' => "FeatureCollection", 'features' => array());
+    $stnObsArr = json_decode(file_get_contents($stnObsFile), true);
+    $stnMOObsArr = json_decode(file_get_contents($stnMOObsFile), true);
+    $stnObsArr = array_merge($stnObsArr, $stnMOObsArr);
 
-    foreach ($stn_obs_arr as $stn_id => $stn_obs) {
+    $datArr = array('type' => "FeatureCollection", 'features' => array());
+
+    foreach ($stnObsArr as $stnId => $stnObs) {
         $dat = array('type' => "Feature");
         $dat['geometry'] = array(
             'type' => "Point",
-            'coordinates' => array($stn_obs['lon'], $stn_obs['lat'])
+            'coordinates' => array($stnObs['lon'], $stnObs['lat'])
         );
-        $dat['properties'] = $stn_obs;
-        array_push($dat_arr['features'], $dat);
+        $dat['properties'] = $stnObs;
+        $obsTS = Carbon::parse($stnObs['obs']['timestamp'])->setTime(0, 0, 0);
+        if ($obsTS->greaterThanOrEqualTo($ts)) {
+            array_push($datArr['features'], $dat);
+        }
     }
 
-    echo json_encode($dat_arr);
+    echo json_encode($datArr);
 }
