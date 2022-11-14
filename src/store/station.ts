@@ -5,11 +5,8 @@ import { Station as StationSchema, StationConfigurations } from '@/schemas/stati
 import type { StationProperties, ObservationVariables, ObservationVariableEnums } from '@/types/station'
 
 export const useStationStore = defineStore('station', () => {
-  const activeStation = ref({} as StationProperties)
-
   const { data } = useQuery(['stations'], async () => {
     const dat = await axios.get('/api/stations.php').then(({ data }) => StationSchema.parse(data))
-    activeStation.value = dat.features[0].properties
     return dat
   })
 
@@ -22,6 +19,7 @@ export const useStationStore = defineStore('station', () => {
     }
   )
 
+  const activeStation = ref(data.value?.features[0].properties ?? ({} as StationProperties))
   const stationName = computed(() => activeStation.value.name)
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp ?? Date.now()))
 
