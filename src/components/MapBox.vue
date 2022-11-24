@@ -60,18 +60,12 @@
   const InfoWind = defineAsyncComponent({ loader: () => import('@/components/info/Wind.vue') })
   const InfoPres = defineAsyncComponent({ loader: () => import('@/components/info/Pres.vue') })
 
-  const props = defineProps({
-    accessToken: { type: String, required: true },
-  })
-
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
   const stnStore = useStationStore()
   const { activeVariable } = storeToRefs(stnStore)
-
-  const { accessToken } = toRefs(props)
 
   const visibleStations = computed(() => {
     try {
@@ -175,7 +169,7 @@
 
   onMounted(() => {
     map.value = new Map({
-      accessToken: accessToken.value,
+      accessToken: import.meta.env.VITE_MAPBOX_TOKEN as string,
       container: mapEl.value,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [121.04, 14.56],
