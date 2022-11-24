@@ -3,10 +3,10 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
-    <div v-if="stationStore.data">
+    <div v-if="stnStore.data">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
-          <component :is="activeInfo" :data="stationStore.metValueStrings" class="text-xs text-center" />
+          <component :is="activeInfo" :data="stnStore.metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -29,7 +29,7 @@
           </div>
         </SwitchGroup>
         <MapStationSelector
-          :model-value="stationStore.activeStation"
+          :model-value="stnStore.activeStation"
           :stations="visibleStations"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
@@ -38,15 +38,11 @@
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
-        {{ stationStore.dateString('d MMM yyyy, h bbb') }}
+        {{ stnStore.dateString('d MMM yyyy, h bbb') }}
       </div>
 
-      <WeatherButtons
-        :model-value="activeVariable"
-        class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
-        @update:model-value="$emit('update:activeVariable', $event)"
-      />
-      <Colorbar :name="activeVariable" class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
+      <WeatherButtons class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90" />
+      <Colorbar class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
     </div>
     <LoadingIcon v-else class="absolute top-0 left-0 w-full h-full" svg-class="w-16 h-16 text-slate-500" />
   </div>
@@ -54,6 +50,8 @@
 
 <script setup lang="ts">
   import { Map, LngLat } from 'mapbox-gl'
+
+  import { storeToRefs } from 'pinia'
 
   import type { Station, StationProperties } from '@/types/station'
 
@@ -64,31 +62,27 @@
 
   const props = defineProps({
     accessToken: { type: String, required: true },
-    activeVariable: { type: String, required: true },
   })
-
-  defineEmits(['update:activeVariable'])
 
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const stationStore = useStationStore()
+  const stnStore = useStationStore()
+  const { activeVariable } = storeToRefs(stnStore)
 
-  const { accessToken, activeVariable } = toRefs(props)
+  const { accessToken } = toRefs(props)
 
   const visibleStations = computed(() => {
     try {
       const mapBnds = map.value.getBounds()
 
-      return stationStore.data?.features
+      return stnStore.data?.features
         ?.map(({ properties }) => properties)
         ?.filter(({ lon, lat }) => mapBnds.contains(new LngLat(lon, lat)))
         ?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
     } catch {
-      return stationStore.data?.features
-        ?.map(({ properties }) => properties)
-        ?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
+      return stnStore.data?.features?.map(({ properties }) => properties)?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
     }
   })
 
@@ -107,7 +101,7 @@
 
   const showPoint = () => {
     try {
-      const { lat, lon } = stationStore.activeStation
+      const { lat, lon } = stnStore.activeStation
       const xy = map.value?.project([lon, lat])
       const show = true
       const showPopup = true
@@ -122,7 +116,7 @@
   }
 
   const handleStationChange = (st?: number | StationProperties) => {
-    stationStore.setActiveStation(st, visibleStations.value)
+    stnStore.setActiveStation(st, visibleStations.value)
     showPoint()
   }
 
@@ -147,7 +141,7 @@
       if (!sourceLoaded) {
         map.value.addSource(sourceId, {
           type: 'geojson',
-          data: stationStore.data,
+          data: stnStore.data,
         })
 
         map.value.addLayer({
@@ -167,7 +161,7 @@
   }
 
   watch([activeVariable], () => {
-    const metVars = Object.keys(stationStore.data?.features[0].properties.colors ?? {})
+    const metVars = Object.keys(stnStore.data?.features[0].properties.colors ?? {})
 
     if (metVars.indexOf(activeVariable.value) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', [

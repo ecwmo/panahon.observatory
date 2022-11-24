@@ -4,8 +4,8 @@
       v-for="btn in buttons"
       :key="btn.id"
       class="cursor-pointer"
-      :class="[btn.id === modelValue ? btn.activeClass : btn.defaultClass]"
-      @click.prevent="$emit('update:modelValue', btn.id)"
+      :class="[btn.id === stnStore.activeVariable ? btn.activeClass : btn.defaultClass]"
+      @click.prevent="stnStore.setActiveVariable(btn.id)"
     >
       <i-fa6-solid-cloud-rain v-if="btn.iconName === 'fa6s-cloud-rain'" class="text-xl" />
       <i-fa-solid-thermometer-half v-else-if="btn.iconName === 'fas-thermometer-half'" class="text-xl" />
@@ -16,9 +16,6 @@
 </template>
 
 <script setup lang="ts">
-  defineProps<{ modelValue: string }>()
-  defineEmits(['update:modelValue'])
-
   const buttons = ref([
     {
       id: 'rain',
@@ -49,4 +46,6 @@
       activeClass: 'text-amber-600',
     },
   ])
+
+  const stnStore = useStationStore()
 </script>

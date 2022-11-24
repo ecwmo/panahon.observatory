@@ -17,16 +17,10 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
-    name: { type: String, required: true },
-  })
+  const stnStore = useStationStore()
 
-  const { name } = toRefs(props)
+  const varTitle = computed(() => stnStore.stationConf?.[stnStore.activeVariable]?.desc ?? '')
+  const varUnits = computed(() => stnStore.stationConf?.[stnStore.activeVariable]?.units ?? '')
 
-  const stationStore = useStationStore()
-
-  const varTitle = computed(() => stationStore.stationConf?.[name.value]?.desc ?? '')
-  const varUnits = computed(() => stationStore.stationConf?.[name.value]?.units ?? '')
-
-  const palette = computed(() => stationStore.getSwatch(name.value))
+  const palette = computed(() => stnStore.getSwatch(stnStore.activeVariable))
 </script>

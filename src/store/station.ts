@@ -38,10 +38,14 @@ export const useStationStore = defineStore('station', () => {
   })
 
   const activeStation = ref({} as StationProperties)
+  const activeVariable = ref('temp')
+
   const stationName = computed(() => activeStation.value?.name)
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp ?? Date.now()))
 
   const dateString = (format = 'MMMM d, yyyy h:00 bbb') => dfFormat(timestamp.value, format)
+
+  const setActiveVariable = (varName: string) => (activeVariable.value = varName)
 
   const setActiveStation = (st?: number | StationProperties, sts?: StationProperties[]) => {
     if (st) {
@@ -118,11 +122,13 @@ export const useStationStore = defineStore('station', () => {
     data,
     stationConf,
     activeStation,
+    activeVariable,
     stationName,
     timestamp,
     metValueStrings,
     dateString,
     getSwatch,
     setActiveStation,
+    setActiveVariable,
   }
 })

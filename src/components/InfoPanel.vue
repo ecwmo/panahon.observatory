@@ -1,18 +1,18 @@
 <template>
   <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
-    <template v-if="stationStore.stationName">
+    <template v-if="stnStore.stationName">
       <Card
         v-for="c in cards"
         :key="c.title"
         :data="c"
-        :is-active="c.id === modelValue"
-        @click="$emit('update:modelValue', c.id)"
+        :is-active="c.id === stnStore.activeVariable"
+        @click="stnStore.setActiveVariable(c.id)"
       >
         <component
           :is="c.info"
-          :data="stationStore.metValueStrings"
-          :station-name="stationStore.stationName"
-          :date-string="stationStore.dateString('h bbb')"
+          :data="stnStore.metValueStrings"
+          :station-name="stnStore.stationName"
+          :date-string="stnStore.dateString('h bbb')"
         />
       </Card>
     </template>
@@ -28,10 +28,7 @@
   const LonginfoWind = defineAsyncComponent({ loader: () => import('@/components/longinfo/Wind.vue') })
   const LonginfoPres = defineAsyncComponent({ loader: () => import('@/components/longinfo/Pres.vue') })
 
-  defineProps<{ modelValue: string }>()
-  defineEmits(['update:modelValue'])
-
-  const stationStore = useStationStore()
+  const stnStore = useStationStore()
 
   const fakeCards = [
     {
@@ -53,31 +50,31 @@
   ]
 
   const cards = computed(() => {
-    const windDirStr = stationStore.metValueStrings['wdirStr']
+    const windDirStr = stnStore.metValueStrings['wdirStr']
     return [
       {
         id: 'rain',
         title: 'RAIN (mm)',
         label1: 'Now',
-        value1: stationStore.metValueStrings['rr'],
+        value1: stnStore.metValueStrings['rr'],
         label2: '24hr total',
-        value2: stationStore.metValueStrings['rain24h'],
+        value2: stnStore.metValueStrings['rain24h'],
         iconName: 'fa6s-cloud-rain',
         info: LonginfoRain,
       },
       {
         id: 'temp',
         title: 'TEMPERATURE (°C)',
-        value1: stationStore.metValueStrings['temp'],
+        value1: stnStore.metValueStrings['temp'],
         label2: 'HI',
-        value2: stationStore.metValueStrings['hi'],
+        value2: stnStore.metValueStrings['hi'],
         iconName: 'fas-thermometer-half',
         info: LonginfoTemp,
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
-        value1: stationStore.metValueStrings['wspd'],
+        value1: stnStore.metValueStrings['wspd'],
         value2: windDirStr,
         iconName: 'fa6s-wind',
         iconName2: 'wi-wind-deg',
@@ -86,7 +83,7 @@
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
-        value1: stationStore.metValueStrings['pres'],
+        value1: stnStore.metValueStrings['pres'],
         iconName: 'wi-barometer',
         info: LonginfoPres,
       },
