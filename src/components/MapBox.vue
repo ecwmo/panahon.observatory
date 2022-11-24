@@ -77,23 +77,19 @@
 
   const { accessToken, activeVariable } = toRefs(props)
 
-  const { data: userPosition } = useLocation()
-
   const visibleStations = computed(() => {
     try {
-      const mapBounds = map.value.getBounds()
-      const { lng: minLon, lat: minLat } = mapBounds.getSouthWest()
-      const { lng: maxLon, lat: maxLat } = mapBounds.getNorthEast()
+      const mapBnds = map.value.getBounds()
 
       return stationStore.data?.features
         ?.map(({ properties }) => properties)
-        ?.filter(({ lon, lat }) => {
-          const validLon = lon >= minLon && lon <= maxLon
-          const validLat = lat >= minLat && lat <= maxLat
-          return validLon && validLat
-        })
+        ?.filter(({ lon, lat }) => mapBnds.contains(new LngLat(lon, lat)))
         ?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
-    } catch {}
+    } catch {
+      return stationStore.data?.features
+        ?.map(({ properties }) => properties)
+        ?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
+    }
   })
 
   const activeInfo = computed(() => {
@@ -125,35 +121,8 @@
     dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
-  const getClosestPoint = () => {
-    if (userPosition.value) {
-      const { latitude: userLat, longitude: userLng } = userPosition.value
-      const mapBnds = map.value.getBounds()
-
-      const dat = stationStore.data?.features?.filter(({ geometry: { coordinates } }) =>
-        mapBnds.contains(new LngLat(coordinates[0], coordinates[1]))
-      )
-
-      const d =
-        dat?.map(
-          ({ geometry: { coordinates } }) =>
-            Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
-        ) ?? []
-
-      const i = d.indexOf(Math.min(...d))
-      const newId = dat?.[i].properties?.id ?? dat?.[0].properties?.id ?? 1
-      handleStationChange(newId)
-    }
-  }
-
-  const handleStationChange = (st: number | StationProperties) => {
-    let newActiveStation = st
-    if (typeof st === 'number') {
-      newActiveStation =
-        stationStore.data?.features?.find(({ properties: { id } }) => id === st)?.properties ??
-        ({} as StationProperties)
-    }
-    stationStore.setActiveStation(newActiveStation as StationProperties)
+  const handleStationChange = (st?: number | StationProperties) => {
+    stationStore.setActiveStation(st, visibleStations.value)
     showPoint()
   }
 
@@ -192,7 +161,7 @@
             'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
           },
         })
-        getClosestPoint()
+        handleStationChange()
       }
     }
   }

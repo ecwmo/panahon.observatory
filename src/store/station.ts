@@ -5,6 +5,8 @@ import { Station as StationSchema, StationConfigurations } from '@/schemas/stati
 import type { StationProperties, ObservationVariables, ObservationVariableEnums } from '@/types/station'
 
 export const useStationStore = defineStore('station', () => {
+  const { data: userPosition } = useLocation()
+
   const { data } = useQuery(['stations'], async () => {
     const dat = await axios.get('/api/stations.php').then(({ data }) => StationSchema.parse(data))
     return dat
@@ -19,14 +21,41 @@ export const useStationStore = defineStore('station', () => {
     }
   )
 
-  const activeStation = ref(data.value?.features[0].properties ?? ({} as StationProperties))
-  const stationName = computed(() => activeStation.value.name)
+  const closestPointIdx = computed(() => {
+    if (userPosition.value) {
+      const { latitude: userLat, longitude: userLng } = userPosition.value
+
+      const d =
+        data.value?.features?.map(
+          ({ geometry: { coordinates } }) =>
+            Math.pow(coordinates[0] - userLng, 2) + Math.pow(coordinates[1] - userLat, 2)
+        ) ?? []
+
+      const i = d.indexOf(Math.min(...d))
+      return i ?? 0
+    }
+    return 0
+  })
+
+  const activeStation = ref({} as StationProperties)
+  const stationName = computed(() => activeStation.value?.name)
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp ?? Date.now()))
 
   const dateString = (format = 'MMMM d, yyyy h:00 bbb') => dfFormat(timestamp.value, format)
 
-  const setActiveStation = (st: StationProperties) => {
-    activeStation.value = st
+  const setActiveStation = (st?: number | StationProperties, sts?: StationProperties[]) => {
+    if (st) {
+      if (typeof st === 'number') {
+        activeStation.value =
+          data.value?.features?.find(({ properties: { id } }) => id === st)?.properties ?? ({} as StationProperties)
+      } else {
+        activeStation.value = st
+      }
+    }
+    if (Object.keys(activeStation.value).length === 0) {
+      const _sts = sts ?? data.value?.features.map(({ properties }) => properties)
+      activeStation.value = _sts?.[closestPointIdx.value] ?? ({} as StationProperties)
+    }
   }
 
   const dataIsValid = (val: number, varName: string) => {
@@ -55,7 +84,7 @@ export const useStationStore = defineStore('station', () => {
     else return 'NNW'
   }
 
-  const metValueString = (stnObs: ObservationVariables, varName: string) => {
+  const metValueString = (stnObs: ObservationVariables | undefined, varName: string) => {
     let fracDigits = 1
     const val = (stnObs?.[varName as ObservationVariableEnums] as number) ?? -999
     if (varName === 'wdirStr') {
