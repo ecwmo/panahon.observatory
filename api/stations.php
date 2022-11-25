@@ -50,7 +50,11 @@ if (array_key_exists('24hr', $_GET)) {
             'type' => "Point",
             'coordinates' => array($stnObs['lon'], $stnObs['lat'])
         );
-        $dat['properties'] = $stnObs;
+        if (array_key_exists('info', $_GET)) {
+            $dat['properties'] = array_filter($stnObs, fn ($item) => in_array($item, ['id', 'name', 'lat', 'lon', 'elevation', 'address']), ARRAY_FILTER_USE_KEY);
+        } else {
+            $dat['properties'] = $stnObs;
+        }
         $obsTS = Carbon::parse($stnObs['obs']['timestamp'])->setTime(0, 0, 0);
         if ($obsTS->greaterThanOrEqualTo($ts)) {
             array_push($datArr['features'], $dat);

@@ -28,8 +28,8 @@ export const StationProperties = z.object({
   lon: z.number(),
   elevation: z.number(),
   address: z.union([z.string(), z.number()]),
-  obs: ObservationVariables,
-  colors: ObservationVariableColors,
+  obs: ObservationVariables.optional(),
+  colors: ObservationVariableColors.optional(),
 })
 
 const StationLocation = z.object({

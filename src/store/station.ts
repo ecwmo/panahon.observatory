@@ -12,6 +12,11 @@ export const useStationStore = defineStore('station', () => {
     return dat
   })
 
+  const { data: stationInfo } = useQuery(['stationInfo'], async () => {
+    const dat = await axios.get('/api/stations.php?info').then(({ data }) => StationSchema.parse(data))
+    return dat
+  })
+
   const { data: stationConf } = useQuery(
     'stationConf',
     async () => await axios.get('/api/stations.php?weather_conf').then(({ data }) => StationConfigurations.parse(data)),
@@ -120,6 +125,7 @@ export const useStationStore = defineStore('station', () => {
 
   return {
     data,
+    stationInfo,
     stationConf,
     activeStation,
     activeVariable,
