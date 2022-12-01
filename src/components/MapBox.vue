@@ -28,7 +28,7 @@
             <SwitchLabel class="text-xs">All Data</SwitchLabel>
           </div>
         </SwitchGroup>
-        <MapStationSelector
+        <StationSelector
           :model-value="stnStore.activeStation"
           :stations="visibleStations"
           class="w-32 sm:w-48"
