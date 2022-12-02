@@ -27,10 +27,14 @@ export const useValidationStore = defineStore('validation', () => {
   ]
 
   const activeImgIdx = ref(0)
+  const activeStnImgIdx = ref(0)
   const activeImageGroupIdx = ref(0)
   const selectedDate = ref('')
+  const stnStore = useStationStore()
+  stnStore.setViewType('validation')
 
   const { data } = useQuery(['validationImgs', selectedDate], async () => {
+    stnStore.setValidationTS(selectedDate.value)
     const dat = await axios(`api/validation.php?dt=${selectedDate.value ?? ''}`).then(({ data }) =>
       ImagesSchema.parse(data)
     )
@@ -53,6 +57,10 @@ export const useValidationStore = defineStore('validation', () => {
       (activeImageGroup.value.id !== 'gsmap' ? activeImages?.value?.[activeImgIdx.value] : data?.value?.['gsmap'][2]) ??
       undefined
   )
+
+  const activeStnImage = computed(() => {
+    return stnStore.activeStation.tsImg
+  })
 
   const setActiveImage = (imgIdx: number, grpIdx: number) => {
     activeImgIdx.value = imgIdx
@@ -87,6 +95,8 @@ export const useValidationStore = defineStore('validation', () => {
     leadTimes,
     activeImage,
     setActiveImage,
+    activeStnImgIdx,
+    activeStnImage,
     up,
     down,
     prev,

@@ -67,7 +67,6 @@ declare module '@vue/runtime-core' {
     TabPanel: typeof import('@headlessui/vue')['TabPanel']
     TabPanels: typeof import('@headlessui/vue')['TabPanels']
     ValidationDateSelector: typeof import('./components/ValidationDateSelector.vue')['default']
-    ValidationStnSelector: typeof import('./components/ValidationStnSelector.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
   }
 }
