@@ -60,6 +60,7 @@
 
 <script setup lang="ts">
   import { Map, LngLat } from 'mapbox-gl'
+  import { point, distance } from '@turf/turf'
 
   import { storeToRefs } from 'pinia'
 
@@ -78,18 +79,25 @@
   const { activeVariable } = storeToRefs(stnStore)
 
   const visibleStations = computed(() => {
+    let vStations = stnStore.data
     try {
       const mapBnds = map.value.getBounds()
+      if (vStations)
+        vStations = {
+          ...vStations,
+          features: vStations?.features?.filter(({ properties: { lon, lat } }) =>
+            mapBnds.contains(new LngLat(lon, lat))
+          ),
+        }
+    } catch {}
 
-      return stnStore.data?.features
-        ?.map(({ properties }) => properties)
-        ?.filter(({ lon, lat }) => mapBnds.contains(new LngLat(lon, lat)))
-        ?.sort(({ id: id1 }, { id: id2 }) => (typeof id1 === 'number' && typeof id2 === 'number' ? id1 - id2 : 0))
-    } catch {
-      return stnStore.data?.features
-        ?.map(({ properties }) => properties)
-        ?.sort(({ id: id1 }, { id: id2 }) => (typeof id1 === 'number' && typeof id2 === 'number' ? id1 - id2 : 0))
-    }
+    const activePt = point([stnStore.activeStation.lon, stnStore.activeStation.lat])
+
+    const dists = vStations?.features?.map(({ geometry }) => distance(geometry, activePt))
+
+    return vStations?.features
+      ?.map(({ properties }, idx) => ({ ...properties, dist: dists?.[idx] }))
+      ?.sort(({ dist: d1 }, { dist: d2 }) => (d1 && d2 ? d1 - d2 : 0))
   })
 
   const activeInfo = computed(() => {
