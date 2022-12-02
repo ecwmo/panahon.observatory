@@ -5,7 +5,11 @@
 
     <div v-if="stnStore.data">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
-        <Popup class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg" :show="dotProps.showPopup">
+        <Popup
+          v-if="stnStore.viewType === 'default'"
+          class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
+          :show="dotProps.showPopup"
+        >
           <component :is="activeInfo" :data="stnStore.metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
@@ -41,8 +45,14 @@
         {{ stnStore.dateString('d MMM yyyy, h bbb') }}
       </div>
 
-      <WeatherButtons class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90" />
-      <Colorbar class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90" />
+      <WeatherButtons
+        v-if="stnStore.viewType === 'default'"
+        class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
+      />
+      <Colorbar
+        v-if="stnStore.viewType === 'default'"
+        class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
+      />
     </div>
     <LoadingIcon v-else class="absolute top-0 left-0 w-full h-full" svg-class="w-16 h-16 text-slate-500" />
   </div>
@@ -74,9 +84,11 @@
       return stnStore.data?.features
         ?.map(({ properties }) => properties)
         ?.filter(({ lon, lat }) => mapBnds.contains(new LngLat(lon, lat)))
-        ?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
+        ?.sort(({ id: id1 }, { id: id2 }) => (typeof id1 === 'number' && typeof id2 === 'number' ? id1 - id2 : 0))
     } catch {
-      return stnStore.data?.features?.map(({ properties }) => properties)?.sort(({ id: id1 }, { id: id2 }) => id1 - id2)
+      return stnStore.data?.features
+        ?.map(({ properties }) => properties)
+        ?.sort(({ id: id1 }, { id: id2 }) => (typeof id1 === 'number' && typeof id2 === 'number' ? id1 - id2 : 0))
     }
   })
 
@@ -109,7 +121,7 @@
     dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
-  const handleStationChange = (st?: number | StationProperties) => {
+  const handleStationChange = (st?: number | string | StationProperties) => {
     stnStore.setActiveStation(st, visibleStations.value)
     showPoint()
   }

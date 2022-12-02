@@ -5,6 +5,13 @@ use Carbon\Carbon;
 
 header('Content-Type: application/json');
 
+function parse_validation_date(string $file_name)
+{
+    preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}/', basename($file_name), $date_str);
+    $tsPHT = Carbon::createFromFormat('Y-m-d_H', $date_str[0], 'Asia/Manila');
+    return $tsPHT;
+}
+
 if (array_key_exists('24hr', $_GET)) {
     if ($_GET["type"] == "csv") {
         $stnObsFile = '../resources/station/stn_obs_24hr.csv';
@@ -31,32 +38,50 @@ if (array_key_exists('24hr', $_GET)) {
     $conf = json_decode(file_get_contents($confFile), true);
     echo json_encode($conf);
 } else {
-    $tsFile = '../resources/station/stn_obs_timestamp.json';
-    $ts = json_decode(file_get_contents($tsFile), true);
-    $ts = Carbon::parse($ts['timestamp'])->setTime(0, 0, 0)->subDays(5);
+    if (array_key_exists('validation', $_GET)) {
+        $valImgDir = "../resources/validation";
+        $valStnFile = $valImgDir . '/stations_lufft.json';
+        $stnArr = json_decode(file_get_contents($valStnFile), true);
 
-    $stnObsFile = '../resources/station/stn_obs.json';
-    $stnMOObsFile = '../resources/station/stn_mo_obs.json';
+        $globPattern = "/wrf_ensmean-gsmap-24hr_rain_day1_*.png";
+        $imgs = glob($valImgDir . $globPattern, GLOB_BRACE);
 
-    $stnObsArr = json_decode(file_get_contents($stnObsFile), true);
-    $stnMOObsArr = json_decode(file_get_contents($stnMOObsFile), true);
-    $stnObsArr = array_merge($stnObsArr, $stnMOObsArr);
+        if (isset($_GET['dt']) && !empty($_GET['dt'])) {
+            $tsPHT = Carbon::createFromFormat('Y-m-d_H', $_GET['dt'] . "_08", 'Asia/Manila');
+        } else {
+            $tsPHT = parse_validation_date(basename(end($imgs)));
+        }
+    } else {
+        $tsFile = '../resources/station/stn_obs_timestamp.json';
+        $tsPHT = json_decode(file_get_contents($tsFile), true);
+        $tsPHT = Carbon::parse($ts['timestamp'])->setTime(0, 0, 0)->subDays(5);
+
+        $stnObsFile = '../resources/station/stn_obs.json';
+        $stnMOObsFile = '../resources/station/stn_mo_obs.json';
+
+        $stnObsArr = json_decode(file_get_contents($stnObsFile), true);
+        $stnMOObsArr = json_decode(file_get_contents($stnMOObsFile), true);
+        $stnArr = array_merge($stnObsArr, $stnMOObsArr);
+    }
 
     $datArr = array('type' => "FeatureCollection", 'features' => array());
 
-    foreach ($stnObsArr as $stnId => $stnObs) {
+    foreach ($stnArr as $stnId => $stn) {
         $dat = array('type' => "Feature");
         $dat['geometry'] = array(
             'type' => "Point",
-            'coordinates' => array($stnObs['lon'], $stnObs['lat'])
+            'coordinates' => array($stn['lon'], $stn['lat'])
         );
         if (array_key_exists('info', $_GET)) {
-            $dat['properties'] = array_filter($stnObs, fn ($item) => in_array($item, ['id', 'name', 'lat', 'lon', 'elevation', 'address']), ARRAY_FILTER_USE_KEY);
+            $dat['properties'] = array_filter($stn, fn ($item) => in_array($item, ['id', 'name', 'lat', 'lon', 'elevation', 'address']), ARRAY_FILTER_USE_KEY);
+        } elseif (array_key_exists('validation', $_GET)) {
+            $imgFile = "/validation_aws_combined_" . str_replace(' ', '_', $stn['name']) . '_' . $tsPHT->format('Y-m-d_H') . "PHT.png";
+            $dat['properties'] = array_merge($stn, ["id" => $stn['name'], "tsImg" => $valImgDir . $imgFile]);
         } else {
-            $dat['properties'] = $stnObs;
+            $dat['properties'] = $stn;
         }
-        $obsTS = Carbon::parse($stnObs['obs']['timestamp'])->setTime(0, 0, 0);
-        if ($obsTS->greaterThanOrEqualTo($ts)) {
+        $obsTS = Carbon::parse($stn['obs']['timestamp'])->setTime(0, 0, 0);
+        if ($obsTS->greaterThanOrEqualTo($tsPHT)) {
             array_push($datArr['features'], $dat);
         }
     }

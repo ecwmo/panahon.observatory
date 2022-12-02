@@ -22,14 +22,15 @@ const ObservationVariableColors = z.object({
 })
 
 export const StationProperties = z.object({
-  id: z.number(),
+  id: z.union([z.string(), z.number()]),
   name: z.string(),
   lat: z.number(),
   lon: z.number(),
-  elevation: z.number(),
-  address: z.union([z.string(), z.number()]),
+  elevation: z.number().optional(),
+  address: z.union([z.string(), z.number()]).optional(),
   obs: ObservationVariables.optional(),
   colors: ObservationVariableColors.optional(),
+  tsImg: z.string().optional(),
 })
 
 const StationLocation = z.object({

@@ -18,4 +18,5 @@
 
 <script setup lang="ts">
   const stnStore = useStationStore()
+  stnStore.setViewType('default')
 </script>

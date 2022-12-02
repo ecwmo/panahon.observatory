@@ -6,9 +6,15 @@ import type { StationProperties, ObservationVariables, ObservationVariableEnums 
 
 export const useStationStore = defineStore('station', () => {
   const { data: userPosition } = useLocation()
+  const viewType = ref('default')
+  const validationTS = ref('')
 
-  const { data } = useQuery(['stations'], async () => {
-    const dat = await axios.get('/api/stations.php').then(({ data }) => StationSchema.parse(data))
+  const { data, status: dataStatus } = useQuery(['stations', viewType, validationTS], async () => {
+    const url =
+      viewType.value === 'validation'
+        ? `/api/stations.php?validation&dt=${validationTS.value ?? ''}`
+        : '/api/stations.php'
+    const dat = await axios.get(url).then(({ data }) => StationSchema.parse(data))
     return dat
   })
 
@@ -50,11 +56,18 @@ export const useStationStore = defineStore('station', () => {
 
   const dateString = (format = 'MMMM d, yyyy h:00 bbb') => dfFormat(timestamp.value, format)
 
+  const setViewType = (vType: string) => (viewType.value = vType)
+
+  const setValidationTS = (vTS: string) => (validationTS.value = vTS)
+
   const setActiveVariable = (varName: string) => (activeVariable.value = varName)
 
-  const setActiveStation = (st?: number | StationProperties, sts?: StationProperties[]) => {
+  const setActiveStation = (st?: number | string | StationProperties, sts?: StationProperties[]) => {
     if (st) {
       if (typeof st === 'number') {
+        activeStation.value =
+          data.value?.features?.find(({ properties: { id } }) => id === st)?.properties ?? ({} as StationProperties)
+      } else if (typeof st === 'string') {
         activeStation.value =
           data.value?.features?.find(({ properties: { id } }) => id === st)?.properties ?? ({} as StationProperties)
       } else {
@@ -123,8 +136,14 @@ export const useStationStore = defineStore('station', () => {
     return { colors, levels }
   }
 
+  watch([viewType, validationTS, dataStatus], () => {
+    if (data.value) setActiveStation(activeStation.value.id)
+  })
+
   return {
+    viewType,
     data,
+    validationTS,
     stationInfo,
     stationConf,
     activeStation,
@@ -134,6 +153,8 @@ export const useStationStore = defineStore('station', () => {
     metValueStrings,
     dateString,
     getSwatch,
+    setViewType,
+    setValidationTS,
     setActiveStation,
     setActiveVariable,
   }
