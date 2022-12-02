@@ -62,21 +62,16 @@ export const useStationStore = defineStore('station', () => {
 
   const setActiveVariable = (varName: string) => (activeVariable.value = varName)
 
-  const setActiveStation = (st?: number | string | StationProperties, sts?: StationProperties[]) => {
+  const setActiveStation = (st?: number | string | StationProperties, visibleStations?: StationProperties[]) => {
+    const vStns = visibleStations ?? data.value?.features.map(({ properties }) => properties)
     if (st) {
-      if (typeof st === 'number') {
-        activeStation.value =
-          data.value?.features?.find(({ properties: { id } }) => id === st)?.properties ?? ({} as StationProperties)
-      } else if (typeof st === 'string') {
-        activeStation.value =
-          data.value?.features?.find(({ properties: { id } }) => id === st)?.properties ?? ({} as StationProperties)
-      } else {
-        activeStation.value = st
-      }
+      activeStation.value =
+        typeof st === 'number' || typeof st === 'string'
+          ? vStns?.find(({ id }) => id === st) ?? ({} as StationProperties)
+          : st
     }
     if (Object.keys(activeStation.value).length === 0) {
-      const _sts = sts ?? data.value?.features.map(({ properties }) => properties)
-      activeStation.value = _sts?.[closestPointIdx.value] ?? ({} as StationProperties)
+      activeStation.value = vStns?.[closestPointIdx.value] ?? ({} as StationProperties)
     }
   }
 
