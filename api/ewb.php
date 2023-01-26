@@ -22,12 +22,20 @@ $imgs = array_merge($imgs, ['fcst' => $mod_imgs]);
 
 
 $tsPHT = get_latest_date("ewb");
-$obs_img_dir = '../resources/model/img/ewb';
+$date_str = $tsPHT->format('Y-m-d_H') . "PHT";
+$ewb_img_dir = '../resources/model/img/ewb';
+
+
+$day_array = [1, 3, 5];
+$file_frag = ['rain' => 'totalprecip', 'rainx' => 'totalprecip_extreme'];
+$mod_imgs = array_reduce(array_keys($file_frag), fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $ewb_img_dir . "/wrf-" .  $dy . "day_". $file_frag[$i] ."_" . $date_str . ".png", $day_array)]), []);
+$imgs = array_merge($imgs, ['fcstAccum' => $mod_imgs]);
+
+
 $day_array = [1, 3, 5, 7, 30];
 $file_prfxs = ['gsmap', 'station'];
-$date_str = $tsPHT->format('Y-m-d_H') . "PHT";
-$obs_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $obs_img_dir . "/" . $i . "_" .  $dy . "day_totalprecip_" . $date_str . ".png", $day_array)]), []);
-$obs_imgs2 = ['gsmapx' => array_map(fn ($dy) => $obs_img_dir . "/gsmap_" .  $dy . "day_totalprecip_extreme_" . $date_str . ".png", $day_array)];
+$obs_imgs = array_reduce($file_prfxs, fn ($c, $i) => array_merge($c, [$i => array_map(fn ($dy) => $ewb_img_dir . "/" . $i . "_" .  $dy . "day_totalprecip_" . $date_str . ".png", $day_array)]), []);
+$obs_imgs2 = ['gsmapx' => array_map(fn ($dy) => $ewb_img_dir . "/gsmap_" .  $dy . "day_totalprecip_extreme_" . $date_str . ".png", $day_array)];
 $obs_imgs = array_merge($obs_imgs,$obs_imgs2);
 $imgs = array_merge($imgs, ['obs' => $obs_imgs]);
 

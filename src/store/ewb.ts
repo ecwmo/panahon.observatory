@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { Images } from '@/schemas/ewb'
-import type { DynamicImages, ForecastVariables, ObservationTypes } from '@/types/ewb'
+import type { DynamicImages, ForecastAccumVariables, ForecastVariables, ObservationTypes } from '@/types/ewb'
 
 export const useEWBStore = defineStore('ewb', () => {
   const activeImgType = ref('fcst')
@@ -34,6 +34,23 @@ export const useEWBStore = defineStore('ewb', () => {
     { val: 120, text: '120hr' },
   ]
 
+  const forecastAccumVariables: ForecastAccumVariables = [
+    {
+      id: 'rain',
+      text: 'WRF Accum Rainfall',
+    },
+    {
+      id: 'rainx',
+      text: 'Extreme Accum Rainfall',
+    },
+  ]
+
+  const forecastAccumTimes = [
+    { val: 1, text: '1day' },
+    { val: 3, text: '3day' },
+    { val: 5, text: '5day' },
+  ]
+
   const observationTypes: ObservationTypes = [
     {
       id: 'gsmap',
@@ -57,7 +74,16 @@ export const useEWBStore = defineStore('ewb', () => {
     { val: 30, text: '30day' },
   ]
 
-  const activeVariables = computed(() => (activeImgType.value === 'fcst' ? forecastVariables : observationTypes))
+  const activeVariables = computed(() => {
+    switch (activeImgType.value) {
+      case 'fcstAccum':
+        return forecastAccumVariables
+      case 'obs':
+        return observationTypes
+      default:
+        return forecastVariables
+    }
+  })
 
   const activeImages = computed(() => {
     const imgs = data.value?.[activeImgType.value as keyof DynamicImages]
@@ -93,6 +119,8 @@ export const useEWBStore = defineStore('ewb', () => {
     data,
     forecastVariables,
     forecastTimes,
+    forecastAccumVariables,
+    forecastAccumTimes,
     observationTypes,
     observationTimes,
     activeImage,

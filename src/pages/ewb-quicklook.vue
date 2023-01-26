@@ -38,6 +38,34 @@
         <thead>
           <tr>
             <th></th>
+            <th v-for="ft in ewb.forecastAccumTimes" :key="`hd_${ft.text}`">{{ ft.text }}</th>
+            <th v-for="i in 2" :key="`fillh_${i}`"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(fvar, gIdx) in ewb.forecastAccumVariables" :key="fvar.id">
+            <th class="[writing-mode:vertical-rl] rotate-180 h-min">
+              {{ fvar.text }}
+            </th>
+            <td
+              v-for="(imgSrc, imgIdx) in ewb.data?.fcstAccum?.[fvar.id]"
+              :key="imgSrc"
+              class="w-1/5"
+              @click="handleThumbnailClick(imgIdx, gIdx, 'fcstAccum')"
+            >
+              <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
+            </td>
+            <td v-for="i in 2" :key="`filld_${i}`" class="w-1/5"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="md:m-6">
+      <table class="table-auto text-xs md:text-base">
+        <thead>
+          <tr>
+            <th></th>
             <th v-for="ot in ewb.observationTimes" :key="`hd_${ot.text}`">
               {{ ot.text }}
             </th>
