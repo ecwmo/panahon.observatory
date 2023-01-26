@@ -2,12 +2,12 @@ import { z } from 'zod'
 
 import { imgSrc } from '@/schemas/common'
 
-export const ExternalImages = z.object({
+export const EWBExtImages = z.object({
   jtwc: imgSrc,
   pagasa: imgSrc,
 })
 
-export const DynamicImages = z.object({
+export const EWBIntImages = z.object({
   fcst: z.object({
     rain: imgSrc.array().length(5),
     rainx: imgSrc.array().length(5),
@@ -25,25 +25,11 @@ export const DynamicImages = z.object({
   }),
 })
 
-export const Images = ExternalImages.merge(DynamicImages)
+export const EWBImages = EWBExtImages.merge(EWBIntImages)
 
-export const ForecastVariables = z
+export const EWBItems = z
   .object({
-    id: DynamicImages.shape.fcst.keyof(),
-    text: z.string(),
-  })
-  .array()
-
-export const ForecastAccumVariables = z
-  .object({
-    id: DynamicImages.shape.fcstAccum.keyof(),
-    text: z.string(),
-  })
-  .array()
-
-export const ObservationTypes = z
-  .object({
-    id: DynamicImages.shape.obs.keyof(),
+    id: z.string(),
     text: z.string(),
   })
   .array()

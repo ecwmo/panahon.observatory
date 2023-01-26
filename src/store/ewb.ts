@@ -1,92 +1,89 @@
 import { defineStore } from 'pinia'
 
-import { Images } from '@/schemas/ewb'
-import type { DynamicImages, ForecastAccumVariables, ForecastVariables, ObservationTypes } from '@/types/ewb'
+import { EWBImages } from '@/schemas/ewb'
+import type { EWBIntImages, EWBItems } from '@/types/ewb'
 
 export const useEWBStore = defineStore('ewb', () => {
   const activeImgType = ref('fcst')
   const activeGroupIdx = ref(0)
   const activeIdx = ref(0)
 
-  const { data } = useQuery(['ewbImgs'], async () => await axios('api/ewb.php').then(({ data }) => Images.parse(data)))
+  const { data } = useQuery(
+    ['ewbImgs'],
+    async () => await axios('api/ewb.php').then(({ data }) => EWBImages.parse(data))
+  )
 
-  const forecastVariables: ForecastVariables = [
-    {
-      id: 'rain',
-      text: 'Daily Rainfall',
+  const metadata: Record<string, { items: EWBItems; variants: { val: number; text: string }[] }> = {
+    fcst: {
+      items: [
+        {
+          id: 'rain',
+          text: 'Daily Rainfall',
+        },
+        {
+          id: 'rainx',
+          text: 'Extreme Daily Rainfall',
+        },
+        { id: 'wind', text: 'Winds' },
+        {
+          id: 'hix',
+          text: 'Max Heat Index',
+        },
+      ],
+      variants: [
+        { val: 24, text: '24hr' },
+        { val: 48, text: '48hr' },
+        { val: 72, text: '72hr' },
+        { val: 96, text: '96hr' },
+        { val: 120, text: '120hr' },
+      ],
     },
-    {
-      id: 'rainx',
-      text: 'Extreme Daily Rainfall',
+    fcstAccum: {
+      items: [
+        {
+          id: 'rain',
+          text: 'WRF Accum Rainfall',
+        },
+        {
+          id: 'rainx',
+          text: 'Extreme Accum Rainfall',
+        },
+      ],
+      variants: [
+        { val: 1, text: '1day' },
+        { val: 3, text: '3day' },
+        { val: 5, text: '5day' },
+      ],
     },
-    { id: 'wind', text: 'Winds' },
-    {
-      id: 'hix',
-      text: 'Max Heat Index',
+    obs: {
+      items: [
+        {
+          id: 'gsmap',
+          text: 'GSMap',
+        },
+        {
+          id: 'gsmapx',
+          text: 'Extreme Rainfall',
+        },
+        {
+          id: 'station',
+          text: 'Stations',
+        },
+      ],
+      variants: [
+        { val: 1, text: '1day' },
+        { val: 3, text: '3day' },
+        { val: 5, text: '5day' },
+        { val: 7, text: '7day' },
+        { val: 30, text: '30day' },
+      ],
     },
-  ]
+  }
 
-  const forecastTimes = [
-    { val: 24, text: '24hr' },
-    { val: 48, text: '48hr' },
-    { val: 72, text: '72hr' },
-    { val: 96, text: '96hr' },
-    { val: 120, text: '120hr' },
-  ]
-
-  const forecastAccumVariables: ForecastAccumVariables = [
-    {
-      id: 'rain',
-      text: 'WRF Accum Rainfall',
-    },
-    {
-      id: 'rainx',
-      text: 'Extreme Accum Rainfall',
-    },
-  ]
-
-  const forecastAccumTimes = [
-    { val: 1, text: '1day' },
-    { val: 3, text: '3day' },
-    { val: 5, text: '5day' },
-  ]
-
-  const observationTypes: ObservationTypes = [
-    {
-      id: 'gsmap',
-      text: 'GSMap',
-    },
-    {
-      id: 'gsmapx',
-      text: 'Extreme Rainfall',
-    },
-    {
-      id: 'station',
-      text: 'Stations',
-    },
-  ]
-
-  const observationTimes = [
-    { val: 1, text: '1day' },
-    { val: 3, text: '3day' },
-    { val: 5, text: '5day' },
-    { val: 7, text: '7day' },
-    { val: 30, text: '30day' },
-  ]
-
-  const activeVariables = computed(() => {
-    switch (activeImgType.value) {
-      case 'fcstAccum':
-        return forecastAccumVariables
-      case 'obs':
-        return observationTypes
-      default:
-        return forecastVariables
-    }
-  })
+  const activeVariables = computed(() => metadata[activeImgType.value]?.items ?? metadata['fcst']?.items)
 
   const activeImages = computed(() => {
-    const imgs = data.value?.[activeImgType.value as keyof DynamicImages]
+    const imgs = data.value?.[activeImgType.value as keyof EWBIntImages]
     const activeVar = activeVariables.value[activeGroupIdx.value].id
     return (imgs as { [key: string]: string[] })?.[activeVar]
   })
@@ -117,12 +114,7 @@ export const useEWBStore = defineStore('ewb', () => {
 
   return {
     data,
-    forecastVariables,
-    forecastTimes,
-    forecastAccumVariables,
-    forecastAccumTimes,
-    observationTypes,
-    observationTimes,
+    metadata,
     activeImage,
     setActiveImage,
     up,
