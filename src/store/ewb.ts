@@ -40,6 +40,10 @@ export const useEWBStore = defineStore('ewb', () => {
       text: 'GSMap',
     },
     {
+      id: 'gsmapx',
+      text: 'Extreme Rainfall',
+    },
+    {
       id: 'station',
       text: 'Stations',
     },

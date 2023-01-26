@@ -18,6 +18,7 @@ export const DynamicImages = z.object({
   }),
   obs: z.object({
     gsmap: imgSrcArr,
+    gsmapx: imgSrcArr,
     station: imgSrcArr,
   }),
 })
