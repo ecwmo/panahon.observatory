@@ -11,6 +11,7 @@ export const EWBIntImages = z.object({
   fcst: z.object({
     rain: imgSrc.array().length(5),
     rainx: imgSrc.array().length(5),
+    ari: imgSrc.array().length(5),
     wind: imgSrc.array().length(5),
     hix: imgSrc.array().length(5),
   }),

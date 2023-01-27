@@ -24,6 +24,10 @@ export const useEWBStore = defineStore('ewb', () => {
           id: 'rainx',
           text: 'Extreme Daily Rainfall',
         },
+        {
+          id: 'ari',
+          text: 'Daily ARI',
+        },
         { id: 'wind', text: 'Winds' },
         {
           id: 'hix',
