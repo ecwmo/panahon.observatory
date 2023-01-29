@@ -63,10 +63,12 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useEWBStore: typeof import('./store/ewb')['useEWBStore']
   const useForecastStore: typeof import('./store/forecast')['useForecastStore']
+  const useIntersectionObserver: typeof import('@vueuse/core')['useIntersectionObserver']
   const useLocation: typeof import('./composables/useLocation')['default']
   const useQuery: typeof import('vue-query')['useQuery']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
+  const useScroll: typeof import('@vueuse/core')['useScroll']
   const useSlots: typeof import('vue')['useSlots']
   const useStationStore: typeof import('./store/station')['useStationStore']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
@@ -144,10 +146,12 @@ declare module '@vue/runtime-core' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useEWBStore: UnwrapRef<typeof import('./store/ewb')['useEWBStore']>
     readonly useForecastStore: UnwrapRef<typeof import('./store/forecast')['useForecastStore']>
+    readonly useIntersectionObserver: UnwrapRef<typeof import('@vueuse/core')['useIntersectionObserver']>
     readonly useLocation: UnwrapRef<typeof import('./composables/useLocation')['default']>
     readonly useQuery: UnwrapRef<typeof import('vue-query')['useQuery']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
+    readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useStationStore: UnwrapRef<typeof import('./store/station')['useStationStore']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>

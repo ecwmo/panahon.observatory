@@ -1,37 +1,54 @@
 <template>
-  <div class="flex flex-col justify-between items-center">
-    <div class="md:m-6">
-      <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.jtwc" />
-    </div>
-    <div class="md:m-6">
-      <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.pagasa" />
-    </div>
+  <div ref="bodyEl" class="h-full md:p-4 overflow-scroll">
+    <TabGroup :selected-index="selectedTab" @change="handleTabChange">
+      <TabList ref="tabHeaderEl" class="fixed flex space-x-2 rounded-xl p-1 mx-5 z-40">
+        <Tab v-for="tab in tabs" v-slot="{ selected }" :key="tab" as="template">
+          <button
+            :class="[
+              'rounded-lg p-2.5 text-sm font-medium leading-5 text-blue-700',
+              'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+              selected ? 'bg-white shadow' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+            ]"
+          >
+            {{ tab }}
+          </button>
+        </Tab>
+      </TabList>
+    </TabGroup>
+    <div ref="sectionEls" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
+      <div>
+        <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.jtwc" />
+      </div>
+      <div>
+        <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.pagasa" />
+      </div>
 
-    <div v-for="section in sections" :key="section.name" class="md:m-6">
-      <table class="table-auto text-xs md:text-base">
-        <thead>
-          <tr>
-            <th></th>
-            <th v-for="h in section.header" :key="`hd_${section.name}_${h.text}`">{{ h.text }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(d, gIdx) in section.data" :key="`bdy_${section.name}_${d.id}`">
-            <th class="[writing-mode:vertical-rl] rotate-180 h-min">
-              {{ d.text }}
-            </th>
-            <td
-              v-for="(imgSrc, imgIdx) in d.imgs"
-              :key="imgSrc"
-              class="w-1/5"
-              @click="handleThumbnailClick(imgIdx, gIdx, section.name)"
-            >
-              <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
-            </td>
-            <td v-for="i in section?.fill_end" :key="`filld_${i}`" class="w-1/5"></td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-for="section in sections" :key="section.name">
+        <table class="table-auto text-xs md:text-base">
+          <thead>
+            <tr>
+              <th></th>
+              <th v-for="h in section.header" :key="`hd_${section.name}_${h.text}`">{{ h.text }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(d, gIdx) in section.data" :key="`bdy_${section.name}_${d.id}`">
+              <th class="[writing-mode:vertical-rl] rotate-180 h-min">
+                {{ d.text }}
+              </th>
+              <td
+                v-for="(imgSrc, imgIdx) in d.imgs"
+                :key="imgSrc"
+                class="w-1/5"
+                @click="handleThumbnailClick(imgIdx, gIdx, section.name)"
+              >
+                <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
+              </td>
+              <td v-for="i in section?.fill_end" :key="`filld_${i}`" class="w-1/5"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -49,6 +66,30 @@
 
 <script setup lang="ts">
   import { EWBIntImages } from '@/types/ewb'
+
+  const bodyEl = ref()
+  const tabHeaderEl = ref()
+  const sectionEls = ref()
+
+  const { directions: scrollDir, isScrolling } = useScroll(bodyEl)
+
+  const tabs = ['JTWC', 'PAGASA', 'Forecast', 'Forecast (Accumulated)', 'Observed']
+  const selectedTab = ref(0)
+
+  const intObsOpts = computed(() => {
+    const opts = {
+      root: bodyEl,
+      threshold: 0,
+    }
+    if (tabHeaderEl.value) {
+      const offset = tabHeaderEl.value?.$el.offsetHeight
+      const rootMargin = `${offset * -1}px`
+      return { ...opts, rootMargin }
+    }
+
+    return opts
+  })
+
   const imgPopUp = ref(false)
 
   const ewb = useEWBStore()
@@ -79,4 +120,30 @@
     ewb.setActiveImage(imgIdx, grpIdx, imgType)
     imgPopUp.value = true
   }
+
+  const handleTabChange = (idx: number) => {
+    const el = sectionEls.value.children[idx]
+
+    bodyEl.value.scrollTo({
+      behavior: 'smooth',
+      top: el.offsetTop - sectionEls.value.offsetTop,
+    })
+  }
+
+  onMounted(() => {
+    ;[...sectionEls.value.children].forEach((s, idx) => {
+      useIntersectionObserver(
+        s,
+        ([{ isIntersecting }]) => {
+          const shouldUpdate =
+            isScrolling.value && ((scrollDir.bottom && !isIntersecting) || (scrollDir.top && isIntersecting))
+
+          if (shouldUpdate) {
+            selectedTab.value = scrollDir.top ? idx : idx + 1
+          }
+        },
+        intObsOpts.value
+      )
+    })
+  })
 </script>

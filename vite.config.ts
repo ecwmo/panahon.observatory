@@ -2,15 +2,15 @@
 // import { defineConfig } from 'vite'
 import { defineConfig } from 'vitest/config'
 
-import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
-import { VitePWA } from 'vite-plugin-pwa'
-import Pages from 'vite-plugin-pages'
-import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import Components from 'unplugin-vue-components/vite'
+import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import Pages from 'vite-plugin-pages'
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   base: process.env.APP_ENV === 'development' ? '/' : '/dist/',
@@ -74,7 +74,7 @@ export default defineConfig({
         'vue-router',
         'vitest',
         {
-          '@vueuse/core': ['useSwipe'],
+          '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver'],
           'vue-query': ['useQuery'],
           axios: [['default', 'axios']],
         },
