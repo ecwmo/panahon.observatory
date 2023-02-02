@@ -1,12 +1,12 @@
 <template>
-  <Listbox v-model="valStore.selectedDate" class="w-fit">
-    <div class="relative">
+  <Listbox v-model="valStore.selectedDate">
+    <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv text-skin-inverted py-1 pl-2 pr-8 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
+        class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv text-skin-inverted py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
       >
-        <span class="block truncate">{{ selectedDate ?? 'Loading...' }}</span>
-        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center mx-2">
-          <i-fa6-solid-chevron-down class="scale-75" />
+        <span>{{ selectedDate ?? 'Loading...' }}</span>
+        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+          <i-mdi-unfold-more-horizontal class="w-5 h-5" />
         </span>
       </ListboxButton>
       <transition
@@ -35,9 +35,9 @@
               }}</span>
               <span
                 v-if="selected"
-                class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-skin-listbox-active"
+                class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-3 text-skin-listbox-active"
               >
-                <i-fa-solid-check v-show="selected" class="scale-75" aria-hidden="true" />
+                <i-mdi-check-bold v-show="selected" clas="w-4 h-4" aria-hidden="true" />
               </span>
             </li>
           </ListboxOption>

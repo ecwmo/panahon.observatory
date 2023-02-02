@@ -1,8 +1,8 @@
 <template>
-  <div class="h-full md:gap-4 md:p-4">
+  <div class="h-full space-y-2 md:space-y-4 p-2 md:p-8">
     <TabGroup>
-      <TabList class="flex space-x-1 rounded-xl p-1">
-        <Tab v-for="tab in tabs" v-slot="{ selected }" :key="tab" as="template" class="mx-5">
+      <TabList class="flex space-x-2 rounded-xl p-1 z-40">
+        <Tab v-for="tab in tabs" v-slot="{ selected }" :key="tab" as="template">
           <button
             :class="[
               'rounded-lg p-2.5 text-sm font-medium leading-5 text-blue-700',
@@ -14,10 +14,10 @@
           </button>
         </Tab>
       </TabList>
-      <TabPanels class="flex h-full w-full mt-2">
-        <TabPanel>
-          <ValidationDateSelector class="m-2 md:m-6 w-36" />
-          <div class="md:m-6">
+      <TabPanels class="flex h-full w-full">
+        <TabPanel class="space-y-2 md:space-y-4">
+          <ValidationDateSelector class="w-36 z-30" />
+          <div>
             <table class="table-auto text-xs md:text-base">
               <thead>
                 <tr>
@@ -42,16 +42,14 @@
             </table>
           </div>
         </TabPanel>
-        <TabPanel class="flex h-full w-full">
-          <div class="flex flex-col h-full w-full items-center justify-center">
-            <ValidationDateSelector :range-view="true" class="m-2 md:m-6 w-36 z-50" />
+        <TabPanel class="flex flex-col h-full w-full items-center justify-center space-y-2 md:space-y-4">
+          <ValidationDateSelector :range-view="true" class="w-48 z-30" />
 
-            <div class="flex flex-col md:flex-row h-full w-full md:gap-4">
-              <MapBox class="w-full md:w-1/2 h-full z-0" />
+          <div class="flex flex-col md:flex-row h-full w-full space-x-2 md:space-x-4">
+            <MapBox class="w-full md:w-1/2 h-full z-0" />
 
-              <div class="w-full md:w-1/2 h-full">
-                <img class="object-contain rounded-2xl" :src="valStore.activeStnImage" />
-              </div>
+            <div class="w-full md:w-1/2 h-full">
+              <img class="object-contain rounded-2xl" :src="valStore.activeStnImage" />
             </div>
           </div>
         </TabPanel>
