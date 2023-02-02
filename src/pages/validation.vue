@@ -35,7 +35,13 @@
                     class="w-1/5"
                     @click.prevent="handleThumbnailClick(imgIdx, gIdx)"
                   >
-                    <img v-if="imgSrc" class="border hover:border-black" :src="imgSrc" />
+                    <img
+                      v-show="imgSrc"
+                      ref="imgEls"
+                      class="border hover:border-black"
+                      :src="gIdx <= lazyLoadGroupStartIdx ? imgSrc ?? undefined : undefined"
+                      :data-url="gIdx > lazyLoadGroupStartIdx ? imgSrc : undefined"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -74,10 +80,33 @@
 
   const imgPopUp = ref(false)
 
+  const imgEls = ref([])
+  const lazyLoadStartIdx = 10
+  const lazyLoadGroupStartIdx = 1
+
   const tabs = ['Maps', 'Timeseries']
 
   const handleThumbnailClick = (imgIdx: number, grpIdx: number) => {
     valStore.setActiveImage(imgIdx, grpIdx)
     imgPopUp.value = true
   }
+
+  watchEffect(() => {
+    const validImgs = imgEls.value.filter(({ dataset: { url } }: HTMLImageElement) => url !== undefined)
+    if (validImgs.length) {
+      setTimeout(() => {
+        ;(imgEls.value as HTMLImageElement[])
+          .slice(lazyLoadStartIdx)
+          .filter(({ dataset: { url } }) => url !== undefined)
+          .forEach((img) => {
+            const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
+              if (isIntersecting && img.dataset.url !== undefined) {
+                img.src = img.dataset.url ?? ''
+                unobserve()
+              }
+            })
+          })
+      }, 2000)
+    }
+  })
 </script>
