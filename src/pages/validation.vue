@@ -44,7 +44,7 @@
         </TabPanel>
         <TabPanel class="flex h-full w-full">
           <div class="flex flex-col h-full w-full items-center justify-center">
-            <ValidationDateSelector class="m-2 md:m-6 w-36 z-50" />
+            <ValidationDateSelector :range-view="true" class="m-2 md:m-6 w-36 z-50" />
 
             <div class="flex flex-col md:flex-row h-full w-full md:gap-4">
               <MapBox class="w-full md:w-1/2 h-full z-0" />
