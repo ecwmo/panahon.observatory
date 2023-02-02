@@ -1,6 +1,7 @@
+import { format } from 'date-fns'
 import { defineStore } from 'pinia'
 
-import { Images as ImagesSchema, AvailableDates } from '@/schemas/validation'
+import { AvailableDates, Images as ImagesSchema } from '@/schemas/validation'
 import type { Images } from '@/types/validation'
 
 export const useValidationStore = defineStore('validation', () => {
@@ -29,14 +30,14 @@ export const useValidationStore = defineStore('validation', () => {
   const activeImgIdx = ref(0)
   const activeStnImgIdx = ref(0)
   const activeImageGroupIdx = ref(0)
-  const selectedDate = ref('')
+  const selectedDate = ref(new Date())
   const stnStore = useStationStore()
   stnStore.setViewType('validation')
 
   const { data } = useQuery(['validationImgs', selectedDate], async () => {
     stnStore.setValidationTS(selectedDate.value)
-    const dat = await axios(`api/validation.php?dt=${selectedDate.value ?? ''}`).then(({ data }) =>
-      ImagesSchema.parse(data)
+    const dat = await axios(`api/validation.php?dt=${format(selectedDate.value, 'yyyy-MM-dd') ?? ''}`).then(
+      ({ data }) => ImagesSchema.parse(data)
     )
     const { gsmap: _gsmap } = dat
     return { ...dat, gsmap: [null, null, _gsmap[0], null, null] }

@@ -1,18 +1,18 @@
+import { format } from 'date-fns'
 import { defineStore } from 'pinia'
-import { format as dfFormat } from 'date-fns'
 
 import { Station as StationSchema, StationConfigurations } from '@/schemas/station'
-import type { StationProperties, ObservationVariables, ObservationVariableEnums } from '@/types/station'
+import type { ObservationVariableEnums, ObservationVariables, StationProperties } from '@/types/station'
 
 export const useStationStore = defineStore('station', () => {
   const { data: userPosition } = useLocation()
   const viewType = ref('default')
-  const validationTS = ref('')
+  const validationTS = ref(new Date())
 
   const { data, status: dataStatus } = useQuery(['stations', viewType, validationTS], async () => {
     const url =
       viewType.value === 'validation'
-        ? `/api/stations.php?validation&dt=${validationTS.value ?? ''}`
+        ? `/api/stations.php?validation&dt=${format(validationTS.value, 'yyyy-MM-dd') ?? ''}`
         : '/api/stations.php'
     const dat = await axios.get(url).then(({ data }) => StationSchema.parse(data))
     return dat
@@ -54,11 +54,11 @@ export const useStationStore = defineStore('station', () => {
   const stationName = computed(() => activeStation.value?.name)
   const timestamp = computed(() => new Date(activeStation.value?.obs?.timestamp ?? Date.now()))
 
-  const dateString = (format = 'MMMM d, yyyy h:00 bbb') => dfFormat(timestamp.value, format)
+  const dateString = (fString = 'MMMM d, yyyy h:00 bbb') => format(timestamp.value, fString)
 
   const setViewType = (vType: string) => (viewType.value = vType)
 
-  const setValidationTS = (vTS: string) => (validationTS.value = vTS)
+  const setValidationTS = (vTS: Date) => (validationTS.value = vTS)
 
   const setActiveVariable = (varName: string) => (activeVariable.value = varName)
 

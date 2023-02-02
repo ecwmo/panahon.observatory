@@ -1,3 +1,4 @@
+import { parse } from 'date-fns'
 import { z } from 'zod'
 
 import { imgSrc } from '@/schemas/common'
@@ -20,4 +21,7 @@ export const Images = z.object({
   gfs_gsmap: imgSrcArr,
 })
 
-export const AvailableDates = z.string().array()
+export const AvailableDates = z.preprocess(
+  (dts) => (dts as string[]).map((dt) => parse(dt, 'yyyy-MM-dd', new Date())),
+  z.date().array()
+)
