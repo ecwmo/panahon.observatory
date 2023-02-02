@@ -36,7 +36,7 @@ export const useValidationStore = defineStore('validation', () => {
 
   const { data } = useQuery(['validationImgs', selectedDate], async () => {
     stnStore.setValidationTS(selectedDate.value)
-    const dat = await axios(`api/validation.php?dt=${format(selectedDate.value, 'yyyy-MM-dd') ?? ''}`).then(
+    const dat = await axios(`/api/validation.php?dt=${format(selectedDate.value, 'yyyy-MM-dd') ?? ''}`).then(
       ({ data }) => ImagesSchema.parse(data)
     )
     const { gsmap: _gsmap } = dat
@@ -44,7 +44,7 @@ export const useValidationStore = defineStore('validation', () => {
   })
 
   const { data: validationDates } = useQuery(['validationDates'], async () => {
-    const dat = await axios('api/validation.php?dates').then(({ data }) => AvailableDates.parse(data))
+    const dat = await axios('/api/validation.php?dates').then(({ data }) => AvailableDates.parse(data))
     selectedDate.value = dat[0]
     return dat
   })

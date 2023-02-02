@@ -32,7 +32,6 @@ declare module '@vue/runtime-core' {
     IFaSolidInfo: typeof import('~icons/fa-solid/info')['default']
     IFaSolidThermometerHalf: typeof import('~icons/fa-solid/thermometer-half')['default']
     ImageModal: typeof import('./components/ImageModal.vue')['default']
-    IMdiCheck: typeof import('~icons/mdi/check')['default']
     IMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
     IMdiUnfoldMoreHorizontal: typeof import('~icons/mdi/unfold-more-horizontal')['default']
     InfoPanel: typeof import('./components/InfoPanel.vue')['default']
