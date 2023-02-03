@@ -8,7 +8,6 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const auth = useAuthStore()
-  console.log(to)
   if (['/', '/validation/ts'].includes(to.path)) {
     import('mapbox-gl/dist/mapbox-gl.css')
   }
