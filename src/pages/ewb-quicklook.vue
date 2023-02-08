@@ -1,13 +1,20 @@
 <template>
   <div ref="bodyEl" class="h-full md:p-4 overflow-scroll">
     <TabGroup :selected-index="selectedTab" @change="handleTabChange">
-      <TabList ref="tabHeaderEl" class="fixed flex space-x-2 rounded-xl p-1 mx-5 z-40">
+      <TabList
+        ref="tabHeaderEl"
+        :class="['fixed flex space-x-2 rounded-xl p-1 mx-5 z-40 ', { 'backdrop-blur-sm bg-white/10': selectedTab > 0 }]"
+      >
         <Tab v-for="tab in tabs" v-slot="{ selected }" :key="tab" as="template">
           <button
             :class="[
-              'rounded-lg p-2.5 text-sm font-medium leading-5 text-blue-700',
+              'rounded-lg p-2.5 text-sm font-medium leading-5',
               'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-              selected ? 'bg-white shadow' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+              selected
+                ? 'bg-white shadow text-blue-700'
+                : selectedTab > 0
+                ? 'text-blue-400 hover:backdrop-blur-sm hover:bg-white/20 hover:text-blue-700'
+                : 'text-blue-200 hover:bg-white/10 hover:text-white',
             ]"
           >
             {{ tab }}
