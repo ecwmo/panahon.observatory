@@ -17,7 +17,12 @@
     </TabGroup>
     <div ref="sectionEls" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
       <div>
-        <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.jtwc" />
+        <img
+          class="border border-black shadow-md rounded-2xl"
+          :src="ewb.data?.jtwc"
+          @load="handleStaticImageLoad"
+          @error="handleStaticImageLoad"
+        />
       </div>
       <div>
         <img class="border border-black shadow-md rounded-2xl" :src="ewb.data?.pagasa" />
@@ -42,7 +47,7 @@
                 class="w-1/5"
                 @click="handleThumbnailClick(imgIdx, gIdx, section.name)"
               >
-                <img class="border cursor-pointer hover:border-black" :src="imgSrc" />
+                <img ref="imgEls" class="border cursor-pointer hover:border-black" :data-url="imgSrc" />
               </td>
               <td v-for="i in section?.fill_end" :key="`filld_${i}`" class="w-1/5"></td>
             </tr>
@@ -70,6 +75,7 @@
   const bodyEl = ref()
   const tabHeaderEl = ref()
   const sectionEls = ref()
+  const imgEls = ref([] as HTMLImageElement[])
 
   const { directions: scrollDir, isScrolling } = useScroll(bodyEl)
 
@@ -123,11 +129,59 @@
 
   const handleTabChange = (idx: number) => {
     const el = sectionEls.value.children[idx]
+    let lazyLoadImgs: Promise<HTMLImageElement>[] = []
+    let deferLoadImgs: HTMLImageElement[] = []
 
-    bodyEl.value.scrollTo({
-      behavior: 'smooth',
-      top: el.offsetTop - sectionEls.value.offsetTop,
+    if (idx > 1) {
+      deferLoadImgs = imgEls.value.filter((img) => img.dataset.url !== undefined && img.src.length === 0)
+
+      deferLoadImgs.forEach((img) => {
+        img.dataset.shouldLoad = 'false'
+      })
+
+      lazyLoadImgs = ([...el.querySelectorAll('img')] as HTMLImageElement[])
+        .filter((img) => img.dataset.url !== undefined && img.src.length === 0)
+        .map((img) => {
+          return new Promise((resolve) => {
+            const f = () => {
+              img.dataset.shouldLoad = 'true'
+              resolve(img)
+            }
+            img.onload = f
+            img.onerror = f
+            img.src = img.dataset.url ?? ''
+          })
+        })
+    }
+
+    Promise.all(lazyLoadImgs).then(() => {
+      bodyEl.value.scrollTo({
+        behavior: 'smooth',
+        top: el.offsetTop - sectionEls.value.offsetTop,
+      })
+
+      setTimeout(() => {
+        deferLoadImgs.forEach((img) => {
+          img.dataset.shouldLoad = 'true'
+        })
+      }, 2000)
     })
+  }
+
+  const handleStaticImageLoad = () => {
+    const validImgs = imgEls.value.filter(({ dataset: { url } }) => url !== undefined)
+    if (validImgs.length) {
+      setTimeout(() => {
+        validImgs.forEach((img) => {
+          const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
+            if (isIntersecting && img.dataset.url !== undefined && img.dataset.shouldLoad !== 'false') {
+              img.src = img.dataset.url ?? ''
+              unobserve()
+            }
+          })
+        })
+      }, 2000)
+    }
   }
 
   onMounted(() => {
