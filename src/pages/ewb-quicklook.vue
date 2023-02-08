@@ -184,13 +184,18 @@
     }
   }
 
+  watchEffect(() => {
+    if (!isScrolling.value && tabHeaderEl.value) {
+      tabHeaderEl.value.$el.children?.[selectedTab.value]?.focus()
+    }
+  })
+
   onMounted(() => {
     ;[...sectionEls.value.children].forEach((s, idx) => {
       useIntersectionObserver(
         s,
         ([{ isIntersecting }]) => {
-          const shouldUpdate =
-            isScrolling.value && ((scrollDir.bottom && !isIntersecting) || (scrollDir.top && isIntersecting))
+          const shouldUpdate = (scrollDir.bottom && !isIntersecting) || (scrollDir.top && isIntersecting)
 
           if (shouldUpdate) {
             selectedTab.value = scrollDir.top ? idx : idx + 1
