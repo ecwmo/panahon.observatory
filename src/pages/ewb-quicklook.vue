@@ -130,17 +130,16 @@
   const handleTabChange = (idx: number) => {
     const el = sectionEls.value.children[idx]
     let lazyLoadImgs: Promise<HTMLImageElement>[] = []
-    let deferLoadImgs: HTMLImageElement[] = []
 
     if (idx > 1) {
-      deferLoadImgs = imgEls.value.filter((img) => img.dataset.url !== undefined && img.src.length === 0)
-
-      deferLoadImgs.forEach((img) => {
-        img.dataset.shouldLoad = 'false'
-      })
+      imgEls.value
+        .filter(({ src, dataset: { url } }) => url !== undefined && src.length === 0)
+        .forEach((img) => {
+          img.dataset.shouldLoad = 'false'
+        })
 
       lazyLoadImgs = ([...el.querySelectorAll('img')] as HTMLImageElement[])
-        .filter((img) => img.dataset.url !== undefined && img.src.length === 0)
+        .filter(({ src, dataset: { url } }) => url !== undefined && src.length === 0)
         .map((img) => {
           return new Promise((resolve) => {
             const f = () => {
@@ -159,34 +158,32 @@
         behavior: 'smooth',
         top: el.offsetTop - sectionEls.value.offsetTop,
       })
-
-      setTimeout(() => {
-        deferLoadImgs.forEach((img) => {
-          img.dataset.shouldLoad = 'true'
-        })
-      }, 2000)
     })
   }
 
   const handleStaticImageLoad = () => {
     const validImgs = imgEls.value.filter(({ dataset: { url } }) => url !== undefined)
     if (validImgs.length) {
-      setTimeout(() => {
-        validImgs.forEach((img) => {
-          const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
-            if (isIntersecting && img.dataset.url !== undefined && img.dataset.shouldLoad !== 'false') {
-              img.src = img.dataset.url ?? ''
-              unobserve()
-            }
-          })
+      validImgs.forEach((img) => {
+        const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
+          if (isIntersecting && img.dataset.url !== undefined && img.dataset.shouldLoad !== 'false') {
+            img.src = img.dataset.url ?? ''
+            unobserve()
+          }
         })
-      }, 2000)
+      })
     }
   }
 
   watchEffect(() => {
     if (!isScrolling.value && tabHeaderEl.value) {
       tabHeaderEl.value.$el.children?.[selectedTab.value]?.focus()
+
+      imgEls.value
+        .filter(({ dataset: { shouldLoad } }) => shouldLoad === 'false')
+        .forEach((img) => {
+          img.dataset.shouldLoad = 'true'
+        })
     }
   })
 
