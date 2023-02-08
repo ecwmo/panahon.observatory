@@ -81,20 +81,6 @@
   const tabs = ['JTWC', 'PAGASA', 'Forecast', 'Forecast (Accumulated)', 'Observed']
   const selectedTab = ref(0)
 
-  const intObsOpts = computed(() => {
-    const opts = {
-      root: bodyEl,
-      threshold: 0,
-    }
-    if (tabHeaderEl.value) {
-      const offset = tabHeaderEl.value?.$el.offsetHeight
-      const rootMargin = `${offset * -1}px`
-      return { ...opts, rootMargin }
-    }
-
-    return opts
-  })
-
   const imgPopUp = ref(false)
 
   const ewb = useEWBStore()
@@ -201,6 +187,11 @@
   })
 
   onMounted(() => {
+    const intObsOpts = {
+      root: bodyEl,
+      threshold: 0,
+      rootMargin: `${tabHeaderEl.value?.$el.offsetHeight * -1}px`,
+    }
     ;[...sectionEls.value.children].forEach((s, idx) => {
       useIntersectionObserver(
         s,
@@ -211,7 +202,7 @@
             selectedTab.value = scrollDir.top ? idx : idx + 1
           }
         },
-        intObsOpts.value
+        intObsOpts
       )
     })
   })
