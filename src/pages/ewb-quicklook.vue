@@ -47,7 +47,7 @@
                 class="w-1/5"
                 @click="handleThumbnailClick(imgIdx, gIdx, section.name)"
               >
-                <img ref="imgEls" class="border cursor-pointer hover:border-black" :data-url="imgSrc" />
+                <img class="border cursor-pointer hover:border-black" :data-url="imgSrc" />
               </td>
               <td v-for="i in section?.fill_end" :key="`filld_${i}`" class="w-1/5"></td>
             </tr>
@@ -75,7 +75,6 @@
   const bodyEl = ref()
   const tabHeaderEl = ref()
   const sectionEls = ref()
-  const imgEls = ref([] as HTMLImageElement[])
 
   const { directions: scrollDir, isScrolling } = useScroll(bodyEl)
 
@@ -122,6 +121,8 @@
     },
   ])
 
+  const lazySectionEls = computed(() => [...sectionEls.value.children].slice(2))
+
   const handleThumbnailClick = (imgIdx: number, grpIdx: number, imgType: string) => {
     ewb.setActiveImage(imgIdx, grpIdx, imgType)
     imgPopUp.value = true
@@ -132,11 +133,14 @@
     let lazyLoadImgs: Promise<HTMLImageElement>[] = []
 
     if (idx > 1) {
-      imgEls.value
-        .filter(({ src, dataset: { url } }) => url !== undefined && src.length === 0)
-        .forEach((img) => {
-          img.dataset.shouldLoad = 'false'
-        })
+      lazySectionEls.value.forEach((s) => {
+        const imgs: HTMLImageElement[] = [...s.querySelectorAll('img')]
+        imgs
+          .filter(({ src, dataset: { url } }) => url !== undefined && src.length === 0)
+          .forEach((img) => {
+            img.dataset.shouldLoad = 'false'
+          })
+      })
 
       lazyLoadImgs = ([...el.querySelectorAll('img')] as HTMLImageElement[])
         .filter(({ src, dataset: { url } }) => url !== undefined && src.length === 0)
@@ -162,28 +166,37 @@
   }
 
   const handleStaticImageLoad = () => {
-    const validImgs = imgEls.value.filter(({ dataset: { url } }) => url !== undefined)
-    if (validImgs.length) {
-      validImgs.forEach((img) => {
-        const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
-          if (isIntersecting && img.dataset.url !== undefined && img.dataset.shouldLoad !== 'false') {
-            img.src = img.dataset.url ?? ''
-            unobserve()
-          }
+    lazySectionEls.value.forEach((s) => {
+      const imgs: HTMLImageElement[] = [...s.querySelectorAll('img')].filter(
+        ({ dataset: { url } }) => url !== undefined
+      )
+
+      if (imgs.length) {
+        imgs.forEach((img) => {
+          const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
+            if (isIntersecting && img.dataset.url !== undefined && img.dataset.shouldLoad !== 'false') {
+              img.src = img.dataset.url ?? ''
+              unobserve()
+            }
+          })
         })
-      })
-    }
+      }
+    })
   }
 
   watchEffect(() => {
     if (!isScrolling.value && tabHeaderEl.value) {
       tabHeaderEl.value.$el.children?.[selectedTab.value]?.focus()
 
-      imgEls.value
-        .filter(({ dataset: { shouldLoad } }) => shouldLoad === 'false')
-        .forEach((img) => {
-          img.dataset.shouldLoad = 'true'
-        })
+      lazySectionEls.value.forEach((s) => {
+        const imgs: HTMLImageElement[] = [...s.querySelectorAll('img')]
+
+        imgs
+          .filter(({ dataset: { shouldLoad } }) => shouldLoad === 'false')
+          .forEach((img) => {
+            img.dataset.shouldLoad = 'true'
+          })
+      })
     }
   })
 
