@@ -8,10 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Button: typeof import('./components/Button.vue')['default']
-    CaptionModelHix: typeof import('./components/caption/ModelHix.vue')['default']
-    CaptionModelPpv: typeof import('./components/caption/ModelPpv.vue')['default']
-    CaptionModelRainx: typeof import('./components/caption/ModelRainx.vue')['default']
-    CaptionModelWpd: typeof import('./components/caption/ModelWpd.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Colorbar: typeof import('./components/Colorbar.vue')['default']
     Dialog: typeof import('@headlessui/vue')['Dialog']
@@ -43,6 +39,7 @@ declare module '@vue/runtime-core' {
     ListboxOptions: typeof import('@headlessui/vue')['ListboxOptions']
     LoadingIcon: typeof import('./components/LoadingIcon.vue')['default']
     MapBox: typeof import('./components/MapBox.vue')['default']
+    ModelCaption: typeof import('./components/ModelCaption.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
     Popup: typeof import('./components/Popup.vue')['default']
     PulsatingDot: typeof import('./components/PulsatingDot.vue')['default']

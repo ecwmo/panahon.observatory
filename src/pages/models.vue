@@ -66,29 +66,17 @@
         </Transition>
       </div>
       <div v-show="showCaption">
-        <div
-          class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-        >
-          <component :is="caption"></component>
-        </div>
-        <div
-          v-show="captionX && fcstStore.isExtreme"
-          class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal model-caption w-11/12"
-        >
-          <component :is="captionX"></component>
-        </div>
+        <ModelCaption
+          :id="fcstStore.isExtreme ? `${fcstStore.activeVariable.val}x` : fcstStore.activeVariable.val"
+          class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal w-11/12"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { format, parse, getHours, addDays, addHours } from 'date-fns'
-
-  const CaptionModelRainx = defineAsyncComponent({ loader: () => import('@/components/caption/ModelRainx.vue') })
-  const CaptionModelHix = defineAsyncComponent({ loader: () => import('@/components/caption/ModelHix.vue') })
-  const CaptionModelWpd = defineAsyncComponent({ loader: () => import('@/components/caption/ModelWpd.vue') })
-  const CaptionModelPpv = defineAsyncComponent({ loader: () => import('@/components/caption/ModelPpv.vue') })
+  import { addDays, addHours, format, getHours, parse } from 'date-fns'
 
   const defaultHeaderName = 'Model Forecast Maps'
   const showCaption = ref(false)
@@ -116,18 +104,6 @@
     }))
   })
 
-  const caption = computed(() => {
-    if (fcstStore.activeVariable.val === 'hix') return CaptionModelHix
-    if (fcstStore.activeVariable.val === 'wpd') return CaptionModelWpd
-    if (fcstStore.activeVariable.val === 'ppv') return CaptionModelPpv
-    return
-  })
-
-  const captionX = computed(() => {
-    if (fcstStore.activeVariable.val === 'rain') return CaptionModelRainx
-    return
-  })
-
   const handleImageLoad = () => {
     showCaption.value = true
   }
@@ -144,14 +120,6 @@
 </script>
 
 <style scoped>
-  .model-caption a {
-    @apply underline text-skin-link;
-  }
-
-  .model-caption a:hover {
-    @apply underline text-skin-link-active;
-  }
-
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s ease;
