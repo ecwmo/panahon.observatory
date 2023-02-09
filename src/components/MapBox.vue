@@ -10,7 +10,11 @@
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <component :is="activeInfo" :data="stnStore.metValueStrings" class="text-xs text-center" />
+          <WeatherPopupInfo
+            :id="stnStore.activeVariable"
+            :data="stnStore.metValueStrings"
+            class="text-xs text-center"
+          />
         </Popup>
       </PulsatingDot>
       <div
@@ -59,17 +63,12 @@
 </template>
 
 <script setup lang="ts">
-  import { Map, LngLat } from 'mapbox-gl'
-  import { point, distance } from '@turf/turf'
+  import { distance, point } from '@turf/turf'
+  import { LngLat, Map } from 'mapbox-gl'
 
   import { storeToRefs } from 'pinia'
 
   import type { Station, StationProperties } from '@/types/station'
-
-  const InfoRain = defineAsyncComponent({ loader: () => import('@/components/info/Rain.vue') })
-  const InfoTemp = defineAsyncComponent({ loader: () => import('@/components/info/Temp.vue') })
-  const InfoWind = defineAsyncComponent({ loader: () => import('@/components/info/Wind.vue') })
-  const InfoPres = defineAsyncComponent({ loader: () => import('@/components/info/Pres.vue') })
 
   const map = ref()
   const mapEl = ref()
@@ -98,19 +97,6 @@
     return vStations?.features
       ?.map(({ properties }, idx) => ({ ...properties, dist: dists?.[idx] }))
       ?.sort(({ dist: d1 }, { dist: d2 }) => (d1 && d2 ? d1 - d2 : 0))
-  })
-
-  const activeInfo = computed(() => {
-    switch (activeVariable.value) {
-      case 'rain':
-        return InfoRain
-      case 'wind':
-        return InfoWind
-      case 'pres':
-        return InfoPres
-      default:
-        return InfoTemp
-    }
   })
 
   const showPoint = () => {

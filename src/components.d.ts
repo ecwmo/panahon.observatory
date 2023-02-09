@@ -35,10 +35,6 @@ declare module '@vue/runtime-core' {
     IMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
     IMdiUnfoldMoreHorizontal: typeof import('~icons/mdi/unfold-more-horizontal')['default']
     InfoPanel: typeof import('./components/InfoPanel.vue')['default']
-    InfoPres: typeof import('./components/info/Pres.vue')['default']
-    InfoRain: typeof import('./components/info/Rain.vue')['default']
-    InfoTemp: typeof import('./components/info/Temp.vue')['default']
-    InfoWind: typeof import('./components/info/Wind.vue')['default']
     IWiBarometer: typeof import('~icons/wi/barometer')['default']
     IWiWindDeg: typeof import('~icons/wi/wind-deg')['default']
     Listbox: typeof import('@headlessui/vue')['Listbox']
@@ -67,5 +63,6 @@ declare module '@vue/runtime-core' {
     ValidationDateSelector: typeof import('./components/ValidationDateSelector.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
     WeatherDescription: typeof import('./components/WeatherDescription.vue')['default']
+    WeatherPopupInfo: typeof import('./components/WeatherPopupInfo.vue')['default']
   }
 }
