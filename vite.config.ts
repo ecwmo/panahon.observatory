@@ -18,9 +18,11 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: 'src/main.ts',
-      manualChunks: {
-        mapboxgl: ['mapbox-gl'],
-        datefns: ['date-fns'],
+      output: {
+        manualChunks: {
+          mapboxgl: ['mapbox-gl'],
+          datefns: ['date-fns'],
+        },
       },
     },
   },
