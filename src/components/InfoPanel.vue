@@ -17,32 +17,13 @@
       </Card>
     </template>
     <template v-else>
-      <FakeCard v-for="c in fakeCards" :key="c.title" />
+      <FakeCard v-for="f in 4" :key="f" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
   const stnStore = useStationStore()
-
-  const fakeCards = [
-    {
-      id: 'rain',
-      title: 'RAIN (mm)',
-    },
-    {
-      id: 'temp',
-      title: 'TEMPERATURE (°C)',
-    },
-    {
-      id: 'wind',
-      title: 'WIND (m/s)',
-    },
-    {
-      id: 'pres',
-      title: 'PRESSURE (hPa)',
-    },
-  ]
 
   const cards = computed(() => {
     const windDirStr = stnStore.metValueStrings['wdirStr']
