@@ -46,10 +46,6 @@ declare module '@vue/runtime-core' {
     ListboxOption: typeof import('@headlessui/vue')['ListboxOption']
     ListboxOptions: typeof import('@headlessui/vue')['ListboxOptions']
     LoadingIcon: typeof import('./components/LoadingIcon.vue')['default']
-    LonginfoPres: typeof import('./components/longinfo/Pres.vue')['default']
-    LonginfoRain: typeof import('./components/longinfo/Rain.vue')['default']
-    LonginfoTemp: typeof import('./components/longinfo/Temp.vue')['default']
-    LonginfoWind: typeof import('./components/longinfo/Wind.vue')['default']
     MapBox: typeof import('./components/MapBox.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
     Popup: typeof import('./components/Popup.vue')['default']
@@ -70,5 +66,6 @@ declare module '@vue/runtime-core' {
     TabPanels: typeof import('@headlessui/vue')['TabPanels']
     ValidationDateSelector: typeof import('./components/ValidationDateSelector.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
+    WeatherDescription: typeof import('./components/WeatherDescription.vue')['default']
   }
 }
