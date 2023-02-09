@@ -70,6 +70,7 @@ declare global {
   const useLink: typeof import('vue-router')['useLink']
   const useLocation: typeof import('./composables/useLocation')['default']
   const useQuery: typeof import('vue-query')['useQuery']
+  const useReportStore: typeof import('./store/report')['useReportStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useScroll: typeof import('@vueuse/core')['useScroll']
@@ -157,6 +158,7 @@ declare module 'vue' {
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useLocation: UnwrapRef<typeof import('./composables/useLocation')['default']>
     readonly useQuery: UnwrapRef<typeof import('vue-query')['useQuery']>
+    readonly useReportStore: UnwrapRef<typeof import('./store/report')['useReportStore']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>

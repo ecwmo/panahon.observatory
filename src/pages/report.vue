@@ -3,12 +3,12 @@
     <div class="m-6 space-y-6">
       <img
         class="border border-black shadow-md rounded-2xl"
-        :src="imgSrcs?.reportImgs[0]"
+        :src="reportStore.data?.reportImgs[0]"
         @load="handleStaticImageLoad"
         @error="handleStaticImageLoad"
       />
       <img
-        v-for="(img, idx) in imgSrcs?.reportImgs.slice(1)"
+        v-for="(img, idx) in reportStore.data?.reportImgs.slice(1)"
         :key="idx"
         ref="imgEls"
         class="border border-black shadow-md rounded-2xl"
@@ -20,7 +20,7 @@
     </div>
     <div ref="staticImgSection" class="m-6 space-y-6">
       <img
-        v-for="(img, idx) in imgSrcs?.staticImgs"
+        v-for="(img, idx) in reportStore.data?.staticImgs"
         :key="idx"
         ref="staticImgEls"
         class="border border-black shadow-md rounded-2xl"
@@ -31,12 +31,12 @@
 </template>
 
 <script setup lang="ts">
-  const imgSrcs = ref()
-  const route = useRoute()
+  const reportStore = useReportStore()
 
   const imgEls = ref([] as HTMLImageElement[])
   const staticImgEls = ref([] as HTMLImageElement[])
-  const showStaticImgs = computed(() => imgSrcs.value?.staticImgs?.length > 0)
+
+  const showStaticImgs = computed(() => reportStore.data?.staticImgs && reportStore.data.staticImgs.length > 0)
 
   const handleStaticImageLoad = () => {
     const img = [...imgEls.value, ...staticImgEls.value].filter(
@@ -54,8 +54,4 @@
       })
     }
   }
-
-  onMounted(async () => {
-    imgSrcs.value = await axios.get(`/api/report.php?view=${route.query.view}`).then(({ data }) => data)
-  })
 </script>
