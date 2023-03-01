@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { parse } from 'date-fns'
+import { defineStore } from 'pinia'
 
 import { imgSrcArr } from '@/schemas/forecast'
 
@@ -52,6 +52,8 @@ export const useForecastStore = defineStore('forecast', () => {
   const { data: modelImgs } = useQuery(['modelImgs', activeImageFrequency], async () => {
     const dat = await axios(`api/forecast.php?img=${activeImageFrequency.value.val}`).then(({ data }) => {
       const dat = imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
+
+      if (dat.length === 0) return undefined
 
       initTime.value = getForecastInitTime(dat[0])
 
