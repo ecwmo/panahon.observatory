@@ -25,7 +25,9 @@
         v-model.number="climStore.activeDecade"
         :ticks="climStore.decades.map((d) => ({ val: d[0], text: `${d[0]}` }))"
         :step="10"
+        :can-play="true"
         class="max-w-lg w-full md:w-9/12 scale-[.8]"
+        @next="handleNext"
       />
       <div class="max-w-lg">
         <Transition name="fade" mode="out-in">
@@ -42,6 +44,10 @@
 
 <script setup lang="ts">
   const climStore = useClimateStore()
+
+  const handleNext = (nextIdx: number) => {
+    climStore.$patch({ activeDecade: climStore.decades[nextIdx][0] })
+  }
 </script>
 
 <style scoped>
