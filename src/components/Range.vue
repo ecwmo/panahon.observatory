@@ -71,7 +71,7 @@
 
   const emit = defineEmits<{
     (e: 'update:modelValue', value: number): void
-    (e: 'next'): void
+    (e: 'next', nextIdx: number): void
   }>()
 
   const rangeEl = ref()
@@ -98,7 +98,8 @@
     if (isPlaying.value) {
       // pause()
       sliderTimer.value = setTimeout(() => {
-        emit('next')
+        const nextIdx = (curValIdx.value + 1) % props.ticks.length
+        emit('next', nextIdx)
         play()
       }, sliderInterval)
     }

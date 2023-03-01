@@ -113,9 +113,8 @@
     fcstStore.activeVariable = mf
   }
 
-  const handleNext = () => {
-    let idx = fcstStore.fcstTimes.indexOf(fcstStore.activeFcstTime)
-    fcstStore.$patch({ activeFcstTime: fcstStore.fcstTimes[(idx + 1) % fcstStore.fcstTimes.length] })
+  const handleNext = (nextIdx: number) => {
+    fcstStore.$patch({ activeFcstTime: fcstStore.fcstTimes[nextIdx] })
   }
 </script>
 
