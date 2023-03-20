@@ -9,9 +9,10 @@ const API_URL = apiRoute('report')
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
-    let url = API_URL
+    let url = `${location.origin}${API_URL}`
     if (keys[0]?.length > 0) url = `${url}?view=${keys[0]}`
-    return await axios.get(url).then(({ data }) => ReportImages.parse(data))
+    const res = await fetch(url)
+    return ReportImages.parse(await res.json())
   },
 })
 

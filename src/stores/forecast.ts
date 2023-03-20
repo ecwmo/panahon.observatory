@@ -47,28 +47,26 @@ const getForecastInitTime = (imageStr: string) =>
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
-    let url = API_URL
+    let url = `${location.origin}${API_URL}`
     if (keys[0]?.length > 0) url = `${url}?img=${keys[0]}`
-    const dat = await axios(url).then(({ data }) => {
-      const dat = imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
+    const res = await fetch(url)
+    const dat = imgSrcArr.parse(await res.json()).filter((f) => f.includes('wrf-'))
+    if (dat.length === 0) return undefined
 
-      if (dat.length === 0) return undefined
+    initTime.set(getForecastInitTime(dat[0]))
 
-      initTime.set(getForecastInitTime(dat[0]))
-
-      const images = dat.filter((f) => f.includes('rain_'))
-      const ft = images.map((f) => {
-        const val = f
-          ?.split('/')
-          ?.at(-1)
-          ?.match(/[\d]+hr/g)?.[0]
-          .slice(0, -2)
-        return val ? +val : 0
-      })
-      fcstTimes.set(ft)
-      activeFcstTime.set(ft[0])
-      return dat
+    const images = dat.filter((f) => f.includes('rain_'))
+    const ft = images.map((f) => {
+      const val = f
+        ?.split('/')
+        ?.at(-1)
+        ?.match(/[\d]+hr/g)?.[0]
+        .slice(0, -2)
+      return val ? +val : 0
     })
+    fcstTimes.set(ft)
+    activeFcstTime.set(ft[0])
+
     return dat
   },
 })

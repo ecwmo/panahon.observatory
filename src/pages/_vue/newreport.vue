@@ -105,13 +105,10 @@
 
     formData.append('publish', '1')
 
-    const res = await axios.post(apiRoute('report'), formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    const res = await fetch(`${location.origin}${apiRoute('report')}`, { method: 'POST', body: formData })
+    const data = await res.json()
 
-    if (res.data === 'success') location.href = route('report/published')
+    if (data === 'success') location.href = route('report/published')
   }
 
   const handleFile = (e: Event) => {
@@ -127,12 +124,8 @@
     formData.append('report', report.value.report)
     formData.append('upload', '1')
 
-    const res = await axios.post(apiRoute('report'), formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-
-    if (res.data === 'success') location.href = route('report/publish')
+    const res = await fetch(`${location.origin}${apiRoute('report')}`, { method: 'POST', body: formData })
+    const data = await res.json()
+    if (data === 'success') location.href = route('report/publish')
   }
 </script>

@@ -7,7 +7,10 @@ import { apiRoute } from '@/stores/routes'
 const API_URL = apiRoute('stations/weather_conf')
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
-  fetcher: async (...keys: string[]) => await axios.get(API_URL).then(({ data }) => StationConfigurations.parse(data)),
+  fetcher: async (...keys: string[]) => {
+    const res = await fetch(`${location.origin}${API_URL}`)
+    return StationConfigurations.parse(await res.json())
+  },
 })
 
 export const stationConf = createFetcherStore<z.infer<typeof StationConfigurations>>([])

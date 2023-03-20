@@ -69,7 +69,6 @@ export default defineConfig({
         'vue',
         {
           '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver', 'useGeolocation'],
-          axios: [['default', 'axios']],
         },
       ],
       dts: 'src/auto-imports.d.ts',

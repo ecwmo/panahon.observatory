@@ -80,7 +80,10 @@ export const metadata: Record<string, { items: EWBItems; variants: { val: number
 }
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
-  fetcher: async (...keys: string[]) => await axios(API_URL).then(({ data }) => EWBImages.parse(data)),
+  fetcher: async (...keys: string[]) => {
+    const res = await fetch(`${location.origin}${API_URL}`)
+    return EWBImages.parse(await res.json())
+  },
 })
 
 export const ewbImages = createFetcherStore<z.infer<typeof EWBImages>>([])

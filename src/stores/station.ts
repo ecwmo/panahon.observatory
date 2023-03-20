@@ -38,8 +38,12 @@ export const setActiveStation = action(
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
-    const url = keys[0] === 'validation' ? `${API_URL}/stations/validation/${keys[1]}` : `${API_URL}/stations`
-    return await axios.get(url).then(({ data }) => StationSchema.parse(data))
+    const url =
+      keys[0] === 'validation'
+        ? `${location.origin}${API_URL}/stations/validation/${keys[1]}`
+        : `${location.origin}${API_URL}/stations`
+    const res = await fetch(url)
+    return StationSchema.parse(await res.json())
   },
 })
 

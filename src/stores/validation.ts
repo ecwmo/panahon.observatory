@@ -47,7 +47,8 @@ const selectedDateStr = computed(selectedDate, (dt) => format(dt, 'yyyyMMdd') ??
 const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
     setValidationTS(selectedDate.get())
-    const dat = await axios(`${API_URL}/${keys[0]}`).then(({ data }) => ImagesSchema.parse(data))
+    const res = await fetch(`${location.origin}${API_URL}/${keys[0]}`)
+    const dat = ImagesSchema.parse(await res.json())
     const { gsmap: _gsmap } = dat
     return { ...dat, gsmap: [null, null, _gsmap[0], null, null] }
   },
@@ -57,7 +58,8 @@ export const validationImages = createFetcherStore<z.infer<typeof ImagesSchema>>
 
 const [createDateFetcherStore, createDateMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
-    const dat = await axios(`${API_URL}/dates`).then(({ data }) => AvailableDates.parse(data))
+    const res = await fetch(`${location.origin}${API_URL}/dates`)
+    const dat = AvailableDates.parse(await res.json())
     selectedDate.set(dat[0])
     return dat
   },
