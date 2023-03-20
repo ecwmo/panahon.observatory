@@ -35,15 +35,14 @@
 </template>
 
 <script setup lang="ts">
-  const props = withDefaults(
-    defineProps<{
-      id: string
-      stationName?: string
-      data: Record<string, string>
-      dateString: string
-    }>(),
-    { stationName: '' }
-  )
+  interface Props {
+    id: string
+    stationName?: string
+    data: Record<string, string>
+    dateString: string
+  }
+
+  const props = withDefaults(defineProps<Props>(), { stationName: '' })
 
   const { data } = toRefs(props)
 

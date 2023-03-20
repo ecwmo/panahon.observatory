@@ -1,0 +1,77 @@
+import { action, atom } from 'nanostores'
+
+export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+export const baseAPIPath = `${basePath}/api`
+
+export const route = (pathName?: string) => `${basePath}/${pathName ?? ''}`
+export const apiRoute = (pathName?: string) => `${baseAPIPath}/${pathName ?? ''}`.replace(/\/$/, '')
+
+interface Page {
+  name: string
+  description: string
+  label: string
+  to: string
+  visible?: boolean
+  auth?: boolean
+  parent?: string
+}
+export const pages = atom<Page[]>([
+  {
+    name: 'index',
+    description: 'Latest Summaries - Weather Conditions and Maps',
+    label: 'Quick View',
+    to: route(),
+  },
+  { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: route('models') },
+  { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: route('climate') },
+  { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: route('report') },
+  {
+    name: 'new_report',
+    description: 'Create New Report',
+    label: 'Reports',
+    to: route('report/new'),
+    parent: 'report',
+    auth: true,
+    visible: false,
+  },
+  {
+    name: 'ewb_quicklook',
+    description: 'EWB Quicklook',
+    label: 'EWB',
+    to: route('ewb-quicklook'),
+    visible: false,
+  },
+  {
+    name: 'validation',
+    description: 'Validation',
+    label: 'Validation',
+    to: route('validation'),
+    visible: false,
+  },
+  // { name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: `route('faq') },
+  { name: 'login', description: 'Login Page', label: 'Login', to: route('login'), visible: false },
+])
+
+export const activePage = atom({} as Page)
+export const activePageURL = atom({} as URL)
+
+const setActivePageURL = action(activePageURL, 'setActivePageURL', (p, payload: URL) => p.set(payload))
+
+export const setActivePage = action(activePage, 'setActivePage', (p, payload: string) => {
+  const nPageUrl = new URL(payload)
+  const nPagePath = nPageUrl.pathname
+
+  const defaultPage = pages.get().find(({ name }) => name === 'index')
+  const newPage =
+    nPagePath === route()
+      ? defaultPage
+      : pages
+          .get()
+          .filter(({ name }) => name !== 'index')
+          .find(({ to }) => nPagePath === to) ?? { ...defaultPage, to: nPageUrl.pathname }
+
+  setActivePageURL(nPageUrl)
+
+  p.set(newPage)
+})

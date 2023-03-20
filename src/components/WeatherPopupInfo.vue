@@ -25,7 +25,12 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps<{ id: string; data: Record<string, string> }>()
+  interface Props {
+    id: string
+    data: Record<string, string>
+  }
+
+  const props = defineProps<Props>()
 
   const { data } = toRefs(props)
 

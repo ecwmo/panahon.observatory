@@ -3,7 +3,7 @@
     <!-- Navbar goes here -->
     <nav class="flex flex-wrap justify-between items-center bg-skin-header-fill shadow-lg px-2 md:px-6 py-2">
       <div class="flex items-center flex-no-shrink mr-6">
-        <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-10 md:w-10 mr-2" />
+        <img :src="route('resources/static/img/logo/mo.png')" alt="Logo" class="h-8 w-8 md:h-10 md:w-10 mr-2" />
         <span class="font-semibold text-gray-900 text-lg md:text-2xl">Manila Observatory</span>
       </div>
       <div class="flex md:hidden">
@@ -22,16 +22,22 @@
           class="flex flex-col flex-grow items-center md:flex-row md:justify-end"
           :class="open ? 'absolute right-0 bg-white shadow-lg' : ''"
         >
-          <router-link
-            v-for="tab in tabs"
-            :key="tab.label"
-            :to="tab.to"
-            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
-            @click="open = false"
-            >{{ tab.label }}</router-link
-          >
           <a
-            v-if="auth.isLoggedIn"
+            v-for="tab in tabs.filter(({ visible }) => visible ?? true)"
+            :key="tab.label"
+            :href="tab.to"
+            :class="[
+              {
+                'text-skin-header-link-active border-b-2 border-gray-900': isActive(tab.to),
+              },
+            ]"
+            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300 active:text-skin-header-link-active active:border-b-2 active:border-gray-900"
+            @click="open = false"
+          >
+            {{ tab.label }}
+          </a>
+          <a
+            v-if="userStore.isLoggedIn"
             href="#"
             class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
             @click.prevent="handleLogout"
@@ -44,31 +50,25 @@
 </template>
 
 <script setup lang="ts">
-  const route = useRoute()
-  const router = useRouter()
-  const auth = useAuthStore()
+  import { useStore } from '@nanostores/vue'
+
+  import { logout, user } from '@/stores/auth'
+  import { activePage, pages, route } from '@/stores/routes'
+
+  const userStore = useStore(user)
+  const tabs = useStore(pages)
+  const activeTab = useStore(activePage)
 
   const open = ref(false)
-
-  const tabs = [
-    {
-      name: 'index',
-      description: 'Latest Summaries - Weather Conditions and Maps',
-      label: 'Quick View',
-      to: '/',
-    },
-    { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: '/models' },
-    { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: '/climate' },
-    { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: '/report' },
-    // { name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' },
-  ]
 
   const toggle = () => (open.value = !open.value)
 
   const handleLogout = async () => {
-    await auth.logout()
-    if (route.name === 'NewReport') router.push('/login')
+    await logout()
+    if (activeTab.value.to === route('report/new')) location.href = route('login')
   }
+
+  const isActive = (pathName: string) => activeTab.value.to === pathName
 </script>
 
 <style scoped>

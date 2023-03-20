@@ -13,12 +13,17 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps({
-    size: { type: Number, default: 5 },
-    xy: { type: Object, required: true },
-    color: { type: String, default: '#383a36' },
-    fillColor: { type: String, default: 'none' },
-  })
+  interface Props {
+    size?: number
+    xy: {
+      x: number
+      y: number
+    }
+    color?: string
+    fillColor?: string
+  }
+
+  const props = withDefaults(defineProps<Props>(), { size: 5, color: '#383a36', fillColor: 'none' })
 
   const { size, xy } = toRefs(props)
   const strokeWidth = 2

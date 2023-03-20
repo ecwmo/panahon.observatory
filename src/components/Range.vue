@@ -45,8 +45,8 @@
       </svg>
     </fieldset>
     <div v-if="canPlay" class="p-1 md:p-2 md:text-2xl cursor-pointer text-skin-button-accent hover:text-skin-base">
-      <i-fa6-solid-circle-play v-show="!isPlaying" class="shadow-lg rounded-full" @click.prevent="handlePlayClick" />
-      <i-fa6-solid-circle-pause v-show="isPlaying" class="shadow-lg rounded-full" @click.prevent="handlePauseClick" />
+      <i-fa6-solid-circle-play v-if="!isPlaying" class="shadow-lg rounded-full" @click.prevent="handlePlayClick" />
+      <i-fa6-solid-circle-pause v-else class="shadow-lg rounded-full" @click.prevent="handlePauseClick" />
     </div>
   </div>
 </template>
@@ -87,9 +87,8 @@
   const minVal = computed(() => Math.min(...tickVals.value))
 
   const xPos = computed(() => {
-    const thumbWidth = innerWidth >= 768 ? 16 : 12
-    const ratio = (props.modelValue - minVal.value) / (maxVal.value - minVal.value)
-    return `calc(${100 * ratio}% + (${8 - ratio * thumbWidth}px))`
+    const ratio = (100 * (props.modelValue - minVal.value)) / (maxVal.value - minVal.value)
+    return `calc(${ratio}% + (${8 - ratio * 0.15}px))`
   })
 
   const handleChange = (ev: Event) => emit('update:modelValue', +(ev.target as HTMLInputElement).value)

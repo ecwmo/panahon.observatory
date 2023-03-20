@@ -17,10 +17,18 @@
 </template>
 
 <script setup lang="ts">
-  const stnStore = useStationStore()
+  import { activeVariable } from '@/stores/station'
+  import { stationConf } from '@/stores/station-conf'
+  import { useStore } from '@nanostores/vue'
 
-  const varTitle = computed(() => stnStore.stationConf?.[stnStore.activeVariable]?.desc ?? '')
-  const varUnits = computed(() => stnStore.stationConf?.[stnStore.activeVariable]?.units ?? '')
+  const stnConfStore = useStore(stationConf)
+  const activeVar = useStore(activeVariable)
 
-  const palette = computed(() => stnStore.getSwatch(stnStore.activeVariable))
+  const varTitle = computed(() => stnConfStore.value.data?.[activeVar.value]?.desc ?? '')
+  const varUnits = computed(() => stnConfStore.value.data?.[activeVar.value]?.units ?? '')
+
+  const palette = computed(() => {
+    const { colors, levels } = stnConfStore.value.data?.[activeVar.value]?.palette ?? { colors: [], levels: [] }
+    return { colors, levels }
+  })
 </script>

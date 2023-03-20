@@ -12,9 +12,15 @@
 </template>
 
 <script setup lang="ts">
-  import { ButtonHTMLAttributes, PropType } from 'vue'
-  defineProps({
-    type: { type: String as PropType<ButtonHTMLAttributes['type']>, default: 'button' },
-    isActive: { type: Boolean, default: false },
+  import { ButtonHTMLAttributes } from 'vue'
+
+  interface Props {
+    type?: ButtonHTMLAttributes['type']
+    isActive?: boolean
+  }
+
+  withDefaults(defineProps<Props>(), {
+    type: 'button',
+    isActive: false,
   })
 </script>

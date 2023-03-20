@@ -1,10 +1,10 @@
 <template>
-  <Listbox v-model="valStore.selectedDate">
+  <Listbox v-model="selectedDt">
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv text-skin-inverted py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
       >
-        <span>{{ selectedDate ?? 'Loading...' }}</span>
+        <span>{{ selectedDtStr ?? 'Loading...' }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <i-mdi-unfold-more-horizontal class="w-5 h-5" />
         </span>
@@ -18,7 +18,7 @@
           class="absolute mt-1 max-h-60 w-fit overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <ListboxOption
-            v-for="(dt, id) in valStore.validationDates"
+            v-for="(dt, id) in valDates.data"
             :key="id"
             v-slot="{ active, selected }"
             :value="dt"
@@ -48,9 +48,19 @@
 </template>
 
 <script setup lang="ts">
+  import { useStore, useVModel } from '@nanostores/vue'
   import { format, isSameMonth, isSameYear, subDays } from 'date-fns'
-  const props = withDefaults(defineProps<{ rangeView?: boolean }>(), { rangeView: false })
-  const valStore = useValidationStore()
+
+  import { selectedDate, validationDates } from '@/stores/validation'
+
+  interface Props {
+    rangeView?: boolean
+  }
+
+  const props = withDefaults(defineProps<Props>(), { rangeView: false })
+
+  const valDates = useStore(validationDates)
+  const selectedDt = useVModel(selectedDate)
 
   const dateFormat = 'MMM d yyyy'
 
@@ -67,7 +77,7 @@
     return `${format(d2, 'MMM d yyyy')} - ${format(d, 'MMM d yyyy')}`
   }
 
-  const selectedDate = computed(() =>
-    props.rangeView ? toDateRangeString(valStore.selectedDate) : format(valStore.selectedDate, dateFormat)
+  const selectedDtStr = computed(() =>
+    props.rangeView ? toDateRangeString(selectedDt.value) : format(selectedDt.value, dateFormat)
   )
 </script>

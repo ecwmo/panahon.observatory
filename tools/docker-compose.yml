@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    container_name: panahon.obs
+    image: emiliogozo/panahon.observatory
+    user: 1104:1105
+    ports:
+      - 8000:3000
+    volumes:
+      - ../public/resources:/home/node/app/client/resources

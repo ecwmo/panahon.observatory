@@ -5,7 +5,7 @@
       <a href="https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml" target="_blank" rel="noopener noreferrer"
         >Rothfusz (1990)</a
       >.
-      <img src="/resources/model/static/heat_index_static_table.png" class="pt-5" />
+      <img :src="route('resources/model/static/heat_index_static_table.png')" class="pt-5" />
     </span>
     <span v-else-if="id === 'wpd'">
       The Wind Power Potential plot uses 100-m wind speed of the model output to approximate the wind speed at 80-m, the
@@ -40,7 +40,11 @@
 </template>
 
 <script setup lang="ts">
-  defineProps<{ id: string }>()
+  import { route } from '@/stores/routes'
+  interface Props {
+    id: string
+  }
+  defineProps<Props>()
 </script>
 
 <style scoped>

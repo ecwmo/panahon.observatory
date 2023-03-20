@@ -6,15 +6,11 @@
     <div v-if="stnStore.data">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup
-          v-if="stnStore.viewType === 'default'"
+          v-if="dataViewType === 'default'"
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <WeatherPopupInfo
-            :id="stnStore.activeVariable"
-            :data="stnStore.metValueStrings"
-            class="text-xs text-center"
-          />
+          <WeatherPopupInfo :id="activeVar" :data="metValStrngs" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -37,8 +33,8 @@
           </div>
         </SwitchGroup>
         <StationSelector
-          :model-value="stnStore.activeStation"
-          :stations="visibleStations"
+          :model-value="activeStn"
+          :stations="visibleStationsSorted"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
         />
@@ -46,15 +42,15 @@
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
-        {{ stnStore.dateString('d MMM yyyy, h bbb') }}
+        {{ dataTsString }}
       </div>
 
       <WeatherButtons
-        v-if="stnStore.viewType === 'default'"
+        v-if="dataViewType === 'default'"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
       />
       <Colorbar
-        v-if="stnStore.viewType === 'default'"
+        v-if="dataViewType === 'default'"
         class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
       />
     </div>
@@ -63,22 +59,45 @@
 </template>
 
 <script setup lang="ts">
+  import { useStore, useVModel } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
-  import { LngLat, Map } from 'mapbox-gl'
+  import { format } from 'date-fns'
+  import mapbox from 'mapbox-gl'
 
-  import { storeToRefs } from 'pinia'
+  import {
+    activeStation,
+    activeVariable,
+    metValueStrings,
+    setActiveStation,
+    station,
+    timestamp,
+    viewType,
+  } from '@/stores/station'
 
   import type { Station, StationProperties } from '@/types/station'
+
+  const { LngLat, Map } = mapbox
+
+  interface Props {
+    token: string
+  }
+  const props = defineProps<Props>()
 
   const map = ref()
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const stnStore = useStationStore()
-  const { activeVariable } = storeToRefs(stnStore)
+  const dataViewType = useStore(viewType)
+  const stnStore = useStore(station)
+  const activeVar = useStore(activeVariable)
+  const activeStn = useVModel(activeStation)
+  const dataTimestamp = useStore(timestamp)
+  const metValStrngs = useStore(metValueStrings)
+
+  const { coords } = useGeolocation()
 
   const visibleStations = computed(() => {
-    let vStations = stnStore.data
+    let vStations = stnStore.value?.data
     try {
       const mapBnds = map.value.getBounds()
       if (vStations)
@@ -90,18 +109,38 @@
         }
     } catch {}
 
-    const activePt = point([stnStore.activeStation.lon, stnStore.activeStation.lat])
+    return vStations?.features?.map(({ properties }) => properties)
+  })
 
-    const dists = vStations?.features?.map(({ geometry }) => distance(geometry, activePt))
+  const visibleStationsSorted = computed(() => {
+    const activePt = point([activeStn.value.lon ?? 0, activeStn.value.lat ?? 0])
 
-    return vStations?.features
-      ?.map(({ properties }, idx) => ({ ...properties, dist: dists?.[idx] }))
+    return visibleStations.value
+      ?.map((props) => ({ ...props, dist: distance({ type: 'Point', coordinates: [props.lon, props.lat] }, activePt) }))
       ?.sort(({ dist: d1 }, { dist: d2 }) => (d1 && d2 ? d1 - d2 : 0))
   })
 
+  const closestStn = computed(() => {
+    let idx = 0
+
+    if (coords.value) {
+      const { latitude: userLat, longitude: userLng } = coords.value
+
+      const d =
+        visibleStations.value?.map(({ lat, lon }) => Math.pow(lon - userLng, 2) + Math.pow(lat - userLat, 2)) ?? []
+
+      idx = d.indexOf(Math.min(...d))
+      if (idx === -1) idx = 0
+    }
+
+    return visibleStations.value?.[idx]
+  })
+
+  const dataTsString = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h bbb'))
+
   const showPoint = () => {
     try {
-      const { lat, lon } = stnStore.activeStation
+      const { lat, lon } = activeStn.value
       const xy = map.value?.project([lon, lat])
       const show = true
       const showPopup = true
@@ -116,7 +155,7 @@
   }
 
   const handleStationChange = (st?: number | string | StationProperties) => {
-    stnStore.setActiveStation(st, visibleStations.value)
+    setActiveStation(visibleStations.value, st ?? closestStn.value)
     showPoint()
   }
 
@@ -141,7 +180,7 @@
       if (!sourceLoaded) {
         map.value.addSource(sourceId, {
           type: 'geojson',
-          data: stnStore.data,
+          data: stnStore.value.data,
         })
 
         map.value.addLayer({
@@ -152,7 +191,7 @@
             'circle-radius': 5,
             'circle-stroke-color': '#000000',
             'circle-stroke-width': 1,
-            'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
+            'circle-color': ['to-color', ['get', activeVar.value, ['get', 'colors']]],
           },
         })
         handleStationChange()
@@ -160,22 +199,23 @@
     }
   }
 
-  watch([activeVariable], () => {
-    const metVars = Object.keys(stnStore.data?.features[0].properties.colors ?? {})
+  watch(activeVar, (newVar) => {
+    const metVars = Object.keys(stnStore.value.data?.features[0].properties.colors ?? {})
 
-    if (metVars.indexOf(activeVariable.value) !== -1) {
-      map.value.setPaintProperty('station-pts', 'circle-color', [
-        'to-color',
-        ['get', activeVariable.value, ['get', 'colors']],
-      ])
+    if (metVars.indexOf(newVar) !== -1) {
+      map.value.setPaintProperty('station-pts', 'circle-color', ['to-color', ['get', newVar, ['get', 'colors']]])
     } else {
       map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
     }
   })
 
+  watch(closestStn, (newStn) => {
+    handleStationChange(newStn)
+  })
+
   onMounted(() => {
     map.value = new Map({
-      accessToken: import.meta.env.VITE_MAPBOX_TOKEN as string,
+      accessToken: props.token,
       container: mapEl.value,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [121.04, 14.56],

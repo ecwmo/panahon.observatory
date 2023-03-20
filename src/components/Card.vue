@@ -44,8 +44,6 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType } from 'vue'
-
   interface CardData {
     title: string
     label1?: string
@@ -56,9 +54,13 @@
     iconName2?: string
   }
 
-  defineProps({
-    data: { type: Object as PropType<CardData>, required: true },
-    isActive: { type: Boolean, default: false },
+  interface Props {
+    data: CardData
+    isActive?: boolean
+  }
+
+  withDefaults(defineProps<Props>(), {
+    isActive: false,
   })
 
   const windDirStr2Deg = computed(() => {

@@ -6,28 +6,24 @@
 
 ## Pages
 
-1. Weather QuickView (**_TODO_**)
+1. Weather QuickView
 2. WRF Model
-3. PH Climatology (**_TODO_**)
-4. Extreme Weather
+3. PH Climatology
+4. Extreme Weather Reports
 
 ## Requirements
 
-- php 7.4
-- php-ldap
-- php-imagick
+- graphicsmagick
+- ghostscript
+- node
 - yarn
 
-## Installation
+## Development
 
 1. Clone the repo
-2. Install php dependencies (`composer install --optimize-autoloader --no-dev`)
-3. Install js dependencies (`yarn`)
-4. Build (`yarn build`)
+2. Install dependencies (`yarn`)
+3. Run development (`yarn dev`)
 
-## Update
+## Deployment
 
-1. `git pull`
-2. Install php dependencies (`composer install --optimize-autoloader --no-dev`)
-3. Install js dependencies (`yarn`)
-4. Build (`yarn build`)
+1. Build docker image (`yarn deploy:docker`)

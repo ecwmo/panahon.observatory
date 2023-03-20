@@ -22,7 +22,12 @@
     text: string
   }
 
-  const props = defineProps<{ buttons: Button[]; activeBtn: Button }>()
+  interface Props {
+    buttons: Button[]
+    activeBtn: Button
+  }
+
+  const props = defineProps<Props>()
 
   defineEmits(['update:activeBtn'])
 

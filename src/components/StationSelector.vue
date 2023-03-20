@@ -50,10 +50,12 @@
 <script setup lang="ts">
   import type { StationProperties } from '@/types/station'
 
-  defineProps<{
+  interface Props {
     modelValue?: StationProperties
     stations?: StationProperties[]
-  }>()
+  }
+
+  defineProps<Props>()
 
   const emit = defineEmits(['update:modelValue'])
 

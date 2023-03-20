@@ -1,0 +1,21 @@
+import type { APIRoute } from 'astro'
+
+import { readFile } from 'fs/promises'
+
+import { resourceDir } from '@/pages/api/_common'
+
+export const get: APIRoute = async ({}) => {
+  try {
+    const res = await readFile(`${resourceDir}/station/weather.json`, 'utf8')
+
+    return new Response(res, {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    })
+  } catch (error) {
+    return new Response(`Something went wrong in api/stations route!: ${error as string}`, {
+      status: 501,
+      statusText: 'Server error',
+    })
+  }
+}

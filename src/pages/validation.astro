@@ -1,0 +1,11 @@
+---
+import DefaultLayout from '@/layouts/Default.astro'
+
+import ValidationPage from '@/vpages/validation.vue'
+
+const mapboxToken = import.meta.env.MAPBOX_TOKEN
+---
+
+<DefaultLayout>
+  <ValidationPage mapbox-token={mapboxToken} client:visible />
+</DefaultLayout>

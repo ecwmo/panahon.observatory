@@ -12,7 +12,9 @@
 </template>
 
 <script setup lang="ts">
-  defineProps({
-    svgClass: { type: String, default: 'h-12 w-12 text-white' },
-  })
+  interface Props {
+    svgClass?: string
+  }
+
+  withDefaults(defineProps<Props>(), { svgClass: 'h-12 w-12 text-white' })
 </script>
