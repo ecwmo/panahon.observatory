@@ -1,31 +1,13 @@
 <template>
   <div class="flex flex-col">
     <div class="m-6 space-y-6">
-      <img
-        class="border border-black shadow-md rounded-2xl"
-        :src="reportStore.data?.reportImgs[0]"
-        @load="handleStaticImageLoad"
-        @error="handleStaticImageLoad"
-      />
-      <img
-        v-for="(img, idx) in reportStore.data?.reportImgs.slice(1)"
-        :key="idx"
-        ref="imgEls"
-        class="border border-black shadow-md rounded-2xl"
-        :data-url="img"
-      />
+      <Image v-for="(img, idx) in reportStore?.data?.reportImgs" :key="idx" :src="img" :lazy="idx > 0" />
     </div>
     <div v-show="showStaticImgs" class="mx-6 border border-black shadow-md rounded-2xl bg-white">
       <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
     </div>
-    <div ref="staticImgSection" class="m-6 space-y-6">
-      <img
-        v-for="(img, idx) in reportStore.data?.staticImgs"
-        :key="idx"
-        ref="staticImgEls"
-        class="border border-black shadow-md rounded-2xl"
-        :data-url="img"
-      />
+    <div class="m-6 space-y-6">
+      <Image v-for="(img, idx) in reportStore?.data?.staticImgs" :key="idx" :src="img" />
     </div>
   </div>
 </template>
@@ -43,27 +25,7 @@
 
   const reportStore = useStore(reports)
 
-  const imgEls = ref([] as HTMLImageElement[])
-  const staticImgEls = ref([] as HTMLImageElement[])
-
   const showStaticImgs = computed(
     () => reportStore.value.data?.staticImgs && reportStore.value.data?.staticImgs.length > 0
   )
-
-  const handleStaticImageLoad = () => {
-    const img = [...imgEls.value, ...staticImgEls.value].filter(
-      ({ src, dataset: { url } }) => url !== undefined && src.length === 0
-    )?.[0]
-
-    if (img) {
-      const { stop } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
-        if (isIntersecting) {
-          img.onload = handleStaticImageLoad
-          img.onerror = handleStaticImageLoad
-          img.src = img.dataset.url ?? ''
-          stop()
-        }
-      })
-    }
-  }
 </script>

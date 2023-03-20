@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     IFaSolidCloudUploadAlt: typeof import('~icons/fa-solid/cloud-upload-alt')['default']
     IFaSolidInfo: typeof import('~icons/fa-solid/info')['default']
     IFaSolidThermometerHalf: typeof import('~icons/fa-solid/thermometer-half')['default']
+    Image: typeof import('./components/Image.vue')['default']
     ImageModal: typeof import('./components/ImageModal.vue')['default']
     IMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
     IMdiUnfoldMoreHorizontal: typeof import('~icons/mdi/unfold-more-horizontal')['default']
