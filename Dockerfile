@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
 
 WORKDIR /home/node/app
 COPY package*.json ./
+COPY .yarnrc.yml ./
 COPY yarn.lock ./
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
