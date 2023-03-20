@@ -1,35 +1,11 @@
 ---
 import DefaultLayout from '@/layouts/Default.astro'
 
-import VImage from '@/components/Image.vue'
-import { ReportImages } from '@/schemas/report'
-import { apiRoute } from '@/stores/routes'
+import ReportPage from '@/pages/_vue/report.vue'
 
 const mode = Astro.url.searchParams.get('view') ?? ''
-
-const response = await fetch(`${Astro.url.origin}${apiRoute(`report?view=${mode}`)}`)
-
-const data = await response.json().then((d) => ReportImages.parse(d))
-
-const showStaticImgs = data.staticImgs.length > 0
 ---
 
 <DefaultLayout>
-  <div class="flex flex-col">
-    <div class="flex flex-col m-6 gap-y-6">
-      {data?.reportImgs?.map((imgSrc, idx) => <VImage src={imgSrc} lazy={idx > 0} client:visible />)}
-    </div>
-
-    {
-      showStaticImgs && (
-        <div class="mx-6 border border-black shadow-md rounded-2xl bg-white">
-          <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
-        </div>
-      )
-    }
-
-    <div class="flex flex-col m-6 gap-y-6">
-      {data?.staticImgs?.map((imgSrc) => <VImage src={imgSrc} client:visible />)}
-    </div>
-  </div>
+  <ReportPage mode={mode} client:visible />
 </DefaultLayout>
