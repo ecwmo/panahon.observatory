@@ -1,26 +1,23 @@
 import { apiRoute } from '@/stores/routes'
 import { persistentMap } from '@nanostores/persistent'
 import { action } from 'nanostores'
+import { z } from 'zod'
+
+import { Auth as AuthSchema } from '@/schemas/auth'
 
 interface UserData {
   username: string
   password: string
 }
 
-interface User {
-  valid: boolean
-  timeout: Date | number
-  username: string
-  isLogggedIn: boolean
-}
+type Auth = z.infer<typeof AuthSchema>
 
 const API_URL = apiRoute('auth')
 
-export const user = persistentMap(
+export const user = persistentMap<Auth>(
   'user:',
   {
     valid: false,
-    timeout: -1,
     username: '',
     isLoggedIn: false,
   },
@@ -36,18 +33,15 @@ export const user = persistentMap(
 )
 
 export const login = action(user, 'login', async (user, userData: UserData) => {
-  const loginData: { [k: string]: string | number } = { ...userData, login: 1 }
   const formData = new FormData()
 
-  Object.keys(loginData).forEach((k) => {
-    formData.append(k, `${loginData[k]}`)
+  formData.append('login', 1)
+  Object.keys(userData).forEach((k) => {
+    formData.append(k, `${userData[k]}`)
   })
 
-  const { data } = await axios.post(API_URL, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  })
+  const res = await fetch(`${location.origin}${API_URL}`, { method: 'POST', body: formData })
+  const data = AuthSchema.parse(await res.json())
 
   user.set({ ...data, isLoggedIn: data.username.length > 0 })
 })
@@ -56,13 +50,8 @@ export const logout = action(user, 'logout', async (user) => {
   const formData = new FormData()
   formData.append('logout', '1')
 
-  const { data } = await axios.post(API_URL, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  })
+  const res = await fetch(`${location.origin}${API_URL}`, { method: 'POST', body: formData })
+  const data = AuthSchema.parse(await res.json())
 
-  if (data?.message == 'success') {
-    user.set({ valid: false, timeout: -1, username: '', isLoggedIn: false })
-  }
+  user.set({ ...data, isLoggedIn: false })
 })
