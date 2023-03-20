@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     ListboxOption: typeof import('@headlessui/vue')['ListboxOption']
     ListboxOptions: typeof import('@headlessui/vue')['ListboxOptions']
     LoadingIcon: typeof import('./components/LoadingIcon.vue')['default']
+    LoginForm: typeof import('./components/LoginForm.vue')['default']
     MapBox: typeof import('./components/MapBox.vue')['default']
     ModelCaption: typeof import('./components/ModelCaption.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
