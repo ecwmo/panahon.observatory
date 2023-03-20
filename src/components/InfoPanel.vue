@@ -1,19 +1,32 @@
 <template>
-  <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
-    <template v-if="stationName">
-      <Card
-        v-for="c in cards"
-        :key="c.title"
-        :data="c"
-        :is-active="c.id === activeVar"
-        @click="setActiveVariable(c.id)"
-      >
-        <WeatherDescription :id="c.id" :data="metValStrngs" :station-name="stationName" :date-string="dataTsString" />
-      </Card>
-    </template>
-    <template v-else>
-      <FakeCard v-for="f in 4" :key="f" />
-    </template>
+  <div
+    class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"
+  >
+    <div class="flex flex-col md:items-start w-full mb-6">
+      <div class="text-sm font-extralight">{{ dataTsStringLong }}</div>
+      <div class="text-3xl font-semibold">{{ stationName }}</div>
+    </div>
+    <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
+      <template v-if="stationName">
+        <Card
+          v-for="c in cards"
+          :key="c.title"
+          :data="c"
+          :is-active="c.id === activeVar"
+          @click="setActiveVariable(c.id)"
+        >
+          <WeatherDescription
+            :id="c.id"
+            :data="metValStrngs"
+            :station-name="stationName"
+            :date-string="dataTsStringShort"
+          />
+        </Card>
+      </template>
+      <template v-else>
+        <FakeCard v-for="f in 4" :key="f" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -29,7 +42,8 @@
   const activeStn = useStore(activeStation)
 
   const stationName = computed(() => activeStn.value.name)
-  const dataTsString = computed(() => format(dataTimestamp.value, 'h bbb'))
+  const dataTsStringLong = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h bbb'))
+  const dataTsStringShort = computed(() => format(dataTimestamp.value, 'h bbb'))
 
   const cards = computed(() => {
     const windDirStr = metValStrngs.value['wdirStr']

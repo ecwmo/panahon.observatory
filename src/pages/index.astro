@@ -1,11 +1,17 @@
 ---
+import 'mapbox-gl/dist/mapbox-gl.css'
+
 import DefaultLayout from '@/layouts/Default.astro'
 
-import IndexPage from '@/pages/_vue/index.vue'
+import InfoPanel from '@/components/InfoPanel.vue'
+import MapBox from '@/components/MapBox.vue'
 
-const mapboxToken = import.meta.env.MAPBOX_TOKEN
+const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
 ---
 
 <DefaultLayout>
-  <IndexPage mapbox-token={mapboxToken} client:visible />
+  <div class="h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
+    <MapBox class="w-full md:w-1/2 h-full z-0" token={mapboxToken} client:visible />
+    <InfoPanel client:visible />
+  </div>
 </DefaultLayout>
