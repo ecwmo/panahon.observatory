@@ -65,7 +65,7 @@
 
   const handleLogout = async () => {
     await logout()
-    if (activeTab.value.to === route('report/new')) location.href = route('login')
+    if (activeTab.value.to === route('report/upload')) location.href = route('login')
   }
 
   const isActive = (pathName: string) => activeTab.value.to === pathName
