@@ -3,13 +3,9 @@ import { format } from 'date-fns'
 import { action, atom, computed } from 'nanostores'
 import { z } from 'zod'
 
-import { activeStation, setValidationTS, setViewType } from '@/stores/station'
-
 import { AvailableDates, Images as ImagesSchema } from '@/schemas/validation'
 import { apiRoute } from '@/stores/routes'
 import type { Images } from '@/types/validation'
-
-setViewType('validation')
 
 const API_URL = apiRoute('validation')
 
@@ -42,11 +38,11 @@ const activeImageGroupIdx = atom(0)
 const setActiveImageGroupIdx = action(activeImageGroupIdx, 'setActiveImageGroupIdx', (idx, newVal) => idx.set(newVal))
 
 export const selectedDate = atom(new Date())
+
 const selectedDateStr = computed(selectedDate, (dt) => format(dt, 'yyyyMMdd') ?? '')
 
 const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: async (...keys: string[]) => {
-    setValidationTS(selectedDate.get())
     const res = await fetch(`${location.origin}${API_URL}/${keys[0]}`)
     const dat = ImagesSchema.parse(await res.json())
     const { gsmap: _gsmap } = dat
@@ -75,8 +71,6 @@ export const activeImage = computed(
   [activeImgIdx, activeImages, activeImageGroup, validationImages],
   (idx, imgs, imgGrp, vImgs) => (imgGrp.id !== 'gsmap' ? imgs?.[idx] : vImgs.data?.['gsmap'][2]) ?? undefined
 )
-
-export const activeStnImage = computed([activeStation], ({ tsImg }) => tsImg)
 
 export const setActiveImage = (imgIdx: number, grpIdx: number) => {
   setActiveImgIdx(imgIdx)

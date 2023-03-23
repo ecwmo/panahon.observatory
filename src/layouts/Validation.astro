@@ -1,0 +1,15 @@
+---
+import DefaultLayout from '@/layouts/Default.astro'
+
+import ValidationTabs from '@/components/ValidationTabs.vue'
+
+const { tab } = Astro.props
+---
+
+<DefaultLayout>
+  <div class="h-full space-y-2 md:space-y-4 p-2 md:p-8">
+    <ValidationTabs tab={tab} client:load />
+
+    <slot />
+  </div>
+</DefaultLayout>

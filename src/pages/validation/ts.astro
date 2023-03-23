@@ -1,0 +1,13 @@
+---
+import 'mapbox-gl/dist/mapbox-gl.css'
+
+import ValidationLayout from '@/layouts/Validation.astro'
+
+import ValidationTSPage from '@/pages/_vue/validation/ts.vue'
+
+const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
+---
+
+<ValidationLayout tab="ts">
+  <ValidationTSPage mapboxToken={mapboxToken} client:visible />
+</ValidationLayout>
