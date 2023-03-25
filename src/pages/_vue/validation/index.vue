@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-2 md:space-y-4">
+  <div ref="bodyEl" class="space-y-2 md:space-y-4">
     <ValidationDateSelector class="w-36 z-30" />
     <div>
       <table class="table-auto text-xs md:text-base">
@@ -12,21 +12,18 @@
         <tbody>
           <tr v-for="(gName, gIdx) in imageGroups" :key="gIdx">
             <th class="[writing-mode:vertical-rl] rotate-180 h-min">{{ gName.text }}</th>
-            <td
-              v-for="(imgSrc, imgIdx) in validationImgs.data?.[gName.id]"
-              :key="`${gIdx}_${imgIdx}`"
-              :class="{ 'cursor-pointer': imgSrc }"
-              class="w-1/5"
-              @click.prevent="handleThumbnailClick(imgIdx, gIdx)"
-            >
-              <img
-                v-show="imgSrc"
-                ref="imgEls"
-                class="border hover:border-black"
-                :src="gIdx <= lazyLoadGroupStartIdx ? imgSrc ?? undefined : undefined"
-                :data-url="gIdx > lazyLoadGroupStartIdx ? imgSrc : undefined"
-              />
-            </td>
+            <template v-for="(imgSrc, imgIdx) in validationImgs.data?.[gName.id]" :key="`${gIdx}_${imgIdx}`">
+              <component
+                :is="gIdx <= lazyLoadGroupStartIdx ? 'td' : Lazy"
+                as="td"
+                :class="{ 'cursor-pointer': imgSrc }"
+                :style="imgElStyle"
+                class="w-1/5 border hover:border-black"
+                @click.prevent="handleThumbnailClick(imgIdx, gIdx)"
+              >
+                <img v-if="imgSrc?.length > 0" :src="imgSrc" />
+              </component>
+            </template>
           </tr>
         </tbody>
       </table>
@@ -39,6 +36,8 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+
+  import Lazy from '@/components/Lazy.vue'
 
   import {
     activeImage,
@@ -57,31 +56,19 @@
 
   const imgPopUp = ref(false)
 
-  const imgEls = ref([])
-  const lazyLoadStartIdx = 10
+  const bodyEl = ref()
+  const imgElHeight = ref(0)
   const lazyLoadGroupStartIdx = 1
+
+  const imgElStyle = computed(() => ({ height: `${imgElHeight.value}px` }))
 
   const handleThumbnailClick = (imgIdx: number, grpIdx: number) => {
     setActiveImage(imgIdx, grpIdx)
     imgPopUp.value = true
   }
 
-  watchEffect(() => {
-    const validImgs = imgEls.value.filter(({ dataset: { url } }: HTMLImageElement) => url !== undefined)
-    if (validImgs.length) {
-      setTimeout(() => {
-        ;(imgEls.value as HTMLImageElement[])
-          .slice(lazyLoadStartIdx)
-          .filter(({ dataset: { url } }) => url !== undefined)
-          .forEach((img) => {
-            const { stop: unobserve } = useIntersectionObserver(img, ([{ isIntersecting }]) => {
-              if (isIntersecting && img.dataset.url !== undefined) {
-                img.src = img.dataset.url ?? ''
-                unobserve()
-              }
-            })
-          })
-      }, 2000)
-    }
+  onMounted(() => {
+    const { width } = bodyEl.value?.getClientRects()?.[0]
+    imgElHeight.value = (width / 9) * (16 / 9)
   })
 </script>

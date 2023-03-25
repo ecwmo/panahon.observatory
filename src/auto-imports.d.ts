@@ -55,6 +55,7 @@ declare global {
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useSlots: typeof import('vue')['useSlots']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
+  const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
@@ -120,6 +121,7 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
+    readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

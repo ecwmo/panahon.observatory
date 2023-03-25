@@ -1,21 +1,19 @@
 <template>
-  <div class="flex flex-col">
-    <div class="m-6 space-y-6">
-      <Image
-        v-for="(img, idx) in imgs"
-        :key="img"
-        :src="img"
-        :lazy="idx > 0"
-        class="border border-black shadow-md rounded-2xl"
-      />
-    </div>
+  <div ref="rootEl" class="flex flex-col">
+    <div class="space-y-2 my-2 md:m-6 md:space-y-6">
+      <Lazy v-for="(img, idx) in imgs" :key="img" :style="elStyle" class="flex justify-center">
+        <img :src="img" :lazy="idx > 0" class="border border-black shadow-md rounded-2xl" />
+      </Lazy>
 
-    <div v-if="sImgs.length > 0" class="mx-6 border border-black shadow-md rounded-2xl bg-white">
-      <h1 class="p-3 text-5xl font-bold">Additional Information</h1>
-    </div>
+      <h1
+        class="mx-2 md:mx-0 p-1 md:p-3 text-xl md:text-5xl font-bold border-black shadow-md rounded-xl md:rounded-2xl bg-white"
+      >
+        Additional Information
+      </h1>
 
-    <div class="m-6 space-y-6">
-      <Image v-for="img in sImgs" :key="img" :src="img" class="border border-black shadow-md rounded-2xl" />
+      <Lazy v-for="img in sImgs" :key="img" :style="elStyle" class="flex justify-center">
+        <img :src="img" class="border border-black shadow-md rounded-2xl" />
+      </Lazy>
     </div>
   </div>
 </template>
@@ -34,6 +32,24 @@
 
   const repStore = useStore(reports)
 
+  const { width: wWidth, height: wHeight } = useWindowSize()
+
+  const rootEl = ref()
+  const elHeight = ref()
+  const elWidth = ref()
+
   const imgs = computed(() => repStore.value?.data?.reportImgs ?? [])
   const sImgs = computed(() => repStore.value?.data?.staticImgs ?? [])
+
+  const elStyle = computed(() => {
+    return wWidth.value > wHeight.value
+      ? { height: `${elHeight.value}px` }
+      : { height: `${(elWidth.value * 9) / 16}px` }
+  })
+
+  onMounted(() => {
+    const { width, height } = rootEl.value.parentNode.parentNode?.getClientRects()?.[0]
+    elHeight.value = height - 50
+    elWidth.value = width
+  })
 </script>
