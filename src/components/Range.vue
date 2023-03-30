@@ -3,7 +3,7 @@
     <fieldset class="relative flex flex-col flex-1 mt-4 md:mt-8">
       <Popup
         class="absolute w-12 -ml-[1.6rem] md:-ml-6 mb-2.5 md:mb-4 px-1 py-0.5 text-center text-xs rounded-lg pointer-events-none"
-        :style="{ left: xPos }"
+        :style="{ left: popupXPos }"
         :show="ticks[curValIdx].popup !== undefined"
         theme="bg-skin-popup-fill text-skin-base fill-skin-base"
       >
@@ -27,18 +27,12 @@
       >
         <g v-for="(t, i) in ticks" :key="t.text">
           <rect
-            :x="`${(100 * i) / (ticks.length - 1)}%`"
+            :x="getXPos(i)"
             y="6"
             :width="t.val === modelValue ? 1.4 : 0.5"
             :height="t.val === modelValue ? 7 : 4"
           />
-          <text
-            v-if="t.text"
-            class="text-xs font-semibold"
-            :x="`${(100 * i) / (ticks.length - 1)}%`"
-            y="24"
-            text-anchor="middle"
-          >
+          <text v-if="t.text" class="text-xs font-semibold" :x="getXPos(i)" y="24" text-anchor="middle">
             {{ t.text }}
           </text>
         </g>
@@ -86,10 +80,12 @@
   const maxVal = computed(() => Math.max(...tickVals.value))
   const minVal = computed(() => Math.min(...tickVals.value))
 
-  const xPos = computed(() => {
+  const popupXPos = computed(() => {
     const ratio = (100 * (props.modelValue - minVal.value)) / (maxVal.value - minVal.value)
-    return `calc(${ratio}% + (${8 - ratio * 0.15}px))`
+    return !isNaN(ratio) ? `calc(${ratio}% + (${8 - ratio * 0.15}px))` : '0px'
   })
+
+  const getXPos = (idx: number) => (props.ticks.length > 1 ? `${(100 * idx) / (props.ticks.length - 1)}%` : '0%')
 
   const handleChange = (ev: Event) => emit('update:modelValue', +(ev.target as HTMLInputElement).value)
 
