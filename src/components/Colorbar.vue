@@ -21,14 +21,14 @@
   import { stationConf } from '@/stores/station-conf'
   import { useStore } from '@nanostores/vue'
 
-  const stnConfStore = useStore(stationConf)
-  const activeVar = useStore(activeVariable)
+  const $stationConf = useStore(stationConf)
+  const $activeVariable = useStore(activeVariable)
 
-  const varTitle = computed(() => stnConfStore.value.data?.[activeVar.value]?.desc ?? '')
-  const varUnits = computed(() => stnConfStore.value.data?.[activeVar.value]?.units ?? '')
+  const varTitle = computed(() => $stationConf.value?.[$activeVariable.value]?.desc ?? '')
+  const varUnits = computed(() => $stationConf.value?.[$activeVariable.value]?.units ?? '')
 
   const palette = computed(() => {
-    const { colors, levels } = stnConfStore.value.data?.[activeVar.value]?.palette ?? { colors: [], levels: [] }
+    const { colors, levels } = $stationConf.value?.[$activeVariable.value]?.palette ?? { colors: [], levels: [] }
     return { colors, levels }
   })
 </script>

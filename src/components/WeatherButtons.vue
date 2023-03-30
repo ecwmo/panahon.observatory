@@ -4,7 +4,7 @@
       v-for="btn in buttons"
       :key="btn.id"
       class="cursor-pointer"
-      :class="[btn.id === activeVar ? btn.activeClass : btn.defaultClass]"
+      :class="[btn.id === $activeVariable ? btn.activeClass : btn.defaultClass]"
       @click.prevent="setActiveVariable(btn.id)"
     >
       <i-fa6-solid-cloud-rain v-if="btn.iconName === 'fa6s-cloud-rain'" class="text-xl" />
@@ -20,7 +20,7 @@
 
   import { activeVariable, setActiveVariable } from '@/stores/station'
 
-  const activeVar = useStore(activeVariable)
+  const $activeVariable = useStore(activeVariable)
 
   const buttons = ref([
     {

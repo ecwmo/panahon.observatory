@@ -1,5 +1,5 @@
 <template>
-  <Listbox v-model="selectedDt">
+  <Listbox v-model="$selectedDate">
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv text-skin-inverted py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
@@ -18,7 +18,7 @@
           class="absolute mt-1 max-h-60 w-fit overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <ListboxOption
-            v-for="(dt, id) in valDates.data"
+            v-for="(dt, id) in $valDates"
             :key="id"
             v-slot="{ active, selected }"
             :value="dt"
@@ -59,8 +59,8 @@
 
   const props = withDefaults(defineProps<Props>(), { rangeView: false })
 
-  const valDates = useStore(validationDates)
-  const selectedDt = useVModel(selectedDate)
+  const $valDates = useStore(validationDates)
+  const $selectedDate = useVModel(selectedDate)
 
   const dateFormat = 'MMM d yyyy'
 
@@ -78,6 +78,6 @@
   }
 
   const selectedDtStr = computed(() =>
-    props.rangeView ? toDateRangeString(selectedDt.value) : format(selectedDt.value, dateFormat)
+    props.rangeView ? toDateRangeString($selectedDate.value) : format($selectedDate.value, dateFormat)
   )
 </script>

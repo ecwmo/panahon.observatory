@@ -3,14 +3,14 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
-    <div v-if="stnStore.data">
+    <div v-if="$station">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup
-          v-if="dataViewType === 'default'"
+          v-if="$dataViewType === 'default'"
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <WeatherPopupInfo :id="activeVar" :data="metValStrngs" class="text-xs text-center" />
+          <WeatherPopupInfo :id="$activeVariable" :data="$metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -33,7 +33,7 @@
           </div>
         </SwitchGroup>
         <StationSelector
-          :model-value="activeStn"
+          :model-value="$activeStation"
           :stations="visibleStationsSorted"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
@@ -46,11 +46,11 @@
       </div>
 
       <WeatherButtons
-        v-if="dataViewType === 'default'"
+        v-if="$dataViewType === 'default'"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
       />
       <Colorbar
-        v-if="dataViewType === 'default'"
+        v-if="$dataViewType === 'default'"
         class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
       />
     </div>
@@ -87,17 +87,17 @@
   const mapEl = ref()
   const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const dataViewType = useStore(viewType)
-  const stnStore = useStore(station)
-  const activeVar = useStore(activeVariable)
-  const activeStn = useVModel(activeStation)
-  const dataTimestamp = useStore(timestamp)
-  const metValStrngs = useStore(metValueStrings)
+  const $dataViewType = useStore(viewType)
+  const $station = useStore(station)
+  const $activeVariable = useStore(activeVariable)
+  const $activeStation = useVModel(activeStation)
+  const $dataTimestamp = useStore(timestamp)
+  const $metValueStrings = useStore(metValueStrings)
 
   const { coords } = useGeolocation()
 
   const visibleStations = computed(() => {
-    let vStations = stnStore.value?.data
+    let vStations = $station.value
     try {
       const mapBnds = map.value.getBounds()
       if (vStations)
@@ -113,7 +113,7 @@
   })
 
   const visibleStationsSorted = computed(() => {
-    const activePt = point([activeStn.value.lon ?? 0, activeStn.value.lat ?? 0])
+    const activePt = point([$activeStation.value.lon ?? 0, $activeStation.value.lat ?? 0])
 
     return visibleStations.value
       ?.map((props) => ({ ...props, dist: distance({ type: 'Point', coordinates: [props.lon, props.lat] }, activePt) }))
@@ -136,11 +136,11 @@
     return visibleStations.value?.[idx]
   })
 
-  const dataTsString = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h bbb'))
+  const dataTsString = computed(() => format($dataTimestamp.value, 'd MMM yyyy, h bbb'))
 
   const showPoint = () => {
     try {
-      const { lat, lon } = activeStn.value
+      const { lat, lon } = $activeStation.value
       const xy = map.value?.project([lon, lat])
       const show = true
       const showPopup = true
@@ -180,7 +180,7 @@
       if (!sourceLoaded) {
         map.value.addSource(sourceId, {
           type: 'geojson',
-          data: stnStore.value.data,
+          data: $station.value,
         })
 
         map.value.addLayer({
@@ -191,7 +191,7 @@
             'circle-radius': 5,
             'circle-stroke-color': '#000000',
             'circle-stroke-width': 1,
-            'circle-color': ['to-color', ['get', activeVar.value, ['get', 'colors']]],
+            'circle-color': ['to-color', ['get', $activeVariable.value, ['get', 'colors']]],
           },
         })
         handleStationChange()
@@ -199,8 +199,8 @@
     }
   }
 
-  watch(activeVar, (newVar) => {
-    const metVars = Object.keys(stnStore.value.data?.features[0].properties.colors ?? {})
+  watch($activeVariable, (newVar) => {
+    const metVars = Object.keys($station.value?.features[0].properties.colors ?? {})
 
     if (metVars.indexOf(newVar) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', ['to-color', ['get', newVar, ['get', 'colors']]])

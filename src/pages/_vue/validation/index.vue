@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="(gName, gIdx) in imageGroups" :key="gIdx">
             <th class="[writing-mode:vertical-rl] rotate-180 h-min">{{ gName.text }}</th>
-            <template v-for="(imgSrc, imgIdx) in validationImgs.data?.[gName.id]" :key="`${gIdx}_${imgIdx}`">
+            <template v-for="(imgSrc, imgIdx) in images?.[gName.id]" :key="`${gIdx}_${imgIdx}`">
               <component
                 :is="gIdx <= lazyLoadGroupStartIdx ? 'td' : Lazy"
                 as="td"
@@ -30,7 +30,7 @@
     </div>
   </div>
   <ImageModal :open="imgPopUp" @close="imgPopUp = false" @up="up" @right="next" @down="down" @left="prev">
-    <img class="object-contain rounded-2xl drop-shadow-xl" :src="activeImg" />
+    <img class="object-contain rounded-2xl drop-shadow-xl" :src="$activeImage" />
   </ImageModal>
 </template>
 
@@ -51,8 +51,8 @@
     validationImages,
   } from '@/stores/validation'
 
-  const validationImgs = useStore(validationImages)
-  const activeImg = useStore(activeImage)
+  const $validationImages = useStore(validationImages)
+  const $activeImage = useStore(activeImage)
 
   const imgPopUp = ref(false)
 
@@ -61,6 +61,11 @@
   const lazyLoadGroupStartIdx = 1
 
   const imgElStyle = computed(() => ({ height: `${imgElHeight.value}px` }))
+
+  const images = computed(() => {
+    const { gsmap } = $validationImages.value ?? { gsmap: [''] }
+    return { ...$validationImages.value, gsmap: [, , gsmap[0], ,] }
+  })
 
   const handleThumbnailClick = (imgIdx: number, grpIdx: number) => {
     setActiveImage(imgIdx, grpIdx)

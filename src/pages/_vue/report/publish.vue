@@ -26,7 +26,7 @@
 
     formData.append('publish', '1')
 
-    const res = await fetch(`${location.origin}${apiRoute('report')}`, { method: 'POST', body: formData })
+    const res = await fetch(apiRoute('report'), { method: 'POST', body: formData })
     const data = await res.json()
 
     if (data === 'success') location.href = route('report/published')

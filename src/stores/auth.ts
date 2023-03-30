@@ -40,7 +40,7 @@ export const login = action(user, 'login', async (user, userData: UserData) => {
     formData.append(k, `${userData[k]}`)
   })
 
-  const res = await fetch(`${location.origin}${API_URL}`, { method: 'POST', body: formData })
+  const res = await fetch(API_URL, { method: 'POST', body: formData })
   const data = AuthSchema.parse(await res.json())
 
   user.set({ ...data, isLoggedIn: data.username.length > 0 })
@@ -50,7 +50,7 @@ export const logout = action(user, 'logout', async (user) => {
   const formData = new FormData()
   formData.append('logout', '1')
 
-  const res = await fetch(`${location.origin}${API_URL}`, { method: 'POST', body: formData })
+  const res = await fetch(API_URL, { method: 'POST', body: formData })
   const data = AuthSchema.parse(await res.json())
 
   user.set({ ...data, isLoggedIn: false })

@@ -1,7 +1,8 @@
-import { nanoquery } from '@nanostores/query'
 import { parse } from 'date-fns'
 import { action, atom, computed } from 'nanostores'
 import { z } from 'zod'
+
+import { createFetcherStore, isReady } from './fetcher'
 
 import { imgSrcArr } from '@/schemas/forecast'
 import { apiRoute } from '@/stores/routes'
@@ -45,14 +46,20 @@ export const metFields = [
 const getForecastInitTime = (imageStr: string) =>
   parse(`${imageStr.match(/[\d]{4}-[\d]{2}-[\d]{2}_[\d]{2}/g)?.[0]} +08` ?? '', 'yyyy-MM-dd_HH x', new Date())
 
-const [createFetcherStore, createMutatorStore] = nanoquery({
-  fetcher: async (...keys: string[]) => {
-    let url = `${location.origin}${API_URL}`
-    if (keys[0]?.length > 0) url = `${url}?img=${keys[0]}`
-    const res = await fetch(url)
-    const dat = imgSrcArr.parse(await res.json()).filter((f) => f.includes('wrf-'))
+export const initTime = atom(new Date())
+export const fcstTimes = atom([0])
+export const activeImageFrequency = atom(imageFrequencies[1])
+export const isExtreme = atom(false)
+
+const urlImageFreqOpt = computed(activeImageFrequency, (imgFreq) => imgFreq.val)
+const _modelImgs = createFetcherStore([API_URL, '?img=', urlImageFreqOpt])
+const modelImgs = atom<z.infer<typeof imgSrcArr>>()
+_modelImgs.subscribe((res) => {
+  if (isReady(res)) {
+    const dat = imgSrcArr.parse(res.data).filter((f) => f.includes('wrf-'))
     if (dat.length === 0) return undefined
 
+    modelImgs.set(dat)
     initTime.set(getForecastInitTime(dat[0]))
 
     const images = dat.filter((f) => f.includes('rain_'))
@@ -66,18 +73,8 @@ const [createFetcherStore, createMutatorStore] = nanoquery({
     })
     fcstTimes.set(ft)
     activeFcstTime.set(ft[0])
-
-    return dat
-  },
+  }
 })
-
-export const initTime = atom(new Date())
-export const fcstTimes = atom([0])
-export const activeImageFrequency = atom(imageFrequencies[1])
-export const isExtreme = atom(false)
-
-const urlImageFreqOpt = computed(activeImageFrequency, (imgFreq) => imgFreq.val)
-const modelImgs = createFetcherStore<z.infer<typeof imgSrcArr>>([urlImageFreqOpt])
 
 export const activeVariable = atom(metFields[0])
 export const setActiveVariable = action(activeVariable, 'setActiveVariable', (v, newVal) => {
@@ -96,7 +93,7 @@ export const hasExtreme = computed(
 
 const activeImageGroup = computed([modelImgs, activeVariable, isExtreme, hasExtreme], (imgs, v, isX, hasX) => {
   const name = hasX && isX ? v.extVal : v.val
-  return imgs.data?.filter((f) => f.includes(`${name}_`))
+  return imgs?.filter((f) => f.includes(`${name}_`))
 })
 
 export const activeImage = computed([activeVariable, activeFcstTime, activeImageGroup], (v, ft, imgGrp) =>

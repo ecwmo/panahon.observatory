@@ -30,7 +30,7 @@
 
   setViewMode(props.mode)
 
-  const repStore = useStore(reports)
+  const $reports = useStore(reports)
 
   const { width: wWidth, height: wHeight } = useWindowSize()
 
@@ -38,8 +38,8 @@
   const elHeight = ref()
   const elWidth = ref()
 
-  const imgs = computed(() => repStore.value?.data?.reportImgs ?? [])
-  const sImgs = computed(() => repStore.value?.data?.staticImgs ?? [])
+  const imgs = computed(() => $reports.value?.reportImgs ?? [])
+  const sImgs = computed(() => $reports.value?.staticImgs ?? [])
 
   const elStyle = computed(() => {
     return wWidth.value > wHeight.value

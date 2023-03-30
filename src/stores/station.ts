@@ -1,7 +1,7 @@
-import { nanoquery } from '@nanostores/query'
 import { format } from 'date-fns'
 import { action, atom, computed } from 'nanostores'
-import { z } from 'zod'
+
+import { createFetcherStore, isReady } from './fetcher'
 
 import { Station as StationSchema } from '@/schemas/station'
 import { apiRoute } from '@/stores/routes'
@@ -14,12 +14,12 @@ export const setViewType = action(viewType, 'setViewType', (vt, newType: string)
 
 const validationTS = atom(new Date())
 export const setValidationTS = action(validationTS, 'setValidationTS', (vTS, newVal: Date) => vTS.set(newVal))
-const validationTSStr = computed(validationTS, (dt) => format(dt, 'yyyyMMdd') ?? '')
+const validationTSStr = computed([validationTS], (dt) => format(dt, 'yyyyMMdd') ?? '')
 
 export const activeVariable = atom('temp')
 export const setActiveVariable = action(activeVariable, 'setActiveVariable', (v, newVar: string) => v.set(newVar))
 
-export const activeStation = atom({} as StationProperties)
+export const activeStation = atom<StationProperties>({})
 export const setActiveStation = action(
   activeStation,
   'setActiveStation',
@@ -36,18 +36,13 @@ export const setActiveStation = action(
   }
 )
 
-const [createFetcherStore, createMutatorStore] = nanoquery({
-  fetcher: async (...keys: string[]) => {
-    const url =
-      keys[0] === 'validation'
-        ? `${location.origin}${API_URL}/stations/validation/${keys[1]}`
-        : `${location.origin}${API_URL}/stations`
-    const res = await fetch(url)
-    return StationSchema.parse(await res.json())
-  },
-})
-
-export const station = createFetcherStore<z.infer<typeof StationSchema>>([viewType, validationTSStr])
+const _station = createFetcherStore([`${API_URL}/stations`])
+const _validationStation = createFetcherStore([`${API_URL}/stations/validation/`, validationTSStr])
+export const station = computed([viewType, _station, _validationStation], (v, st, vSt) =>
+  (v === 'validation' ? isReady(vSt) : isReady(st))
+    ? StationSchema.parse(v === 'validation' ? vSt.data : st.data)
+    : undefined
+)
 
 export const timestamp = computed(activeStation, (st) => new Date(st?.obs?.timestamp ?? Date.now()))
 

@@ -28,7 +28,7 @@
     setValidationTS(dt)
   })
 
-  const activeStn = useStore(activeStation)
+  const $activeStation = useStore(activeStation)
 
-  const activeStnImg = computed(() => activeStn.value?.tsImg)
+  const activeStnImg = computed(() => $activeStation.value?.tsImg)
 </script>

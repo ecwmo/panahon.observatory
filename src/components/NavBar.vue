@@ -23,7 +23,7 @@
           :class="open ? 'absolute right-0 bg-white shadow-lg' : ''"
         >
           <a
-            v-for="tab in tabs.filter(({ visible }) => visible ?? true)"
+            v-for="tab in $tabs.filter(({ visible }) => visible ?? true)"
             :key="tab.label"
             :href="tab.to"
             :class="[
@@ -37,7 +37,7 @@
             {{ tab.label }}
           </a>
           <a
-            v-if="userStore.isLoggedIn"
+            v-if="$user.isLoggedIn"
             href="#"
             class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
             @click.prevent="handleLogout"
@@ -55,9 +55,9 @@
   import { logout, user } from '@/stores/auth'
   import { activePage, pages, route } from '@/stores/routes'
 
-  const userStore = useStore(user)
-  const tabs = useStore(pages)
-  const activeTab = useStore(activePage)
+  const $user = useStore(user)
+  const $tabs = useStore(pages)
+  const $activeTab = useStore(activePage)
 
   const open = ref(false)
 
@@ -65,10 +65,10 @@
 
   const handleLogout = async () => {
     await logout()
-    if (activeTab.value.to === route('report/upload')) location.href = route('login')
+    if ($activeTab.value.to === route('report/upload')) location.href = route('login')
   }
 
-  const isActive = (pathName: string) => activeTab.value.to === pathName
+  const isActive = (pathName: string) => $activeTab.value.to === pathName
 </script>
 
 <style scoped>

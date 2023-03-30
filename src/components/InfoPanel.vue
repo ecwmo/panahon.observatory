@@ -12,12 +12,12 @@
           v-for="c in cards"
           :key="c.title"
           :data="c"
-          :is-active="c.id === activeVar"
+          :is-active="c.id === $activeVariable"
           @click="setActiveVariable(c.id)"
         >
           <WeatherDescription
             :id="c.id"
-            :data="metValStrngs"
+            :data="$metValueStrings"
             :station-name="stationName"
             :date-string="dataTsStringShort"
           />
@@ -36,39 +36,39 @@
 
   import { activeStation, activeVariable, metValueStrings, setActiveVariable, timestamp } from '@/stores/station'
 
-  const metValStrngs = useStore(metValueStrings)
-  const dataTimestamp = useStore(timestamp)
-  const activeVar = useStore(activeVariable)
-  const activeStn = useStore(activeStation)
+  const $metValueStrings = useStore(metValueStrings)
+  const $timestamp = useStore(timestamp)
+  const $activeVariable = useStore(activeVariable)
+  const $activeStation = useStore(activeStation)
 
-  const stationName = computed(() => activeStn.value.name)
-  const dataTsStringLong = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h bbb'))
-  const dataTsStringShort = computed(() => format(dataTimestamp.value, 'h bbb'))
+  const stationName = computed(() => $activeStation.value.name)
+  const dataTsStringLong = computed(() => format($timestamp.value, 'd MMM yyyy, h bbb'))
+  const dataTsStringShort = computed(() => format($timestamp.value, 'h bbb'))
 
   const cards = computed(() => {
-    const windDirStr = metValStrngs.value['wdirStr']
+    const windDirStr = $metValueStrings.value['wdirStr']
     return [
       {
         id: 'rain',
         title: 'RAIN (mm)',
         label1: 'Now',
-        value1: metValStrngs.value['rr'],
+        value1: $metValueStrings.value['rr'],
         label2: '24hr total',
-        value2: metValStrngs.value['rain24h'],
+        value2: $metValueStrings.value['rain24h'],
         iconName: 'fa6s-cloud-rain',
       },
       {
         id: 'temp',
         title: 'TEMPERATURE (°C)',
-        value1: metValStrngs.value['temp'],
+        value1: $metValueStrings.value['temp'],
         label2: 'HI',
-        value2: metValStrngs.value['hi'],
+        value2: $metValueStrings.value['hi'],
         iconName: 'fas-thermometer-half',
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
-        value1: metValStrngs.value['wspd'],
+        value1: $metValueStrings.value['wspd'],
         value2: windDirStr,
         iconName: 'fa6s-wind',
         iconName2: 'wi-wind-deg',
@@ -76,7 +76,7 @@
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
-        value1: metValStrngs.value['pres'],
+        value1: $metValueStrings.value['pres'],
         iconName: 'wi-barometer',
       },
     ]

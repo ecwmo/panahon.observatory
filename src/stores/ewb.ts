@@ -1,6 +1,7 @@
-import { nanoquery } from '@nanostores/query'
-import { action, atom, computed as ncomputed } from 'nanostores'
+import { action, atom, computed } from 'nanostores'
 import { z } from 'zod'
+
+import { createFetcherStore, isReady } from './fetcher'
 
 import { EWBImages } from '@/schemas/ewb'
 import { apiRoute } from '@/stores/routes'
@@ -79,14 +80,8 @@ export const metadata: Record<string, { items: EWBItems; variants: { val: number
   },
 }
 
-const [createFetcherStore, createMutatorStore] = nanoquery({
-  fetcher: async (...keys: string[]) => {
-    const res = await fetch(`${location.origin}${API_URL}`)
-    return EWBImages.parse(await res.json())
-  },
-})
-
-export const ewbImages = createFetcherStore<z.infer<typeof EWBImages>>([])
+const _ewbImages = createFetcherStore<z.infer<typeof EWBImages>>([API_URL])
+export const ewbImages = computed([_ewbImages], (res) => (isReady(res) ? EWBImages.parse(res.data) : undefined))
 
 const activeImgType = atom('fcst')
 const setActiveImgType = action(activeImgType, 'setActiveImgType', (imgType, newVal) => imgType.set(newVal))
@@ -97,18 +92,18 @@ const setActiveGroupIdx = action(activeGroupIdx, 'setActiveGroupIdx', (gIdx, new
 const activeIdx = atom(0)
 const setActiveIdx = action(activeIdx, 'setActiveIdx', (idx, newVal) => idx.set(newVal))
 
-const activeVariables = ncomputed(activeImgType, (imgType) => metadata[imgType]?.items ?? metadata['fcst']?.items)
+const activeVariables = computed(activeImgType, (imgType) => metadata[imgType]?.items ?? metadata['fcst']?.items)
 
-const activeImages = ncomputed(
+const activeImages = computed(
   [ewbImages, activeImgType, activeVariables, activeGroupIdx],
   (ewbImgs, imgType, vars, idx) => {
-    const imgs = ewbImgs.data?.[imgType as keyof EWBIntImages]
+    const imgs = ewbImgs?.[imgType as keyof EWBIntImages]
     const activeVar = vars[idx].id
     return (imgs as { [key: string]: string[] })?.[activeVar]
   }
 )
 
-export const activeImage = ncomputed([activeImages, activeIdx], (imgs, idx) => imgs?.[idx])
+export const activeImage = computed([activeImages, activeIdx], (imgs, idx) => imgs?.[idx])
 export const setActiveImage = (imgIdx: number, grpIdx: number, imgType: string) => {
   setActiveImgType(imgType)
   setActiveIdx(imgIdx)
@@ -118,15 +113,12 @@ export const setActiveImage = (imgIdx: number, grpIdx: number, imgType: string) 
 export const up = () => {
   setActiveGroupIdx(activeGroupIdx.get() === 0 ? activeVariables.get().length - 1 : activeGroupIdx.get() - 1)
 }
-
 export const down = () => {
   setActiveGroupIdx(activeGroupIdx.get() === activeVariables.get().length - 1 ? 0 : activeGroupIdx.get() + 1)
 }
-
 export const prev = () => {
   setActiveIdx(activeIdx.get() === 0 ? activeImages.get().length - 1 : activeIdx.get() - 1)
 }
-
 export const next = () => {
   setActiveIdx(activeIdx.get() === activeImages.get().length - 1 ? 0 : activeIdx.get() + 1)
 }

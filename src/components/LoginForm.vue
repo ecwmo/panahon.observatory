@@ -43,13 +43,13 @@
 
   const userForm = ref({ username: '', password: '' })
 
-  const auth = useStore(user)
-  const activeURL = useStore(activePageURL)
+  const $user = useStore(user)
+  const $activeURL = useStore(activePageURL)
 
   const handleLogin = async () => {
     await login(userForm.value)
 
-    if (auth.value.isLoggedIn) location.href = route(activeURL.value.searchParams.get('ref')?.replace(/^\//, ''))
+    if ($user.value.isLoggedIn) location.href = route($activeURL.value.searchParams.get('ref')?.replace(/^\//, ''))
     else userForm.value = { username: '', password: '' }
   }
 </script>
