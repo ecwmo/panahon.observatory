@@ -54,7 +54,7 @@ export const post: APIRoute = async ({ request }) => {
     const repFile = data.get('report') as File
     const repFileName = repFile.name
 
-    const repCode = `${data.get('repcode')}`
+    const repCode = `${data.get('repcode')}`.trim().toLowerCase()
     const repNum = `${data.get('reportnum')}`.padStart(3, '0')
 
     const uploadDir = `${resourceDir}/reports/${repCode}/${repNum}`
