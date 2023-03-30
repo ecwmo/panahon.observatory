@@ -83,9 +83,19 @@
   }
   const props = defineProps<Props>()
 
-  const map = ref()
+  interface DotProps {
+    xy: {
+      x: number
+      y: number
+    }
+    color?: string
+    show: boolean
+    showPopup: boolean
+  }
+
+  const map = ref<mapbox.Map>()
   const mapEl = ref()
-  const dotProps = ref({ xy: {}, color: undefined, show: false, showPopup: false })
+  const dotProps = ref<DotProps>({ xy: { x: -1, y: -1 }, show: false, showPopup: false })
   const mapToggle = ref(false)
   const $dataViewType = useStore(viewType)
   const $station = useStore(station)
@@ -96,21 +106,7 @@
 
   const { coords } = useGeolocation()
 
-  const visibleStations = computed(() => {
-    let vStations = $station.value
-    try {
-      const mapBnds = map.value.getBounds()
-      if (vStations)
-        vStations = {
-          ...vStations,
-          features: vStations?.features?.filter(({ properties: { lon, lat } }) =>
-            mapBnds.contains(new LngLat(lon, lat))
-          ),
-        }
-    } catch {}
-
-    return vStations?.features?.map(({ properties }) => properties)
-  })
+  const visibleStations = ref<StationProperties[]>()
 
   const visibleStationsSorted = computed(() => {
     const activePt = point([$activeStation.value.lon ?? 0, $activeStation.value.lat ?? 0])
@@ -154,6 +150,22 @@
     dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
+  const getVisibleStations = () => {
+    let vStations = $station.value
+    try {
+      const mapBnds = map.value.getBounds()
+      if (vStations)
+        vStations = {
+          ...vStations,
+          features: vStations?.features?.filter(({ properties: { lon, lat } }) =>
+            mapBnds.contains(new LngLat(lon, lat))
+          ),
+        }
+    } catch {}
+
+    return vStations?.features?.map(({ properties }) => properties)
+  }
+
   const handleStationChange = (st?: number | string | StationProperties) => {
     setActiveStation(visibleStations.value, st ?? closestStn.value)
     showPoint()
@@ -171,31 +183,25 @@
 
   const loadData = () => {
     const sourceId = 'station'
-    const styleLoadStatus = map.value.isStyleLoaded()
-    if (styleLoadStatus) {
-      let sourceLoaded = false
-      try {
-        sourceLoaded = map.value.getSource(sourceId)
-      } catch {}
-      if (!sourceLoaded) {
-        map.value.addSource(sourceId, {
-          type: 'geojson',
-          data: $station.value,
-        })
+    visibleStations.value = getVisibleStations()
+    if (map.value.isStyleLoaded()) {
+      map.value.addSource(sourceId, {
+        type: 'geojson',
+        data: $station.value as Station,
+      })
 
-        map.value.addLayer({
-          id: 'station-pts',
-          type: 'circle',
-          source: sourceId,
-          paint: {
-            'circle-radius': 5,
-            'circle-stroke-color': '#000000',
-            'circle-stroke-width': 1,
-            'circle-color': ['to-color', ['get', $activeVariable.value, ['get', 'colors']]],
-          },
-        })
-        handleStationChange()
-      }
+      map.value.addLayer({
+        id: 'station-pts',
+        type: 'circle',
+        source: sourceId,
+        paint: {
+          'circle-radius': 5,
+          'circle-stroke-color': '#000000',
+          'circle-stroke-width': 1,
+          'circle-color': ['to-color', ['get', $activeVariable.value, ['get', 'colors']]],
+        },
+      })
+      handleStationChange()
     }
   }
 
@@ -225,7 +231,7 @@
 
     map.value.once('load', () => {
       loadData()
-      map.value.on('click', 'station-pts', (e: Station) => {
+      map.value.on('click', 'station-pts', (e) => {
         const {
           properties: { id },
         } = e.features?.[0]
@@ -245,6 +251,7 @@
       })
 
       map.value.on('moveend', () => {
+        visibleStations.value = getVisibleStations()
         showPoint()
       })
     })

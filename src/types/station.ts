@@ -1,12 +1,9 @@
+import { FeatureCollection, Geometry } from 'geojson'
 import { z } from 'zod'
 
-import {
-  Station as StationSchema,
-  StationProperties as StationPropsSchema,
-  ObservationVariables as ObsVarSchema,
-} from '@/schemas/station'
+import { ObservationVariables as ObsVarSchema, StationProperties as StationPropsSchema } from '@/schemas/station'
 
-export type Station = z.infer<typeof StationSchema>
+export type Station = FeatureCollection<Geometry, StationProperties>
 
 export type StationProperties = z.infer<typeof StationPropsSchema>
 
