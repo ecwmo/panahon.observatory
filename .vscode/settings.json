@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
   "php-cs-fixer.rules": "@PSR12",
   "php-cs-fixer.formatHtml": true,
   "css.validate": false, // Disable css built-in lint
