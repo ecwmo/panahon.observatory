@@ -2,7 +2,7 @@ import { parse } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import { readdir } from 'fs/promises'
 
-import { resourceDir } from '@/pages/api/_common'
+import { resourceDir } from '@/pages/_common'
 
 export const parseDate = (fileName: string) => {
   const dtStr = `${

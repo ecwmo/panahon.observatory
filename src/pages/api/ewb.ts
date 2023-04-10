@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 
-import { getLatestDate, resourcePath } from '@/pages/api/_common'
+import { resourcePath } from '@/pages/_common'
+import { getLatestDate } from '@/pages/api/_common'
 import { formatInTimeZone } from 'date-fns-tz'
 
 export const get: APIRoute = async () => {

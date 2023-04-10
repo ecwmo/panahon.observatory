@@ -1,10 +1,7 @@
 import { parse } from 'date-fns'
 import { readFile } from 'fs/promises'
 
-import { route } from '@/stores/routes'
-
-export const resourceDir = import.meta.env.APP_RES_DIR
-export const resourcePath = route('resources')
+import { resourceDir } from '@/pages/_common'
 
 export const getLatestDate = async (imgType = 'forecast') => {
   let jsonFile = `${resourceDir}/model/info.json`

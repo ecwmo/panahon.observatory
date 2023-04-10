@@ -4,7 +4,7 @@ import { cp, mkdir, readdir, readFile, rm, writeFile } from 'fs/promises'
 import { fromBuffer } from 'pdf2pic'
 import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response'
 
-import { resourceDir, resourcePath } from '@/pages/api/_common'
+import { resourceDir, resourcePath } from '@/pages/_common'
 
 export const get: APIRoute = async ({ request }) => {
   try {

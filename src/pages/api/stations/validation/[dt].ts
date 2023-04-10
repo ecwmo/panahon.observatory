@@ -4,7 +4,7 @@ import { parse } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import { readFile } from 'fs/promises'
 
-import { resourceDir, resourcePath } from '@/pages/api/_common'
+import { resourceDir, resourcePath } from '@/pages/_common'
 
 export const get: APIRoute = async ({ params }) => {
   try {

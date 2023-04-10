@@ -4,7 +4,7 @@ import { parse, subDays } from 'date-fns'
 import { toDate } from 'date-fns-tz'
 import { readFile } from 'fs/promises'
 
-import { resourceDir } from '@/pages/api/_common'
+import { resourceDir } from '@/pages/_common'
 
 export const get: APIRoute = async () => {
   try {
