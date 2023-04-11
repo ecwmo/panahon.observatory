@@ -6,6 +6,7 @@
       </Lazy>
 
       <h1
+        v-if="sImgs.length > 0"
         class="mx-2 md:mx-0 p-1 md:p-3 text-xl md:text-5xl font-bold border-black shadow-md rounded-xl md:rounded-2xl bg-white"
       >
         Additional Information
