@@ -10,9 +10,34 @@ const prisma = new PrismaClient()
 
 export const get: APIRoute = async ({ request }) => {
   try {
-    const res = await prisma.report.findMany()
+    const res = await prisma.report.findMany({
+      select: {
+        id: true,
+        title: true,
+        name: true,
+        number: true,
+        show: true,
+        files: {
+          select: {
+            fileName: true,
+          },
+          orderBy: {
+            order: 'asc',
+          },
+          take: 1,
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    })
 
-    return new Response(JSON.stringify(res), {
+    const data = res.map((r) => {
+      const { id, title, name, number, show, files } = r
+      return { id, title, name, number, show, coverImg: files[0].fileName }
+    })
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'content-type': 'application/json' },
     })

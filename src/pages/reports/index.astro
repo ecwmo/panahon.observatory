@@ -1,3 +1,9 @@
 ---
-return Astro.redirect('reports/latest')
+import DefaultLayout from '@/layouts/Default.astro'
+
+import ReportList from '@/components/ReportList.vue'
 ---
+
+<DefaultLayout>
+  <ReportList client:load class="p-2 md:p-4" />
+</DefaultLayout>

@@ -21,7 +21,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { reports, setViewMode } from '@/stores/report'
+  import { report, setViewMode } from '@/stores/report'
 
   interface Props {
     mode?: string
@@ -30,7 +30,7 @@
 
   setViewMode(props.mode)
 
-  const $reports = useStore(reports)
+  const $report = useStore(report)
 
   const { width: wWidth, height: wHeight } = useWindowSize()
 
@@ -38,8 +38,8 @@
   const elHeight = ref()
   const elWidth = ref()
 
-  const imgs = computed(() => $reports.value?.files ?? [])
-  const sImgs = computed(() => $reports.value?.staticFiles ?? [])
+  const imgs = computed(() => $report.value?.files ?? [])
+  const sImgs = computed(() => $report.value?.staticFiles ?? [])
 
   const elStyle = computed(() => {
     return wWidth.value > wHeight.value
