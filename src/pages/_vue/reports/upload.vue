@@ -74,8 +74,8 @@
     formData.append('report', report.value.report)
     formData.append('upload', '1')
 
-    const res = await fetch(apiRoute('report'), { method: 'POST', body: formData })
+    const res = await fetch(apiRoute('reports'), { method: 'POST', body: formData })
     const data = await res.json()
-    if (data === 'success') location.href = route('report/publish')
+    if (data === 'success') location.href = route('reports/publish')
   }
 </script>

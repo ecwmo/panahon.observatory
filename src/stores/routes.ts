@@ -25,7 +25,7 @@ export const pages = atom<Page[]>([
   },
   { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: route('models') },
   { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: route('climate') },
-  { name: 'report', description: 'Tropical Cyclone Report', label: 'Reports', to: route('report') },
+  { name: 'reports', description: 'Tropical Cyclone Report', label: 'Reports', to: route('reports') },
   {
     name: 'new_report',
     description: 'Create New Report',

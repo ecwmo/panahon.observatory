@@ -3,7 +3,7 @@
     <h4 class="p-4 flex justify-center text-3xl font-medium">Upload success!</h4>
     <p class="p-1 mb-3">
       Preview the document
-      <a :href="route('report?view=draft')" target="_blank" class="underline text-skin-link hover:text-skin-link-active"
+      <a :href="route('reports/draft')" target="_blank" class="underline text-skin-link hover:text-skin-link-active"
         >here</a
       >
     </p>
@@ -26,9 +26,9 @@
 
     formData.append('publish', '1')
 
-    const res = await fetch(apiRoute('report'), { method: 'POST', body: formData })
+    const res = await fetch(apiRoute('reports'), { method: 'POST', body: formData })
     const data = await res.json()
 
-    if (data === 'success') location.href = route('report/published')
+    if (data === 'success') location.href = route('reports/published')
   }
 </script>

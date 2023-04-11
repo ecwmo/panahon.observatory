@@ -26,7 +26,7 @@
   interface Props {
     mode?: string
   }
-  const props = withDefaults(defineProps<Props>(), { mode: '' })
+  const props = withDefaults(defineProps<Props>(), { mode: 'latest' })
 
   setViewMode(props.mode)
 
@@ -38,8 +38,8 @@
   const elHeight = ref()
   const elWidth = ref()
 
-  const imgs = computed(() => $reports.value?.reportImgs ?? [])
-  const sImgs = computed(() => $reports.value?.staticImgs ?? [])
+  const imgs = computed(() => $reports.value?.files ?? [])
+  const sImgs = computed(() => $reports.value?.staticFiles ?? [])
 
   const elStyle = computed(() => {
     return wWidth.value > wHeight.value

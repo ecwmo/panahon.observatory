@@ -12,6 +12,9 @@
 		"deploy:docker": "./tools/deploy-docker.sh",
 		"astro": "astro"
 	},
+	"prisma": {
+		"seed": "ts-node --esm ./prisma/seed.ts"
+	},
 	"dependencies": {
 		"@astrojs/node": "^5.1.0",
 		"@astrojs/tailwind": "^3.1.1",
@@ -29,7 +32,7 @@
 		"ldapjs": "^3.0.0",
 		"mapbox-gl": "^2.13.0",
 		"nanostores": "^0.7.4",
-		"pdf2pic": "^2.1.4",
+		"pdf-img-convert": "^1.2.0",
 		"tailwindcss": "^3.0.24",
 		"vue": "^3.2.47",
 		"zod": "^3.20.6"
@@ -45,6 +48,7 @@
 		"@types/node": "^18.14.4",
 		"@vite-pwa/astro": "^0.0.5",
 		"prisma": "^4.12.0",
+		"ts-node": "^10.9.1",
 		"unplugin-auto-import": "^0.15.1",
 		"unplugin-icons": "^0.15.3",
 		"unplugin-vue-components": "^0.24.1",

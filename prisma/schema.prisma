@@ -290,6 +290,58 @@ model AccessToken {
   @@map("access_tokens")
 }
 
+model Report {
+  id          Int                        @id @default(autoincrement())
+  name        String
+  title       String
+  number      Int
+  show        Boolean                    @default(true)
+  createdAt   DateTime                   @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt   DateTime                   @updatedAt @map("updated_at") @db.Timestamp(0)
+  files       ReportItem[]
+  staticFiles ReportToReportStaticItem[]
+
+  @@unique([name, number])
+  @@map("reports")
+}
+
+model ReportItem {
+  id        Int      @id @default(autoincrement())
+  fileName  String   @map("file_name")
+  reportId  Int      @map("report_id")
+  show      Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  report    Report   @relation(fields: [reportId], references: [id])
+
+  @@map("report_items")
+}
+
+model ReportStaticItem {
+  id        Int                        @id @default(autoincrement())
+  fileName  String                     @map("file_name")
+  createdAt DateTime                   @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime                   @updatedAt @map("updated_at") @db.Timestamp(0)
+  reports   ReportToReportStaticItem[]
+
+  @@map("report_static_items")
+}
+
+model ReportToReportStaticItem {
+  reportId           Int              @map("report_id")
+  reportStaticItemId Int              @map("report_static_item_id")
+  createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  show               Boolean          @default(true)
+  order              Int              @default(0)
+  updatedAt          DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
+  report             Report           @relation(fields: [reportId], references: [id])
+  reportStaticItem   ReportStaticItem @relation(fields: [reportStaticItemId], references: [id])
+
+  @@id([reportId, reportStaticItemId])
+  @@map("reports_to_report_static_items")
+}
+
 model LaravelFailedJob {
   id         BigInt   @id @default(autoincrement())
   uuid       String   @unique(map: "failed_jobs_uuid_unique") @db.VarChar(255)

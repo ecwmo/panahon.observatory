@@ -1,0 +1,11 @@
+---
+import DefaultLayout from '@/layouts/Default.astro'
+
+import ReportPage from '@/pages/_vue/reports/index.vue'
+
+const { id } = Astro.params
+---
+
+<DefaultLayout>
+  <ReportPage mode={id} client:visible />
+</DefaultLayout>
