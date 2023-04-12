@@ -1,16 +1,8 @@
-import { PrismaClient } from '@prisma/client'
 import type { APIRoute } from 'astro'
 import { readdir, readFile } from 'node:fs/promises'
 
+import { prisma } from '@/db'
 import { resourceDir, resourcePath } from '@/pages/_common'
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: import.meta.env.DATABASE_URL,
-    },
-  },
-})
 
 export const get: APIRoute = async ({ request, params }) => {
   try {
