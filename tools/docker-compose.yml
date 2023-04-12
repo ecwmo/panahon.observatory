@@ -7,4 +7,6 @@ services:
     ports:
       - 8000:3000
     volumes:
+      - ../.env.production:/home/node/app/.env
       - ../public/resources:/home/node/app/client/resources
+      - ../prisma:/home/node/app/prisma
