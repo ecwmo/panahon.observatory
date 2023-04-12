@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="bodyEl" class="h-full overflow-scroll">
     <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
       <a
         v-for="(report, idx) in $reports"
@@ -30,10 +30,35 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { reports } from '@/stores/report'
+  import { fetchNewReports, reportsPaginated } from '@/stores/report'
   import { route } from '@/stores/routes'
 
   import { resourcePath } from '@/pages/_common'
 
-  const $reports = useStore(reports)
+  const bodyEl = ref()
+  const { arrivedState } = useScroll(bodyEl)
+
+  const $reports = ref([])
+  const $reportsPaginated = useStore(reportsPaginated)
+
+  const stopScrollWatch = watch(arrivedState, ({ bottom }) => {
+    if (bottom) {
+      fetchNewReports()
+    }
+  })
+
+  const stopReportsWatch = watch($reportsPaginated, (r) => {
+    if (r.data && r.data.length > 0) {
+      if ($reports.value.length === 0) {
+        $reports.value = [...r.data]
+      } else {
+        $reports.value = [...$reports.value, ...r.data]
+      }
+
+      if (r.nextId === undefined) {
+        stopScrollWatch()
+        stopReportsWatch()
+      }
+    }
+  })
 </script>

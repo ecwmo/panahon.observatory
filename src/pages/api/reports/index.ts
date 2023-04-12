@@ -14,9 +14,16 @@ const prisma = new PrismaClient({
   },
 })
 
-export const get: APIRoute = async ({ request }) => {
+export const get: APIRoute = async ({ request, url }) => {
   try {
+    const limit = 12
+    const cursor = url.searchParams.get('cursor') ?? ''
+    const cursorObj = cursor === '' ? undefined : { id: parseInt(cursor as string, 10) }
+
     const res = await prisma.report.findMany({
+      skip: cursor !== '' ? 1 : 0,
+      cursor: cursorObj,
+      take: limit,
       select: {
         id: true,
         title: true,
@@ -38,15 +45,18 @@ export const get: APIRoute = async ({ request }) => {
       },
     })
 
-    const data = res.map((r) => {
+    const reports = res.map((r) => {
       const { id, title, name, number, show, files } = r
       return { id, title, name, number, show, coverImg: files[0].fileName }
     })
 
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    })
+    return new Response(
+      JSON.stringify({ reports, nextId: reports.length === limit ? reports[limit - 1].id : undefined }),
+      {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }
+    )
   } catch (error) {
     return new Response(`Something went wrong in api/reports route!: ${error as string}`, {
       status: 501,
