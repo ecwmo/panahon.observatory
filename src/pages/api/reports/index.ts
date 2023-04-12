@@ -6,7 +6,13 @@ import { convert } from 'pdf-img-convert'
 
 import { resourceDir } from '@/pages/_common'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: import.meta.env.DATABASE_URL,
+    },
+  },
+})
 
 export const get: APIRoute = async ({ request }) => {
   try {
