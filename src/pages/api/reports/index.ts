@@ -8,47 +8,63 @@ import { resourceDir } from '@/pages/_common'
 
 export const get: APIRoute = async ({ request, url }) => {
   try {
-    const limit = 12
-    const cursor = url.searchParams.get('cursor') ?? ''
-    const cursorObj = cursor === '' ? undefined : { id: parseInt(cursor as string, 10) }
+    const { searchParams } = url
+    const take = searchParams.has('take') ? +searchParams.get('take') : 5
+    const skip = searchParams.has('skip') ? +searchParams.get('skip') : 0
 
-    const res = await prisma.report.findMany({
-      skip: cursor !== '' ? 1 : 0,
-      cursor: cursorObj,
-      take: limit,
-      select: {
-        id: true,
-        title: true,
-        name: true,
+    const reportNames = await prisma.report.groupBy({
+      by: ['name'],
+      skip: skip,
+      take: take,
+      _max: {
         number: true,
-        show: true,
-        files: {
-          select: {
-            fileName: true,
-          },
-          orderBy: {
-            order: 'asc',
-          },
-          take: 1,
-        },
       },
       orderBy: {
-        id: 'desc',
+        _max: {
+          createdAt: 'desc',
+        },
       },
     })
 
-    const reports = res.map((r) => {
-      const { id, title, name, number, show, files } = r
-      return { id, title, name, number, show, coverImg: files[0].fileName }
-    })
+    const reports = await Promise.all(
+      reportNames.map(async (r) => {
+        const { id, title, name, number, files } = await prisma.report.findFirst({
+          where: {
+            name: r.name,
+            number: r._max.number,
+            show: true,
+          },
+          select: {
+            id: true,
+            title: true,
+            name: true,
+            number: true,
+            files: {
+              select: {
+                fileName: true,
+              },
+              orderBy: {
+                order: 'asc',
+              },
+              take: 1,
+            },
+          },
+        })
 
-    return new Response(
-      JSON.stringify({ reports, nextId: reports.length === limit ? reports[limit - 1].id : undefined }),
-      {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }
+        return {
+          id,
+          title,
+          name,
+          number,
+          coverImg: files[0].fileName,
+        }
+      })
     )
+
+    return new Response(JSON.stringify(reports), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    })
   } catch (error) {
     return new Response(`Something went wrong in api/reports route!: ${error as string}`, {
       status: 501,

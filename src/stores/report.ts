@@ -11,32 +11,36 @@ const API_URL = apiRoute('reports')
 export const viewMode = atom('latest')
 export const setViewMode = action(viewMode, 'setViewMode', (viewMode, newValue: string) => viewMode.set(newValue))
 
-interface Data {
-  reports: z.infer<typeof Reports>
-  nextId: string
-}
+type Reports = z.infer<typeof Reports>
 
-const reportsCursor = atom('')
-const setReportsCursor = action(reportsCursor, 'setReportsCursor', (cursor, payload: string) => cursor.set(payload))
+const skipReports = atom('0')
+const setSkipReports = action(skipReports, 'setSkipReports', (skip, payload: string) => skip.set(payload))
 
-const _reportsPaginated = createFetcherStore<Data>([API_URL, '?cursor=', reportsCursor])
-export const reportsPaginated = computed([_reportsPaginated], (res) => {
-  if (isReady(res)) {
-    const { reports, nextId } = res.data
-    return {
-      data: Reports.parse(reports),
-      nextId,
-    }
+const takeReports = atom('5')
+const setTakeReports = action(takeReports, 'setTakeReports', (take, payload: string) => take.set(payload))
+
+export const reports = atom<Reports>([])
+const setReports = action(reports, 'setReports', (target, payload: Reports) => {
+  if (payload.length > 0) {
+    target.set([...target.get(), ...payload])
   }
-  return {
-    data: [],
-    nextId: undefined,
+})
+
+const hasMoreReports = atom(true)
+const setHasMoreReports = action(hasMoreReports, 'setHasMoreReports', (h, payload: boolean) => h.set(payload))
+
+const reportsPartial = createFetcherStore<Reports>([API_URL, '?take=', takeReports, '&skip=', skipReports])
+reportsPartial.subscribe((r) => {
+  if (isReady(r)) {
+    setReports(r.data)
+    setHasMoreReports(r.data.length === +takeReports.get())
   }
 })
 
 export const fetchNewReports = () => {
-  const { nextId } = _reportsPaginated.get().data
-  setReportsCursor(nextId)
+  if (hasMoreReports.get()) {
+    setSkipReports(`${reports.get().length}`)
+  }
 }
 
 const _report = createFetcherStore([API_URL, '/', viewMode])

@@ -5,7 +5,7 @@ export const Report = z.object({
   title: z.string(),
   name: z.string(),
   number: z.number(),
-  show: z.boolean(),
+  show: z.boolean().optional().default(true),
   coverImg: z.string(),
 })
 
