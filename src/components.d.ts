@@ -47,6 +47,7 @@ declare module '@vue/runtime-core' {
     Popup: typeof import('./components/Popup.vue')['default']
     PulsatingDot: typeof import('./components/PulsatingDot.vue')['default']
     Range: typeof import('./components/Range.vue')['default']
+    ReportItemList: typeof import('./components/ReportItemList.vue')['default']
     ReportList: typeof import('./components/ReportList.vue')['default']
     RowGroupBtns: typeof import('./components/RowGroupBtns.vue')['default']
     StationSelector: typeof import('./components/StationSelector.vue')['default']
