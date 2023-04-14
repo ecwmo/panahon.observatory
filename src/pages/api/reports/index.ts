@@ -80,8 +80,9 @@ export const post: APIRoute = async ({ request }) => {
     const repFile = data.get('report') as File
     const repFileName = repFile.name
 
-    const repCode = `${data.get('repcode')}`.trim().toLowerCase()
-    const repNum = `${data.get('reportnum')}`.padStart(3, '0')
+    const repTitle = `${data.get('title')}`.trim()
+    const repCode = `${data.get('code')}`.trim().toLowerCase()
+    const repNum = `${data.get('number')}`.padStart(3, '0')
 
     const uploadDir = `${resourceDir}/reports/${repCode}/${repNum}`
     const imgDir = `${uploadDir}/img`
@@ -94,6 +95,7 @@ export const post: APIRoute = async ({ request }) => {
     await writeFile(repLocalPath, fBuffer)
 
     const reportConf = {
+      title: repTitle,
       code: repCode,
       num: repNum,
     }
@@ -108,14 +110,14 @@ export const post: APIRoute = async ({ request }) => {
     }
   } else if (data.has('publish')) {
     const reportConf = await readFile(`${resourceDir}/reports/draft.json`).then((d) => JSON.parse(d.toString()))
-    const { code, num } = reportConf
+    const { title, code, num } = reportConf
 
     const imgSrc = `${code}/${num}/img`
     const imgs = await readdir(`${resourceDir}/reports/${imgSrc}`)
 
     await prisma.report.create({
       data: {
-        title: `${code.toUpperCase()} Report #${num}`,
+        title: title,
         name: code,
         number: Number(num),
         files: {

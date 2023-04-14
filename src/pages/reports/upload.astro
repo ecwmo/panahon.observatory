@@ -1,9 +1,9 @@
 ---
 import ReportLayout from '@/layouts/Report.astro'
 
-import UploadReportPage from '@/pages/_vue/reports/upload.vue'
+import UploadReport from '@/components/UploadReport.vue'
 ---
 
 <ReportLayout>
-  <UploadReportPage client:visible />
+  <UploadReport class="w-64 md:w-80" client:visible />
 </ReportLayout>
