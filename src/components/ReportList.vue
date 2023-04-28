@@ -1,5 +1,20 @@
 <template>
-  <div ref="bodyEl" class="h-full overflow-y-scroll">
+  <div ref="bodyEl" class="relative h-full overflow-y-scroll">
+    <div v-if="$user.isLoggedIn" class="absolute bottom-12 md:bottom-14 right-0 w-12 md:w-14 md:m-2">
+      <button
+        class="fixed z-20 w-10 md:w-12 h-10 md:h-12 bg-blue-600 rounded-full hover:bg-blue-700 active:shadow-2xl mouse shadow-xl transition ease-in duration-200 focus:outline-none"
+        @click.prevent="handleFABClick"
+      >
+        <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
+          <path
+            fill="#FFFFFF"
+            d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
+                                      C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
+                                      C15.952,9,16,9.447,16,10z"
+          ></path>
+        </svg>
+      </button>
+    </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 h-fit">
       <ReportCard
         v-for="(report, idx) in $reports"
@@ -16,12 +31,15 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
+  import { user } from '@/stores/auth'
   import { fetchNewReports, reports } from '@/stores/report'
+  import { route } from '@/stores/routes'
 
   const bodyEl = ref()
   const { arrivedState } = useScroll(bodyEl)
 
   const $reports = useStore(reports)
+  const $user = useStore(user)
 
   const reportCount = computed(() => $reports.value.length)
   const hasScroll = computed(() => bodyEl.value.clientHeight < bodyEl.value.scrollHeight)
@@ -32,6 +50,10 @@
         fetchNewReports()
       }
     }
+  }
+
+  const handleFABClick = () => {
+    location.href = `${route('reports/upload')}`
   }
 
   watch(arrivedState, ({ bottom }) => {
