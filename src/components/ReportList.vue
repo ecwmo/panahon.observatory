@@ -15,14 +15,20 @@
         </svg>
       </button>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 h-fit">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
       <ReportCard
         v-for="(report, idx) in $reports"
         :key="report.id"
         :data="report"
-        :class="[idx === 0 ? 'col-span-2 row-span-2 md:col-span-3 md:row-span-3' : 'col-span-1 row-span-1']"
+        :class="[
+          idx === 0
+            ? featuredImgPos === 'landscape'
+              ? 'col-span-2 row-span-2 md:col-span-3 md:row-span-3'
+              : 'col-span-2 row-span-3'
+            : 'col-span-1 row-span-1',
+        ]"
         class="group relative flex justify-center overflow-hidden rounded-lg"
-        @load="handleImgLoad(idx)"
+        @load="handleImgLoad($event, idx)"
       />
     </div>
   </div>
@@ -37,6 +43,7 @@
 
   const bodyEl = ref()
   const { arrivedState } = useScroll(bodyEl)
+  const featuredImgPos = ref('landscape')
 
   const $reports = useStore(reports)
   const $user = useStore(user)
@@ -44,11 +51,15 @@
   const reportCount = computed(() => $reports.value.length)
   const hasScroll = computed(() => bodyEl.value.clientHeight < bodyEl.value.scrollHeight)
 
-  const handleImgLoad = (idx: number) => {
+  const handleImgLoad = (ev: Event, idx: number) => {
     if (reportCount.value - 1 === idx) {
       if (!hasScroll.value) {
         fetchNewReports()
       }
+    }
+    if (idx == 0) {
+      const featImg = ev.target as HTMLImageElement
+      if (featImg.height > featImg.width) featuredImgPos.value = 'portrait'
     }
   }
 

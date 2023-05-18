@@ -4,7 +4,7 @@
       :src="`${resourcePath}/reports/${data.coverImg}`"
       alt="image"
       class="max-w-full h-full object-cover ease-in-out duration-500 group-hover:scale-110"
-      @load="$emit('load')"
+      @load="$emit('load', $event)"
     />
     <div class="absolute bg-black w-full h-full opacity-10 transition-opacity duration-500 group-hover:opacity-50" />
     <p class="absolute bottom-0 p-2 w-full text-gray-700 text-sm rounded-b-lg backdrop-blur-lg backdrop-opacity-75">
@@ -25,7 +25,7 @@
   defineProps<Props>()
 
   interface Emits {
-    (e: 'load'): void
+    (e: 'load', ev: Event): void
   }
-  defineEmits<Emits>()
+  const emit = defineEmits<Emits>()
 </script>
