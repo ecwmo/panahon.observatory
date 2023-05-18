@@ -19,7 +19,7 @@
           <div class="text-2xl md:text-4xl font-bold">{{ data.value1 }}</div>
         </div>
         <div v-show="data.value2" class="flex justify-center items-center space-x-1 md:space-x-1.5">
-          <div v-if="data.label2" class="text-sm font-light">{{ data.label2 }}</div>
+          <div v-if="data.label2" class="text-sm font-light -ml-6">{{ data.label2 }}</div>
           <i-wi-wind-deg
             v-if="data.iconName2 === 'wi-wind-deg'"
             class="text-lg md:text-xl"

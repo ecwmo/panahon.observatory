@@ -61,7 +61,7 @@
         id: 'temp',
         title: 'TEMPERATURE (°C)',
         value1: $metValueStrings.value['temp'],
-        label2: 'HI',
+        label2: 'Feels like',
         value2: $metValueStrings.value['hi'],
         iconName: 'fas-thermometer-half',
       },
