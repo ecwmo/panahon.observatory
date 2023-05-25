@@ -4,7 +4,7 @@
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Scenario</h3>
-        <RowGroupBtns v-model:activeBtn="$activeScenario" class="text-xs" :buttons="scenarios" />
+        <RowGroupBtns v-model:activeItem="$activeScenario" :items="scenarios" class="text-xs" />
       </div>
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -12,7 +12,11 @@
         <Button
           v-for="climVar in variables"
           :key="climVar.val"
-          :is-active="climVar.val === $activeVariable.val"
+          :class="
+            climVar.val === $activeVariable.val
+              ? 'bg-skin-button-active text-skin-button-active'
+              : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
+          "
           class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded"
           @click.prevent="setActiveVariable(climVar)"
           >{{ climVar.text }}</Button

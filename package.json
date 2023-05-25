@@ -10,7 +10,8 @@
 		"build": "MODE='production' astro build",
 		"preview": "MODE='production' astro preview",
 		"deploy:docker": "./tools/deploy-docker.sh",
-		"astro": "astro"
+		"astro": "astro",
+		"test:unit": "MODE='production' vitest --dom"
 	},
 	"prisma": {
 		"seed": "ts-node --esm ./prisma/seed.ts"
@@ -47,11 +48,14 @@
 		"@types/mapbox-gl": "^2.7.11",
 		"@types/node": "^20.2.1",
 		"@vite-pwa/astro": "^0.0.5",
+		"@vue/test-utils": "^2.3.2",
+		"happy-dom": "^9.19.2",
 		"prisma": "^4.14.1",
 		"ts-node": "^10.9.1",
 		"unplugin-auto-import": "^0.16.0",
 		"unplugin-icons": "^0.16.1",
 		"unplugin-vue-components": "^0.24.1",
-		"vite-plugin-pwa": "^0.14.7"
+		"vite-plugin-pwa": "^0.14.7",
+		"vitest": "^0.31.1"
 	}
 }

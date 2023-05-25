@@ -1,37 +1,34 @@
 <template>
-  <div class="flex flex-row text-xs">
+  <div class="inline-flex" role="group">
     <Button
-      v-for="(btn, i) in buttons"
-      :key="btn.val"
-      :is-active="btn.val === activeBtn?.val"
+      v-for="(d, i) in items"
+      :key="d.val"
+      :class="[
+        d.val === activeItem?.val
+          ? 'bg-skin-button-active text-skin-button-active'
+          : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent',
+        {
+          'rounded-l-lg pl-3 border-r border-gray-200': i === 0,
+          'rounded-r-lg pr-3': i === nbuttons - 1,
+          'border-r border-gray-200': i > 0 && i < nbuttons - 1,
+        },
+      ]"
       class="flex justify-center p-1"
-      :class="{
-        'rounded-l-lg pl-3 border-r border-gray-200': i === 0,
-        'rounded-r-lg pr-3': i === nbuttons - 1,
-        'border-r border-gray-200': i > 0 && i < nbuttons - 1,
-      }"
-      @click.prevent="$emit('update:activeBtn', btn)"
-      >{{ btn.text }}</Button
+      @click.prevent="$emit('update:activeItem', d)"
+      >{{ d.text }}</Button
     >
   </div>
 </template>
 
 <script setup lang="ts">
-  interface Button {
-    val: number | string
-    text: string
-  }
+  const props = defineProps<{
+    items: ButtonProps[]
+    activeItem: ButtonProps
+  }>()
 
-  interface Props {
-    buttons: Button[]
-    activeBtn: Button
-  }
+  defineEmits<{
+    'update:activeItem': [item: ButtonProps]
+  }>()
 
-  const props = defineProps<Props>()
-
-  defineEmits(['update:activeBtn'])
-
-  const { buttons } = toRefs(props)
-
-  const nbuttons = computed(() => buttons.value?.length)
+  const nbuttons = computed(() => props.items.length)
 </script>

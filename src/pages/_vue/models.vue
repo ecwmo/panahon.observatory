@@ -4,7 +4,7 @@
       <!-- Forecast Interval -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
-        <RowGroupBtns v-model:activeBtn="$activeImageFrequency" class="text-xs" :buttons="imageFrequencies" />
+        <RowGroupBtns v-model:activeItem="$activeImageFrequency" :items="imageFrequencies" class="text-xs" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -12,7 +12,11 @@
         <Button
           v-for="mf in metFields"
           :key="mf.val"
-          :is-active="mf.val === $activeVariable.val"
+          :class="
+            mf.val === $activeVariable.val
+              ? 'bg-skin-button-active text-skin-button-active'
+              : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
+          "
           class="w-full flex justify-center font-bold py-2 px-4 rounded"
           @click.prevent="handleVariableChange(mf)"
         >
