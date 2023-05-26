@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Button: typeof import('./components/Button.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Colorbar: typeof import('./components/Colorbar.vue')['default']
     Dialog: typeof import('@headlessui/vue')['Dialog']

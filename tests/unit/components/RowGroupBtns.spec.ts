@@ -1,4 +1,3 @@
-import Button from '@/components/Button.vue'
 import RowGroupBtns from '@/components/RowGroupBtns.vue'
 import { mount } from '@vue/test-utils'
 
@@ -16,8 +15,8 @@ test('With props', () => {
   ]
   const activeBtnIdx = 1
   const wrapper = mount(RowGroupBtns, { props: { items, activeItem: items[activeBtnIdx] } })
-  const btnComponents = wrapper.findAllComponents(Button)
-  expect(btnComponents).toHaveLength(items.length)
+  const btnEls = wrapper.findAll('button')
+  expect(btnEls).toHaveLength(items.length)
 })
 
 test('Click', async () => {
@@ -33,10 +32,10 @@ test('Click', async () => {
       activeItem: items[activeBtnIdx],
     },
   })
-  const btnComponents = wrapper.findAllComponents(Button)
+  const btnEls = wrapper.findAll('button')
 
   const clickIdx = 2
-  await btnComponents[clickIdx].trigger('click')
+  await btnEls[clickIdx].trigger('click')
   expect(wrapper.emitted()).toHaveProperty('update:activeItem')
   expect(wrapper.emitted('update:activeItem')[0]).toEqual([items[clickIdx]])
 })

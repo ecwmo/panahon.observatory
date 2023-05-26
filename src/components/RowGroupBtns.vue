@@ -1,6 +1,6 @@
 <template>
   <div class="inline-flex" role="group">
-    <Button
+    <button
       v-for="(d, i) in items"
       :key="d.val"
       :class="[
@@ -13,10 +13,12 @@
           'border-r border-gray-200': i > 0 && i < nbuttons - 1,
         },
       ]"
-      class="flex justify-center p-1"
       @click.prevent="$emit('update:activeItem', d)"
-      >{{ d.text }}</Button
+      class="flex justify-center p-1"
+      type="button"
     >
+      {{ d.text }}
+    </button>
   </div>
 </template>
 

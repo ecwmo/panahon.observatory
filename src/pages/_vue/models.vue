@@ -9,7 +9,7 @@
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
-        <Button
+        <button
           v-for="mf in metFields"
           :key="mf.val"
           :class="
@@ -17,11 +17,12 @@
               ? 'bg-skin-button-active text-skin-button-active'
               : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
           "
-          class="w-full flex justify-center font-bold py-2 px-4 rounded"
           @click.prevent="handleVariableChange(mf)"
+          class="w-full flex justify-center font-bold py-2 px-4 rounded"
+          type="button"
         >
           {{ mf.text }}
-        </Button>
+        </button>
       </div>
     </div>
     <div class="flex flex-1 flex-col items-center gap-2">
