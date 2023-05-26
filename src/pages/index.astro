@@ -10,8 +10,15 @@ const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
 ---
 
 <DefaultLayout>
-  <div class="h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
+  <div class="relative h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
     <MapBox class="w-full md:w-1/2 h-full z-0" token={mapboxToken} client:visible />
     <InfoPanel client:visible />
+    <a
+      href="https://docs.google.com/forms/d/e/1FAIpQLSdTc5V4AI_50zR9rL5oRbiiERX3X8bTUxtd93DTs0ZfX5YNfA/viewform?usp=sf_link"
+      target="_blank"
+      class="hidden md:block absolute bottom-4 right-0 cursor-pointer text-skin-button-active bg-skin-button-active hover:bg-skin-button-accent focus:outline-none focus:ring-4 font-medium rounded-s-full text-sm px-5 py-2.5 text-center"
+    >
+      Request weather station data
+    </a>
   </div>
 </DefaultLayout>
