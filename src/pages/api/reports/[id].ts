@@ -4,7 +4,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import { prisma } from '@/db'
 import { resourceDir, resourcePath } from '@/pages/_common'
 
-export const get: APIRoute = async ({ request, params }) => {
+export const GET: APIRoute = async ({ request, params }) => {
   try {
     const { id } = params
     let reportId = -1

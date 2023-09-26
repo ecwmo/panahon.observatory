@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 
 import { getDates } from './_helper'
 
-export const get: APIRoute = async () => {
+export const GET: APIRoute = async () => {
   try {
     return new Response(JSON.stringify(await getDates()), {
       status: 200,

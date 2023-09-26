@@ -4,7 +4,7 @@ import { readFile } from 'fs/promises'
 
 import { resourceDir } from '@/pages/_common'
 
-export const get: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
     if (params.type === 'csv') {
       const csv = await readFile(`${resourceDir}/station/stn_obs_24hr.csv`, 'utf8')

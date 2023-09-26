@@ -4,7 +4,7 @@ import { resourcePath } from '@/pages/_common'
 import { getLatestDate } from '@/pages/api/_common'
 import { formatInTimeZone } from 'date-fns-tz'
 
-export const get: APIRoute = async () => {
+export const GET: APIRoute = async () => {
   try {
     const dt = await getLatestDate()
 

@@ -4,7 +4,7 @@ import { readFile } from 'fs/promises'
 
 import { resourceDir } from '@/pages/_common'
 
-export const get: APIRoute = async ({}) => {
+export const GET: APIRoute = async ({}) => {
   try {
     const res = await readFile(`${resourceDir}/station/stn_obs_timestamp.json`, 'utf8')
 

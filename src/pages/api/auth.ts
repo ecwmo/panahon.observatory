@@ -4,7 +4,7 @@ import ldap from 'ldapjs'
 
 const { createClient } = ldap
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData()
   let res = {}
   if (data.has('login')) {

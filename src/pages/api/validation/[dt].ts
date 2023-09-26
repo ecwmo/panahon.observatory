@@ -6,7 +6,7 @@ import { existsSync } from 'fs'
 
 import { resourceDir, resourcePath } from '@/pages/_common'
 
-export const get: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params }) => {
   try {
     let dt = parse(`${params.dt}_08 +08`, 'yyyyMMdd_HH x', new Date())
 

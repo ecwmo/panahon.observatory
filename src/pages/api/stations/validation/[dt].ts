@@ -6,7 +6,7 @@ import { readFile } from 'fs/promises'
 
 import { resourceDir, resourcePath } from '@/pages/_common'
 
-export const get: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params }) => {
   try {
     const stnArr = await readFile(`${resourceDir}/validation/stations_lufft.json`).then((d) => JSON.parse(d))
 

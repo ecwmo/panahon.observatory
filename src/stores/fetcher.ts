@@ -1,4 +1,5 @@
-import { FetcherValue, nanoquery } from '@nanostores/query'
+import type { FetcherValue } from '@nanostores/query'
+import { nanoquery } from '@nanostores/query'
 
 export const [createFetcherStore, createMutatorStore] = nanoquery({
   fetcher: (...keys: string[]) => fetch(keys.join('')).then((res) => res.json()),

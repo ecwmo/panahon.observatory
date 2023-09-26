@@ -4,7 +4,7 @@ import { formatInTimeZone } from 'date-fns-tz'
 
 import { getLatestDate } from './_helper'
 
-export const get: APIRoute = async ({ redirect }) => {
+export const GET: APIRoute = async ({ redirect }) => {
   try {
     const dt = await getLatestDate()
 

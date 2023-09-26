@@ -6,7 +6,7 @@ import { convert } from 'pdf-img-convert'
 import { prisma } from '@/db'
 import { resourceDir } from '@/pages/_common'
 
-export const get: APIRoute = async ({ request, url }) => {
+export const GET: APIRoute = async ({ request, url }) => {
   try {
     const { searchParams } = url
     const take = searchParams.has('take') ? +searchParams.get('take') : 5
@@ -73,7 +73,7 @@ export const get: APIRoute = async ({ request, url }) => {
   }
 }
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData()
 
   if (data.has('upload')) {

@@ -6,7 +6,7 @@ import { readFile, readdir } from 'fs/promises'
 
 import { formatInTimeZone } from 'date-fns-tz'
 
-export const get: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
     const { searchParams } = new URL(request.url)
 

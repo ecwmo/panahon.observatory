@@ -6,7 +6,7 @@ import { readFile } from 'fs/promises'
 
 import { resourceDir } from '@/pages/_common'
 
-export const get: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
     const dtStr = await readFile(`${resourceDir}/station/stn_obs_timestamp.json`).then(
       (d) => `${JSON.parse(d)['timestamp'].slice(0, 10)}_08 +08`

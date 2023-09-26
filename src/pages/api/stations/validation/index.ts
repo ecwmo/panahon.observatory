@@ -6,7 +6,7 @@ import { readdir } from 'fs/promises'
 
 import { resourceDir } from '@/pages/_common'
 
-export const get: APIRoute = async ({ params, redirect }) => {
+export const GET: APIRoute = async ({ params, redirect }) => {
   try {
     const imgFile = await readdir(`${resourceDir}/validation`).then(
       (imgs) => imgs.filter((f) => f.includes('wrf_ensmean-gsmap-24hr_rain_day1') && f.endsWith('.png'))?.[0]
