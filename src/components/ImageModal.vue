@@ -1,6 +1,6 @@
 <template>
   <Dialog :open="open" class="relative z-10" @close="$emit('close')">
-    <div class="fixed inset-0 bg-skin-body-fill/40" aria-hidden="true" />
+    <div class="fixed inset-0 bg-gray-700/40" aria-hidden="true" />
     <div
       class="fixed inset-0"
       tabindex="0"

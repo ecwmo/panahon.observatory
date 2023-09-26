@@ -5,7 +5,7 @@
         class="absolute w-12 -ml-[1.6rem] md:-ml-6 mb-2.5 md:mb-4 px-1 py-0.5 text-center text-xs rounded-lg pointer-events-none"
         :style="{ left: popupXPos }"
         :show="ticks[curValIdx].popup !== undefined"
-        theme="bg-skin-popup-fill text-skin-base fill-skin-base"
+        theme="bg-gray-500 text-gray-200 fill-gray-500"
       >
         {{ ticks[curValIdx].popup }}
       </Popup>
@@ -16,11 +16,11 @@
         :max="maxVal"
         :step="step"
         type="range"
-        class="appearance-none w-full h-0.5 bg-skin-body-fill-inv rounded outline-none"
+        class="appearance-none w-full h-0.5 bg-white rounded outline-none"
         @input="handleChange"
       />
       <svg
-        class="w-full overflow-visible fill-current text-skin-base px-1.5 md:px-2"
+        class="w-full overflow-visible fill-current text-gray-200 px-1.5 md:px-2"
         role="presentation"
         viewBox="0 0 400 24"
         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@
         </g>
       </svg>
     </fieldset>
-    <div v-if="canPlay" class="p-1 md:p-2 md:text-2xl cursor-pointer text-skin-button-accent hover:text-skin-base">
+    <div v-if="canPlay" class="p-1 md:p-2 md:text-2xl cursor-pointer text-gray-500 hover:text-gray-200">
       <i-fa6-solid-circle-play v-if="!isPlaying" class="shadow-lg rounded-full" @click.prevent="handlePlayClick" />
       <i-fa6-solid-circle-pause v-else class="shadow-lg rounded-full" @click.prevent="handlePauseClick" />
     </div>
@@ -121,6 +121,6 @@
 
 <style>
   input[type='range']::-webkit-slider-thumb {
-    @apply appearance-none bg-skin-button hover:bg-skin-button-accent w-3 h-3 md:w-4 md:h-4 rounded-full cursor-pointer;
+    @apply appearance-none bg-gray-500 hover:bg-gray-200 w-3 h-3 md:w-4 md:h-4 rounded-full cursor-pointer;
   }
 </style>

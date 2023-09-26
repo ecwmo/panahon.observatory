@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-  import { route } from '@/stores/routes'
   interface Props {
     id: string
   }
@@ -49,10 +48,10 @@
 
 <style scoped>
   .model-caption a {
-    @apply underline text-skin-link;
+    @apply underline text-blue-600;
   }
 
   .model-caption a:hover {
-    @apply underline text-skin-link-active;
+    @apply underline text-blue-400;
   }
 </style>

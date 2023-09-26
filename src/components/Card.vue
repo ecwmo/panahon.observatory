@@ -3,8 +3,8 @@
     v-if="data?.value1"
     :class="[
       isActive
-        ? 'bg-skin-button-active text-skin-button-active'
-        : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent',
+        ? 'bg-gray-200 text-gray-900'
+        : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500',
     ]"
     class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 h-32 w-52 md:w-60"
     data-test="card"

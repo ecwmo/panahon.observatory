@@ -45,11 +45,11 @@ const pageDesc = activePage.get().description
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
   </head>
   <body>
-    <div class="fixed inset-0 bg-skin-body-fill/30" aria-hidden="true"></div>
+    <div class="fixed inset-0 bg-gray-700/30" aria-hidden="true"></div>
     <div class="flex justify-center items-center">
       <div class="max-w-screen-2xl flex flex-col w-full select-none h-screen">
         <NavBar client:load class="z-10" />
-        <div class="bg-skin-body-fill text-skin-base flex-1 overflow-y-auto z-0">
+        <div class="bg-gray-700 text-gray-200 flex-1 overflow-y-auto z-0">
           <slot />
         </div>
         <Footer class="z-10" />

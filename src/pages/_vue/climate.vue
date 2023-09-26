@@ -14,8 +14,8 @@
           :key="climVar.val"
           :class="
             climVar.val === $activeVariable.val
-              ? 'bg-skin-button-active text-skin-button-active'
-              : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
+              ? 'bg-gray-200 text-gray-900'
+              : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500'
           "
           @click.prevent="setActiveVariable(climVar)"
           class="w-40 flex justify-center text-center font-bold py-2 px-4 rounded"

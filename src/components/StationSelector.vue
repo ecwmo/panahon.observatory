@@ -3,7 +3,7 @@
     <Listbox v-model="selectedStation" by="id" @update:model-value="handleChange">
       <div class="relative">
         <ListboxButton
-          class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv py-1 pl-2 pr-6 text-xs sm:text-sm text-left shadow-md ring-gray-700 ring-1"
+          class="relative w-full cursor-default rounded-md bg-white py-1 pl-2 pr-6 text-xs sm:text-sm text-left shadow-md ring-gray-700 ring-1"
         >
           <span class="block truncate">{{ modelValue?.name ?? 'Loading...' }}</span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -27,14 +27,14 @@
             >
               <li
                 :class="[
-                  active ? 'bg-skin-listbox-active text-skin-listbox-active' : 'text-skin-inverted',
+                  active ? 'bg-blue-100 text-blue-700' : 'text-gray-900',
                   'relative cursor-default select-none py-1 pl-2 sm:pl-8 pr-2',
                 ]"
               >
                 <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ stn.name }}</span>
                 <span
                   v-if="selected"
-                  class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-skin-listbox-active"
+                  class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-blue-700"
                 >
                   <i-fa-solid-check v-show="selected" class="scale-75" aria-hidden="true" />
                 </span>

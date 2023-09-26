@@ -3,7 +3,7 @@
     <h4 class="p-4 flex justify-center text-3xl font-medium">Upload success!</h4>
     <p class="p-1 mb-3">
       Preview the document
-      <a :href="route('reports/draft')" target="_blank" class="underline text-skin-link hover:text-skin-link-active"
+      <a :href="route('reports/draft')" target="_blank" class="underline text-blue-600 hover:text-blue-400"
         >here</a
       >
     </p>

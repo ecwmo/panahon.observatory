@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 bg-skin-button h-32 w-52 md:w-60"
+    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 bg-gray-500 h-32 w-52 md:w-60"
   >
     <div class="flex justify-evenly items-center animate-pulse">
       <div class="h-8 w-8 md:h-10 md:w-10 bg-slate-200 rounded"></div>

@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config'
 import { loadEnv } from 'vite'
 
+import UnoCSS from 'unocss/astro'
+
 import node from '@astrojs/node'
 import partytown from '@astrojs/partytown'
-import tailwind from '@astrojs/tailwind'
 import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
@@ -26,8 +27,10 @@ export default defineConfig({
   site: APP_SITE,
   base: basePath,
   integrations: [
-    vue({}),
-    tailwind(),
+    vue(),
+    UnoCSS({
+      injectReset: true,
+    }),
     AstroPWA({
       registerType: 'autoUpdate',
       base: basePath,

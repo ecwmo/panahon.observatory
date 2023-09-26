@@ -2,7 +2,7 @@
   <Listbox v-model="$selectedDate">
     <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded-md bg-skin-body-fill-inv text-skin-inverted py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
+        class="relative w-full cursor-default rounded-md bg-white text-gray-900 py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
       >
         <span>{{ selectedDtStr ?? 'Loading...' }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -26,7 +26,7 @@
           >
             <li
               :class="[
-                active ? 'bg-skin-listbox-active text-skin-listbox-active' : 'text-skin-inverted',
+                active ? 'bg-blue-100 text-blue-700' : 'text-gray-900',
                 'relative cursor-default select-none py-1 pl-2 sm:pl-8 pr-2',
               ]"
             >
@@ -35,7 +35,7 @@
               }}</span>
               <span
                 v-if="selected"
-                class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-3 text-skin-listbox-active"
+                class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-3 text-blue-700"
               >
                 <i-mdi-check-bold v-show="selected" clas="w-4 h-4" aria-hidden="true" />
               </span>

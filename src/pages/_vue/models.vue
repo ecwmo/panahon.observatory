@@ -14,8 +14,8 @@
           :key="mf.val"
           :class="
             mf.val === $activeVariable.val
-              ? 'bg-skin-button-active text-skin-button-active'
-              : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent'
+              ? 'bg-gray-200 text-gray-900'
+              : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500'
           "
           @click.prevent="handleVariableChange(mf)"
           class="w-full flex justify-center font-bold py-2 px-4 rounded"
@@ -44,11 +44,11 @@
           <div class="flex items-center gap-1.5">
             <Switch
               v-model="$isExtreme"
-              :class="$isExtreme ? 'bg-skin-button' : 'bg-skin-button-accent'"
+              :class="$isExtreme ? 'bg-gray-500' : 'bg-gray-200'"
               class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
             >
               <span
-                :class="$isExtreme ? 'translate-x-4 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+                :class="$isExtreme ? 'translate-x-4 bg-gray-200' : 'bg-gray-500 translate-x-0'"
                 class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
               />
             </Switch>

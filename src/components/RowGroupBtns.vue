@@ -5,8 +5,8 @@
       :key="d.val"
       :class="[
         d.val === activeItem?.val
-          ? 'bg-skin-button-active text-skin-button-active'
-          : 'cursor-pointer bg-skin-button text-skin-button hover:bg-skin-button-accent hover:text-skin-button-accent',
+          ? 'bg-gray-200 text-gray-900'
+          : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500',
         {
           'rounded-l-lg pl-3 border-r border-gray-200': i === 0,
           'rounded-r-lg pr-3': i === nbuttons - 1,

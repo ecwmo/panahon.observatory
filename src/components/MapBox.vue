@@ -20,12 +20,12 @@
           <div class="flex items-center px-2 gap-1.5">
             <Switch
               v-model="mapToggle"
-              :class="mapToggle ? 'bg-skin-button' : 'bg-skin-button-accent'"
+              :class="mapToggle ? 'bg-gray-500' : 'bg-gray-200'"
               class="relative inline-flex h-3 w-6 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
               @update:model-value="handleMapScopeChange"
             >
               <span
-                :class="mapToggle ? 'translate-x-3 bg-skin-button-accent' : 'bg-skin-button translate-x-0'"
+                :class="mapToggle ? 'translate-x-3 bg-gray-200' : 'bg-gray-500 translate-x-0'"
                 class="inline-block h-3 w-3 transform rounded-full transition-transform"
               />
             </Switch>

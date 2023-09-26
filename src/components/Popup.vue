@@ -19,7 +19,7 @@
     show?: boolean
   }
   const props = withDefaults(defineProps<Props>(), {
-    theme: 'bg-skin-body-fill text-skin-base fill-skin-body',
+    theme: 'bg-gray-700 text-gray-200 fill-gray-700',
     show: true,
   })
 

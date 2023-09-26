@@ -1,7 +1,7 @@
 <template>
   <header>
     <!-- Navbar goes here -->
-    <nav class="flex flex-wrap justify-between items-center bg-skin-header-fill shadow-lg px-2 md:px-6 py-2">
+    <nav class="flex flex-wrap justify-between items-center bg-white shadow-lg px-2 md:px-6 py-2">
       <div class="flex items-center flex-no-shrink mr-6">
         <img :src="route('resources/static/img/logo/mo.png')" alt="Logo" class="h-8 w-8 md:h-10 md:w-10 mr-2" />
         <span class="font-semibold text-gray-900 text-lg md:text-2xl">Manila Observatory</span>
@@ -28,10 +28,10 @@
             :href="tab.to"
             :class="[
               {
-                'text-skin-header-link-active border-b-2 border-gray-900': isActive(tab.to),
+                'text-gray-900 border-b-2 border-gray-900': isActive(tab.to),
               },
             ]"
-            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300 active:text-skin-header-link-active active:border-b-2 active:border-gray-900"
+            class="p-1 md:p-2 text-sm md:text-base font-semibold text-gray-500 hover:text-blue-500 transition duration-300 active:text-gray-900 active:border-b-2 active:border-gray-900"
             @click="open = false"
           >
             {{ tab.label }}
@@ -39,7 +39,7 @@
           <a
             v-if="$user.isLoggedIn"
             href="#"
-            class="p-1 md:p-2 text-sm md:text-base font-semibold text-skin-header-link hover:text-skin-header-link-accent transition duration-300"
+            class="p-1 md:p-2 text-sm md:text-base font-semibold text-gray-500 hover:text-blue-500 transition duration-300"
             @click.prevent="handleLogout"
             >Logout</a
           >
@@ -73,6 +73,6 @@
 
 <style scoped>
   .router-link-active {
-    @apply text-skin-header-link-active border-b-2 border-gray-900;
+    @apply text-gray-900 border-b-2 border-gray-900;
   }
 </style>
