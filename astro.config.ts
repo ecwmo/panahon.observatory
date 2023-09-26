@@ -9,8 +9,6 @@ import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
 import AutoImport from 'unplugin-auto-import/astro'
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 
@@ -85,11 +83,10 @@ export default defineConfig({
     },
     plugins: [
       Components({
-        resolvers: [HeadlessUiResolver(), IconsResolver()],
+        resolvers: [HeadlessUiResolver()],
         dts: 'src/components.d.ts',
         directoryAsNamespace: true,
       }),
-      Icons({}),
     ],
   },
   adapter: node({

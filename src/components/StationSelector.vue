@@ -7,7 +7,7 @@
         >
           <span class="block truncate">{{ modelValue?.name ?? 'Loading...' }}</span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <i-fa6-solid-chevron-down class="scale-75" />
+            <div class="i-fa6-solid-chevron-down scale-75" />
           </span>
         </ListboxButton>
         <transition
@@ -32,11 +32,8 @@
                 ]"
               >
                 <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ stn.name }}</span>
-                <span
-                  v-if="selected"
-                  class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-blue-700"
-                >
-                  <i-fa-solid-check v-show="selected" class="scale-75" aria-hidden="true" />
+                <span v-if="selected" class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-blue-700">
+                  <div v-show="selected" class="i-fa-solid-check scale-75" aria-hidden="true" />
                 </span>
               </li>
             </ListboxOption>

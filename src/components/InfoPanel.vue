@@ -15,6 +15,17 @@
           :is-active="c.id === $activeVariable"
           @click="setActiveVariable(c.id)"
         >
+          <template #icon1>
+            <div class="text-4xl md:text-5xl" :class="c.icon" />
+          </template>
+          <template #icon2>
+            <div
+              v-if="c.icon2"
+              class="text-lg md:text-xl"
+              :class="c.icon2"
+              :style="{ transform: `rotate(${windDirStr2Deg[c?.value2 ?? '']}deg)` }"
+            />
+          </template>
           <WeatherDescription
             :id="c.id"
             :data="$metValueStrings"
@@ -55,7 +66,7 @@
         value1: $metValueStrings.value['rr'],
         label2: '24hr total',
         value2: $metValueStrings.value['rain24h'],
-        iconName: 'fa6s-cloud-rain',
+        icon: 'i-fa6-solid-cloud-rain',
       },
       {
         id: 'temp',
@@ -63,22 +74,34 @@
         value1: $metValueStrings.value['temp'],
         label2: 'Feels like',
         value2: $metValueStrings.value['hi'],
-        iconName: 'fas-thermometer-half',
+        icon: 'i-fa-solid-thermometer-half',
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
         value1: $metValueStrings.value['wspd'],
         value2: windDirStr,
-        iconName: 'fa6s-wind',
-        iconName2: 'wi-wind-deg',
+        icon: 'i-fa6-solid-wind',
+        icon2: 'i-wi-wind-deg',
       },
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
         value1: $metValueStrings.value['pres'],
-        iconName: 'wi-barometer',
+        icon: 'i-wi-barometer',
       },
     ]
+  })
+
+  const windDirStr2Deg = computed(() => {
+    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+    const step = 360 / dirs.length
+
+    const r = dirs.reduce((o, c, i) => {
+      o[c] = i * step + 180
+      return o
+    }, {})
+
+    return r
   })
 </script>

@@ -39,8 +39,8 @@
       </svg>
     </fieldset>
     <div v-if="canPlay" class="p-1 md:p-2 md:text-2xl cursor-pointer text-gray-500 hover:text-gray-200">
-      <i-fa6-solid-circle-play v-if="!isPlaying" class="shadow-lg rounded-full" @click.prevent="handlePlayClick" />
-      <i-fa6-solid-circle-pause v-else class="shadow-lg rounded-full" @click.prevent="handlePauseClick" />
+      <div v-if="!isPlaying" class="i-fa6-solid-circle-play shadow-lg rounded-full" @click.prevent="handlePlayClick" />
+      <div v-else class="i-fa6-solid-circle-pause shadow-lg rounded-full" @click.prevent="handlePauseClick" />
     </div>
   </div>
 </template>

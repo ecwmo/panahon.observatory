@@ -14,14 +14,14 @@
           class="flex flex-col relative justify-center items-center h-max md:p-10 drop-shadow-lg backdrop-blur-sm backdrop-opacity-75 rounded-lg"
         >
           <div class="hidden md:block md:absolute md:top-0 cursor-pointer group" @click.prevent="$emit('up')">
-            <i-fa6-solid-chevron-up
-              class="scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
+            <div
+              class="i-fa6-solid-chevron-up scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
             />
           </div>
 
           <div class="hidden md:block md:absolute md:left-0 cursor-pointer group" @click.prevent="$emit('left')">
-            <i-fa6-solid-chevron-left
-              class="scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
+            <div
+              class="i-fa6-solid-chevron-left scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
             />
           </div>
 
@@ -30,14 +30,14 @@
           </div>
 
           <div class="hidden md:block md:absolute md:right-0 cursor-pointer group" @click.prevent="$emit('right')">
-            <i-fa6-solid-chevron-right
-              class="scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
+            <div
+              class="i-fa6-solid-chevron-right scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
             />
           </div>
 
           <div class="hidden md:block md:absolute md:bottom-0 cursor-pointer group" @click.prevent="$emit('down')">
-            <i-fa6-solid-chevron-down
-              class="scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
+            <div
+              class="i-fa6-solid-chevron-down scale-75 text-white opacity-75 group-hover:opacity-100 text-2xl md:text-4xl"
             />
           </div>
         </DialogPanel>

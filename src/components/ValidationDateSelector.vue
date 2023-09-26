@@ -6,7 +6,7 @@
       >
         <span>{{ selectedDtStr ?? 'Loading...' }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-          <i-mdi-unfold-more-horizontal class="w-5 h-5" />
+          <div class="i-mdi-unfold-more-horizontal w-5 h-5" />
         </span>
       </ListboxButton>
       <transition
@@ -33,11 +33,8 @@
               <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
                 rangeView ? toDateRangeString(dt) : toDateString(dt)
               }}</span>
-              <span
-                v-if="selected"
-                class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-3 text-blue-700"
-              >
-                <i-mdi-check-bold v-show="selected" clas="w-4 h-4" aria-hidden="true" />
+              <span v-if="selected" class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-3 text-blue-700">
+                <div v-show="selected" clas="i-mdi-check-bold w-4 h-4" aria-hidden="true" />
               </span>
             </li>
           </ListboxOption>

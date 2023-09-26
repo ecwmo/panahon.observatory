@@ -11,13 +11,7 @@
   >
     <div class="flex justify-evenly items-center">
       <div data-test="card-icon">
-        <i-fa6-solid-cloud-rain v-if="data?.iconName === 'fa6s-cloud-rain'" class="text-4xl md:text-5xl" />
-        <i-fa-solid-thermometer-half
-          v-else-if="data?.iconName === 'fas-thermometer-half'"
-          class="text-4xl md:text-5xl"
-        />
-        <i-fa6-solid-wind v-else-if="data?.iconName === 'fa6s-wind'" class="text-4xl md:text-5xl" />
-        <i-wi-barometer v-else-if="data?.iconName === 'wi-barometer'" class="text-4xl md:text-5xl scale-150" />
+        <slot name="icon1"></slot>
       </div>
       <div class="flex flex-col" data-test="card-info">
         <div v-if="data?.title" class="text-base md:text-lg" data-test="card-info-title">{{ data?.title }}</div>
@@ -35,11 +29,7 @@
           <div v-if="data?.label2" class="text-sm font-light -ml-6" data-test="card-info-label2">
             {{ data?.label2 }}
           </div>
-          <i-wi-wind-deg
-            v-if="data?.iconName2 === 'wi-wind-deg'"
-            class="text-lg md:text-xl"
-            :style="{ transform: `rotate(${windDirStr2Deg[data?.value2 ?? '']}deg)` }"
-          />
+          <slot name="icon2"></slot>
           <div class="text-xl md:text-2xl font-bold" data-test="card-info-value2">{{ data?.value2 }}</div>
         </div>
       </div>
@@ -51,7 +41,7 @@
       @mouseout="showPopup = false"
       data-test="card-info-popup"
     >
-      <i-fa-solid-info class="text-xs scale-75" />
+      <div class="i-fa-solid-info text-xs scale-75" />
       <Popup class="w-32 px-3 py-2 text-center text-xs rounded-lg pointer-events-none" :show="showPopup">
         <slot></slot>
       </Popup>
@@ -69,18 +59,6 @@
       isActive: false,
     }
   )
-
-  const windDirStr2Deg = computed(() => {
-    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
-    const step = 360 / dirs.length
-
-    const r = dirs.reduce((o, c, i) => {
-      o[c] = i * step + 180
-      return o
-    }, {})
-
-    return r
-  })
 
   const showPopup = ref(false)
 </script>

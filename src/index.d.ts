@@ -12,7 +12,7 @@ declare global {
     value1: string
     label2?: string
     value2?: string
-    iconName: string
-    iconName2?: string
+    icon: string
+    icon2?: string
   }
 }

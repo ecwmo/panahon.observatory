@@ -56,7 +56,6 @@
 		"ts-node": "^10.9.1",
 		"unocss": "^0.56.3",
 		"unplugin-auto-import": "^0.16.0",
-		"unplugin-icons": "^0.16.1",
 		"unplugin-vue-components": "^0.24.1",
 		"vite-plugin-pwa": "^0.14.7",
 		"vitest": "^0.31.1"
