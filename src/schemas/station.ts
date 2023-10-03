@@ -66,3 +66,24 @@ const StationConfiguration = z.object({
 })
 
 export const StationConfigurations = z.record(StationConfiguration)
+
+export const LatestStationObservation = z.object({
+  name: z.string(),
+  obs: z.object({
+    rain: z.number(),
+    temp: z.number(),
+    hi: z.number().nullable().optional(),
+    wspd: z.number(),
+    wdir: z.number(),
+    gust: z.number(),
+    mslp: z.number().nullable().optional(),
+    rh: z.number(),
+    rain_accum: z.number(),
+    tx: z.number(),
+    tn: z.number(),
+    timestamp: z.string(),
+    tn_timestamp: z.string(),
+    tx_timestamp: z.string(),
+    gust_timestamp: z.string(),
+  }),
+})

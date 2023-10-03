@@ -1,0 +1,27 @@
+---
+import { route } from '@/stores/routes'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={route('resources/static/img/logo/favicon.ico')} />
+    <title>Panahon - Manila Observatory</title>
+    <script
+      type="text/partytown"
+      src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_MEASUREMENT_ID}`}></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', import.meta.env.GA_MEASUREMENT_ID)
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

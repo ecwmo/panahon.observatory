@@ -47,6 +47,7 @@ declare module '@vue/runtime-core' {
     ValidationDateSelector: typeof import('./components/ValidationDateSelector.vue')['default']
     ValidationTabs: typeof import('./components/ValidationTabs.vue')['default']
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
+    WeatherDashboard: typeof import('./components/WeatherDashboard.vue')['default']
     WeatherDescription: typeof import('./components/WeatherDescription.vue')['default']
     WeatherPopupInfo: typeof import('./components/WeatherPopupInfo.vue')['default']
   }

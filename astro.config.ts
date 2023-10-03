@@ -25,7 +25,7 @@ export default defineConfig({
   site: APP_SITE,
   base: basePath,
   integrations: [
-    vue(),
+    vue({ appEntrypoint: '/src/pages/_app' }),
     UnoCSS({
       injectReset: true,
     }),
@@ -69,7 +69,9 @@ export default defineConfig({
       imports: [
         'vue',
         {
+          axios: [['default', 'axios']],
           '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver', 'useGeolocation', 'useWindowSize'],
+          '@tanstack/vue-query': ['useQuery'],
         },
       ],
       dts: 'src/auto-imports.d.ts',
