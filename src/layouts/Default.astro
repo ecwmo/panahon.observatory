@@ -11,7 +11,7 @@ setActivePage(Astro.url.href)
 const pageDesc = activePage.get().description
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -31,8 +31,7 @@ const pageDesc = activePage.get().description
     <meta name="description" content={pageDesc} />
     <script
       type="text/partytown"
-      src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_MEASUREMENT_ID}`}
-    ></script>
+      src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_MEASUREMENT_ID}`}></script>
     <script type="text/partytown">
       window.dataLayer = window.dataLayer || []
       function gtag() {
@@ -59,13 +58,13 @@ const pageDesc = activePage.get().description
 </html>
 
 <script>
-  import { user } from '@/stores/auth'
+  import { $user } from '@/stores/auth'
   import { activePage, basePath, route, setActivePage } from '@/stores/routes'
 
   setActivePage(location.href)
 
   const { auth, to } = activePage.get()
-  const { isLoggedIn } = user.get()
+  const { isLoggedIn } = $user.get()
 
   if (auth && !isLoggedIn) {
     location.href = route(`login?ref=${to.replace(basePath, '')}`)

@@ -17,18 +17,31 @@
 </template>
 
 <script setup lang="ts">
-  import { activeVariable } from '@/stores/station'
-  import { stationConf } from '@/stores/station-conf'
+  import { $activeVariable } from '@/stores/station'
   import { useStore } from '@nanostores/vue'
 
-  const $stationConf = useStore(stationConf)
-  const $activeVariable = useStore(activeVariable)
+  import { apiRoute } from '@/stores/routes'
 
-  const varTitle = computed(() => $stationConf.value?.[$activeVariable.value]?.desc ?? '')
-  const varUnits = computed(() => $stationConf.value?.[$activeVariable.value]?.units ?? '')
+  import { StationConfigurations } from '@/schemas/station'
+
+  const activeVariable = useStore($activeVariable)
+
+  const fetchWeatherConf = async () => {
+    const url = apiRoute('stations/weather_conf')
+    const { data } = await axios.get(url)
+    return StationConfigurations.parse(data)
+  }
+
+  const { data: stationConf } = useQuery({
+    queryKey: ['stations', 'config'],
+    queryFn: fetchWeatherConf,
+  })
+
+  const varTitle = computed(() => stationConf.value?.[activeVariable.value]?.desc ?? '')
+  const varUnits = computed(() => stationConf.value?.[activeVariable.value]?.units ?? '')
 
   const palette = computed(() => {
-    const { colors, levels } = $stationConf.value?.[$activeVariable.value]?.palette ?? { colors: [], levels: [] }
+    const { colors, levels } = stationConf.value?.[activeVariable.value]?.palette ?? { colors: [], levels: [] }
     return { colors, levels }
   })
 </script>

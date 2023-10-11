@@ -30,29 +30,35 @@
     </div>
   </div>
   <ImageModal :open="imgPopUp" @close="imgPopUp = false" @up="up" @right="next" @down="down" @left="prev">
-    <img class="object-contain rounded-2xl drop-shadow-xl" :src="$activeImage" />
+    <img class="object-contain rounded-2xl drop-shadow-xl" :src="activeImage" />
   </ImageModal>
 </template>
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+  import { format } from 'date-fns'
+
+  import { Images as ImagesSchema } from '@/schemas/validation'
 
   import Lazy from '@/components/Lazy.vue'
 
+  import { apiRoute } from '@/stores/routes'
+
   import {
-    activeImage,
+    $activeImage,
+    $selectedDate,
     down,
     imageGroups,
     leadTimes,
     next,
     prev,
     setActiveImage,
+    setValidationImages,
     up,
-    validationImages,
   } from '@/stores/validation'
 
-  const $validationImages = useStore(validationImages)
-  const $activeImage = useStore(activeImage)
+  const selectedDate = useStore($selectedDate)
+  const activeImage = useStore($activeImage)
 
   const imgPopUp = ref(false)
 
@@ -62,9 +68,21 @@
 
   const imgElStyle = computed(() => ({ height: `${imgElHeight.value}px` }))
 
+  const { data: validationImages } = useQuery({
+    queryKey: ['validation', selectedDate],
+    queryFn: async () => {
+      const dateStr = format(selectedDate.value, 'yyyyMMdd')
+      const url = `${apiRoute('validation')}/${dateStr}`
+      const { data } = await axios.get(url)
+      const dat = ImagesSchema.parse(data)
+      setValidationImages(dat)
+      return dat
+    },
+  })
+
   const images = computed(() => {
-    const { gsmap } = $validationImages.value ?? { gsmap: [''] }
-    return { ...$validationImages.value, gsmap: [, , gsmap[0], ,] }
+    const { gsmap } = validationImages.value ?? { gsmap: [''] }
+    return { ...validationImages.value, gsmap: [, , gsmap[0], ,] }
   })
 
   const handleThumbnailClick = (imgIdx: number, grpIdx: number) => {

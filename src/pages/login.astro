@@ -3,9 +3,9 @@ import DefaultLayout from '@/layouts/Default.astro'
 
 import LoginForm from '@/components/LoginForm.vue'
 
-import { user } from '@/stores/auth'
+import { $user } from '@/stores/auth'
 
-const { username, isLoggedIn } = user.get()
+const { username, isLoggedIn } = $user.get()
 ---
 
 <DefaultLayout>

@@ -4,7 +4,7 @@
       <!-- Forecast Interval -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
-        <RowGroupBtns v-model:activeItem="$activeImageFrequency" :items="imageFrequencies" class="text-xs" />
+        <RowGroupBtns v-model:activeItem="activeImageFrequency" :items="imageFrequencies" class="text-xs" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -13,7 +13,7 @@
           v-for="mf in metFields"
           :key="mf.val"
           :class="
-            mf.val === $activeVariable.val
+            mf.val === activeVariable.val
               ? 'bg-gray-200 text-gray-900'
               : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500'
           "
@@ -30,8 +30,8 @@
       <Transition name="fade" mode="out-in">
         <Range
           v-if="showFcstTime"
-          :key="$activeImageFrequency.val"
-          v-model.number="$activeFcstTime"
+          :key="activeImageFrequency.val"
+          v-model.number="activeFcstTime"
           :ticks="ticks"
           :step="step"
           :can-play="true"
@@ -40,15 +40,15 @@
         />
       </Transition>
       <Transition name="fade">
-        <SwitchGroup v-show="$hasExtreme" class="scale-75 md:scale-100">
+        <SwitchGroup v-show="hasExtreme" class="scale-75 md:scale-100">
           <div class="flex items-center gap-1.5">
             <Switch
-              v-model="$isExtreme"
-              :class="$isExtreme ? 'bg-gray-500' : 'bg-gray-200'"
+              v-model="isExtreme"
+              :class="isExtreme ? 'bg-gray-500' : 'bg-gray-200'"
               class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
             >
               <span
-                :class="$isExtreme ? 'translate-x-4 bg-gray-200' : 'bg-gray-500 translate-x-0'"
+                :class="isExtreme ? 'translate-x-4 bg-gray-200' : 'bg-gray-500 translate-x-0'"
                 class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
               />
             </Switch>
@@ -56,19 +56,19 @@
           </div>
         </SwitchGroup>
       </Transition>
-      <div :class="[$activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
+      <div :class="[activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
         <Transition name="fade" mode="out-in">
           <img
-            :key="`${$activeImageFrequency.val}.${$activeVariable.val}.${$isExtreme}`"
+            :key="`${activeImageFrequency.val}.${activeVariable.val}.${isExtreme}`"
             class="shadow-md rounded-2xl"
-            :src="$activeImage"
+            :src="activeImage"
             @load="handleImageLoad"
           />
         </Transition>
       </div>
       <div v-show="showCaption">
         <ModelCaption
-          :id="$isExtreme ? `${$activeVariable.val}x` : $activeVariable.val"
+          :id="isExtreme ? `${activeVariable.val}x` : activeVariable.val"
           class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal w-11/12"
         />
       </div>
@@ -80,65 +80,85 @@
   import { useStore, useVModel } from '@nanostores/vue'
   import { addDays, addHours, format, getHours, parse } from 'date-fns'
 
+  import { apiRoute } from '@/stores/routes'
+
+  import { imgSrcArr } from '@/schemas/forecast'
+
   import {
-    activeFcstTime,
-    activeImage,
-    activeImageFrequency,
-    activeVariable,
-    fcstTimes,
-    hasExtreme,
+    $activeFcstTime,
+    $activeImage,
+    $activeImageFrequency,
+    $activeVariable,
+    $fcstTimes,
+    $hasExtreme,
+    $initTime,
+    $isExtreme,
     imageFrequencies,
-    initTime,
-    isExtreme,
     metFields,
     setActiveFcstTime,
     setActiveVariable,
+    setModelImgs,
   } from '@/stores/forecast'
 
-  const $initTime = useStore(initTime)
-  const $fcstTimes = useStore(fcstTimes)
-  const $activeVariable = useStore(activeVariable)
-  const $activeFcstTime = useVModel(activeFcstTime)
-  const $activeImageFrequency = useVModel(activeImageFrequency)
-  const $isExtreme = useVModel(isExtreme)
-  const $hasExtreme = useStore(hasExtreme)
-  const $activeImage = useStore(activeImage)
+  const initTime = useStore($initTime)
+  const fcstTimes = useStore($fcstTimes)
+  const activeVariable = useStore($activeVariable)
+  const activeFcstTime = useVModel($activeFcstTime)
+  const activeImageFrequency = useVModel($activeImageFrequency)
+  const isExtreme = useVModel($isExtreme)
+  const hasExtreme = useStore($hasExtreme)
+  const activeImage = useStore($activeImage)
 
   const defaultHeaderName = 'Model Forecast Maps'
   const showCaption = ref(false)
 
-  const headerName = computed(() => $activeVariable.value.headerName ?? defaultHeaderName)
+  const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => $activeVariable.value.mult !== false)
+  const showFcstTime = computed(() => activeVariable.value.mult !== false)
 
-  const step = computed(() => +$activeImageFrequency.value.val.slice(0, -4))
+  const step = computed(() => +activeImageFrequency.value.val.slice(0, -4))
 
   const ticks = computed(() => {
     const startTime =
-      getHours($initTime.value) !== 0
-        ? addDays(parse(format($initTime.value, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()), 1)
-        : $initTime.value
-    const dates = $fcstTimes.value.map((f, i) => addHours($initTime.value, i * step.value))
+      getHours(initTime.value) !== 0
+        ? addDays(parse(format(initTime.value, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()), 1)
+        : initTime.value
+    const dates = fcstTimes.value.map((f, i) => addHours(initTime.value, i * step.value))
     const idx = dates.findIndex((d) => d >= startTime)
     const nts = 24 / step.value
-    return $fcstTimes.value.map((f, i) => ({
+    return fcstTimes.value.map((f, i) => ({
       val: f,
       text: !((i - idx) % nts) ? format(dates[i], 'MMM dd') : undefined,
       popup: format(dates[i], 'MMM dd h aaa'),
     }))
   })
 
+  const fetchModelImages = async () => {
+    const url = `${apiRoute('forecast')}?img=${activeImageFrequency.value.val}`
+    const { data } = await axios.get(url)
+    return imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
+  }
+
+  const { data: modelImgs, isSuccess } = useQuery({
+    queryKey: ['models', 'images', activeImageFrequency],
+    queryFn: fetchModelImages,
+  })
+
+  watch([isSuccess, modelImgs], ([isSuccess, imgs]) => {
+    if (isSuccess) setModelImgs(imgs)
+  })
+
   const handleImageLoad = () => {
     showCaption.value = true
   }
 
-  const handleVariableChange = (mf: typeof $activeVariable.value) => {
+  const handleVariableChange = (mf: typeof activeVariable.value) => {
     showCaption.value = false
     setActiveVariable(mf)
   }
 
   const handleNext = (nextIdx: number) => {
-    setActiveFcstTime($fcstTimes.value[nextIdx])
+    setActiveFcstTime(fcstTimes.value[nextIdx])
   }
 </script>
 

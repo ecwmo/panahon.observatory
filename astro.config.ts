@@ -71,7 +71,7 @@ export default defineConfig({
         {
           axios: [['default', 'axios']],
           '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver', 'useGeolocation', 'useWindowSize'],
-          '@tanstack/vue-query': ['useQuery'],
+          '@tanstack/vue-query': ['useQuery', 'useInfiniteQuery'],
         },
       ],
       dts: 'src/auto-imports.d.ts',

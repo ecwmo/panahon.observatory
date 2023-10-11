@@ -9,8 +9,6 @@ export const Report = z.object({
   coverImg: z.string(),
 })
 
-export const Reports = Report.array()
-
 export const ReportImages = z.object({
   files: z.string().array(),
   staticFiles: z.string().array(),

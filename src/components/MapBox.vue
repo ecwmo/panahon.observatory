@@ -3,14 +3,14 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
-    <div v-if="$station">
+    <div v-if="stations">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup
-          v-if="$dataViewType === 'default'"
+          v-if="dataViewType === 'default'"
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <WeatherPopupInfo :id="$activeVariable" :data="$metValueStrings" class="text-xs text-center" />
+          <WeatherPopupInfo :id="activeVariable" :data="$metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -33,7 +33,7 @@
           </div>
         </SwitchGroup>
         <StationSelector
-          :model-value="$activeStation"
+          :model-value="activeStation"
           :stations="visibleStationsSorted"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
@@ -46,11 +46,11 @@
       </div>
 
       <WeatherButtons
-        v-if="$dataViewType === 'default'"
+        v-if="dataViewType === 'default'"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
       />
       <Colorbar
-        v-if="$dataViewType === 'default'"
+        v-if="dataViewType === 'default'"
         class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
       />
     </div>
@@ -64,17 +64,20 @@
   import { format } from 'date-fns'
   import mapbox from 'mapbox-gl'
 
+  import { Station as StationSchema } from '@/schemas/station'
+  import { apiRoute } from '@/stores/routes'
+
   import {
-    activeStation,
-    activeVariable,
+    $activeStation,
+    $activeVariable,
+    $validationTS,
+    $viewType,
     metValueStrings,
     setActiveStation,
-    station,
     timestamp,
-    viewType,
   } from '@/stores/station'
 
-  import type { Station, StationProperties } from '@/types/station'
+  import type { StationProperties } from '@/types/station'
 
   const { LngLat, Map } = mapbox
 
@@ -97,19 +100,19 @@
   const mapEl = ref()
   const dotProps = ref<DotProps>({ xy: { x: -1, y: -1 }, show: false, showPopup: false })
   const mapToggle = ref(false)
-  const $dataViewType = useStore(viewType)
-  const $station = useStore(station)
-  const $activeVariable = useStore(activeVariable)
-  const $activeStation = useVModel(activeStation)
+  const dataViewType = useStore($viewType)
+  const activeVariable = useStore($activeVariable)
+  const activeStation = useVModel($activeStation)
   const $dataTimestamp = useStore(timestamp)
   const $metValueStrings = useStore(metValueStrings)
+  const validationTS = useStore($validationTS)
 
   const { coords } = useGeolocation()
 
   const visibleStations = ref<StationProperties[]>()
 
   const visibleStationsSorted = computed(() => {
-    const activePt = point([$activeStation.value.lon ?? 0, $activeStation.value.lat ?? 0])
+    const activePt = point([activeStation.value.lon ?? 0, activeStation.value.lat ?? 0])
 
     return visibleStations.value
       ?.map((props) => ({ ...props, dist: distance({ type: 'Point', coordinates: [props.lon, props.lat] }, activePt) }))
@@ -136,7 +139,7 @@
 
   const showPoint = () => {
     try {
-      const { lat, lon } = $activeStation.value
+      const { lat, lon } = activeStation.value
       const xy = map.value?.project([lon, lat])
       const show = true
       const showPopup = true
@@ -151,7 +154,7 @@
   }
 
   const getVisibleStations = () => {
-    let vStations = $station.value
+    let vStations = stations.value
     try {
       const mapBnds = map.value.getBounds()
       if (vStations)
@@ -187,7 +190,7 @@
     if (map.value.isStyleLoaded()) {
       map.value.addSource(sourceId, {
         type: 'geojson',
-        data: $station.value as Station,
+        data: stations.value,
       })
 
       map.value.addLayer({
@@ -198,15 +201,30 @@
           'circle-radius': 5,
           'circle-stroke-color': '#000000',
           'circle-stroke-width': 1,
-          'circle-color': ['to-color', ['get', $activeVariable.value, ['get', 'colors']]],
+          'circle-color': ['to-color', ['get', activeVariable.value, ['get', 'colors']]],
         },
       })
       handleStationChange()
     }
   }
 
-  watch($activeVariable, (newVar) => {
-    const metVars = Object.keys($station.value?.features[0].properties.colors ?? {})
+  const fetchStations = async () => {
+    const validationTSStr = format(validationTS.value, 'yyyyMMdd') ?? ''
+    const url =
+      dataViewType.value === 'validation'
+        ? `${apiRoute()}/stations/validation/${validationTSStr}`
+        : `${apiRoute()}/stations`
+    const { data } = await axios.get(url)
+    return StationSchema.parse(data)
+  }
+
+  const { data: stations } = useQuery({
+    queryKey: ['stations', dataViewType, validationTS],
+    queryFn: fetchStations,
+  })
+
+  watch(activeVariable, (newVar) => {
+    const metVars = Object.keys(stations.value?.features[0].properties.colors ?? {})
 
     if (metVars.indexOf(newVar) !== -1) {
       map.value.setPaintProperty('station-pts', 'circle-color', ['to-color', ['get', newVar, ['get', 'colors']]])

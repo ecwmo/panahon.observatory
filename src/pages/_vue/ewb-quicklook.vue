@@ -24,10 +24,10 @@
     </TabGroup>
     <div ref="sectionEls" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
       <div>
-        <img :src="$ewbImages?.jtwc" class="border border-black shadow-md rounded-2xl" />
+        <img :src="ewbImages?.jtwc" class="border border-black shadow-md rounded-2xl" />
       </div>
       <div>
-        <img :src="$ewbImages?.pagasa" class="border border-black shadow-md rounded-2xl" />
+        <img :src="ewbImages?.pagasa" class="border border-black shadow-md rounded-2xl" />
       </div>
 
       <div v-for="section in sections" :key="section.name">
@@ -63,19 +63,21 @@
   </div>
 
   <ImageModal :open="imgPopUp" @close="imgPopUp = false" @up="up" @right="next" @down="down" @left="prev">
-    <img class="object-contain rounded-2xl drop-shadow-xl" :src="$activeImage" />
+    <img class="object-contain rounded-2xl drop-shadow-xl" :src="activeImage" />
   </ImageModal>
 </template>
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { activeImage, down, ewbImages, metadata, next, prev, setActiveImage, up } from '@/stores/ewb'
+  import { apiRoute } from '@/stores/routes'
 
-  import { EWBIntImages } from '@/types/ewb'
+  import { $activeImage, down, metadata, next, prev, setActiveImage, setEWBImages, up } from '@/stores/ewb'
 
-  const $ewbImages = useStore(ewbImages)
-  const $activeImage = useStore(activeImage)
+  import { EWBImages } from '@/schemas/ewb'
+  import type { EWBIntImages } from '@/types/ewb'
+
+  const activeImage = useStore($activeImage)
 
   const bodyEl = ref()
   const tabHeaderEl = ref()
@@ -95,7 +97,7 @@
       header: metadata.fcst.variants,
       data: metadata.fcst.items.map((d) => ({
         ...d,
-        imgs: $ewbImages.value?.fcst[d.id as keyof EWBIntImages['fcst']],
+        imgs: ewbImages.value?.fcst[d.id as keyof EWBIntImages['fcst']],
       })),
     },
     {
@@ -103,18 +105,29 @@
       header: metadata.fcstAccum.variants,
       data: metadata.fcstAccum.items.map((d) => ({
         ...d,
-        imgs: $ewbImages.value?.fcstAccum[d.id as keyof EWBIntImages['fcstAccum']],
+        imgs: ewbImages.value?.fcstAccum[d.id as keyof EWBIntImages['fcstAccum']],
       })),
       fill_end: 2,
     },
     {
       name: 'obs',
       header: metadata.obs.variants,
-      data: metadata.obs.items.map((d) => ({ ...d, imgs: $ewbImages.value?.obs[d.id as keyof EWBIntImages['obs']] })),
+      data: metadata.obs.items.map((d) => ({ ...d, imgs: ewbImages.value?.obs[d.id as keyof EWBIntImages['obs']] })),
     },
   ])
 
   const imgElStyle = computed(() => ({ height: `${imgElHeight.value}px` }))
+
+  const { data: ewbImages } = useQuery({
+    queryKey: ['ewb'],
+    queryFn: async () => {
+      const url = `${apiRoute('ewb')}`
+      const { data } = await axios.get(url)
+      const dat = EWBImages.parse(data)
+      setEWBImages(dat)
+      return dat
+    },
+  })
 
   const handleThumbnailClick = (imgIdx: number, grpIdx: number, imgType: string) => {
     setActiveImage(imgIdx, grpIdx, imgType)

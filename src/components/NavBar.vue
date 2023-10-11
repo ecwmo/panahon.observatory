@@ -37,7 +37,7 @@
             {{ tab.label }}
           </a>
           <a
-            v-if="$user.isLoggedIn"
+            v-if="user.isLoggedIn"
             href="#"
             class="p-1 md:p-2 text-sm md:text-base font-semibold text-gray-500 hover:text-blue-500 transition duration-300"
             @click.prevent="handleLogout"
@@ -52,10 +52,10 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { logout, user } from '@/stores/auth'
+  import { $user, logout } from '@/stores/auth'
   import { activePage, pages, route } from '@/stores/routes'
 
-  const $user = useStore(user)
+  const user = useStore($user)
   const $tabs = useStore(pages)
   const $activeTab = useStore(activePage)
 

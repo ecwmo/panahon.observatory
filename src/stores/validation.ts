@@ -1,9 +1,5 @@
-import { format, parse } from 'date-fns'
 import { action, atom, computed } from 'nanostores'
 
-import { createFetcherStore, isReady } from './fetcher'
-
-import { Images as ImagesSchema } from '@/schemas/validation'
 import { apiRoute } from '@/stores/routes'
 import type { Images } from '@/types/validation'
 
@@ -31,31 +27,20 @@ export const leadTimes = [
   { val: 1, text: '1' },
 ]
 
-export const selectedDate = atom(new Date())
-const selectedDateStr = computed(selectedDate, (dt) => format(dt, 'yyyyMMdd') ?? undefined)
+export const $selectedDate = atom(new Date())
 
-export const validationDates = atom<Date[]>()
-const validationDateStrs = createFetcherStore<string[]>([`${API_URL}/dates`])
-validationDateStrs.subscribe((res) => {
-  if (isReady(res)) {
-    const dates = res.data?.map((dt) => parse(dt, 'yyyy-MM-dd', new Date())) ?? []
-    validationDates.set(dates)
-    selectedDate.set(dates?.[0])
-  }
-})
+const $validationImages = atom()
+export const setValidationImages = action($validationImages, 'setValidationImages', (imgs, newVal) => imgs.set(newVal))
 
-const _validationImages = createFetcherStore([API_URL, '/', selectedDateStr])
-export const validationImages = computed([_validationImages], (res) =>
-  isReady(res) ? ImagesSchema.parse(res.data) : undefined
-)
 const activeImgIdx = atom(0)
 const setActiveImgIdx = action(activeImgIdx, 'setActiveImgIdx', (idx, newVal) => idx.set(newVal))
 const activeImageGroupIdx = atom(0)
 const setActiveImageGroupIdx = action(activeImageGroupIdx, 'setActiveImageGroupIdx', (idx, newVal) => idx.set(newVal))
 const activeImageGroup = computed(activeImageGroupIdx, (imgGrpIdx) => imageGroups[imgGrpIdx])
-const activeImages = computed([validationImages, activeImageGroup], (imgs, imgGrp) => imgs?.[imgGrp.id])
-export const activeImage = computed(
-  [activeImgIdx, activeImages, activeImageGroup, validationImages],
+const activeImages = computed([$validationImages, activeImageGroup], (imgs, imgGrp) => imgs?.[imgGrp.id])
+
+export const $activeImage = computed(
+  [activeImgIdx, activeImages, activeImageGroup, $validationImages],
   (idx, imgs, imgGrp, vImgs) => (imgGrp.id !== 'gsmap' ? imgs?.[idx] : vImgs?.['gsmap'][0]) ?? undefined
 )
 export const setActiveImage = (imgIdx: number, grpIdx: number) => {

@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
+  import { route } from '@/stores/routes'
+  defineProps<{
     id: string
-  }
-  defineProps<Props>()
+  }>()
 </script>
 
 <style scoped>

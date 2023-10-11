@@ -4,7 +4,7 @@
       v-for="btn in buttons"
       :key="btn.id"
       class="cursor-pointer"
-      :class="[btn.id === $activeVariable ? btn.activeClass : btn.defaultClass]"
+      :class="[btn.id === activeVariable ? btn.activeClass : btn.defaultClass]"
       @click.prevent="setActiveVariable(btn.id)"
     >
       <div class="text-xl" :class="btn.icon" />
@@ -15,9 +15,9 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { activeVariable, setActiveVariable } from '@/stores/station'
+  import { $activeVariable, setActiveVariable } from '@/stores/station'
 
-  const $activeVariable = useStore(activeVariable)
+  const activeVariable = useStore($activeVariable)
 
   const buttons = ref([
     {

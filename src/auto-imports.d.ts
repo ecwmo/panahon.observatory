@@ -52,6 +52,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
+  const useInfiniteQuery: typeof import('@tanstack/vue-query')['useInfiniteQuery']
   const useIntersectionObserver: typeof import('@vueuse/core')['useIntersectionObserver']
   const useQuery: typeof import('@tanstack/vue-query')['useQuery']
   const useScroll: typeof import('@vueuse/core')['useScroll']
@@ -120,6 +121,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
+    readonly useInfiniteQuery: UnwrapRef<typeof import('@tanstack/vue-query')['useInfiniteQuery']>
     readonly useIntersectionObserver: UnwrapRef<typeof import('@vueuse/core')['useIntersectionObserver']>
     readonly useQuery: UnwrapRef<typeof import('@tanstack/vue-query')['useQuery']>
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>

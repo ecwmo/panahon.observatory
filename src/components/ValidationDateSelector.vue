@@ -1,5 +1,5 @@
 <template>
-  <Listbox v-model="$selectedDate">
+  <Listbox v-if="isSuccess" v-model="selectedDate">
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-md bg-white text-gray-900 py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
@@ -18,7 +18,7 @@
           class="absolute mt-1 max-h-60 w-fit overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <ListboxOption
-            v-for="(dt, id) in $valDates"
+            v-for="(dt, id) in validationDates"
             :key="id"
             v-slot="{ active, selected }"
             :value="dt"
@@ -45,21 +45,34 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore, useVModel } from '@nanostores/vue'
-  import { format, isSameMonth, isSameYear, subDays } from 'date-fns'
+  import { useVModel } from '@nanostores/vue'
+  import { format, isSameMonth, isSameYear, parse, subDays } from 'date-fns'
 
-  import { selectedDate, validationDates } from '@/stores/validation'
+  import { apiRoute } from '@/stores/routes'
 
-  interface Props {
-    rangeView?: boolean
-  }
+  import { $selectedDate } from '@/stores/validation'
 
-  const props = withDefaults(defineProps<Props>(), { rangeView: false })
+  const props = withDefaults(
+    defineProps<{
+      rangeView?: boolean
+    }>(),
+    { rangeView: false }
+  )
 
-  const $valDates = useStore(validationDates)
-  const $selectedDate = useVModel(selectedDate)
+  const selectedDate = useVModel($selectedDate)
 
   const dateFormat = 'MMM d yyyy'
+
+  const { data: validationDates, isSuccess } = useQuery({
+    queryKey: ['validation', 'dates'],
+    queryFn: async () => {
+      const url = `${apiRoute('validation')}/dates`
+      const { data } = await axios.get(url)
+      const dates = (<string[]>data)?.map((dt) => parse(dt, 'yyyy-MM-dd', new Date())) ?? <Date[]>[]
+      selectedDate.value = dates?.[0]
+      return dates
+    },
+  })
 
   const toDateString = (d: Date) => format(d, dateFormat)
 
@@ -75,6 +88,6 @@
   }
 
   const selectedDtStr = computed(() =>
-    props.rangeView ? toDateRangeString($selectedDate.value) : format($selectedDate.value, dateFormat)
+    props.rangeView ? toDateRangeString(selectedDate.value) : format(selectedDate.value, dateFormat)
   )
 </script>

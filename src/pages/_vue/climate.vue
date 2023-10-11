@@ -4,7 +4,7 @@
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Scenario</h3>
-        <RowGroupBtns v-model:activeItem="$activeScenario" :items="scenarios" class="text-xs" />
+        <RowGroupBtns v-model:activeItem="activeScenario" :items="scenarios" class="text-xs" />
       </div>
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -13,7 +13,7 @@
           v-for="climVar in variables"
           :key="climVar.val"
           :class="
-            climVar.val === $activeVariable.val
+            climVar.val === activeVariable.val
               ? 'bg-gray-200 text-gray-900'
               : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500'
           "
@@ -28,7 +28,7 @@
     <div class="flex flex-col items-center gap-2 w-full">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
       <Range
-        v-model.number="$activeDecade"
+        v-model.number="activeDecade"
         :ticks="decades.map((d) => ({ val: d[0], text: `${d[0]}` }))"
         :step="10"
         :can-play="true"
@@ -37,11 +37,7 @@
       />
       <div class="max-w-lg">
         <Transition name="fade" mode="out-in">
-          <img
-            :key="`${$activeScenario.val}.${$activeVariable.val}`"
-            class="shadow-md rounded-2xl"
-            :src="$activeImage"
-          />
+          <img :key="`${activeScenario.val}.${activeVariable.val}`" class="shadow-md rounded-2xl" :src="activeImage" />
         </Transition>
       </div>
     </div>
@@ -52,10 +48,10 @@
   import { useStore, useVModel } from '@nanostores/vue'
 
   import {
-    activeDecade,
-    activeImage,
-    activeScenario,
-    activeVariable,
+    $activeDecade,
+    $activeImage,
+    $activeScenario,
+    $activeVariable,
     decades,
     scenarios,
     setActiveDecade,
@@ -63,10 +59,10 @@
     variables,
   } from '@/stores/climate'
 
-  const $activeScenario = useVModel(activeScenario)
-  const $activeDecade = useVModel(activeDecade)
-  const $activeVariable = useStore(activeVariable)
-  const $activeImage = useStore(activeImage)
+  const activeScenario = useVModel($activeScenario)
+  const activeDecade = useVModel($activeDecade)
+  const activeVariable = useStore($activeVariable)
+  const activeImage = useStore($activeImage)
 
   const handleNext = (nextIdx: number) => {
     setActiveDecade(decades[nextIdx][0])

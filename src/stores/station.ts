@@ -1,27 +1,19 @@
-import { format } from 'date-fns'
 import { action, atom, computed } from 'nanostores'
 
-import { createFetcherStore, isReady } from './fetcher'
-
-import { Station as StationSchema } from '@/schemas/station'
-import { apiRoute } from '@/stores/routes'
 import type { ObservationVariableEnums, ObservationVariables, StationProperties } from '@/types/station'
 
-const API_URL = apiRoute()
+export const $viewType = atom('default')
+export const setViewType = action($viewType, 'setViewType', (vt, newType: string) => vt.set(newType))
 
-export const viewType = atom('default')
-export const setViewType = action(viewType, 'setViewType', (vt, newType: string) => vt.set(newType))
+export const $validationTS = atom(new Date())
+export const setValidationTS = action($validationTS, 'setValidationTS', (vTS, newVal: Date) => vTS.set(newVal))
 
-const validationTS = atom(new Date())
-export const setValidationTS = action(validationTS, 'setValidationTS', (vTS, newVal: Date) => vTS.set(newVal))
-const validationTSStr = computed([validationTS], (dt) => format(dt, 'yyyyMMdd') ?? '')
+export const $activeVariable = atom('temp')
+export const setActiveVariable = action($activeVariable, 'setActiveVariable', (v, newVar: string) => v.set(newVar))
 
-export const activeVariable = atom('temp')
-export const setActiveVariable = action(activeVariable, 'setActiveVariable', (v, newVar: string) => v.set(newVar))
-
-export const activeStation = atom<StationProperties>({})
+export const $activeStation = atom<StationProperties>({})
 export const setActiveStation = action(
-  activeStation,
+  $activeStation,
   'setActiveStation',
   (st, stations: StationProperties[], newStn?: number | string | StationProperties) => {
     if (newStn) {
@@ -36,15 +28,7 @@ export const setActiveStation = action(
   }
 )
 
-const _station = createFetcherStore([`${API_URL}/stations`])
-const _validationStation = createFetcherStore([`${API_URL}/stations/validation/`, validationTSStr])
-export const station = computed([viewType, _station, _validationStation], (v, st, vSt) =>
-  (v === 'validation' ? isReady(vSt) : isReady(st))
-    ? StationSchema.parse(v === 'validation' ? vSt.data : st.data)
-    : undefined
-)
-
-export const timestamp = computed(activeStation, (st) => new Date(st?.obs?.timestamp ?? Date.now()))
+export const timestamp = computed($activeStation, (st) => new Date(st?.obs?.timestamp ?? Date.now()))
 
 const dataIsValid = (val: number, varName: string) => {
   if (varName === 'pres') return val !== -999
@@ -85,7 +69,7 @@ const metValueString = (stnObs: ObservationVariables | undefined, varName: strin
   return val.toFixed(fracDigits)
 }
 
-export const metValueStrings = computed(activeStation, (st) => {
+export const metValueStrings = computed($activeStation, (st) => {
   const ret: { [k: string]: string } = {}
   const metVars = ['rr', 'rain24h', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'pres']
 

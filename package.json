@@ -22,7 +22,6 @@
 		"@astrojs/vue": "^3.0.0",
 		"@headlessui/vue": "^1.7.13",
 		"@nanostores/persistent": "^0.8.0",
-		"@nanostores/query": "^0.1.1",
 		"@nanostores/vue": "^0.8.2",
 		"@prisma/client": "^4.12.0",
 		"@tanstack/vue-query": "^4.35.7",

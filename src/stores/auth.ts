@@ -14,7 +14,7 @@ type Auth = z.infer<typeof AuthSchema>
 
 const API_URL = apiRoute('auth')
 
-export const user = persistentMap<Auth>(
+export const $user = persistentMap<Auth>(
   'user:',
   {
     valid: false,
@@ -32,10 +32,10 @@ export const user = persistentMap<Auth>(
   }
 )
 
-export const login = action(user, 'login', async (user, userData: UserData) => {
+export const login = action($user, 'login', async (user, userData: UserData) => {
   const formData = new FormData()
 
-  formData.append('login', 1)
+  formData.append('login', '1')
   Object.keys(userData).forEach((k) => {
     formData.append(k, `${userData[k]}`)
   })
@@ -46,7 +46,7 @@ export const login = action(user, 'login', async (user, userData: UserData) => {
   user.set({ ...data, isLoggedIn: data.username.length > 0 })
 })
 
-export const logout = action(user, 'logout', async (user) => {
+export const logout = action($user, 'logout', async (user) => {
   const formData = new FormData()
   formData.append('logout', '1')
 

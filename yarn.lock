@@ -2446,17 +2446,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nanostores/query@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@nanostores/query@npm:0.1.1"
-  dependencies:
-    nanoevents: 7
-  peerDependencies:
-    nanostores: ">0.7"
-  checksum: a6600c2b31959e018699a7b69ead31ead6e3e3fc2d9bfb45c2cfc65baf73f81a83e7bb1a7c2c4ac2627166df01069ed128b36af92cdef09f5b2cc21b904d089c
-  languageName: node
-  linkType: hard
-
 "@nanostores/vue@npm:^0.8.2":
   version: 0.8.2
   resolution: "@nanostores/vue@npm:0.8.2"
@@ -9098,13 +9087,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoevents@npm:7":
-  version: 7.0.1
-  resolution: "nanoevents@npm:7.0.1"
-  checksum: 5c0704cfeb7af9052a70b1ce53e556e3743cefbbd09758121e0062e4fac2cf70ebea1e6b1414f18a81975ee1bdf4af05e13c82e1b015975493ef8ef34737787d
-  languageName: node
-  linkType: hard
-
 "nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
@@ -9491,7 +9473,6 @@ __metadata:
     "@iconify-json/mdi": ^1.1.45
     "@iconify-json/wi": ^1.1.2
     "@nanostores/persistent": ^0.8.0
-    "@nanostores/query": ^0.1.1
     "@nanostores/vue": ^0.8.2
     "@prisma/client": ^4.12.0
     "@tanstack/vue-query": ^4.35.7

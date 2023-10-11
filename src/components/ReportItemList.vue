@@ -34,25 +34,31 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore } from '@nanostores/vue'
+  import { ReportImages } from '@/schemas/report'
+  import { apiRoute } from '@/stores/routes'
 
-  import { report, setViewMode } from '@/stores/report'
+  const props = withDefaults(
+    defineProps<{
+      mode?: string
+    }>(),
+    { mode: 'latest' }
+  )
 
-  interface Props {
-    mode?: string
-  }
-  const props = withDefaults(defineProps<Props>(), { mode: 'latest' })
-
-  setViewMode(props.mode)
-
-  const $report = useStore(report)
+  const { data: report } = useQuery({
+    queryKey: ['reports', props.mode],
+    queryFn: async () => {
+      const url = `${apiRoute('reports')}/${props.mode}`
+      const { data } = await axios.get(url)
+      return ReportImages.parse(data)
+    },
+  })
 
   const bodyEl = ref()
   const showLazyItems = ref(false)
   const elStyle = ref({})
 
-  const imgs = computed(() => $report.value?.files ?? [])
-  const sImgs = computed(() => $report.value?.staticFiles ?? [])
+  const imgs = computed(() => report.value?.files ?? [])
+  const sImgs = computed(() => report.value?.staticFiles ?? [])
 
   const handleImgLoad = (ev: Event) => {
     const { clientHeight, clientWidth } = (ev.target as HTMLImageElement).parentElement

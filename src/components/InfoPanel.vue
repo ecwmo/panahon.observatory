@@ -12,7 +12,7 @@
           v-for="c in cards"
           :key="c.title"
           :data="c"
-          :is-active="c.id === $activeVariable"
+          :is-active="c.id === activeVariable"
           @click="setActiveVariable(c.id)"
         >
           <template #icon1>
@@ -45,14 +45,14 @@
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
 
-  import { activeStation, activeVariable, metValueStrings, setActiveVariable, timestamp } from '@/stores/station'
+  import { $activeStation, $activeVariable, metValueStrings, setActiveVariable, timestamp } from '@/stores/station'
 
   const $metValueStrings = useStore(metValueStrings)
   const $timestamp = useStore(timestamp)
-  const $activeVariable = useStore(activeVariable)
-  const $activeStation = useStore(activeStation)
+  const activeVariable = useStore($activeVariable)
+  const activeStation = useStore($activeStation)
 
-  const stationName = computed(() => $activeStation.value.name)
+  const stationName = computed(() => activeStation.value.name)
   const dataTsStringLong = computed(() => format($timestamp.value, 'd MMM yyyy, h bbb'))
   const dataTsStringShort = computed(() => format($timestamp.value, 'h bbb'))
 

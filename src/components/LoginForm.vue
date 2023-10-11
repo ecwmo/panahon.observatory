@@ -41,18 +41,18 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { login, user } from '@/stores/auth'
+  import { $user, login } from '@/stores/auth'
   import { activePageURL, route } from '@/stores/routes'
 
   const userForm = ref({ username: '', password: '' })
 
-  const $user = useStore(user)
+  const user = useStore($user)
   const $activeURL = useStore(activePageURL)
 
   const handleLogin = async () => {
     await login(userForm.value)
 
-    if ($user.value.isLoggedIn) location.href = route($activeURL.value.searchParams.get('ref')?.replace(/^\//, ''))
+    if (user.value.isLoggedIn) location.href = route($activeURL.value.searchParams.get('ref')?.replace(/^\//, ''))
     else userForm.value = { username: '', password: '' }
   }
 </script>
