@@ -5,13 +5,13 @@
 	"author": "Emilio Gozo",
 	"license": "ISC",
 	"scripts": {
-		"dev": "MODE='development' astro dev",
+		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "MODE='production' astro build",
-		"preview": "MODE='production' astro preview",
+		"build": "astro build",
+		"preview": "astro preview",
 		"deploy:docker": "./tools/deploy-docker.sh",
 		"astro": "astro",
-		"test:unit": "MODE='production' vitest --dom"
+		"test:unit": "vitest --dom"
 	},
 	"prisma": {
 		"seed": "ts-node --esm ./prisma/seed.ts"

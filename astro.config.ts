@@ -12,7 +12,7 @@ import AutoImport from 'unplugin-auto-import/astro'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 
-const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.MODE, process.cwd(), '')
+const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '')
 
 const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/`
 
