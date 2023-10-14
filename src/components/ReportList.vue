@@ -40,7 +40,7 @@
   import { Report } from '@/schemas/report'
 
   import { $user } from '@/stores/auth'
-  import { apiRoute, route } from '@/stores/routes'
+  import { _apiRoute, route } from '@/stores/routes'
 
   const bodyEl = ref()
   const { arrivedState } = useScroll(bodyEl)
@@ -48,12 +48,12 @@
 
   const user = useStore($user)
 
-  const reportCount = computed(() => reports.value.length)
+  const reportCount = computed(() => reports.value?.length ?? 0)
   const hasScroll = computed(() => bodyEl.value.clientHeight < bodyEl.value.scrollHeight)
 
   const cursor = ref(0)
   const fetchReports = async ({ pageParam = 0 }) => {
-    const url = `${apiRoute('reports')}?take=5&skip=${pageParam}`
+    const url = `${_apiRoute('reports')}?take=5&skip=${pageParam}`
     const { data } = await axios.get(url)
     cursor.value += data.length
     return Report.array().parse(data)

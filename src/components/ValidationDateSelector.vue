@@ -48,7 +48,7 @@
   import { useVModel } from '@nanostores/vue'
   import { format, isSameMonth, isSameYear, parse, subDays } from 'date-fns'
 
-  import { apiRoute } from '@/stores/routes'
+  import { _apiRoute } from '@/stores/routes'
 
   import { $selectedDate } from '@/stores/validation'
 
@@ -66,7 +66,7 @@
   const { data: validationDates, isSuccess } = useQuery({
     queryKey: ['validation', 'dates'],
     queryFn: async () => {
-      const url = `${apiRoute('validation')}/dates`
+      const url = `${_apiRoute('validation')}/dates`
       const { data } = await axios.get(url)
       const dates = (<string[]>data)?.map((dt) => parse(dt, 'yyyy-MM-dd', new Date())) ?? <Date[]>[]
       selectedDate.value = dates?.[0]

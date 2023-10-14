@@ -5,11 +5,12 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    as?: string
-  }
-
-  withDefaults(defineProps<Props>(), { as: 'div' })
+  withDefaults(
+    defineProps<{
+      as?: string
+    }>(),
+    { as: 'div' }
+  )
 
   const lazyEl = ref()
   const isLoaded = ref(false)

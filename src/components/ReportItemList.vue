@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
   import { ReportImages } from '@/schemas/report'
-  import { apiRoute } from '@/stores/routes'
+  import { _apiRoute } from '@/stores/routes'
 
   const props = withDefaults(
     defineProps<{
@@ -47,7 +47,7 @@
   const { data: report } = useQuery({
     queryKey: ['reports', props.mode],
     queryFn: async () => {
-      const url = `${apiRoute('reports')}/${props.mode}`
+      const url = `${_apiRoute('reports')}/${props.mode}`
       const { data } = await axios.get(url)
       return ReportImages.parse(data)
     },
@@ -61,7 +61,10 @@
   const sImgs = computed(() => report.value?.staticFiles ?? [])
 
   const handleImgLoad = (ev: Event) => {
-    const { clientHeight, clientWidth } = (ev.target as HTMLImageElement).parentElement
+    const { clientHeight, clientWidth } = (ev.target as HTMLImageElement)?.parentElement ?? {
+      clientHeight: 0,
+      clientWidth: 0,
+    }
     elStyle.value = {
       height: `${clientHeight}px`,
       width: `${clientWidth}px`,

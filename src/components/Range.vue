@@ -46,22 +46,23 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    modelValue: number
-    ticks: {
-      val: number
-      text?: string
-      popup?: string
-    }[]
-    step?: number
-    canPlay?: boolean
-  }
-
-  const props = withDefaults(defineProps<Props>(), {
-    modelValue: 0,
-    step: 1,
-    canPlay: false,
-  })
+  const props = withDefaults(
+    defineProps<{
+      modelValue: number
+      ticks: {
+        val: number
+        text?: string
+        popup?: string
+      }[]
+      step?: number
+      canPlay?: boolean
+    }>(),
+    {
+      modelValue: 0,
+      step: 1,
+      canPlay: false,
+    }
+  )
 
   const emit = defineEmits<{
     (e: 'update:modelValue', value: number): void

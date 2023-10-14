@@ -4134,6 +4134,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/chroma-js@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@types/chroma-js@npm:2.4.1"
+  checksum: 15bf0f0b9c2e747f9670edcec3e9dc80c3db4379e043ab6bea7625a88441613b6e857bea95701fd208bd654d69646ee9f80bc6bf1f4ccebb34f087368b36e8ef
+  languageName: node
+  linkType: hard
+
 "@types/debug@npm:^4.0.0":
   version: 4.1.7
   resolution: "@types/debug@npm:4.1.7"
@@ -5458,6 +5465,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"camelcase-keys@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "camelcase-keys@npm:9.1.0"
+  dependencies:
+    camelcase: ^8.0.0
+    map-obj: 5.0.0
+    quick-lru: ^6.1.1
+    type-fest: ^4.3.2
+  checksum: edd845460e2139858f2eebc8cf735b53c5249fe679d89de4b3865328d18a1ac8f77102fb0189fdd6ab861110b4153b475ab39c8f06ca9bc9b8abefe46f8286c5
+  languageName: node
+  linkType: hard
+
 "camelcase@npm:^6.3.0":
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
@@ -5469,6 +5488,13 @@ __metadata:
   version: 7.0.1
   resolution: "camelcase@npm:7.0.1"
   checksum: 86ab8f3ebf08bcdbe605a211a242f00ed30d8bfb77dab4ebb744dd36efbc84432d1c4adb28975ba87a1b8be40a80fbd1e60e2f06565315918fa7350011a26d3d
+  languageName: node
+  linkType: hard
+
+"camelcase@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "camelcase@npm:8.0.0"
+  checksum: 6da7abe997af29e80052f17aa21628c7cce14af364cef9f07a2a44d59614dd6f361d405f121938e673424d673697a8c53ad17be8c4b03b0a727307c4db8b5b5e
   languageName: node
   linkType: hard
 
@@ -5606,6 +5632,13 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: c57cf9dd0791e2f18a5ee9c1a299ae6e801ff58fee96dc8bfd0dcb4738a6ce58dd252a3605b1c93c6418fe4f9d5093b28ffbf4d66648cb2a9c67eaef9679be2f
+  languageName: node
+  linkType: hard
+
+"chroma-js@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "chroma-js@npm:2.4.2"
+  checksum: cf9884c02d406286e4370599bcd1afbf089384407df46b3a69edfedcba7bb99e8f959a5cfdbfec750b305c441c06ca40cd1f70ba3a6c2ce739ac09a92520ddae
   languageName: node
   linkType: hard
 
@@ -8214,6 +8247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"map-obj@npm:5.0.0":
+  version: 5.0.0
+  resolution: "map-obj@npm:5.0.0"
+  checksum: c35a4e42a484eb958cb6985da1ed4cb9597a65b2e7986eb585489733533ced144acaece4a2e5d2b53d0ba9167c44c0b4475d1eaeb86dd2e889435f4204258307
+  languageName: node
+  linkType: hard
+
 "mapbox-gl@npm:^2.14.1":
   version: 2.14.1
   resolution: "mapbox-gl@npm:2.14.1"
@@ -9459,6 +9499,7 @@ __metadata:
     "@prisma/client": ^4.12.0
     "@tanstack/vue-query": ^4.35.7
     "@turf/turf": ^6.5.0
+    "@types/chroma-js": ^2.4.1
     "@types/ldapjs": ^2.2.5
     "@types/mapbox-gl": ^2.7.11
     "@types/node": ^20.2.1
@@ -9472,6 +9513,8 @@ __metadata:
     "@vueuse/core": ^10.4.1
     astro: ^3.2.4
     axios: ^1.5.1
+    camelcase-keys: ^9.1.0
+    chroma-js: ^2.4.2
     date-fns: ^2.30.0
     date-fns-tz: ^2.0.0
     happy-dom: ^9.19.2
@@ -9900,6 +9943,13 @@ __metadata:
   version: 1.0.1
   resolution: "queue-tick@npm:1.0.1"
   checksum: 57c3292814b297f87f792fbeb99ce982813e4e54d7a8bdff65cf53d5c084113913289d4a48ec8bbc964927a74b847554f9f4579df43c969a6c8e0f026457ad01
+  languageName: node
+  linkType: hard
+
+"quick-lru@npm:^6.1.1":
+  version: 6.1.2
+  resolution: "quick-lru@npm:6.1.2"
+  checksum: 0491a24dcd39b8a325e9d3ae719fad7690a1da7a0dbfa8f16613663dc7d262d08b565005ce16a04497ed4700f1f477b8e06cd46e10a7a112a481a18d056c38f7
   languageName: node
   linkType: hard
 
@@ -11358,6 +11408,13 @@ __metadata:
   version: 2.19.0
   resolution: "type-fest@npm:2.19.0"
   checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^4.3.2":
+  version: 4.4.0
+  resolution: "type-fest@npm:4.4.0"
+  checksum: 0b8ae68c3a87e76ad41a317604b8864ee59dbaad095957ebeea8e95d22d8a269ad6d55fe28e16d645a05a8bdfc633e7f706019d6616a8194ae54cbabb36dec2b
   languageName: node
   linkType: hard
 

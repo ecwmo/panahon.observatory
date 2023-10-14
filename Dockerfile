@@ -2,12 +2,14 @@ FROM node:hydrogen-bullseye AS dependencies
 
 WORKDIR /home/node/app
 COPY package.json .yarnrc.yml yarn.lock ./
+COPY .yarn/releases/yarn-3.6.1.cjs ./.yarn/releases/
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 # optionally if you want to run npm global bin without specifying path
 ENV PATH=$PATH:/home/node/.npm-global/bin
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
+RUN yarn set version berry 
 RUN yarn
 
 FROM node:hydrogen-bullseye AS build

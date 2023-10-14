@@ -3,9 +3,7 @@
     <h4 class="p-4 flex justify-center text-3xl font-medium">Upload success!</h4>
     <p class="p-1 mb-3">
       Preview the document
-      <a :href="route('reports/draft')" target="_blank" class="underline text-blue-600 hover:text-blue-400"
-        >here</a
-      >
+      <a :href="route('reports/draft')" target="_blank" class="underline text-blue-600 hover:text-blue-400">here</a>
     </p>
     <div class="flex items-center justify-between">
       <button
@@ -20,14 +18,14 @@
 </template>
 
 <script setup lang="ts">
-  import { apiRoute, route } from '@/stores/routes'
+  import { _apiRoute, route } from '@/stores/routes'
 
   const handlePublish = async () => {
     const formData = new FormData()
 
     formData.append('publish', '1')
 
-    const res = await fetch(apiRoute('reports'), { method: 'POST', body: formData })
+    const res = await fetch(_apiRoute('reports'), { method: 'POST', body: formData })
     const data = await res.json()
 
     if (data === 'success') location.href = route('reports/published')

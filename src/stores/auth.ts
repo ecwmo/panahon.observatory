@@ -1,4 +1,4 @@
-import { apiRoute } from '@/stores/routes'
+import { _apiRoute } from '@/stores/routes'
 import { persistentMap } from '@nanostores/persistent'
 import { action } from 'nanostores'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ interface UserData {
 
 type Auth = z.infer<typeof AuthSchema>
 
-const API_URL = apiRoute('auth')
+const API_URL = _apiRoute('auth')
 
 export const $user = persistentMap<Auth>(
   'user:',

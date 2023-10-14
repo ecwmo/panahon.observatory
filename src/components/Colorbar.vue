@@ -20,21 +20,23 @@
   import { $activeVariable } from '@/stores/station'
   import { useStore } from '@nanostores/vue'
 
-  import { apiRoute } from '@/stores/routes'
+  import { _apiRoute } from '@/stores/routes'
 
-  import { StationConfigurations } from '@/schemas/station'
+  import { stationConfigurations } from '@/schemas/station'
 
   const activeVariable = useStore($activeVariable)
 
   const fetchWeatherConf = async () => {
-    const url = apiRoute('stations/weather_conf')
+    const url = _apiRoute('stations/weather_conf')
     const { data } = await axios.get(url)
-    return StationConfigurations.parse(data)
+    return stationConfigurations.parse(data)
   }
 
   const { data: stationConf } = useQuery({
     queryKey: ['stations', 'config'],
     queryFn: fetchWeatherConf,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const varTitle = computed(() => stationConf.value?.[activeVariable.value]?.desc ?? '')

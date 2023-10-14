@@ -1,7 +1,7 @@
 <template>
-  <div v-if="rain24hStr && id === 'rain'" class="flex flex-col">
+  <div v-if="rainAccumStr && id === 'rain'" class="flex flex-col">
     <div>
-      {{ rain24hStr }}
+      {{ rainAccumStr }}
     </div>
     <div class="text-[0.6rem]">(24hr)</div>
   </div>
@@ -25,16 +25,14 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
+  const props = defineProps<{
     id: string
     data: Record<string, string>
-  }
-
-  const props = defineProps<Props>()
+  }>()
 
   const { data } = toRefs(props)
 
-  const rain24hStr = computed(() => (data.value?.['rain24h'] ? `${data.value?.['rain24h']} mm` : ''))
+  const rainAccumStr = computed(() => (data.value?.['rainAccum'] ? `${data.value?.['rainAccum']} mm` : ''))
 
   const tempStr = computed(() => (data.value?.['temp'] ? `${data.value?.['temp']} °C` : ''))
   const hiStr = computed(() => (data.value?.['hi'] ? `${data.value?.['hi']} °C` : ''))
@@ -44,5 +42,5 @@
   const wspdStr = computed(() => (data.value?.['wspd'] ? `${data.value?.['wspd']} m/s` : ''))
   const wdirStr = computed(() => data.value?.['wdirStr'])
 
-  const presStr = computed(() => (data.value?.['pres'] ? `${data.value?.['pres']} hPa` : ''))
+  const presStr = computed(() => (data.value?.['mslp'] ? `${data.value?.['mslp']} hPa` : ''))
 </script>

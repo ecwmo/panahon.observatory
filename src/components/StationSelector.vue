@@ -45,20 +45,18 @@
 </template>
 
 <script setup lang="ts">
-  import type { StationProperties } from '@/types/station'
+  import type { StationObsLatest } from '@/types/station'
 
-  interface Props {
-    modelValue?: StationProperties
-    stations?: StationProperties[]
-  }
-
-  defineProps<Props>()
+  defineProps<{
+    modelValue?: StationObsLatest
+    stations?: StationObsLatest[]
+  }>()
 
   const emit = defineEmits(['update:modelValue'])
 
   const selectedStation = ref()
 
-  const handleChange = (newStation: StationProperties) => {
+  const handleChange = (newStation: StationObsLatest) => {
     emit('update:modelValue', newStation)
   }
 </script>

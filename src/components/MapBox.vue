@@ -10,7 +10,7 @@
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <WeatherPopupInfo :id="activeVariable" :data="$metValueStrings" class="text-xs text-center" />
+          <WeatherPopupInfo :id="activeVariable" :data="metValueStrings" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -59,32 +59,36 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore, useVModel } from '@nanostores/vue'
+  import { useStore } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
   import mapbox from 'mapbox-gl'
 
-  import { Station as StationSchema } from '@/schemas/station'
-  import { apiRoute } from '@/stores/routes'
+  import { stationConfigurations, stationGeoJSON, stationLatestProperties } from '@/schemas/station'
+  import { _apiRoute, apiRoute } from '@/stores/routes'
+
+  import { gradientScale, interpHexColor } from '@/lib/color'
+  import { geojsonize } from '@/lib/geojson'
 
   import {
     $activeStation,
     $activeVariable,
+    $metValueStrings,
+    $timestamp,
     $validationTS,
     $viewType,
-    metValueStrings,
+    defaultStation,
     setActiveStation,
-    timestamp,
   } from '@/stores/station'
 
-  import type { StationProperties } from '@/types/station'
+  import type { StationObsLatest } from '@/types/station'
+  import type { Scale } from 'chroma-js'
 
   const { LngLat, Map } = mapbox
 
-  interface Props {
+  const props = defineProps<{
     token: string
-  }
-  const props = defineProps<Props>()
+  }>()
 
   interface DotProps {
     xy: {
@@ -96,23 +100,23 @@
     showPopup: boolean
   }
 
-  const map = ref<mapbox.Map>()
+  let map: mapbox.Map
   const mapEl = ref()
   const dotProps = ref<DotProps>({ xy: { x: -1, y: -1 }, show: false, showPopup: false })
   const mapToggle = ref(false)
   const dataViewType = useStore($viewType)
   const activeVariable = useStore($activeVariable)
-  const activeStation = useVModel($activeStation)
-  const $dataTimestamp = useStore(timestamp)
-  const $metValueStrings = useStore(metValueStrings)
+  const activeStation = useStore($activeStation)
+  const dataTimestamp = useStore($timestamp)
+  const metValueStrings = useStore($metValueStrings)
   const validationTS = useStore($validationTS)
 
   const { coords } = useGeolocation()
 
-  const visibleStations = ref<StationProperties[]>()
+  const visibleStations = ref<StationObsLatest[]>()
 
   const visibleStationsSorted = computed(() => {
-    const activePt = point([activeStation.value.lon ?? 0, activeStation.value.lat ?? 0])
+    const activePt = point([activeStation.value.lon, activeStation.value.lat])
 
     return visibleStations.value
       ?.map((props) => ({ ...props, dist: distance({ type: 'Point', coordinates: [props.lon, props.lat] }, activePt) }))
@@ -135,12 +139,12 @@
     return visibleStations.value?.[idx]
   })
 
-  const dataTsString = computed(() => format($dataTimestamp.value, 'd MMM yyyy, h bbb'))
+  const dataTsString = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h:mm bbb'))
 
   const showPoint = () => {
     try {
       const { lat, lon } = activeStation.value
-      const xy = map.value?.project([lon, lat])
+      const xy = map.project([lon, lat])
       const show = true
       const showPopup = true
       if (xy) dotProps.value = { ...dotProps.value, xy, show, showPopup }
@@ -153,47 +157,44 @@
     dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
-  const getVisibleStations = () => {
-    let vStations = stations.value
-    try {
-      const mapBnds = map.value.getBounds()
-      if (vStations)
-        vStations = {
-          ...vStations,
-          features: vStations?.features?.filter(({ properties: { lon, lat } }) =>
-            mapBnds.contains(new LngLat(lon, lat))
-          ),
-        }
-    } catch {}
-
-    return vStations?.features?.map(({ properties }) => properties)
+  const getVisibleStations = (): StationObsLatest[] | undefined => {
+    const mapBnds = map.getBounds()
+    if (stations.value) {
+      return stations.value.features
+        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new LngLat(lon, lat)))
+        .map(({ properties }) => properties as StationObsLatest)
+    }
   }
 
-  const handleStationChange = (st?: number | string | StationProperties) => {
-    setActiveStation(visibleStations.value, st ?? closestStn.value)
+  const handleStationChange = (st?: number | string | StationObsLatest) => {
+    const newStn =
+      (typeof st === 'number' || typeof st === 'string' ? visibleStations.value?.find(({ id }) => id === st) : st) ??
+      visibleStations.value?.[0] ??
+      defaultStation
+    setActiveStation(newStn)
     showPoint()
   }
 
   const handleMapScopeChange = () => {
     if (mapToggle.value) {
-      map.value?.setCenter([121.80434, 12.5549])
-      map.value?.setZoom(4.5)
+      map.setCenter([121.80434, 12.5549])
+      map.setZoom(4.5)
     } else {
-      map.value?.setCenter([121.04, 14.56])
-      map.value?.setZoom(9.5)
+      map.setCenter([121.04, 14.56])
+      map.setZoom(9.5)
     }
   }
 
   const loadData = () => {
     const sourceId = 'station'
     visibleStations.value = getVisibleStations()
-    if (map.value.isStyleLoaded()) {
-      map.value.addSource(sourceId, {
+    if (map.isStyleLoaded()) {
+      map.addSource(sourceId, {
         type: 'geojson',
-        data: stations.value,
+        data: stations.value as any,
       })
 
-      map.value.addLayer({
+      map.addLayer({
         id: 'station-pts',
         type: 'circle',
         source: sourceId,
@@ -208,28 +209,64 @@
     }
   }
 
+  const { data: gradientFns, isSuccess: gradientFnsReady } = useQuery({
+    queryKey: ['stations', 'config'],
+    queryFn: async () => {
+      const url = _apiRoute('stations/weather_conf')
+      const { data } = await axios.get(url)
+      const dat = stationConfigurations.parse(data)
+
+      return ['rain', 'temp'].reduce((o, k) => {
+        const { palette: { colors, levels } = { colors: ['#ffffff'], levels: [0, 1] } } = dat[k]
+        return {
+          ...o,
+          [k]: gradientScale(colors, levels),
+        }
+      }, {} as Record<string, Scale>)
+    },
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  })
+
   const fetchStations = async () => {
     const validationTSStr = format(validationTS.value, 'yyyyMMdd') ?? ''
-    const url =
-      dataViewType.value === 'validation'
-        ? `${apiRoute()}/stations/validation/${validationTSStr}`
-        : `${apiRoute()}/stations`
+    if (dataViewType.value === 'validation') {
+      const url = `${_apiRoute()}/stations/validation/${validationTSStr}`
+      const { data } = await axios.get(url)
+      return stationGeoJSON.parse(data)
+    }
+    const url = `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
-    return StationSchema.parse(data)
+    const dat = stationLatestProperties.array().parse(data)
+
+    const feat = dat.map((d) => {
+      const { obs } = d
+      const colors = {
+        rain: interpHexColor(obs.rainAccum ?? 0, gradientFns.value?.['rain']),
+        temp: interpHexColor(obs.temp ?? 0, gradientFns.value?.['temp']),
+      }
+      return {
+        ...d,
+        colors,
+      }
+    })
+    return geojsonize(feat, ['obs', 'colors'])
   }
 
   const { data: stations } = useQuery({
     queryKey: ['stations', dataViewType, validationTS],
     queryFn: fetchStations,
+    enabled: gradientFnsReady,
+    refetchInterval: 10 * 60 * 1000,
   })
 
   watch(activeVariable, (newVar) => {
-    const metVars = Object.keys(stations.value?.features[0].properties.colors ?? {})
+    const metVars = Object.keys(stations.value?.features[0].properties?.colors ?? {})
 
     if (metVars.indexOf(newVar) !== -1) {
-      map.value.setPaintProperty('station-pts', 'circle-color', ['to-color', ['get', newVar, ['get', 'colors']]])
+      map.setPaintProperty('station-pts', 'circle-color', ['to-color', ['get', newVar, ['get', 'colors']]])
     } else {
-      map.value.setPaintProperty('station-pts', 'circle-color', '#ffffff')
+      map.setPaintProperty('station-pts', 'circle-color', '#ffffff')
     }
   })
 
@@ -238,7 +275,7 @@
   })
 
   onMounted(() => {
-    map.value = new Map({
+    map = new Map({
       accessToken: props.token,
       container: mapEl.value,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -247,28 +284,30 @@
       attributionControl: false,
     })
 
-    map.value.once('load', () => {
+    map.once('load', () => {
       loadData()
-      map.value.on('click', 'station-pts', (e) => {
-        const {
-          properties: { id },
-        } = e.features?.[0]
-        handleStationChange(id)
+      map.on('click', 'station-pts', (e) => {
+        if (e.features) {
+          const {
+            properties: { id },
+          } = e.features[0] as any
+          handleStationChange(id)
+        }
       })
       // Change the cursor to a pointer when the mouse is over the places layer.
-      map.value.on('mouseenter', 'station-pts', () => {
-        map.value.getCanvas().style.cursor = 'pointer'
+      map.on('mouseenter', 'station-pts', () => {
+        map.getCanvas().style.cursor = 'pointer'
       })
       // Change it back to a pointer when it leaves.
-      map.value.on('mouseleave', 'station-pts', () => {
-        map.value.getCanvas().style.cursor = ''
+      map.on('mouseleave', 'station-pts', () => {
+        map.getCanvas().style.cursor = ''
       })
 
-      map.value.on('movestart', () => {
+      map.on('movestart', () => {
         hidePoint()
       })
 
-      map.value.on('moveend', () => {
+      map.on('moveend', () => {
         visibleStations.value = getVisibleStations()
         showPoint()
       })

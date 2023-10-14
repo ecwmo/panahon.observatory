@@ -23,12 +23,12 @@
               v-if="c.icon2"
               class="text-lg md:text-xl"
               :class="c.icon2"
-              :style="{ transform: `rotate(${windDirStr2Deg[c?.value2 ?? '']}deg)` }"
+              :style="{ transform: `rotate(${windDirDeg[c?.value2 ?? 'N']}deg)` }"
             />
           </template>
           <WeatherDescription
             :id="c.id"
-            :data="$metValueStrings"
+            :data="metValueStrings"
             :station-name="stationName"
             :date-string="dataTsStringShort"
           />
@@ -45,41 +45,43 @@
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
 
-  import { $activeStation, $activeVariable, metValueStrings, setActiveVariable, timestamp } from '@/stores/station'
+  import { windDirDeg } from '@/lib/weather'
 
-  const $metValueStrings = useStore(metValueStrings)
-  const $timestamp = useStore(timestamp)
+  import { $activeStation, $activeVariable, $metValueStrings, $timestamp, setActiveVariable } from '@/stores/station'
+
+  const metValueStrings = useStore($metValueStrings)
+  const timestamp = useStore($timestamp)
   const activeVariable = useStore($activeVariable)
   const activeStation = useStore($activeStation)
 
   const stationName = computed(() => activeStation.value.name)
-  const dataTsStringLong = computed(() => format($timestamp.value, 'd MMM yyyy, h bbb'))
-  const dataTsStringShort = computed(() => format($timestamp.value, 'h bbb'))
+  const dataTsStringLong = computed(() => format(timestamp.value, 'd MMM yyyy, h:mm bbb'))
+  const dataTsStringShort = computed(() => format(timestamp.value, 'h:mm bbb'))
 
   const cards = computed(() => {
-    const windDirStr = $metValueStrings.value['wdirStr']
+    const windDirStr = metValueStrings.value['wdirStr']
     return [
       {
         id: 'rain',
         title: 'RAIN (mm)',
         label1: 'Now',
-        value1: $metValueStrings.value['rr'],
+        value1: metValueStrings.value['rain'],
         label2: '24hr total',
-        value2: $metValueStrings.value['rain24h'],
+        value2: metValueStrings.value['rainAccum'],
         icon: 'i-fa6-solid-cloud-rain',
       },
       {
         id: 'temp',
         title: 'TEMPERATURE (°C)',
-        value1: $metValueStrings.value['temp'],
+        value1: metValueStrings.value['temp'],
         label2: 'Feels like',
-        value2: $metValueStrings.value['hi'],
+        value2: metValueStrings.value['hi'],
         icon: 'i-fa-solid-thermometer-half',
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
-        value1: $metValueStrings.value['wspd'],
+        value1: metValueStrings.value['wspd'],
         value2: windDirStr,
         icon: 'i-fa6-solid-wind',
         icon2: 'i-wi-wind-deg',
@@ -87,21 +89,9 @@
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
-        value1: $metValueStrings.value['pres'],
+        value1: metValueStrings.value['mslp'],
         icon: 'i-wi-barometer',
       },
     ]
-  })
-
-  const windDirStr2Deg = computed(() => {
-    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
-    const step = 360 / dirs.length
-
-    const r = dirs.reduce((o, c, i) => {
-      o[c] = i * step + 180
-      return o
-    }, {})
-
-    return r
   })
 </script>

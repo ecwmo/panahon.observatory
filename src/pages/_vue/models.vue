@@ -80,7 +80,7 @@
   import { useStore, useVModel } from '@nanostores/vue'
   import { addDays, addHours, format, getHours, parse } from 'date-fns'
 
-  import { apiRoute } from '@/stores/routes'
+  import { _apiRoute } from '@/stores/routes'
 
   import { imgSrcArr } from '@/schemas/forecast'
 
@@ -134,7 +134,7 @@
   })
 
   const fetchModelImages = async () => {
-    const url = `${apiRoute('forecast')}?img=${activeImageFrequency.value.val}`
+    const url = `${_apiRoute('forecast')}?img=${activeImageFrequency.value.val}`
     const { data } = await axios.get(url)
     return imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
   }

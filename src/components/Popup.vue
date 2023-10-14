@@ -14,14 +14,16 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    theme?: string
-    show?: boolean
-  }
-  const props = withDefaults(defineProps<Props>(), {
-    theme: 'bg-gray-700 text-gray-200 fill-gray-700',
-    show: true,
-  })
+  const props = withDefaults(
+    defineProps<{
+      theme?: string
+      show?: boolean
+    }>(),
+    {
+      theme: 'bg-gray-700 text-gray-200 fill-gray-700',
+      show: true,
+    }
+  )
 
   const { theme } = toRefs(props)
 

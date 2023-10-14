@@ -47,11 +47,12 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    open?: boolean
-  }
-
-  withDefaults(defineProps<Props>(), { open: false })
+  withDefaults(
+    defineProps<{
+      open?: boolean
+    }>(),
+    { open: false }
+  )
 
   const emit = defineEmits(['close', 'left', 'right', 'up', 'down'])
 

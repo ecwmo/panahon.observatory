@@ -1,55 +1,62 @@
 import { z } from 'zod'
 
-export const ObservationVariables = z.object({
-  rr: z.number().nullable().optional(),
-  temp: z.number().nullable().optional(),
-  hi: z.number().nullable().optional(),
-  wspd: z.number().nullable().optional(),
-  wdir: z.number().nullable().optional(),
-  pres: z.number().nullable().optional(),
-  rh: z.number().nullable().optional(),
-  td: z.number().nullable().optional(),
-  srad: z.number().nullable().optional(),
-  rain24h: z.number().nullable().optional(),
-  tx: z.number().nullable().optional(),
-  tn: z.number().nullable().optional(),
-  timestamp: z.string(),
-})
+import { camelize } from '@/schemas/common'
 
-const ObservationVariableColors = z.object({
+export const observationProperties = z
+  .object({
+    rain: z.number().nullish(),
+    temp: z.number().nullish(),
+    rh: z.number().nullish(),
+    wdir: z.number().nullish(),
+    wspd: z.number().nullish(),
+    srad: z.number().nullish(),
+    mslp: z.number().nullish(),
+    tn: z.number().nullish(),
+    tx: z.number().nullish(),
+    hi: z.number().nullish(),
+    gust: z.number().nullish(),
+    rain_accum: z.number().nullish(),
+    tn_timestamp: z.string().nullish(),
+    tx_timestamp: z.string().nullish(),
+    gust_timestamp: z.string().nullish(),
+    timestamp: z.string().nullish(),
+  })
+  .transform(camelize)
+
+const observationColorProperties = z.object({
   rain: z.string().length(7),
   temp: z.string().length(7),
 })
 
-export const StationProperties = z.object({
-  id: z.union([z.string(), z.number()]),
+export const stationLatestProperties = z.object({
+  id: z.number(),
   name: z.string(),
   lat: z.number(),
   lon: z.number(),
-  elevation: z.number().optional(),
-  address: z.union([z.string(), z.number()]).optional(),
-  obs: ObservationVariables.optional(),
-  colors: ObservationVariableColors.optional(),
+  elevation: z.number().nullish(),
+  address: z.string().nullish(),
+  obs: observationProperties,
+  colors: observationColorProperties.optional(),
   tsImg: z.string().optional(),
 })
 
-const StationLocation = z.object({
+const stationGeom = z.object({
   type: z.enum(['Point']),
   coordinates: z.number().array().length(2),
 })
 
-const StationFeature = z.object({
+const stationFeature = z.object({
   type: z.enum(['Feature']),
-  geometry: StationLocation,
-  properties: StationProperties,
+  geometry: stationGeom,
+  properties: stationLatestProperties,
 })
 
-export const Station = z.object({
+export const stationGeoJSON = z.object({
   type: z.enum(['FeatureCollection']),
-  features: StationFeature.array(),
+  features: stationFeature.array(),
 })
 
-const StationConfiguration = z.object({
+const stationConfiguration = z.object({
   varName: z.string().optional(),
   desc: z.string(),
   units: z.string(),
@@ -65,25 +72,4 @@ const StationConfiguration = z.object({
     .optional(),
 })
 
-export const StationConfigurations = z.record(StationConfiguration)
-
-export const LatestStationObservation = z.object({
-  name: z.string(),
-  obs: z.object({
-    rain: z.number(),
-    temp: z.number(),
-    hi: z.number().nullable().optional(),
-    wspd: z.number(),
-    wdir: z.number(),
-    gust: z.number(),
-    mslp: z.number().nullable().optional(),
-    rh: z.number(),
-    rain_accum: z.number(),
-    tx: z.number(),
-    tn: z.number(),
-    timestamp: z.string(),
-    tn_timestamp: z.string(),
-    tx_timestamp: z.string(),
-    gust_timestamp: z.string(),
-  }),
-})
+export const stationConfigurations = z.record(stationConfiguration)

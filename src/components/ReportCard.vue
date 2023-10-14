@@ -19,10 +19,9 @@
   import { resourcePath } from '@/pages/_common'
   import { route } from '@/stores/routes'
 
-  interface Props {
+  defineProps<{
     data: Report
-  }
-  defineProps<Props>()
+  }>()
 
   interface Emits {
     (e: 'load', ev: Event): void

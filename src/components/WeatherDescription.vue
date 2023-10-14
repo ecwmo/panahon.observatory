@@ -27,7 +27,7 @@
       At <span class="font-semibold">{{ stationName }}</span
       >, there was <span class="font-semibold">{{ rainStr }}</span> rainfall received at
       <span class="font-semibold">{{ dateString }}</span
-      >. There have been <span class="font-semibold">{{ rain24hStr }}</span> accumulated rainfall for the past 24 hours.
+      >. There have been <span class="font-semibold">{{ rainAccum }}</span> accumulated rainfall for the past 24 hours.
       <!-- This is <span class="font-semibold">{ratio}%</span> of the historical maximum 24hr rainfall for this area which was
     <span class="font-semibold">{rain} mm</span>. -->
     </template>
@@ -35,19 +35,20 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    id: string
-    stationName?: string
-    data: Record<string, string>
-    dateString: string
-  }
-
-  const props = withDefaults(defineProps<Props>(), { stationName: '' })
+  const props = withDefaults(
+    defineProps<{
+      id: string
+      stationName?: string
+      data: Record<string, string>
+      dateString: string
+    }>(),
+    { stationName: '' }
+  )
 
   const { data } = toRefs(props)
 
-  const rainStr = computed(() => `${data.value?.['rr']} mm`)
-  const rain24hStr = computed(() => `${data.value?.['rain24h']} mm`)
+  const rainStr = computed(() => `${data.value?.['rain']} mm`)
+  const rainAccum = computed(() => `${data.value?.['rainAccum']} mm`)
 
   const tempStr = computed(() => `${data.value?.['temp']} °C`)
   const hiStr = computed(() => `${data.value?.['hi']} °C`)
@@ -59,5 +60,5 @@
   const wspdStr = computed(() => `${data.value?.['wspd']} m/s`)
   const wdirStr = computed(() => data.value?.['wdirStr'])
 
-  const presStr = computed(() => `${data.value?.['pres']} mb`)
+  const presStr = computed(() => `${data.value?.['mslp']} mb`)
 </script>

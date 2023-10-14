@@ -38,7 +38,7 @@
               <div class="w-2/9">
                 <span class="text-lg font-semibold">{{ station?.obs.rain }}</span> mm
               </div>
-              <div class="">24 hour total {{ station?.obs.rain_accum }} mm</div>
+              <div class="">24 hour total {{ station?.obs.rainAccum }} mm</div>
             </div>
             <div v-show="station?.obs.mslp" class="flex items-center py-4 px-2 border-t">
               <div class="i-wi-barometer text-2xl mr-2"></div>
@@ -58,7 +58,9 @@
 <script setup lang="ts">
   import { format, parseISO } from 'date-fns'
 
-  import { LatestStationObservation } from '@/schemas/station'
+  import { heatIndex as heatIndexFn } from '@/lib/weather'
+  import { stationLatestProperties } from '@/schemas/station'
+  import { apiRoute } from '@/stores/routes'
 
   const props = withDefaults(
     defineProps<{
@@ -67,72 +69,25 @@
     { stationId: 1 }
   )
 
-  const dateStr = computed(() => format(parseISO(station.value?.obs.timestamp), 'h:mm a EEEE, MMM d yyyy'))
+  const dateStr = computed(() => format(parseISO(station.value?.obs?.timestamp ?? ''), 'h:mm a EEEE, MMM d yyyy'))
 
-  const txTime = computed(() => format(parseISO(station.value?.obs.tx_timestamp), 'h:mm a'))
-  const tnTime = computed(() => format(parseISO(station.value?.obs.tn_timestamp), 'h:mm a'))
+  const txTime = computed(() => format(parseISO(station.value?.obs?.txTimestamp ?? ''), 'h:mm a'))
+  const tnTime = computed(() => format(parseISO(station.value?.obs?.tnTimestamp ?? ''), 'h:mm a'))
 
   const heatIndex = computed(() => {
-    const { temp, rh, hi } = station.value?.obs
+    const { temp = 0, rh = 0, hi } = station.value?.obs ?? { temp: 0, rh: 0, hi: null }
 
     if (hi === undefined || hi === null) {
-      const tf = Math.floor((temp * 9.0) / 5.0 + 32.0 + 0.5)
-
-      // return null outside the specified range of input parameters
-      if (tf < 76 || tf > 126) return null
-      if (rh < 0 || rh > 100) return null
-
-      // according to the NWS, we try this first, and use it if we can
-      let hiEasyF = 0.5 * (tf + 61.0 + (tf - 68.0) * 1.2 + rh * 0.094)
-
-      // The NWS says we use tHeatEasy if (tHeatHeasy + t)/2 < 80.0
-      // This is the same computation:
-      if (hiEasyF + tf < 160.0) {
-        const hiEasyC = (hiEasyF - 32.0) * (5.0 / 9.0)
-        return Math.round(hiEasyC * 10) / 10
-      }
-
-      // need to use the hard form, and possibly adjust.
-      const tf2 = tf * tf
-      const rh2 = rh * rh
-      let hiF =
-        -42.379 +
-        2.04901523 * tf +
-        10.14333127 * rh -
-        0.22475541 * tf * rh -
-        0.00683783 * tf2 -
-        0.05481717 * rh2 +
-        0.00122874 * tf2 * rh +
-        0.00085282 * tf * rh2 -
-        0.00000199 * tf2 * rh2
-
-      // these adjustments come from the NWA page, and are needed to
-      // match the reference table.
-      let tAdjF: number
-      if (rh < 13.0 && 80.0 <= tf && tf <= 112.0)
-        tAdjF = -((13.0 - rh) / 4.0) * Math.sqrt((17.0 - Math.abs(tf - 95.0)) / 17.0)
-      else if (rh > 85.0 && 80.0 <= tf && tf <= 87.0) tAdjF = ((rh - 85.0) / 10.0) * ((87.0 - tf) / 5.0)
-      else tAdjF = 0
-
-      // apply the adjustment
-      hiF += tAdjF
-
-      // finally, the reference tables have no data above 183 (rounded),
-      // so filter out answers that we have no way to vouch for.
-      if (hiF >= 183.5) return null
-      else {
-        const hiC = (hiF - 32.0) * (5.0 / 9.0)
-        return Math.round(hiC * 10) / 10
-      }
+      return heatIndexFn(temp ?? 0, rh ?? 0)
     }
 
     return hi
   })
 
   const getStationObs = async () => {
-    const url = `https://panahon.observatory.ph/data/api/v1/stations/${props.stationId}/observations/latest`
+    const url = `${apiRoute()}/stations/${props.stationId}/observations/latest`
     const { data } = await axios.get(url)
-    return LatestStationObservation.parse(data)
+    return stationLatestProperties.parse(data)
   }
 
   const { isSuccess, data: station } = useQuery({

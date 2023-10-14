@@ -70,7 +70,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { apiRoute } from '@/stores/routes'
+  import { _apiRoute } from '@/stores/routes'
 
   import { $activeImage, down, metadata, next, prev, setActiveImage, setEWBImages, up } from '@/stores/ewb'
 
@@ -121,7 +121,7 @@
   const { data: ewbImages } = useQuery({
     queryKey: ['ewb'],
     queryFn: async () => {
-      const url = `${apiRoute('ewb')}`
+      const url = `${_apiRoute('ewb')}`
       const { data } = await axios.get(url)
       const dat = EWBImages.parse(data)
       setEWBImages(dat)

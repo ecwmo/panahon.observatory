@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-  import { apiRoute, route } from '@/stores/routes'
+  import { _apiRoute, route } from '@/stores/routes'
 
   interface Report {
     title: string
@@ -96,7 +96,7 @@
     file?: File
   }
 
-  const report = ref({ code: '', number: undefined } as Report)
+  const report = ref<Report>({ code: '', title: '' })
 
   const reportName = computed(() => report.value?.file?.name ?? 'Select a file')
   const reportTitlePlaceholder = computed(() => {
@@ -119,10 +119,10 @@
     formData.append('title', report.value.title ?? reportTitlePlaceholder.value)
     formData.append('code', report.value.code)
     formData.append('number', `${report.value.number}`)
-    formData.append('report', report.value.file)
+    if (report.value.file) formData.append('report', report.value.file)
     formData.append('upload', '1')
 
-    const res = await fetch(apiRoute('reports'), { method: 'POST', body: formData })
+    const res = await fetch(_apiRoute('reports'), { method: 'POST', body: formData })
     const data = await res.json()
     if (data === 'success') location.href = route('reports/publish')
   }

@@ -20,10 +20,12 @@
   import { route } from '@/stores/routes'
   const tabs = ['Maps', 'Timeseries']
 
-  interface Props {
-    tab?: string
-  }
-  const props = withDefaults(defineProps<Props>(), { tab: '0' })
+  const props = withDefaults(
+    defineProps<{
+      tab?: string
+    }>(),
+    { tab: '0' }
+  )
 
   const selectedTab = ref(0)
 

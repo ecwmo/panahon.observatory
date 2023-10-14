@@ -1,9 +1,9 @@
 import { action, atom, computed } from 'nanostores'
 
-import { apiRoute } from '@/stores/routes'
+import { _apiRoute } from '@/stores/routes'
 import type { Images } from '@/types/validation'
 
-const API_URL = apiRoute('validation')
+const API_URL = _apiRoute('validation')
 
 export const imageGroups: { id: keyof Images; text: string }[] = [
   { id: 'wrf', text: 'WRF ensmean' },

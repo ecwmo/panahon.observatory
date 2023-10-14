@@ -2,9 +2,11 @@ import { action, atom } from 'nanostores'
 
 export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const baseAPIPath = `${basePath}/api`
+export const _baseAPIPath = `${basePath}/api`
+export const baseAPIPath = import.meta.env.PUBLIC_API_URL.replace(/\/$/, '')
 
 export const route = (pathName?: string) => `${basePath}/${pathName ?? ''}`
+export const _apiRoute = (pathName?: string) => `${_baseAPIPath}/${pathName ?? ''}`.replace(/\/$/, '')
 export const apiRoute = (pathName?: string) => `${baseAPIPath}/${pathName ?? ''}`.replace(/\/$/, '')
 
 interface Page {
