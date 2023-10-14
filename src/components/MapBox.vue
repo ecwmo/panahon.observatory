@@ -62,7 +62,6 @@
   import { useStore } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
-  import mapbox from 'mapbox-gl'
 
   import { stationConfigurations, stationGeoJSON, stationLatestProperties } from '@/schemas/station'
   import { _apiRoute, apiRoute } from '@/stores/routes'
@@ -82,9 +81,6 @@
   } from '@/stores/station'
 
   import type { StationObsLatest } from '@/types/station'
-  import type { Scale } from 'chroma-js'
-
-  const { LngLat, Map } = mapbox
 
   const props = defineProps<{
     token: string
@@ -100,7 +96,7 @@
     showPopup: boolean
   }
 
-  let map: mapbox.Map
+  let map: mapboxgl.Map
   const mapEl = ref()
   const dotProps = ref<DotProps>({ xy: { x: -1, y: -1 }, show: false, showPopup: false })
   const mapToggle = ref(false)
@@ -161,7 +157,7 @@
     const mapBnds = map.getBounds()
     if (stations.value) {
       return stations.value.features
-        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new LngLat(lon, lat)))
+        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new mapbox.LngLat(lon, lat)))
         .map(({ properties }) => properties as StationObsLatest)
     }
   }
@@ -222,7 +218,7 @@
           ...o,
           [k]: gradientScale(colors, levels),
         }
-      }, {} as Record<string, Scale>)
+      }, {} as Record<string, chroma.Scale>)
     },
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -275,7 +271,7 @@
   })
 
   onMounted(() => {
-    map = new Map({
+    map = new mapbox.Map({
       accessToken: props.token,
       container: mapEl.value,
       style: 'mapbox://styles/mapbox/streets-v11',

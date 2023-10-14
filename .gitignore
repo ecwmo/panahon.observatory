@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/node,astro
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,astro
+# Created by https://www.toptal.com/developers/gitignore/api/node,vuejs,astro
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,vuejs,astro
 
 ### Astro ###
 # Gitignore template for Astro projects
@@ -146,7 +146,14 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-# End of https://www.toptal.com/developers/gitignore/api/node,astro
+### Vuejs ###
+# Recommended template: Node.gitignore
+
+dist/
+npm-debug.log
+yarn-error.log
+
+# End of https://www.toptal.com/developers/gitignore/api/node,vuejs,astro
 
 .bak/
 
@@ -156,3 +163,6 @@ public/resources/
 
 .env.development
 .env.production
+
+*.tgz
+*.tar.gz
