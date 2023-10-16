@@ -63,7 +63,7 @@
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
 
-  import { stationConfigurations, stationGeoJSON, stationLatestProperties } from '@/schemas/station'
+  import { stationConfigurations, stationObsLatest, stationValidation } from '@/schemas/station'
   import { _apiRoute, apiRoute } from '@/stores/routes'
 
   import { gradientScale, interpHexColor } from '@/lib/color'
@@ -226,27 +226,31 @@
 
   const fetchStations = async () => {
     const validationTSStr = format(validationTS.value, 'yyyyMMdd') ?? ''
-    if (dataViewType.value === 'validation') {
-      const url = `${_apiRoute()}/stations/validation/${validationTSStr}`
-      const { data } = await axios.get(url)
-      return stationGeoJSON.parse(data)
-    }
-    const url = `${apiRoute()}/observations/latest`
+    const url =
+      dataViewType.value === 'validation'
+        ? `${_apiRoute()}/stations/validation/${validationTSStr}`
+        : `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
-    const dat = stationLatestProperties.array().parse(data)
+    const schema = dataViewType.value === 'validation' ? stationValidation : stationObsLatest
+    const dat = schema.array().parse(data)
 
-    const feat = dat.map((d) => {
-      const { obs } = d
-      const colors = {
-        rain: interpHexColor(obs.rainAccum ?? 0, gradientFns.value?.['rain']),
-        temp: interpHexColor(obs.temp ?? 0, gradientFns.value?.['temp']),
-      }
-      return {
-        ...d,
-        colors,
-      }
-    })
-    return geojsonize(feat, ['obs', 'colors'])
+    return geojsonize(
+      dat.map((d) => {
+        if ('obs' in d) {
+          const { obs } = d
+          const colors = {
+            rain: interpHexColor(obs?.rainAccum ?? 0, gradientFns.value?.['rain']),
+            temp: interpHexColor(obs?.temp ?? 0, gradientFns.value?.['temp']),
+          }
+          return {
+            ...d,
+            colors,
+          }
+        }
+        return d
+      }),
+      ['tsImg', 'obs', 'colors']
+    )
   }
 
   const { data: stations } = useQuery({

@@ -59,7 +59,7 @@
   import { format, parseISO } from 'date-fns'
 
   import { heatIndex as heatIndexFn } from '@/lib/weather'
-  import { stationLatestProperties } from '@/schemas/station'
+  import { stationObsLatest } from '@/schemas/station'
   import { apiRoute } from '@/stores/routes'
 
   const props = withDefaults(
@@ -87,7 +87,7 @@
   const getStationObs = async () => {
     const url = `${apiRoute()}/stations/${props.stationId}/observations/latest`
     const { data } = await axios.get(url)
-    return stationLatestProperties.parse(data)
+    return stationObsLatest.parse(data)
   }
 
   const { isSuccess, data: station } = useQuery({

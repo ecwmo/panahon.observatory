@@ -1,15 +1,15 @@
 import type { Feature, FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 
 type Properties = {
-  id: number
+  id: number | string
   name: string
   lat: number
   lon: number
 } & GeoJsonProperties
 
-export const geojsonize = <T extends Properties, K extends keyof T>(
+export const geojsonize = <T extends Properties>(
   dat: T[],
-  props: K[]
+  props: string[]
 ): FeatureCollection<Geometry, Properties> => {
   const features = dat.map((d): Feature<Geometry, Properties> => {
     const { id, name, lat, lon } = d
@@ -18,10 +18,15 @@ export const geojsonize = <T extends Properties, K extends keyof T>(
       coordinates: [lon, lat],
     }
     const properties = props.reduce<Properties>(
-      (o, c) => ({
-        ...o,
-        [c]: d[c],
-      }),
+      (o, c) => {
+        if (c in d) {
+          return {
+            ...o,
+            [c]: d[c],
+          }
+        }
+        return o
+      },
       { id, name, lat, lon }
     )
     return {

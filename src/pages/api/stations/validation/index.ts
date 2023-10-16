@@ -6,13 +6,15 @@ import { readdir } from 'fs/promises'
 
 import { resourceDir } from '@/pages/_common'
 
-export const GET: APIRoute = async ({ params, redirect }) => {
+export const GET: APIRoute = async ({ redirect }) => {
   try {
     const imgFile = await readdir(`${resourceDir}/validation`).then(
       (imgs) => imgs.filter((f) => f.includes('wrf_ensmean-gsmap-24hr_rain_day1') && f.endsWith('.png'))?.[0]
     )
 
-    const dtStr = `${imgFile.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)[0]}_08 +08`
+    const dtStr = `${
+      imgFile?.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.[0] ?? formatInTimeZone(Date.now(), 'Asia/Manila', 'yyyy-MM-dd')
+    }_08 +08`
     const dt = parse(dtStr, 'yyyy-MM-dd_HH x', new Date())
 
     return redirect(`/api/stations/validation/${formatInTimeZone(dt, 'Asia/Manila', 'yyyyMMdd')}`)

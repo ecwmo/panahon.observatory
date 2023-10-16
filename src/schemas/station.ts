@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { camelize } from '@/schemas/common'
 
-export const observationProperties = z
+export const stationObservation = z
   .object({
     rain: z.number().nullish(),
     temp: z.number().nullish(),
@@ -23,38 +23,19 @@ export const observationProperties = z
   })
   .transform(camelize)
 
-const observationColorProperties = z.object({
-  rain: z.string().length(7),
-  temp: z.string().length(7),
-})
+const stringID = z.object({ id: z.string() })
+const numberID = z.object({ id: z.number() })
 
-export const stationLatestProperties = z.object({
-  id: z.number(),
+export const station = z.object({
   name: z.string(),
   lat: z.number(),
   lon: z.number(),
   elevation: z.number().nullish(),
   address: z.string().nullish(),
-  obs: observationProperties,
-  colors: observationColorProperties.optional(),
-  tsImg: z.string().optional(),
 })
 
-const stationGeom = z.object({
-  type: z.enum(['Point']),
-  coordinates: z.number().array().length(2),
-})
-
-const stationFeature = z.object({
-  type: z.enum(['Feature']),
-  geometry: stationGeom,
-  properties: stationLatestProperties,
-})
-
-export const stationGeoJSON = z.object({
-  type: z.enum(['FeatureCollection']),
-  features: stationFeature.array(),
-})
+export const stationObsLatest = station.merge(numberID).merge(z.object({ obs: stationObservation }))
+export const stationValidation = station.merge(stringID).merge(z.object({ tsImg: z.string().optional() }))
 
 const stationConfiguration = z.object({
   varName: z.string().optional(),
