@@ -21,7 +21,7 @@
                 class="w-1/5 border hover:border-black"
                 @click.prevent="handleThumbnailClick(imgIdx, gIdx)"
               >
-                <img v-if="imgSrc?.length > 0" :src="imgSrc" />
+                <img v-if="imgSrc" :src="imgSrc" />
               </component>
             </template>
           </tr>

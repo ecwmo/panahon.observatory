@@ -4,9 +4,9 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import DashboardLayout from '@/layouts/Dashboard.astro'
 import DefaultLayout from '@/layouts/Default.astro'
 
-import InfoPanel from '@/components/InfoPanel.vue'
 import MapBox from '@/components/MapBox.vue'
 import WeatherDashBoard from '@/components/WeatherDashboard.vue'
+import WeatherInfoPanel from '@/components/WeatherInfoPanel.vue'
 
 const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
 
@@ -20,7 +20,7 @@ const stationPt = Astro.url.searchParams.get('pt')
     <DefaultLayout>
       <div class="relative h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
         <MapBox token={mapboxToken} class:list={['w-full md:w-1/2 h-full z-0']} client:visible />
-        <InfoPanel client:visible />
+        <WeatherInfoPanel client:visible />
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSdTc5V4AI_50zR9rL5oRbiiERX3X8bTUxtd93DTs0ZfX5YNfA/viewform?usp=sf_link"
           target="_blank"

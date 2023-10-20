@@ -6,4 +6,5 @@ const { scale } = chroma
 
 export const gradientScale = (colors?: string[], levels?: number[]) => scale(colors).domain(levels)
 
-export const interpHexColor = (val: number, gFunc?: Scale) => (gFunc ? gFunc(val).hex() : scale()(val).hex())
+export const interpHexColor = (val: number, gFunc?: Scale) =>
+  typeof gFunc === 'function' ? gFunc(val).hex() : scale()(val).hex()

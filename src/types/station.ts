@@ -5,6 +5,7 @@ import { stationObservation, stationObsLatest, stationValidation } from '@/schem
 
 export type StationObsLatest = z.infer<typeof stationObsLatest>
 export type StationValidation = z.infer<typeof stationValidation>
+export type StationObs = StationObsLatest | StationValidation
 
 export type Observation = z.infer<typeof stationObservation>
 

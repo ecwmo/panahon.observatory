@@ -10,7 +10,7 @@
           class="w-16 -ml-[1.35rem] mb-1 rounded-lg px-0.5 py-1 drop-shadow-lg"
           :show="dotProps.showPopup"
         >
-          <WeatherPopupInfo :id="activeVariable" :data="metValueStrings" class="text-xs text-center" />
+          <WeatherPopupInfo :id="activeVariable" :data="activeStationObsStr" class="text-xs text-center" />
         </Popup>
       </PulsatingDot>
       <div
@@ -43,7 +43,7 @@
       <div
         class="absolute flex md:hidden justify-between top-2 right-2 bg-white text-black py-1 px-2 text-xs font-semibold rounded-full drop-shadow-md opacity-90"
       >
-        {{ dataTsString }}
+        {{ activeStationTsStr }}
       </div>
 
       <WeatherButtons
@@ -72,19 +72,21 @@
 
   import { gradientScale, interpHexColor } from '@/lib/color'
   import { geojsonize } from '@/lib/geojson'
+  import { heatIndex } from '@/lib/weather'
 
   import {
     $activeStation,
+    $activeStationObsStr,
+    $activeStationTs,
     $activeVariable,
-    $metValueStrings,
-    $timestamp,
-    $validationTS,
     $viewType,
     defaultStation,
     setActiveStation,
   } from '@/stores/station'
 
-  import type { StationObsLatest } from '@/types/station'
+  import { $selectedDate as $selectedValidationDate } from '@/stores/validation'
+
+  import type { StationObs } from '@/types/station'
 
   const { LngLat } = mapboxgl
 
@@ -109,13 +111,21 @@
   const dataViewType = useStore($viewType)
   const activeVariable = useStore($activeVariable)
   const activeStation = useStore($activeStation)
-  const dataTimestamp = useStore($timestamp)
-  const metValueStrings = useStore($metValueStrings)
-  const validationTS = useStore($validationTS)
+  const activeStationTs = useStore($activeStationTs)
+  const activeStationObsStr = useStore($activeStationObsStr)
+  const selectedValidationDate = useStore($selectedValidationDate)
 
-  const { coords } = useGeolocation()
-
-  const visibleStations = ref<StationObsLatest[]>()
+  const getVisibleStations = () => {
+    const mapBnds = map.getBounds()
+    if (stations.value) {
+      const vStn = stations.value.features
+        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new LngLat(lon, lat)))
+        .map(({ properties }) => properties as StationObs)
+      if (dataViewType.value === 'validation') setActiveStation(vStn?.[0])
+      return vStn
+    }
+  }
+  const visibleStations = ref<StationObs[]>()
 
   const visibleStationsSorted = computed(() => {
     const activePt = point([activeStation.value.lon, activeStation.value.lat])
@@ -125,23 +135,9 @@
       ?.sort(({ dist: d1 }, { dist: d2 }) => (d1 && d2 ? d1 - d2 : 0))
   })
 
-  const closestStn = computed(() => {
-    let idx = 0
-
-    if (coords.value) {
-      const { latitude: userLat, longitude: userLng } = coords.value
-
-      const d =
-        visibleStations.value?.map(({ lat, lon }) => Math.pow(lon - userLng, 2) + Math.pow(lat - userLat, 2)) ?? []
-
-      idx = d.indexOf(Math.min(...d))
-      if (idx === -1) idx = 0
-    }
-
-    return visibleStations.value?.[idx]
-  })
-
-  const dataTsString = computed(() => format(dataTimestamp.value, 'd MMM yyyy, h:mm bbb'))
+  const activeStationTsStr = computed(() =>
+    activeStationTs.value ? format(activeStationTs.value, 'd MMM yyyy, h:mm bbb') : null
+  )
 
   const showPoint = () => {
     try {
@@ -159,16 +155,7 @@
     dotProps.value = { ...dotProps.value, show, showPopup }
   }
 
-  const getVisibleStations = (): StationObsLatest[] | undefined => {
-    const mapBnds = map.getBounds()
-    if (stations.value) {
-      return stations.value.features
-        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new LngLat(lon, lat)))
-        .map(({ properties }) => properties as StationObsLatest)
-    }
-  }
-
-  const handleStationChange = (st?: number | string | StationObsLatest) => {
+  const handleStationChange = (st?: number | string | StationObs) => {
     const newStn =
       (typeof st === 'number' || typeof st === 'string' ? visibleStations.value?.find(({ id }) => id === st) : st) ??
       visibleStations.value?.[0] ??
@@ -211,6 +198,7 @@
     }
   }
 
+  const twentyFourHoursInMs = 1000 * 60 * 60 * 24
   const { data: gradientFns, isSuccess: gradientFnsReady } = useQuery({
     queryKey: ['stations', 'config'],
     queryFn: async () => {
@@ -228,13 +216,14 @@
     },
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: twentyFourHoursInMs,
   })
 
   const fetchStations = async () => {
-    const validationTSStr = format(validationTS.value, 'yyyyMMdd') ?? ''
+    const selectedValidationDateStr = format(selectedValidationDate.value, 'yyyyMMdd') ?? ''
     const url =
       dataViewType.value === 'validation'
-        ? `${_apiRoute()}/stations/validation/${validationTSStr}`
+        ? `${_apiRoute()}/stations/validation/${selectedValidationDateStr}`
         : `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
     const schema = dataViewType.value === 'validation' ? stationValidation : stationObsLatest
@@ -244,12 +233,17 @@
       dat.map((d) => {
         if ('obs' in d) {
           const { obs } = d
+          const { temp, rh, hi, rainAccum } = obs
           const colors = {
-            rain: interpHexColor(obs?.rainAccum ?? 0, gradientFns.value?.['rain']),
-            temp: interpHexColor(obs?.temp ?? 0, gradientFns.value?.['temp']),
+            rain: interpHexColor(rainAccum ?? 0, gradientFns.value?.['rain']),
+            temp: interpHexColor(temp ?? 0, gradientFns.value?.['temp']),
           }
           return {
             ...d,
+            obs: {
+              ...obs,
+              hi: hi ? hi : heatIndex(temp ?? 0, rh ?? 0),
+            },
             colors,
           }
         }
@@ -260,7 +254,7 @@
   }
 
   const { data: stations, isSuccess } = useQuery({
-    queryKey: ['stations', dataViewType, validationTS],
+    queryKey: ['stations', dataViewType, selectedValidationDate],
     queryFn: fetchStations,
     enabled: gradientFnsReady,
     refetchInterval: 10 * 60 * 1000,
@@ -274,10 +268,6 @@
     } else {
       map.setPaintProperty('station-pts', 'circle-color', '#ffffff')
     }
-  })
-
-  watch(closestStn, (newStn) => {
-    handleStationChange(newStn)
   })
 
   onMounted(() => {

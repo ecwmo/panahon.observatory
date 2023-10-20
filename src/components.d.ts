@@ -16,7 +16,6 @@ declare module '@vue/runtime-core' {
     FakeCard: typeof import('./components/FakeCard.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     ImageModal: typeof import('./components/ImageModal.vue')['default']
-    InfoPanel: typeof import('./components/InfoPanel.vue')['default']
     Lazy: typeof import('./components/Lazy.vue')['default']
     Listbox: typeof import('@headlessui/vue')['Listbox']
     ListboxButton: typeof import('@headlessui/vue')['ListboxButton']
@@ -49,6 +48,7 @@ declare module '@vue/runtime-core' {
     WeatherButtons: typeof import('./components/WeatherButtons.vue')['default']
     WeatherDashboard: typeof import('./components/WeatherDashboard.vue')['default']
     WeatherDescription: typeof import('./components/WeatherDescription.vue')['default']
+    WeatherInfoPanel: typeof import('./components/WeatherInfoPanel.vue')['default']
     WeatherPopupInfo: typeof import('./components/WeatherPopupInfo.vue')['default']
   }
 }

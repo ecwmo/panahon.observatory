@@ -2,24 +2,23 @@ import { action, atom, computed } from 'nanostores'
 
 import { windDirDeg2Str } from '@/lib/weather'
 
-import type { Observation, ObservationKeys, StationObsLatest } from '@/types/station'
+import type { ObservationKeys, StationObs } from '@/types/station'
 
 export const $viewType = atom('default')
 export const setViewType = action($viewType, 'setViewType', (vt, newType: string) => vt.set(newType))
 
-export const $validationTS = atom(new Date())
-export const setValidationTS = action($validationTS, 'setValidationTS', (vTS, newVal: Date) => vTS.set(newVal))
-
 export const $activeVariable = atom('temp')
 export const setActiveVariable = action($activeVariable, 'setActiveVariable', (v, newVar: string) => v.set(newVar))
 
-export const defaultStation: StationObsLatest = { id: -1, name: '', lat: 0, lon: 0, obs: {} }
-export const $activeStation = atom(defaultStation)
-export const setActiveStation = action($activeStation, 'setActiveStation', (st, newStn: StationObsLatest) => {
+export const defaultStation: StationObs = { id: -1, name: '', lat: 0, lon: 0, obs: {} }
+export const $activeStation = atom<StationObs>(defaultStation)
+export const setActiveStation = action($activeStation, 'setActiveStation', (st, newStn: StationObs) => {
   st.set(newStn)
 })
 
-export const $timestamp = computed($activeStation, (st) => new Date(st?.obs?.timestamp ?? Date.now()))
+export const $activeStationTs = computed($activeStation, (st) =>
+  st && 'obs' in st && st.obs && st.obs.timestamp ? new Date(st.obs.timestamp) : null
+)
 
 const dataIsValid = (val: number, varName: string) => {
   if (varName === 'pres') return val !== -999
@@ -27,27 +26,28 @@ const dataIsValid = (val: number, varName: string) => {
   return ![999.9, -999].includes(val)
 }
 
-type ObsKeys = ObservationKeys | 'wdirStr' | 'hi'
-const metValueString = (stnObs: Observation | undefined, varName: ObsKeys) => {
-  let fracDigits = 1
-  const val = (stnObs?.[varName as ObservationKeys] as number) ?? -999
-  if (varName === 'wdirStr') {
-    return windDirDeg2Str(stnObs?.['wdir'] as number)
-  }
-  if (!dataIsValid(val, varName)) return '--'
-  if (['rain', 'rainAccum', 'mslp'].indexOf(varName) !== -1) {
-    fracDigits = 0
-  }
-  return val.toFixed(fracDigits)
+const toFixed = (o: Record<string, any>, k: string, fDigits: number) => {
+  const v = o?.[k]
+  return typeof v === 'number' && dataIsValid(v, k) ? v.toFixed(fDigits) : '--'
 }
 
-export const $metValueStrings = computed($activeStation, (st) => {
-  const ret: { [k: string]: string } = {}
-  const metVars = ['rain', 'rainAccum', 'temp', 'hi', 'tx', 'tn', 'wspd', 'wdirStr', 'mslp'] satisfies ObsKeys[]
-
-  metVars.forEach((v) => {
-    ret[v] = metValueString(st?.obs, v)
-  })
-
-  return ret
+type ObservationStr = {
+  [K in ObservationKeys | 'wdirStr']: string
+}
+export const $activeStationObsStr = computed($activeStation, (stn) => {
+  if (stn && 'obs' in stn) {
+    const { obs } = stn
+    const keys = ['temp', 'wspd', 'gust', 'tn', 'tx', 'hi', 'rh', 'rain', 'rainAccum', 'mslp']
+    const oStr = keys.reduce((o, k) => {
+      const fDigits = k in ['rh', 'rain', 'rainAccum', 'mslp'] ? 0 : 1
+      const valStr = toFixed(obs, k, fDigits)
+      return {
+        ...o,
+        [k]: valStr,
+      }
+    }, {} as ObservationStr)
+    oStr.wdirStr = windDirDeg2Str(obs?.wdir ?? 0)
+    return oStr
+  }
+  return {} as ObservationStr
 })

@@ -1,5 +1,5 @@
 <template>
-  <Listbox v-if="isSuccess" v-model="selectedDate">
+  <Listbox v-if="isSuccess" model-value="selectedDate" @update:model-value="setSelectedDate">
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-md bg-white text-gray-900 py-2 pl-3 pr-10 text-sm md:text-base text-left shadow-md ring-gray-700 ring-1"
@@ -45,12 +45,12 @@
 </template>
 
 <script setup lang="ts">
-  import { useVModel } from '@nanostores/vue'
+  import { useStore } from '@nanostores/vue'
   import { format, isSameMonth, isSameYear, parse, subDays } from 'date-fns'
 
   import { _apiRoute } from '@/stores/routes'
 
-  import { $selectedDate } from '@/stores/validation'
+  import { $selectedDate, setSelectedDate } from '@/stores/validation'
 
   const props = withDefaults(
     defineProps<{
@@ -59,7 +59,7 @@
     { rangeView: false }
   )
 
-  const selectedDate = useVModel($selectedDate)
+  const selectedDate = useStore($selectedDate)
 
   const dateFormat = 'MMM d yyyy'
 
@@ -69,7 +69,7 @@
       const url = `${_apiRoute('validation')}/dates`
       const { data } = await axios.get(url)
       const dates = (<string[]>data)?.map((dt) => parse(dt, 'yyyy-MM-dd', new Date())) ?? <Date[]>[]
-      selectedDate.value = dates?.[0]
+      setSelectedDate(dates?.[0])
       return dates
     },
   })

@@ -15,8 +15,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { $activeStation, setValidationTS, setViewType } from '@/stores/station'
-  import { $selectedDate } from '@/stores/validation'
+  import { $activeStation, setViewType } from '@/stores/station'
 
   defineProps<{
     mapboxToken: string
@@ -25,11 +24,8 @@
   setViewType('validation')
 
   const activeStation = useStore($activeStation)
-  const activeDate = useStore($selectedDate)
 
-  watch(activeDate, (dt) => {
-    setValidationTS(dt)
+  const activeStnImg = computed(() => {
+    return activeStation.value && 'tsImg' in activeStation.value ? activeStation.value?.tsImg : ''
   })
-
-  const activeStnImg = computed(() => activeStation.value?.tsImg)
 </script>

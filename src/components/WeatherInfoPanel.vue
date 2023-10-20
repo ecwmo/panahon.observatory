@@ -3,7 +3,7 @@
     class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"
   >
     <div class="flex flex-col md:items-start w-full mb-6">
-      <div class="text-sm font-extralight">{{ dataTsStringLong }}</div>
+      <div class="text-sm font-extralight">{{ tsStringLong }}</div>
       <div class="text-3xl font-semibold">{{ stationName }}</div>
     </div>
     <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
@@ -28,9 +28,9 @@
           </template>
           <WeatherDescription
             :id="c.id"
-            :data="metValueStrings"
+            :data="activeStationObsStr"
             :station-name="stationName"
-            :date-string="dataTsStringShort"
+            :date-string="tsStringShort"
           />
         </Card>
       </template>
@@ -47,49 +47,63 @@
 
   import { windDirDeg } from '@/lib/weather'
 
-  import { $activeStation, $activeVariable, $metValueStrings, $timestamp, setActiveVariable } from '@/stores/station'
+  import {
+    $activeStation,
+    $activeStationObsStr,
+    $activeStationTs,
+    $activeVariable,
+    setActiveStation,
+    setActiveVariable,
+  } from '@/stores/station'
 
-  const metValueStrings = useStore($metValueStrings)
-  const timestamp = useStore($timestamp)
+  const timestamp = useStore($activeStationTs)
   const activeVariable = useStore($activeVariable)
   const activeStation = useStore($activeStation)
+  const activeStationObsStr = useStore($activeStationObsStr)
 
-  const stationName = computed(() => activeStation.value.name)
-  const dataTsStringLong = computed(() => format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb"))
-  const dataTsStringShort = computed(() => format(timestamp.value, 'h:mm bbb'))
+  const stationName = computed(() => activeStation.value?.name)
+  const tsStringLong = computed(() =>
+    timestamp.value ? format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb") : null
+  )
+  const tsStringShort = computed(() => (timestamp.value ? format(timestamp.value, 'h:mm bbb') : undefined))
+
+  const stationID = computed(() => activeStation.value.id)
+  const { station, isSuccess } = useCurrentWeather({ id: stationID })
+  watch(isSuccess, () => {
+    if (isSuccess.value && station.value) setActiveStation(station.value)
+  })
 
   const cards = computed(() => {
-    const windDirStr = metValueStrings.value['wdirStr']
     return [
       {
         id: 'rain',
         title: 'RAIN (mm)',
         label1: 'Now',
-        value1: metValueStrings.value['rain'],
+        value1: activeStationObsStr.value?.rain,
         label2: '24hr total',
-        value2: metValueStrings.value['rainAccum'],
+        value2: activeStationObsStr.value?.rainAccum,
         icon: 'i-fa6-solid-cloud-rain',
       },
       {
         id: 'temp',
         title: 'TEMPERATURE (°C)',
-        value1: metValueStrings.value['temp'],
+        value1: activeStationObsStr.value?.temp,
         label2: 'Feels like',
-        value2: metValueStrings.value['hi'],
+        value2: activeStationObsStr.value?.hi,
         icon: 'i-fa-solid-thermometer-half',
       },
       {
         id: 'wind',
         title: 'WIND (m/s)',
-        value1: metValueStrings.value['wspd'],
-        value2: windDirStr,
+        value1: activeStationObsStr.value?.wspd,
+        value2: activeStationObsStr.value?.wdirStr,
         icon: 'i-fa6-solid-wind',
         icon2: 'i-wi-wind-deg',
       },
       {
         id: 'pres',
         title: 'PRESSURE (hPa)',
-        value1: metValueStrings.value['mslp'],
+        value1: activeStationObsStr.value?.mslp,
         icon: 'i-wi-barometer',
       },
     ]

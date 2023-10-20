@@ -35,30 +35,34 @@
 </template>
 
 <script setup lang="ts">
+  import type { ObservationKeys } from '@/types/station'
+  type ObservationStr = {
+    [K in ObservationKeys | 'wdirStr']: string
+  }
   const props = withDefaults(
     defineProps<{
       id: string
       stationName?: string
-      data: Record<string, string>
-      dateString: string
+      data: ObservationStr
+      dateString?: string
     }>(),
     { stationName: '' }
   )
 
   const { data } = toRefs(props)
 
-  const rainStr = computed(() => `${data.value?.['rain']} mm`)
-  const rainAccum = computed(() => `${data.value?.['rainAccum']} mm`)
+  const rainStr = computed(() => `${data.value?.rain} mm`)
+  const rainAccum = computed(() => `${data.value?.rainAccum} mm`)
 
-  const tempStr = computed(() => `${data.value?.['temp']} °C`)
-  const hiStr = computed(() => `${data.value?.['hi']} °C`)
-  const txStr = computed(() => `${data.value?.['tx']} °C`)
-  const tnStr = computed(() => `${data.value?.['tn']} °C`)
+  const tempStr = computed(() => `${data.value?.temp} °C`)
+  const hiStr = computed(() => `${data.value?.hi} °C`)
+  const txStr = computed(() => `${data.value?.tx} °C`)
+  const tnStr = computed(() => `${data.value?.tn} °C`)
 
-  const showHi = computed(() => `${data.value?.['hi']}` !== '--')
+  const showHi = computed(() => `${data.value?.hi}` !== '--')
 
-  const wspdStr = computed(() => `${data.value?.['wspd']} m/s`)
-  const wdirStr = computed(() => data.value?.['wdirStr'])
+  const wspdStr = computed(() => `${data.value?.wspd} m/s`)
+  const wdirStr = computed(() => data.value?.wdirStr)
 
-  const presStr = computed(() => `${data.value?.['mslp']} mb`)
+  const presStr = computed(() => `${data.value?.mslp} mb`)
 </script>

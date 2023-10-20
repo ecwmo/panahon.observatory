@@ -1,9 +1,6 @@
 import { action, atom, computed } from 'nanostores'
 
-import { _apiRoute } from '@/stores/routes'
 import type { Images } from '@/types/validation'
-
-const API_URL = _apiRoute('validation')
 
 export const imageGroups: { id: keyof Images; text: string }[] = [
   { id: 'wrf', text: 'WRF ensmean' },
@@ -28,9 +25,12 @@ export const leadTimes = [
 ]
 
 export const $selectedDate = atom(new Date())
+export const setSelectedDate = action($selectedDate, 'setSelectedDate', (dt, newVal: Date) => dt.set(newVal))
 
-const $validationImages = atom()
-export const setValidationImages = action($validationImages, 'setValidationImages', (imgs, newVal) => imgs.set(newVal))
+const $validationImages = atom([] as any as Images)
+export const setValidationImages = action($validationImages, 'setValidationImages', (imgs, newVal: Images) =>
+  imgs.set(newVal)
+)
 
 const activeImgIdx = atom(0)
 const setActiveImgIdx = action(activeImgIdx, 'setActiveImgIdx', (idx, newVal) => idx.set(newVal))
@@ -41,7 +41,7 @@ const activeImages = computed([$validationImages, activeImageGroup], (imgs, imgG
 
 export const $activeImage = computed(
   [activeImgIdx, activeImages, activeImageGroup, $validationImages],
-  (idx, imgs, imgGrp, vImgs) => (imgGrp.id !== 'gsmap' ? imgs?.[idx] : vImgs?.['gsmap'][0]) ?? undefined
+  (idx, imgs, imgGrp, vImgs) => (imgGrp.id !== 'gsmap' ? imgs?.[idx] : vImgs?.gsmap[0]) ?? undefined
 )
 export const setActiveImage = (imgIdx: number, grpIdx: number) => {
   setActiveImgIdx(imgIdx)
