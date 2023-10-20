@@ -1,4 +1,9 @@
-export const gradientScale = (colors?: string[], levels?: number[]) => chroma.scale(colors).domain(levels)
+import chroma from 'chroma-js'
 
-export const interpHexColor = (val: number, gFunc?: chroma.Scale) =>
-  gFunc ? gFunc(val).hex() : chroma.scale()(val).hex()
+export type Scale = chroma.Scale
+
+const { scale } = chroma
+
+export const gradientScale = (colors?: string[], levels?: number[]) => scale(colors).domain(levels)
+
+export const interpHexColor = (val: number, gFunc?: Scale) => (gFunc ? gFunc(val).hex() : scale()(val).hex())

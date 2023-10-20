@@ -59,10 +59,13 @@
 </template>
 
 <script setup lang="ts">
+  import mapboxgl from 'mapbox-gl'
+
   import { useStore } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
 
+  import type { Scale } from '@/lib/color'
   import { stationConfigurations, stationObsLatest, stationValidation } from '@/schemas/station'
   import { _apiRoute, apiRoute } from '@/stores/routes'
 
@@ -81,6 +84,8 @@
   } from '@/stores/station'
 
   import type { StationObsLatest } from '@/types/station'
+
+  const { LngLat } = mapboxgl
 
   const props = defineProps<{
     token: string
@@ -157,7 +162,7 @@
     const mapBnds = map.getBounds()
     if (stations.value) {
       return stations.value.features
-        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new mapbox.LngLat(lon, lat)))
+        .filter(({ properties: { lon, lat } }) => mapBnds.contains(new LngLat(lon, lat)))
         .map(({ properties }) => properties as StationObsLatest)
     }
   }
@@ -218,7 +223,7 @@
           ...o,
           [k]: gradientScale(colors, levels),
         }
-      }, {} as Record<string, chroma.Scale>)
+      }, {} as Record<string, Scale>)
     },
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -275,7 +280,7 @@
   })
 
   onMounted(() => {
-    map = new mapbox.Map({
+    map = new mapboxgl.Map({
       accessToken: props.token,
       container: mapEl.value,
       style: 'mapbox://styles/mapbox/streets-v11',

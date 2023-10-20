@@ -70,8 +70,6 @@ export default defineConfig({
         'vue',
         {
           axios: [['default', 'axios']],
-          'mapbox-gl': [['default', 'mapbox']],
-          'chroma-js': [['default', 'chroma']],
           '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver', 'useGeolocation', 'useWindowSize'],
           '@tanstack/vue-query': ['useQuery', 'useInfiniteQuery'],
         },
