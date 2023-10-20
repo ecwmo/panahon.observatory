@@ -64,10 +64,24 @@
 
   const props = withDefaults(
     defineProps<{
-      stationId?: number
+      stationId?: string
+      stationPt?: string
     }>(),
-    { stationId: 1 }
+    { stationId: '', stationPt: '' }
   )
+
+  const { stationId, stationPt } = toRefs(props)
+
+  const { coords } = useGeolocation()
+
+  const stnLocStr = computed(() => {
+    const { latitude: lat, longitude: lon } = coords.value
+    if (stationPt.value && stationPt.value.split(',').length === 2) return stationPt.value
+    if (Number.isFinite(lat) && Number.isFinite(lon)) return `${lon.toFixed(3)},${lat.toFixed(3)}`
+    return ''
+  })
+
+  const stnID = computed(() => (stationId.value ? stationId.value : stnLocStr.value || '1'))
 
   const dateStr = computed(() => format(parseISO(station.value?.obs?.timestamp ?? ''), 'h:mm a EEEE, MMM d yyyy'))
 
@@ -85,13 +99,15 @@
   })
 
   const getStationObs = async () => {
-    const url = `${apiRoute()}/stations/${props.stationId}/observations/latest`
+    const url = !isNaN(+stnID.value)
+      ? `${apiRoute()}/stations/${+stnID.value}/observations/latest`
+      : `${apiRoute()}/stations/nearest/observations/latest?pt=${stnLocStr.value}`
     const { data } = await axios.get(url)
     return stationObsLatest.parse(data)
   }
 
   const { isSuccess, data: station } = useQuery({
-    queryKey: ['station', props.stationId, 'latest'],
+    queryKey: ['station', stnID, 'latest'],
     queryFn: getStationObs,
     refetchInterval: 10 * 60 * 1000,
   })

@@ -11,15 +11,15 @@ import WeatherDashBoard from '@/components/WeatherDashboard.vue'
 const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
 
 const viewType = Astro.url.searchParams.get('view')
-let stationId = +Astro.url.searchParams.get('id')
-stationId = stationId > 0 ? stationId : 1
+const stationID = Astro.url.searchParams.get('id')
+const stationPt = Astro.url.searchParams.get('pt')
 ---
 
 {
   viewType !== 'simple' ? (
     <DefaultLayout>
       <div class="relative h-full flex flex-col md:flex-row items-center justify-center md:gap-4 md:p-4">
-        <MapBox token={mapboxToken} class="w-full md:w-1/2 h-full z-0" client:visible />
+        <MapBox token={mapboxToken} class:list={['w-full md:w-1/2 h-full z-0']} client:visible />
         <InfoPanel client:visible />
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSdTc5V4AI_50zR9rL5oRbiiERX3X8bTUxtd93DTs0ZfX5YNfA/viewform?usp=sf_link"
@@ -32,7 +32,7 @@ stationId = stationId > 0 ? stationId : 1
     </DefaultLayout>
   ) : (
     <DashboardLayout>
-      <WeatherDashBoard station-id={stationId} client:load />
+      <WeatherDashBoard station-id={stationID} station-pt={stationPt} client:load />
     </DashboardLayout>
   )
 }
