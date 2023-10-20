@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config'
 import { loadEnv } from 'vite'
 
+import basicSsl from '@vitejs/plugin-basic-ssl'
+
 import UnoCSS from 'unocss/astro'
 
 import node from '@astrojs/node'
@@ -89,7 +91,11 @@ export default defineConfig({
         dts: 'src/components.d.ts',
         directoryAsNamespace: true,
       }),
+      basicSsl(),
     ],
+    server: {
+      https: true,
+    },
   },
   adapter: node({
     mode: 'standalone',

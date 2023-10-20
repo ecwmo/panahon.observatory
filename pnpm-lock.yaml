@@ -115,6 +115,9 @@ devDependencies:
   '@vite-pwa/astro':
     specifier: ^0.1.3
     version: 0.1.3(astro@3.2.4)(vite-plugin-pwa@0.16.5)
+  '@vitejs/plugin-basic-ssl':
+    specifier: ^1.0.1
+    version: 1.0.1(vite@4.4.9)
   '@vue/test-utils':
     specifier: ^2.4.1
     version: 2.4.1(vue@3.3.4)
@@ -3571,6 +3574,15 @@ packages:
     dependencies:
       astro: 3.2.4(@types/node@20.2.1)
       vite-plugin-pwa: 0.16.5(vite@4.4.9)(workbox-build@7.0.0)(workbox-window@7.0.0)
+    dev: true
+
+  /@vitejs/plugin-basic-ssl@1.0.1(vite@4.4.9):
+    resolution: {integrity: sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==}
+    engines: {node: '>=14.6.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 4.4.9(@types/node@20.2.1)
     dev: true
 
   /@vitejs/plugin-vue-jsx@3.0.2(vite@4.4.9)(vue@3.3.4):
