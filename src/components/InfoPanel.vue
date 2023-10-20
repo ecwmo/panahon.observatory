@@ -55,7 +55,7 @@
   const activeStation = useStore($activeStation)
 
   const stationName = computed(() => activeStation.value.name)
-  const dataTsStringLong = computed(() => format(timestamp.value, 'd MMM yyyy, h:mm bbb'))
+  const dataTsStringLong = computed(() => format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb"))
   const dataTsStringShort = computed(() => format(timestamp.value, 'h:mm bbb'))
 
   const cards = computed(() => {
