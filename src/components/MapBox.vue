@@ -3,7 +3,7 @@
     <!-- Map -->
     <div ref="mapEl" class="shadow w-full h-full"></div>
 
-    <div v-if="stations">
+    <div v-if="isSuccess">
       <PulsatingDot v-show="dotProps.show" :xy="dotProps.xy" color="#ffc8c8">
         <Popup
           v-if="dataViewType === 'default'"
@@ -14,6 +14,7 @@
         </Popup>
       </PulsatingDot>
       <div
+        v-show="visibleStationsSorted"
         class="absolute flex justify-between top-2 left-2 bg-white text-black pr-3 py-1 rounded-full drop-shadow-md opacity-90"
       >
         <SwitchGroup>
@@ -258,7 +259,7 @@
     )
   }
 
-  const { data: stations } = useQuery({
+  const { data: stations, isSuccess } = useQuery({
     queryKey: ['stations', dataViewType, validationTS],
     queryFn: fetchStations,
     enabled: gradientFnsReady,
