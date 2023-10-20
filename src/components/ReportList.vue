@@ -62,6 +62,7 @@
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['reports'],
     queryFn: fetchReports,
+    initialPageParam: 0,
     getNextPageParam: () => cursor.value,
   })
 
