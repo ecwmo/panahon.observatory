@@ -38,7 +38,7 @@
 		"nanostores": "^0.9.4",
 		"pdf-img-convert": "^1.2.1",
 		"vue": "^3.3.5",
-		"zod": "^3.21.4"
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@iconify-json/fa-solid": "^1.1.2",
