@@ -66,11 +66,10 @@
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
 
-  import type { Scale } from '@/lib/color'
-  import { stationConfigurations, stationObsLatest, stationValidation } from '@/schemas/station'
+  import { stationObsLatest, stationValidation } from '@/schemas/station'
   import { _apiRoute, apiRoute } from '@/stores/routes'
 
-  import { gradientScale, interpHexColor } from '@/lib/color'
+  import { interpHexColor } from '@/lib/color'
   import { geojsonize } from '@/lib/geojson'
   import { heatIndex } from '@/lib/weather'
 
@@ -114,6 +113,49 @@
   const activeStationTs = useStore($activeStationTs)
   const activeStationObsStr = useStore($activeStationObsStr)
   const selectedValidationDate = useStore($selectedValidationDate)
+
+  const { data: gradientFns, isSuccess: gradientFnsReady } = useWeatherTheme()
+
+  const fetchStations = async () => {
+    const selectedValidationDateStr = format(selectedValidationDate.value, 'yyyyMMdd') ?? ''
+    const url =
+      dataViewType.value === 'validation'
+        ? `${_apiRoute()}/stations/validation/${selectedValidationDateStr}`
+        : `${apiRoute()}/observations/latest`
+    const { data } = await axios.get(url)
+    const schema = dataViewType.value === 'validation' ? stationValidation : stationObsLatest
+    const dat = schema.array().parse(data)
+
+    return geojsonize(
+      dat.map((d) => {
+        if ('obs' in d) {
+          const { obs } = d
+          const { temp, rh, hi, rainAccum } = obs
+          const colors = {
+            rain: interpHexColor(rainAccum ?? 0, gradientFns.value?.['rain']),
+            temp: interpHexColor(temp ?? 0, gradientFns.value?.['temp']),
+          }
+          return {
+            ...d,
+            obs: {
+              ...obs,
+              hi: hi ? hi : heatIndex(temp ?? 0, rh ?? 0),
+            },
+            colors,
+          }
+        }
+        return d
+      }),
+      ['tsImg', 'obs', 'colors']
+    )
+  }
+
+  const { data: stations, isSuccess } = useQuery({
+    queryKey: ['stations', dataViewType, selectedValidationDate],
+    queryFn: fetchStations,
+    enabled: gradientFnsReady,
+    refetchInterval: 10 * 60 * 1000,
+  })
 
   const getVisibleStations = () => {
     const mapBnds = map.getBounds()
@@ -197,68 +239,6 @@
       handleStationChange()
     }
   }
-
-  const twentyFourHoursInMs = 1000 * 60 * 60 * 24
-  const { data: gradientFns, isSuccess: gradientFnsReady } = useQuery({
-    queryKey: ['stations', 'config'],
-    queryFn: async () => {
-      const url = _apiRoute('stations/weather_conf')
-      const { data } = await axios.get(url)
-      const dat = stationConfigurations.parse(data)
-
-      return ['rain', 'temp'].reduce((o, k) => {
-        const { palette: { colors, levels } = { colors: ['#ffffff'], levels: [0, 1] } } = dat[k]
-        return {
-          ...o,
-          [k]: gradientScale(colors, levels),
-        }
-      }, {} as Record<string, Scale>)
-    },
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    staleTime: twentyFourHoursInMs,
-  })
-
-  const fetchStations = async () => {
-    const selectedValidationDateStr = format(selectedValidationDate.value, 'yyyyMMdd') ?? ''
-    const url =
-      dataViewType.value === 'validation'
-        ? `${_apiRoute()}/stations/validation/${selectedValidationDateStr}`
-        : `${apiRoute()}/observations/latest`
-    const { data } = await axios.get(url)
-    const schema = dataViewType.value === 'validation' ? stationValidation : stationObsLatest
-    const dat = schema.array().parse(data)
-
-    return geojsonize(
-      dat.map((d) => {
-        if ('obs' in d) {
-          const { obs } = d
-          const { temp, rh, hi, rainAccum } = obs
-          const colors = {
-            rain: interpHexColor(rainAccum ?? 0, gradientFns.value?.['rain']),
-            temp: interpHexColor(temp ?? 0, gradientFns.value?.['temp']),
-          }
-          return {
-            ...d,
-            obs: {
-              ...obs,
-              hi: hi ? hi : heatIndex(temp ?? 0, rh ?? 0),
-            },
-            colors,
-          }
-        }
-        return d
-      }),
-      ['tsImg', 'obs', 'colors']
-    )
-  }
-
-  const { data: stations, isSuccess } = useQuery({
-    queryKey: ['stations', dataViewType, selectedValidationDate],
-    queryFn: fetchStations,
-    enabled: gradientFnsReady,
-    refetchInterval: 10 * 60 * 1000,
-  })
 
   watch(activeVariable, (newVar) => {
     const metVars = Object.keys(stations.value?.features[0].properties?.colors ?? {})
