@@ -61,6 +61,7 @@ declare global {
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useSlots: typeof import('vue')['useSlots']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
+  const useWeather: typeof import('./composables/weather')['useWeather']
   const useWeatherTheme: typeof import('./composables/weatherTheme')['useWeatherTheme']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
   const watch: typeof import('vue')['watch']
@@ -133,6 +134,7 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
+    readonly useWeather: UnwrapRef<typeof import('./composables/weather')['useWeather']>
     readonly useWeatherTheme: UnwrapRef<typeof import('./composables/weatherTheme')['useWeatherTheme']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
@@ -199,6 +201,7 @@ declare module '@vue/runtime-core' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
+    readonly useWeather: UnwrapRef<typeof import('./composables/weather')['useWeather']>
     readonly useWeatherTheme: UnwrapRef<typeof import('./composables/weatherTheme')['useWeatherTheme']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
