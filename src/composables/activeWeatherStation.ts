@@ -7,11 +7,11 @@ import { apiRoute } from '@/stores/routes'
 
 import { $viewType } from '@/stores/station'
 
-type NearestStation = {
+type StationInfo = {
   id?: MaybeRef<number | string>
   pt?: MaybeRef<string>
 }
-export const useCurrentWeather = ({ id, pt }: NearestStation) => {
+export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
   const { coords } = useGeolocation()
 
   const viewType = useStore($viewType)

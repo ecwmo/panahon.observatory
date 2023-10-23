@@ -68,7 +68,7 @@
   const tsStringShort = computed(() => (timestamp.value ? format(timestamp.value, 'h:mm bbb') : undefined))
 
   const stationID = computed(() => activeStation.value.id)
-  const { station, isSuccess } = useCurrentWeather({ id: stationID })
+  const { station, isSuccess } = useActiveWeatherStation({ id: stationID })
   watch(isSuccess, () => {
     if (isSuccess.value && station.value) setActiveStation(station.value)
   })

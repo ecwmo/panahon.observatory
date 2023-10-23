@@ -73,7 +73,7 @@
 
   const obsStr = useStore($activeStationObsStr)
 
-  const { station, isSuccess } = useCurrentWeather({ id: stationId, pt: stationPt })
+  const { station, isSuccess } = useActiveWeatherStation({ id: stationId, pt: stationPt })
   watch(isSuccess, () => {
     if (station.value) setActiveStation(station.value)
   })
