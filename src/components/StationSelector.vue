@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Listbox v-model="selectedStation" by="id" @update:model-value="handleChange">
+    <Listbox :model-value="modelValue" @update:model-value="handleChange" by="id">
       <div class="relative">
         <ListboxButton
           class="relative w-full cursor-default rounded-md bg-white py-1 pl-2 pr-6 text-xs sm:text-sm text-left shadow-md ring-gray-700 ring-1"
@@ -19,9 +19,9 @@
             class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
             <ListboxOption
-              v-for="(stn, id) in stations"
-              :key="id"
+              v-for="stn in stations"
               v-slot="{ active, selected }"
+              :key="stn.id"
               :value="stn"
               as="template"
             >
@@ -48,15 +48,15 @@
   import type { StationObs } from '@/types/station'
 
   defineProps<{
-    modelValue?: StationObs
+    modelValue: StationObs
     stations?: StationObs[]
   }>()
 
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits<{
+    'update:modelValue': [stn: StationObs]
+  }>()
 
-  const selectedStation = ref()
-
-  const handleChange = (newStation: StationObs) => {
-    emit('update:modelValue', newStation)
+  const handleChange = (stn: StationObs) => {
+    emit('update:modelValue', stn)
   }
 </script>
