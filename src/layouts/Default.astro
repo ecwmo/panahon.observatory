@@ -8,7 +8,7 @@ import { activePage, route, setActivePage } from '@/stores/routes'
 
 setActivePage(Astro.url.href)
 
-const pageDesc = activePage.get().description
+const { description: pageDesc, label: pageLabel } = activePage.get()
 ---
 
 <!doctype html>
@@ -27,18 +27,18 @@ const pageDesc = activePage.get().description
     <link rel="mask-icon" href={route('resources/static/img/logo/safari-pinned-tab.svg')} color="#5bbad5" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
-    <title>Panahon - Manila Observatory</title>
+    <title>Panahon - {pageLabel} - Manila Observatory</title>
     <meta name="description" content={pageDesc} />
     <script
       type="text/partytown"
       src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_MEASUREMENT_ID}`}></script>
     <script type="text/partytown">
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-      gtag('config', import.meta.env.GA_MEASUREMENT_ID)
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
+    gtag('config', import.meta.env.GA_MEASUREMENT_ID)
     </script>
     <script src="/src/pwa.ts"></script>
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
