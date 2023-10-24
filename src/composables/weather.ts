@@ -21,7 +21,7 @@ export const useWeather = () => {
     const selectedValidationDateStr = format(valDate.value, 'yyyyMMdd') ?? ''
     const url =
       viewType.value === 'validation'
-        ? `${_apiRoute()}/stations/validation/${selectedValidationDateStr}`
+        ? `${_apiRoute()}/validation/stations?dt=${selectedValidationDateStr}`
         : `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
     const schema = viewType.value === 'validation' ? stationValidation : stationObsLatest
@@ -52,7 +52,7 @@ export const useWeather = () => {
   }
 
   const q = useQuery({
-    queryKey: ['stations', viewType, valDate],
+    queryKey: viewType.value !== 'validation' ? ['stations', valDate] : ['validation', 'stations', valDate],
     queryFn: fetchStations,
     enabled: gradientFnsReady,
     refetchInterval: 10 * 60 * 1000,

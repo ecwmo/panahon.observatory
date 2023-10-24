@@ -50,6 +50,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useActiveValidationStation: typeof import('./composables/activeValidationStation')['useActiveValidationStation']
   const useActiveWeatherStation: typeof import('./composables/activeWeatherStation')['useActiveWeatherStation']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -123,6 +124,7 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useActiveValidationStation: UnwrapRef<typeof import('./composables/activeValidationStation')['useActiveValidationStation']>
     readonly useActiveWeatherStation: UnwrapRef<typeof import('./composables/activeWeatherStation')['useActiveWeatherStation']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -190,6 +192,7 @@ declare module '@vue/runtime-core' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useActiveValidationStation: UnwrapRef<typeof import('./composables/activeValidationStation')['useActiveValidationStation']>
     readonly useActiveWeatherStation: UnwrapRef<typeof import('./composables/activeWeatherStation')['useActiveWeatherStation']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>

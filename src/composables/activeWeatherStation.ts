@@ -1,11 +1,8 @@
-import { useStore } from '@nanostores/vue'
 import type { MaybeRef } from 'vue'
 
 import { heatIndex } from '@/lib/weather'
 import { stationObsLatest } from '@/schemas/station'
 import { apiRoute } from '@/stores/routes'
-
-import { $viewType } from '@/stores/station'
 
 type StationInfo = {
   id?: MaybeRef<number | string>
@@ -13,8 +10,6 @@ type StationInfo = {
 }
 export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
   const { coords } = useGeolocation()
-
-  const viewType = useStore($viewType)
 
   const stnLocStr = computed(() => {
     const { latitude: lat, longitude: lon } = coords.value
@@ -40,10 +35,9 @@ export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
   }
 
   const { isSuccess, data: station } = useQuery({
-    queryKey: ['station', stnID, 'latest'],
+    queryKey: ['stations', stnID, 'latest'],
     queryFn: getStationObs,
     refetchInterval: 10 * 60 * 1000,
-    enabled: viewType.value !== 'validation',
   })
 
   return { station, isSuccess }

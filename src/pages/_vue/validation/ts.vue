@@ -15,7 +15,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
 
-  import { $activeStation, setViewType } from '@/stores/station'
+  import { $activeStation, setActiveStation, setViewType } from '@/stores/station'
 
   defineProps<{
     mapboxToken: string
@@ -25,7 +25,12 @@
 
   const activeStation = useStore($activeStation)
 
-  const activeStnImg = computed(() => {
-    return activeStation.value && 'tsImg' in activeStation.value ? activeStation.value?.tsImg : ''
+  const { data: station, isSuccess } = useActiveValidationStation()
+  watch(isSuccess, () => {
+    if (isSuccess.value && station.value) setActiveStation(station.value)
   })
+
+  const activeStnImg = computed(() =>
+    activeStation.value && 'tsImg' in activeStation.value ? activeStation.value?.tsImg : ''
+  )
 </script>
