@@ -1,6 +1,8 @@
 ---
 import { pwaInfo } from 'virtual:pwa-info'
 
+import ReloadPrompt from '../components/ReloadPrompt.astro'
+
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
 
@@ -52,6 +54,7 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
           <slot />
         </div>
         <Footer class="z-10" />
+        <ReloadPrompt />
       </div>
     </div>
   </body>
