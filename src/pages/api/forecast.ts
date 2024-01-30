@@ -1,10 +1,9 @@
 import type { APIRoute } from 'astro'
+import { addHours, format } from 'date-fns'
 
 import { resourceDir, resourcePath } from '@/pages/_common'
 import { getLatestDate } from '@/pages/api/_common'
 import { readFile, readdir } from 'fs/promises'
-
-import { formatInTimeZone } from 'date-fns-tz'
 
 export const GET: APIRoute = async ({ request }) => {
   try {
@@ -12,7 +11,8 @@ export const GET: APIRoute = async ({ request }) => {
 
     const dt = await getLatestDate()
 
-    const fileTimestamp = formatInTimeZone(dt, 'Asia/Manila', 'yyyy-MM-dd_HH')
+    const dtStr1 = format(dt, 'yyyy-MM-dd_HH')
+    const dtStr2 = format(addHours(dt, dt.getTimezoneOffset() / 60), 'yyyyMMdd/HH')
 
     let res: string[] | Record<string, string[]> = []
     if (searchParams.has('img')) {
@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ request }) => {
         res = await readdir(`${resourceDir}/${imgDir}`)
           .then((imgs) =>
             imgs
-              .filter((f) => f.includes(fileTimestamp) && f.endsWith('.png'))
+              .filter((f) => f.includes(dtStr1) && f.endsWith('.png'))
               .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
               .map((f) => `${resourcePath}/${imgDir}/${f}`)
           )
@@ -42,7 +42,7 @@ export const GET: APIRoute = async ({ request }) => {
       } else {
         const imgFreq = imgType ?? '24hrly'
         const imgDir = 'model/img'
-        const imgDir2 = `${imgDir}/${imgFreq}/${formatInTimeZone(dt, 'UTC', 'yyyyMMdd/HH')}`
+        const imgDir2 = `${imgDir}/${imgFreq}/${dtStr2}`
 
         res = await readdir(`${resourceDir}/${imgDir2}`)
           .then((imgs) =>
@@ -55,7 +55,7 @@ export const GET: APIRoute = async ({ request }) => {
 
         const res2 = await readdir(`${resourceDir}/${imgDir}`)
           .then((imgs) => {
-            const img = imgs.find((f) => f === `wrf-ts_${formatInTimeZone(dt, 'Asia/Manila', 'yyyy-MM-dd_HH')}PHT.png`)
+            const img = imgs.find((f) => f === `wrf-ts_${dtStr1}PHT.png`)
             if (img) {
               return `${resourcePath}/${imgDir}/${img}`
             }
@@ -66,7 +66,7 @@ export const GET: APIRoute = async ({ request }) => {
         res = [...res, res2]
       }
     } else {
-      res = await readFile(`${resourceDir}/model/forecast_${fileTimestamp}PHT.json`, 'utf8')
+      res = await readFile(`${resourceDir}/model/forecast_${dtStr1}PHT.json`, 'utf8')
         .then((d) => JSON.parse(d))
         .catch(() => ({}))
     }

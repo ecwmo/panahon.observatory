@@ -10,7 +10,9 @@ export const getLatestDate = async (imgType = 'forecast') => {
   }
 
   const dt = JSON.parse(await readFile(jsonFile, 'utf8'))
+
+  // indicate PHT
   const dtStr = `${dt['year']}-${dt['month']}-${dt['day']}_${dt['hour']} +08`
 
-  return parse(dtStr, 'yyyy-MM-dd_HH x', new Date())
+  return parse(dtStr, 'yyyy-MM-dd_HH X', new Date())
 }
