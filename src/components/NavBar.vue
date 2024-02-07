@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+  import { ref } from 'vue'
 
   import { $user, logout } from '@/stores/auth'
   import { activePage, pages, route } from '@/stores/routes'

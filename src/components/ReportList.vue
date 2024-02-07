@@ -36,8 +36,14 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+  import { useInfiniteQuery } from '@tanstack/vue-query'
+  import { useScroll } from '@vueuse/core'
+  import axios from 'axios'
+  import { computed, ref, watch } from 'vue'
 
   import { Report } from '@/schemas/report'
+
+  import ReportCard from '@/components/ReportCard.vue'
 
   import { $user } from '@/stores/auth'
   import { _apiRoute, route } from '@/stores/routes'

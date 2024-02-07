@@ -46,6 +46,10 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, onMounted, ref } from 'vue'
+
+  import Popup from './Popup.vue'
+
   const props = withDefaults(
     defineProps<{
       modelValue: number

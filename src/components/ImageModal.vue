@@ -47,6 +47,10 @@
 </template>
 
 <script setup lang="ts">
+  import { Dialog, DialogPanel } from '@headlessui/vue'
+  import { useSwipe } from '@vueuse/core'
+  import { ref } from 'vue'
+
   withDefaults(
     defineProps<{
       open?: boolean

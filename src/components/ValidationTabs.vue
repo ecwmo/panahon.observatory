@@ -18,6 +18,9 @@
 
 <script setup lang="ts">
   import { route } from '@/stores/routes'
+  import { Tab, TabGroup, TabList } from '@headlessui/vue'
+  import { onMounted, ref } from 'vue'
+
   const tabs = ['Maps', 'Timeseries']
 
   const props = withDefaults(

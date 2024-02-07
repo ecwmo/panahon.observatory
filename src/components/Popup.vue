@@ -14,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, toRefs } from 'vue'
+
   const props = withDefaults(
     defineProps<{
       theme?: string

@@ -23,8 +23,7 @@
     data: Report
   }>()
 
-  interface Emits {
+  const emit = defineEmits<{
     (e: 'load', ev: Event): void
-  }
-  const emit = defineEmits<Emits>()
+  }>()
 </script>

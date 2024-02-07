@@ -35,12 +35,18 @@
 </template>
 
 <script setup lang="ts">
+  import { useQuery } from '@tanstack/vue-query'
+  import axios from 'axios'
+  import { computed, onMounted, ref } from 'vue'
+
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
 
   import { Images as ImagesSchema } from '@/schemas/validation'
 
+  import ImageModal from '@/components/ImageModal.vue'
   import Lazy from '@/components/Lazy.vue'
+  import ValidationDateSelector from '@/components/ValidationDateSelector.vue'
 
   import { _apiRoute } from '@/stores/routes'
 

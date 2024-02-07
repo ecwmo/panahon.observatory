@@ -10,10 +10,6 @@ import partytown from '@astrojs/partytown'
 import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
-import AutoImport from 'unplugin-auto-import/astro'
-import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
-import Components from 'unplugin-vue-components/vite'
-
 const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '')
 
 const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/`
@@ -67,32 +63,12 @@ export default defineConfig({
         forward: ['dataLayer.push'],
       },
     }),
-    AutoImport({
-      imports: [
-        'vue',
-        {
-          axios: [['default', 'axios']],
-          '@vueuse/core': ['useSwipe', 'useScroll', 'useIntersectionObserver', 'useGeolocation', 'useWindowSize'],
-          '@tanstack/vue-query': ['useQuery', 'useInfiniteQuery'],
-        },
-      ],
-      dts: 'src/auto-imports.d.ts',
-      dirs: ['src/composables'],
-      vueTemplate: true,
-    }),
   ],
   vite: {
     build: {
       copyPublicDir: false,
     },
-    plugins: [
-      Components({
-        resolvers: [HeadlessUiResolver()],
-        dts: 'src/components.d.ts',
-        directoryAsNamespace: true,
-      }),
-      basicSsl(),
-    ],
+    plugins: [basicSsl()],
     server: {
       https: true,
     },

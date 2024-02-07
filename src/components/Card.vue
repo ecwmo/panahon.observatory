@@ -50,6 +50,10 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+
+  import Popup from '@/components/Popup.vue'
+
   withDefaults(
     defineProps<{
       data: CardProps

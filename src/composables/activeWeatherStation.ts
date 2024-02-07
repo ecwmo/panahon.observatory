@@ -1,4 +1,8 @@
+import { useQuery } from '@tanstack/vue-query'
+import { useGeolocation } from '@vueuse/core'
+import axios from 'axios'
 import type { MaybeRef } from 'vue'
+import { computed, unref } from 'vue'
 
 import { heatIndex } from '@/lib/weather'
 import { stationObsLatest } from '@/schemas/station'

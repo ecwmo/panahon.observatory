@@ -17,10 +17,13 @@
 </template>
 
 <script setup lang="ts">
-  import { $activeVariable } from '@/stores/station'
   import { useStore } from '@nanostores/vue'
+  import { useQuery } from '@tanstack/vue-query'
+  import axios from 'axios'
+  import { computed } from 'vue'
 
   import { _apiRoute } from '@/stores/routes'
+  import { $activeVariable } from '@/stores/station'
 
   import { stationConfigurations } from '@/schemas/station'
 

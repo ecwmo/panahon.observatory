@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+  import { ref } from 'vue'
 
   import { $activeVariable, setActiveVariable } from '@/stores/station'
 

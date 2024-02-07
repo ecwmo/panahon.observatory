@@ -58,6 +58,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { format, parseISO } from 'date-fns'
+  import { computed, toRefs } from 'vue'
 
   const props = withDefaults(
     defineProps<{

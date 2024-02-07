@@ -45,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+  import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+
   import type { StationObs } from '@/types/station'
 
   defineProps<{

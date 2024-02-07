@@ -44,8 +44,14 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
+  import { computed, watch } from 'vue'
 
+  import { useActiveWeatherStation } from '@/composables/activeWeatherStation'
   import { windDirDeg } from '@/lib/weather'
+
+  import Card from '@/components/Card.vue'
+  import FakeCard from '@/components/FakeCard.vue'
+  import WeatherDescription from '@/components/WeatherDescription.vue'
 
   import {
     $activeStation,

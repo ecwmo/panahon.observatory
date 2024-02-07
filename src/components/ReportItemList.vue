@@ -34,6 +34,10 @@
 </template>
 
 <script setup lang="ts">
+  import { useQuery } from '@tanstack/vue-query'
+  import axios from 'axios'
+  import { computed, ref } from 'vue'
+
   import { ReportImages } from '@/schemas/report'
   import { _apiRoute } from '@/stores/routes'
 

@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, toRefs } from 'vue'
+
   const props = defineProps<{
     id: string
     data: Record<string, string>

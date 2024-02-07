@@ -68,7 +68,12 @@
 </template>
 
 <script setup lang="ts">
+  import { Tab, TabGroup, TabList } from '@headlessui/vue'
   import { useStore } from '@nanostores/vue'
+  import { useQuery } from '@tanstack/vue-query'
+  import { useIntersectionObserver, useScroll } from '@vueuse/core'
+  import axios from 'axios'
+  import { computed, onMounted, ref, watchEffect } from 'vue'
 
   import { _apiRoute } from '@/stores/routes'
 
@@ -76,6 +81,9 @@
 
   import { EWBImages } from '@/schemas/ewb'
   import type { EWBIntImages } from '@/types/ewb'
+
+  import ImageModal from '@/components/ImageModal.vue'
+  import Lazy from '@/components/Lazy.vue'
 
   const activeImage = useStore($activeImage)
 

@@ -60,12 +60,13 @@
 </template>
 
 <script setup lang="ts">
-  import mapboxgl from 'mapbox-gl'
-
   import { useStore } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
+  import mapboxgl from 'mapbox-gl'
+  import { computed, onMounted, ref, watch } from 'vue'
 
+  import { useWeather } from '@/composables/weather'
   import {
     $activeStation,
     $activeStationObsStr,
@@ -75,6 +76,16 @@
     defaultStation,
     setActiveStation,
   } from '@/stores/station'
+
+  import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+
+  import Colorbar from '@/components/Colorbar.vue'
+  import LoadingIcon from '@/components/LoadingIcon.vue'
+  import Popup from '@/components/Popup.vue'
+  import PulsatingDot from '@/components/PulsatingDot.vue'
+  import StationSelector from '@/components/StationSelector.vue'
+  import WeatherButtons from '@/components/WeatherButtons.vue'
+  import WeatherPopupInfo from '@/components/WeatherPopupInfo.vue'
 
   import type { StationObs } from '@/types/station'
 

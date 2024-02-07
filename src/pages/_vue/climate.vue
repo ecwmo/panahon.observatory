@@ -47,6 +47,9 @@
 <script setup lang="ts">
   import { useStore, useVModel } from '@nanostores/vue'
 
+  import Range from '@/components/Range.vue'
+  import RowGroupBtns from '@/components/RowGroupBtns.vue'
+
   import {
     $activeDecade,
     $activeImage,

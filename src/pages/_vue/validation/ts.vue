@@ -14,8 +14,13 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
+  import { computed, watch } from 'vue'
 
+  import { useActiveValidationStation } from '@/composables/activeValidationStation'
   import { $activeStation, setActiveStation, setViewType } from '@/stores/station'
+
+  import MapBox from '@/components/MapBox.vue'
+  import ValidationDateSelector from '@/components/ValidationDateSelector.vue'
 
   defineProps<{
     mapboxToken: string

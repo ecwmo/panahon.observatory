@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, toRefs } from 'vue'
+
   import type { ObservationKeys } from '@/types/station'
   type ObservationStr = {
     [K in ObservationKeys | 'wdirStr']: string
