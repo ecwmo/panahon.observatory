@@ -1,11 +1,6 @@
 export {}
 
 declare global {
-  interface ButtonProps {
-    val: number | string
-    text: string
-  }
-
   interface CardProps {
     title: string
     label1?: string

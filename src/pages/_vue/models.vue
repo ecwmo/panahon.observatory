@@ -4,7 +4,7 @@
       <!-- Forecast Interval -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
-        <RowGroupBtns v-model:activeItem="activeImageFrequency" :items="imageFrequencies" class="text-xs" />
+        <RowGroupBtns v-model="timestep" :items="imageTimesteps" class="text-xs" />
       </div>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -30,17 +30,17 @@
       <Transition name="fade" mode="out-in">
         <Range
           v-if="showFcstTime"
-          :key="activeImageFrequency.val"
-          v-model.number="activeFcstTime"
+          v-model.number="activeTSIdx"
           :ticks="ticks"
-          :step="step"
+          :min-val="0"
+          :max-val="120 / timestep - 1"
+          :step="1"
           :can-play="true"
           class="max-w-lg w-full md:w-9/12 scale-[.8]"
-          @next="handleNext"
         />
       </Transition>
       <Transition name="fade">
-        <SwitchGroup v-show="hasExtreme" class="scale-75 md:scale-100">
+        <SwitchGroup v-show="activeExtremeVariable" class="scale-75 md:scale-100">
           <div class="flex items-center gap-1.5">
             <Switch
               v-model="isExtreme"
@@ -56,16 +56,17 @@
           </div>
         </SwitchGroup>
       </Transition>
-      <div :class="[activeVariable.val === 'wrf-ts' ? 'max-w-2xl' : 'max-w-lg']">
-        <Transition name="fade" mode="out-in">
-          <img
-            :key="`${activeImageFrequency.val}.${activeVariable.val}.${isExtreme}`"
-            class="shadow-md rounded-2xl"
-            :src="activeImage"
-            @load="handleImageLoad"
-          />
-        </Transition>
-      </div>
+      <Transition name="fade" mode="out-in">
+        <img
+          :key="`${timestep}.${activeVariable.val}.${isExtreme ? 'x' : ''}`"
+          class="shadow-md rounded-2xl"
+          :src="imageQueries[0].data?.src"
+          :alt="imageQueries[0].data?.alt"
+          height="650"
+          :width="activeVariable.val === 'wrf-ts' ? 800 : 500"
+          @load="handleImageLoad"
+        />
+      </Transition>
       <div v-show="showCaption">
         <ModelCaption
           :id="isExtreme ? `${activeVariable.val}x` : activeVariable.val"
@@ -77,45 +78,25 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore, useVModel } from '@nanostores/vue'
-  import { useQuery } from '@tanstack/vue-query'
+  import { useQueries } from '@tanstack/vue-query'
   import axios from 'axios'
-  import { addDays, addHours, format, getHours, parse } from 'date-fns'
-  import { computed, ref, watch } from 'vue'
+  import { addHours, format, formatRelative, parse } from 'date-fns'
+  import { computed, ref } from 'vue'
+  import { z } from 'zod'
 
   import ModelCaption from '@/components/ModelCaption.vue'
   import Range from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
   import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
+  import type { MetField } from '@/stores/model'
+  import { imageTimesteps, metFields } from '@/stores/model'
   import { _apiRoute } from '@/stores/routes'
 
-  import { imgSrcArr } from '@/schemas/forecast'
-
-  import {
-    $activeFcstTime,
-    $activeImage,
-    $activeImageFrequency,
-    $activeVariable,
-    $fcstTimes,
-    $hasExtreme,
-    $initTime,
-    $isExtreme,
-    imageFrequencies,
-    metFields,
-    setActiveFcstTime,
-    setActiveVariable,
-    setModelImgs,
-  } from '@/stores/forecast'
-
-  const initTime = useStore($initTime)
-  const fcstTimes = useStore($fcstTimes)
-  const activeVariable = useStore($activeVariable)
-  const activeFcstTime = useVModel($activeFcstTime)
-  const activeImageFrequency = useVModel($activeImageFrequency)
-  const isExtreme = useVModel($isExtreme)
-  const hasExtreme = useStore($hasExtreme)
-  const activeImage = useStore($activeImage)
+  const activeVariable = ref(metFields[0])
+  const activeTSIdx = ref(0)
+  const timestep = ref(imageTimesteps[1].val)
+  const isExtreme = ref(false)
 
   const defaultHeaderName = 'Model Forecast Maps'
   const showCaption = ref(false)
@@ -124,49 +105,81 @@
 
   const showFcstTime = computed(() => activeVariable.value.mult !== false)
 
-  const step = computed(() => +activeImageFrequency.value.val.slice(0, -4))
+  const activeExtremeVariable = computed(() =>
+    typeof activeVariable.value.extVal === 'object'
+      ? activeVariable.value.extVal?.[timestep.value]
+      : activeVariable.value.extVal
+  )
 
-  const ticks = computed(() => {
-    const startTime =
-      getHours(initTime.value) !== 0
-        ? addDays(parse(format(initTime.value, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()), 1)
-        : initTime.value
-    const dates = fcstTimes.value.map((f, i) => addHours(initTime.value, i * step.value))
-    const idx = dates.findIndex((d) => d >= startTime)
-    const nts = 24 / step.value
-    return fcstTimes.value.map((f, i) => ({
-      val: f,
-      text: !((i - idx) % nts) ? format(dates[i], 'MMM dd') : undefined,
-      popup: format(dates[i], 'MMM dd h aaa'),
-    }))
-  })
-
-  const fetchModelImages = async () => {
-    const url = `${_apiRoute('forecast')}?img=${activeImageFrequency.value.val}`
-    const { data } = await axios.get(url)
-    return imgSrcArr.parse(data).filter((f) => f.includes('wrf-'))
+  const parseDateFromImageFile = (s?: string) => {
+    const dtStr = `${s?.match(/_([\d_-]+)/)?.[1]} +08`
+    return parse(dtStr, 'yyyy-MM-dd_H X', new Date())
   }
 
-  const { data: modelImgs, isSuccess } = useQuery({
-    queryKey: ['models', 'images', activeImageFrequency],
-    queryFn: fetchModelImages,
+  const fetchModelImage = async (varName: string, timestep?: number, index?: number) => {
+    const path = timestep !== undefined ? `${timestep}/${varName}/${index}` : varName
+    const { data } = await axios.get(`${_apiRoute('models')}/img/${path}`)
+    const imgSrc = z.string().parse(data)
+    const initTimestamp = parseDateFromImageFile(imgSrc)
+    const imgTimestamp =
+      index !== undefined && timestep !== undefined ? addHours(initTimestamp, index * timestep) : initTimestamp
+    const relTimestamp = formatRelative(imgTimestamp, new Date())
+    return {
+      src: imgSrc,
+      alt: `Model ${varName} for ${relTimestamp}`,
+    }
+  }
+
+  const queries = computed(() => {
+    const n = 120 / timestep.value
+    const varName = !isExtreme.value
+      ? activeVariable.value.val
+      : activeExtremeVariable.value ?? activeVariable.value.val
+    if (activeVariable.value.mult !== false) {
+      return Array.from({ length: 3 }, (_, i) => {
+        const index = (i + activeTSIdx.value) % n
+        return {
+          queryKey: ['models', 'images', { varName, timestep, index }],
+          queryFn: () => fetchModelImage(varName, timestep.value, index),
+        }
+      })
+    } else {
+      return [
+        {
+          queryKey: ['models', 'images', { varName }],
+          queryFn: () => fetchModelImage(varName),
+        },
+      ]
+    }
   })
 
-  watch([isSuccess, modelImgs], ([isSuccess, imgs]) => {
-    if (isSuccess) setModelImgs(imgs)
+  const imageQueries = useQueries({ queries })
+
+  const ticks = computed(() => {
+    const n = 120 / timestep.value
+    const skip = 24 / timestep.value
+    let items = {}
+    if (!imageQueries.value[0].isSuccess) {
+      return items
+    }
+    const initDate = parseDateFromImageFile(imageQueries.value[0].data?.src)
+    for (let t = 0; t < n; t++) {
+      const dt = addHours(initDate, t * timestep.value)
+      items = {
+        ...items,
+        [t]: { label: !(t % skip) ? format(dt, 'MMM dd') : undefined, popup: format(dt, 'MMM dd h aaa') },
+      }
+    }
+    return items
   })
 
   const handleImageLoad = () => {
     showCaption.value = true
   }
 
-  const handleVariableChange = (mf: typeof activeVariable.value) => {
+  const handleVariableChange = (mf: MetField) => {
     showCaption.value = false
-    setActiveVariable(mf)
-  }
-
-  const handleNext = (nextIdx: number) => {
-    setActiveFcstTime(fcstTimes.value[nextIdx])
+    activeVariable.value = mf
   }
 </script>
 

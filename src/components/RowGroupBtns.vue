@@ -1,20 +1,15 @@
 <template>
   <div class="inline-flex" role="group">
     <button
-      v-for="(d, i) in items"
+      v-for="d in items"
       :key="d.val"
       :class="[
-        d.val === activeItem?.val
+        d.val === modelValue
           ? 'bg-gray-200 text-gray-900'
           : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500',
-        {
-          'rounded-l-lg pl-3 border-r border-gray-200': i === 0,
-          'rounded-r-lg pr-3': i === nbuttons - 1,
-          'border-r border-gray-200': i > 0 && i < nbuttons - 1,
-        },
       ]"
-      @click.prevent="$emit('update:activeItem', d)"
-      class="flex justify-center p-1"
+      @click.prevent="modelValue = d.val"
+      class="flex justify-center p-1 border-r border-gray-200 first:rounded-l-lg first:pl-3 first:border-r first:border-gray-200 last:rounded-r-lg last:pr-3"
       type="button"
     >
       {{ d.text }}
@@ -22,17 +17,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
-  import { computed } from 'vue'
+<script setup lang="ts" generic="T extends string | number, U extends ButtonProps<T>">
+  export type ButtonProps<T> = {
+    val: T
+    text: string
+  }
 
-  const props = defineProps<{
-    items: ButtonProps[]
-    activeItem: ButtonProps
+  defineProps<{
+    items: U[]
   }>()
 
-  defineEmits<{
-    'update:activeItem': [item: ButtonProps]
-  }>()
-
-  const nbuttons = computed(() => props.items.length)
+  const modelValue = defineModel<T>({ required: true })
 </script>

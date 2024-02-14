@@ -4,7 +4,12 @@
       <!-- Scenario -->
       <div class="flex flex-col items-center space-y-2 px-6">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Scenario</h3>
-        <RowGroupBtns v-model:activeItem="activeScenario" :items="scenarios" class="text-xs" />
+        <RowGroupBtns
+          v-model="activeScenarioName"
+          :items="scenarios"
+          class="text-xs"
+          @update:model-value="setActiveScenario"
+        />
       </div>
       <!-- Variables -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
@@ -28,12 +33,12 @@
     <div class="flex flex-col items-center gap-2 w-full">
       <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
       <Range
-        v-model.number="activeDecade"
-        :ticks="decades.map((d) => ({ val: d[0], text: `${d[0]}` }))"
+        :model-value="activeDecade"
+        @update:model-value="setActiveDecade($event)"
+        :ticks="ticks"
         :step="10"
         :can-play="true"
         class="max-w-lg w-full md:w-9/12 scale-[.8]"
-        @next="handleNext"
       />
       <div class="max-w-lg">
         <Transition name="fade" mode="out-in">
@@ -45,9 +50,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore, useVModel } from '@nanostores/vue'
+  import { useStore } from '@nanostores/vue'
+  import { computed, ref } from 'vue'
 
-  import Range from '@/components/Range.vue'
+  import Range, { type RangeTicks } from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
 
   import {
@@ -58,18 +64,18 @@
     decades,
     scenarios,
     setActiveDecade,
+    setActiveScenario,
     setActiveVariable,
     variables,
   } from '@/stores/climate'
 
-  const activeScenario = useVModel($activeScenario)
-  const activeDecade = useVModel($activeDecade)
+  const activeScenario = useStore($activeScenario)
+  const activeDecade = useStore($activeDecade)
   const activeVariable = useStore($activeVariable)
   const activeImage = useStore($activeImage)
+  const activeScenarioName = ref(scenarios[0].val)
 
-  const handleNext = (nextIdx: number) => {
-    setActiveDecade(decades[nextIdx][0])
-  }
+  const ticks = computed(() => decades.reduce((o, d) => ({ ...o, [d[0]]: { label: `${d[0]}` } }), {} as RangeTicks))
 </script>
 
 <style scoped>

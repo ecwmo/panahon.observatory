@@ -28,6 +28,10 @@ export const decades = [
 ]
 
 export const $activeScenario = atom(scenarios[0])
+export const setActiveScenario = action($activeScenario, 'setActiveScenario', (s, newName: string) => {
+  const newScenario = scenarios.find((s) => s.val === newName)
+  if (newScenario) s.set(newScenario)
+})
 
 export const $activeVariable = atom(variables[0])
 export const setActiveVariable = action($activeVariable, 'setActiveVariable', (v, newVal) => v.set(newVal))
