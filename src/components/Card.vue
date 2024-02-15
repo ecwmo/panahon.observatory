@@ -14,23 +14,25 @@
         <slot name="icon1"></slot>
       </div>
       <div class="flex flex-col" data-test="card-info">
-        <div v-if="data?.title" class="text-base md:text-lg" data-test="card-info-title">{{ data?.title }}</div>
-        <div v-if="data?.value1" class="flex justify-evenly items-end" data-test="card-info-detail1">
-          <div v-if="data?.label1" class="text-base md:text-lg font-light" data-test="card-info-label1">
-            {{ data?.label1 }}
+        <div v-if="data.title" class="text-base md:text-lg" data-test="card-info-title">{{ data.title }}</div>
+        <div v-if="data.value1" class="flex justify-evenly items-end" data-test="card-info-detail1">
+          <div v-if="data.label1" class="text-base md:text-lg font-light" data-test="card-info-label1">
+            {{ data.label1 }}
           </div>
-          <div class="text-2xl md:text-4xl font-bold" data-test="card-info-value1">{{ data?.value1 }}</div>
+          <div class="text-2xl md:text-4xl font-bold" data-test="card-info-value1">{{ data.value1 }}</div>
         </div>
         <div
-          v-if="data?.value2"
+          v-if="data.value2"
           class="flex justify-center items-center space-x-1 md:space-x-1.5"
           data-test="card-info-detail2"
         >
-          <div v-if="data?.label2" class="text-sm font-light -ml-6" data-test="card-info-label2">
-            {{ data?.label2 }}
+          <div v-if="data.label2" class="text-sm font-light -ml-6" data-test="card-info-label2">
+            {{ data.label2 }}
           </div>
-          <slot name="icon2"></slot>
-          <div class="text-xl md:text-2xl font-bold" data-test="card-info-value2">{{ data?.value2 }}</div>
+          <div data-test="card-icon2">
+            <slot name="icon2"></slot>
+          </div>
+          <div class="text-xl md:text-2xl font-bold" data-test="card-info-value2">{{ data.value2 }}</div>
         </div>
       </div>
     </div>
@@ -49,14 +51,22 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends CardProps">
   import { ref } from 'vue'
 
   import Popup from '@/components/Popup.vue'
 
+  export type CardProps = {
+    title: string
+    label1?: string
+    value1: string
+    label2?: string
+    value2?: string
+  }
+
   withDefaults(
     defineProps<{
-      data: CardProps
+      data: T
       isActive?: boolean
     }>(),
     {
