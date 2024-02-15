@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config'
 import { loadEnv } from 'vite'
 
-import basicSsl from '@vitejs/plugin-basic-ssl'
+import mkcert from 'vite-plugin-mkcert'
 
 import UnoCSS from 'unocss/astro'
 
@@ -68,10 +68,7 @@ export default defineConfig({
     build: {
       copyPublicDir: false,
     },
-    plugins: [basicSsl()],
-    server: {
-      https: true,
-    },
+    plugins: [mkcert()],
   },
   adapter: node({
     mode: 'standalone',
