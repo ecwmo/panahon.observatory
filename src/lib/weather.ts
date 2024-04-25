@@ -37,11 +37,13 @@ export const windDirDeg: Record<string, number> = {
   NNW: 157.5,
 }
 
-export const heatIndex = (temp: number, rh: number) => {
-  const tf = Math.floor((temp * 9.0) / 5.0 + 32.0 + 0.5)
+export const heatIndex = (t: number, rh: number) => {
+  // source: https://github.com/mcci-catena/heat-index/blob/master/heat-index.js
+  const tf = (t * 9.0) / 5.0 + 32.0
+  const tfRounded = Math.floor(tf + 0.5)
 
   // return null outside the specified range of input parameters
-  if (tf < 76 || tf > 126) return null
+  if (tfRounded < 76 || tfRounded > 126) return null
   if (rh < 0 || rh > 100) return null
 
   // according to the NWS, we try this first, and use it if we can
@@ -50,8 +52,8 @@ export const heatIndex = (temp: number, rh: number) => {
   // The NWS says we use tHeatEasy if (tHeatHeasy + t)/2 < 80.0
   // This is the same computation:
   if (hiEasyF + tf < 160.0) {
-    const hiEasyC = (hiEasyF - 32.0) * (5.0 / 9.0)
-    return Math.round(hiEasyC * 10) / 10
+    const hiEasy = ((hiEasyF - 32.0) * 5.0) / 9.0
+    return Math.round(hiEasy * 10) / 10
   }
 
   // need to use the hard form, and possibly adjust.
@@ -83,7 +85,7 @@ export const heatIndex = (temp: number, rh: number) => {
   // so filter out answers that we have no way to vouch for.
   if (hiF >= 183.5) return null
   else {
-    const hiC = (hiF - 32.0) * (5.0 / 9.0)
+    const hiC = ((hiF - 32.0) * 5.0) / 9.0
     return Math.round(hiC * 10) / 10
   }
 }
