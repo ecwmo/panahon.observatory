@@ -69,7 +69,7 @@
       </Transition>
       <div v-show="showCaption">
         <ModelCaption
-          :id="isExtreme ? `${activeVariable.val}x` : activeVariable.val"
+          :id="activeVariableName"
           class="italic text-xs md:text-sm mx-2 md:mx-5 font-medium text-justify self-center break-words md:break-normal w-11/12"
         />
       </div>
@@ -108,7 +108,11 @@
   const activeExtremeVariable = computed(() =>
     typeof activeVariable.value.extVal === 'object'
       ? activeVariable.value.extVal?.[timestep.value]
-      : activeVariable.value.extVal
+      : activeVariable.value.extVal,
+  )
+
+  const activeVariableName = computed(() =>
+    !isExtreme.value ? activeVariable.value.val : activeExtremeVariable.value ?? activeVariable.value.val,
   )
 
   const parseDateFromImageFile = (s?: string) => {
@@ -132,22 +136,19 @@
 
   const queries = computed(() => {
     const n = 120 / timestep.value
-    const varName = !isExtreme.value
-      ? activeVariable.value.val
-      : activeExtremeVariable.value ?? activeVariable.value.val
     if (activeVariable.value.mult !== false) {
       return Array.from({ length: 3 }, (_, i) => {
         const index = (i + activeTSIdx.value) % n
         return {
-          queryKey: ['models', 'images', { varName, timestep, index }],
-          queryFn: () => fetchModelImage(varName, timestep.value, index),
+          queryKey: ['models', 'images', { varName: activeVariableName.value, timestep, index }],
+          queryFn: () => fetchModelImage(activeVariableName.value, timestep.value, index),
         }
       })
     } else {
       return [
         {
-          queryKey: ['models', 'images', { varName }],
-          queryFn: () => fetchModelImage(varName),
+          queryKey: ['models', 'images', { varName: activeVariableName.value }],
+          queryFn: () => fetchModelImage(activeVariableName.value),
         },
       ]
     }
