@@ -16,7 +16,7 @@
 <script lang="ts" setup>
   import type { Report } from '@/types/report'
 
-  import { resourcePath } from '@/pages/_common'
+  import { resourcePath } from '@/lib/helper/pages'
   import { route } from '@/stores/routes'
 
   defineProps<{

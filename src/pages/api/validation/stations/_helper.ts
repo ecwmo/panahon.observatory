@@ -2,7 +2,7 @@ import { format, parse } from 'date-fns'
 import { readdir } from 'fs/promises'
 import { z } from 'zod'
 
-import { resourceDir } from '@/pages/_common'
+import { resourceDir } from '@/lib/helper/pages'
 
 export const stationSchema = z.object({
   name: z.string(),

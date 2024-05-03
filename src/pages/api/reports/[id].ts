@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import { readdir, readFile } from 'node:fs/promises'
 
 import { prisma } from '@/db'
-import { resourceDir, resourcePath } from '@/pages/_common'
+import { resourceDir, resourcePath } from '@/lib/helper/pages'
 
 export const GET: APIRoute = async ({ request, params }) => {
   try {

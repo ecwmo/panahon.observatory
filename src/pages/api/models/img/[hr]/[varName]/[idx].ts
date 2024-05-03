@@ -2,15 +2,15 @@ import type { APIRoute } from 'astro'
 
 import { addHours, format, parse } from 'date-fns'
 
-import { resourcePath } from '@/pages/_common'
-import { getLatestDate } from '@/pages/api/_common'
+import { resourcePath } from '@/lib/helper/pages'
+import { getLatestDate } from '@/lib/helper/api'
 
 export const GET: APIRoute = async ({ params, request }) => {
   const { searchParams } = new URL(request.url)
   const dtStr = searchParams.has('dt')
     ? searchParams.get('dt')
-    : format(await getLatestDate(), 'yyyyMMdd X').split(' ')[0]
-  const dt = parse(`${dtStr}_08 +08`, 'yyyyMMdd_HH X', new Date())
+    : format(await getLatestDate(), 'yyyyMMddHH X').split(' ')[0]
+  const dt = parse(`${dtStr} +08`, 'yyyyMMddHH X', new Date())
   const dtStr2 = format(dt, 'yyyy-MM-dd_HH')
   const dtStr3 = format(addHours(dt, dt.getTimezoneOffset() / 60), 'yyyyMMdd/HH')
 

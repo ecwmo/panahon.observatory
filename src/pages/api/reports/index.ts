@@ -4,7 +4,7 @@ import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { convert } from 'pdf-img-convert'
 
 import { prisma } from '@/db'
-import { resourceDir } from '@/pages/_common'
+import { resourceDir } from '@/lib/helper/pages'
 
 export const GET: APIRoute = async ({ request, url }) => {
   try {

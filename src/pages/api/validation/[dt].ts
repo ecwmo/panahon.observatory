@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro'
 import { addHours, format, parse } from 'date-fns'
 import { existsSync } from 'fs'
 
-import { resourceDir, resourcePath } from '@/pages/_common'
+import { resourceDir, resourcePath } from '@/lib/helper/pages'
 
 export const GET: APIRoute = async ({ params }) => {
   try {

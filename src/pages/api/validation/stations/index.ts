@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 
 import { readFile } from 'fs/promises'
 
-import { resourceDir, resourcePath } from '@/pages/_common'
+import { resourceDir, resourcePath } from '@/lib/helper/pages'
 import { getImgFile, parseDate, stationSchema } from './_helper'
 
 export const GET: APIRoute = async ({ url: { searchParams } }) => {

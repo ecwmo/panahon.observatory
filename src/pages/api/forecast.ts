@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro'
 import { addHours, format } from 'date-fns'
 
-import { resourceDir, resourcePath } from '@/pages/_common'
-import { getLatestDate } from '@/pages/api/_common'
+import { resourceDir, resourcePath } from '@/lib/helper/pages'
+import { getLatestDate } from '@/lib/helper/api'
 import { readFile, readdir } from 'fs/promises'
 
 export const GET: APIRoute = async ({ request }) => {

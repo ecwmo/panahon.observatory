@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 
 import { readFile } from 'fs/promises'
 
-import { resourceDir } from '@/pages/_common'
+import { resourceDir } from '@/lib/helper/pages'
 
 export const GET: APIRoute = async ({ params, request }) => {
   try {

@@ -1,7 +1,7 @@
 import { format, parse } from 'date-fns'
 import { readdir } from 'fs/promises'
 
-import { resourceDir } from '@/pages/_common'
+import { resourceDir } from '@/lib/helper/pages'
 
 export const parseDate = (fileName: string) => {
   const dtStr = `${
