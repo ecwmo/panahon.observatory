@@ -41,11 +41,13 @@
   import { ReportImages } from '@/schemas/report'
   import { _apiRoute } from '@/stores/routes'
 
+  import Lazy from '@/components/Lazy.vue'
+
   const props = withDefaults(
     defineProps<{
       mode?: string
     }>(),
-    { mode: 'latest' }
+    { mode: 'latest' },
   )
 
   const { data: report } = useQuery({
