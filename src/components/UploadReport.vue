@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
   import { _apiRoute, route } from '@/stores/routes'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
 
   interface Report {
     title: string
