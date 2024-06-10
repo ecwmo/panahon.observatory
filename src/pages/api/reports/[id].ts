@@ -4,11 +4,11 @@ import { readdir, readFile } from 'node:fs/promises'
 import { prisma } from '@/db'
 import { resourceDir, resourcePath } from '@/lib/helper/pages'
 
-export const GET: APIRoute = async ({ request, params }) => {
+export const GET: APIRoute = async ({ params }) => {
   try {
     const { id } = params
     let reportId = -1
-    if (!isNaN(+id)) {
+    if (!isNaN(+!id)) {
       reportId = Number(id)
     } else if (id === 'latest') {
       const latestReport = await prisma.report.findMany({
@@ -23,8 +23,8 @@ export const GET: APIRoute = async ({ request, params }) => {
       reportId = Number(latestReport[0].id)
     }
 
-    let files = []
-    let staticFiles = []
+    let files: string[] | undefined
+    let staticFiles: string[] | undefined
 
     if (id !== 'draft') {
       const res = await prisma.report.findUnique({
@@ -37,6 +37,9 @@ export const GET: APIRoute = async ({ request, params }) => {
             select: {
               fileName: true,
             },
+            orderBy: {
+              order: 'asc',
+            },
           },
           staticFiles: {
             select: {
@@ -46,31 +49,25 @@ export const GET: APIRoute = async ({ request, params }) => {
                 },
               },
             },
-            orderBy: {
-              order: 'asc',
-            },
           },
         },
       })
 
-      files = res.files.map((f) => `${resourcePath}/reports/${f.fileName}`)
-      staticFiles = res.staticFiles.map((f) => `${resourcePath}/reports/${f.reportStaticItem.fileName}`)
+      files = res?.files?.map((f) => `${resourcePath}/reports/${f.fileName}`)
+      staticFiles = res?.staticFiles?.map((f) => `${resourcePath}/reports/${f.reportStaticItem.fileName}`)
     } else {
       const conf = await readFile(`${resourceDir}/reports/draft.json`, 'utf8').then((d) => JSON.parse(d))
       const { code, num } = conf
       const imgSrc = `reports/${code}/${num}/img`
       const sImgSrc = 'reports/img/draft'
 
-      files = await readdir(`${resourceDir}/${imgSrc}`)
-        .then((d) =>
-          d.filter((f) => f.endsWith('.jpg') || f.endsWith('.png')).map((f) => `${resourcePath}/${imgSrc}/${f}`)
-        )
-        .catch(() => [])
-      staticFiles = await readdir(`${resourceDir}/${sImgSrc}`)
-        .then((d) =>
-          d.filter((f) => f.endsWith('.jpg') || f.endsWith('.png')).map((f) => `${resourcePath}/${sImgSrc}/${f}`)
-        )
-        .catch(() => [])
+      files = await readdir(`${resourceDir}/${imgSrc}`).then((d) =>
+        d.filter((f) => f.endsWith('.jpg') || f.endsWith('.png')).map((f) => `${resourcePath}/${imgSrc}/${f}`),
+      )
+
+      staticFiles = await readdir(`${resourceDir}/${sImgSrc}`).then((d) =>
+        d.filter((f) => f.endsWith('.jpg') || f.endsWith('.png')).map((f) => `${resourcePath}/${sImgSrc}/${f}`),
+      )
     }
 
     const data = { files, staticFiles }
