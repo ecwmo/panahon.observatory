@@ -8,17 +8,17 @@ export const GET: APIRoute = async () => {
   try {
     const dt = await getLatestDate()
     const hrArr = [24, 48, 72, 96, 120]
-    const filePrfxs = ['rain', 'rainx', 'wind', 'hix']
+    const filePrfxs = ['rain', 'rainx', 'ari', 'wind', 'hix']
 
     const dtStr1 = format(dt, 'yyyy-MM-dd_HH')
     const dtStr2 = format(addHours(dt, dt.getTimezoneOffset() / 60), 'yyyyMMdd/HH')
 
     const fcst = filePrfxs.reduce((o, e) => {
-      o[e] = hrArr.map((h) => `${resourcePath}/model/img/24hrly/${dtStr2}/wrf-${h}hr_${e}_${dtStr1}PHT.png`)
+      const srcDir = e === 'ari' ? `${resourcePath}/model/img`: `${resourcePath}/model/img/24hrly/${dtStr2}`
+      const varName = e === 'rainx' ? 'rainx_clim' : e
+      o[e] = hrArr.map((h) => `${srcDir}/wrf-${h}hr_${varName}_${dtStr1}PHT.png`)
       return o
     }, {} as Record<string, string[]>)
-
-    fcst['ari'] = hrArr.map((h) => `${resourcePath}/model/img/wrf-${h}hr_ari_${dtStr1}PHT.png`)
 
     const dayArr = [1, 3, 5]
     const fileFrag = {

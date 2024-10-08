@@ -19,7 +19,7 @@ export const metFields: MetField[] = [
     val: 'rain',
     text: 'Rainfall',
     extVal: {
-      24: 'ari', // 'rainx' or 'ari'
+      24: 'rainx', // 'rainx' or 'ari'
     },
   },
   { val: 'temp', text: 'Temperature' },
