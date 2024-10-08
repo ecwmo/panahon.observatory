@@ -5,11 +5,11 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-FROM base as prod-deps
+FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 RUN pnpm dlx prisma@5.14.0 generate
 
-FROM base as build
+FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
@@ -24,6 +24,6 @@ COPY --from=build /app/dist /app
 VOLUME [ "/app/prisma" ]
 
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
 CMD ["node", "/app/server/entry.mjs"]
