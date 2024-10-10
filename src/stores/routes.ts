@@ -1,4 +1,4 @@
-import { action, atom } from 'nanostores'
+import { atom } from 'nanostores'
 
 export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -58,9 +58,9 @@ export const pages = atom<Page[]>([
 export const activePage = atom({} as Page)
 export const activePageURL = atom({} as URL)
 
-const setActivePageURL = action(activePageURL, 'setActivePageURL', (p, payload: URL) => p.set(payload))
+const setActivePageURL = (payload: URL) => activePageURL.set(payload)
 
-export const setActivePage = action(activePage, 'setActivePage', (p, payload: string) => {
+export const setActivePage = (payload: string) => {
   const nPageUrl = new URL(payload)
   const nPagePath = nPageUrl.pathname
 
@@ -75,5 +75,5 @@ export const setActivePage = action(activePage, 'setActivePage', (p, payload: st
 
   setActivePageURL(nPageUrl)
 
-  p.set(newPage)
-})
+  activePage.set(newPage)
+}

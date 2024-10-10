@@ -1,20 +1,18 @@
-import { action, atom, computed } from 'nanostores'
+import { atom, computed } from 'nanostores'
 
 import { windDirDeg2Str } from '@/lib/weather'
 
 import type { ObservationKeys, StationObs } from '@/types/station'
 
 export const $viewType = atom('default')
-export const setViewType = action($viewType, 'setViewType', (vt, newType: string) => vt.set(newType))
+export const setViewType = (newType: string) => $viewType.set(newType)
 
 export const $activeVariable = atom('temp')
-export const setActiveVariable = action($activeVariable, 'setActiveVariable', (v, newVar: string) => v.set(newVar))
+export const setActiveVariable = (newVar: string) => $activeVariable.set(newVar)
 
 export const defaultStation: StationObs = { id: -1, name: '', lat: 0, lon: 0, obs: {} }
 export const $activeStation = atom<StationObs>(defaultStation)
-export const setActiveStation = action($activeStation, 'setActiveStation', (st, newStn: StationObs) => {
-  st.set(newStn)
-})
+export const setActiveStation = (newStn: StationObs) => $activeStation.set(newStn)
 
 export const $activeStationTs = computed($activeStation, (st) =>
   st && 'obs' in st && st.obs && st.obs.timestamp ? new Date(st.obs.timestamp) : null

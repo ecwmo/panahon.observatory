@@ -1,6 +1,5 @@
 import { _apiRoute } from '@/stores/routes'
 import { persistentMap } from '@nanostores/persistent'
-import { action } from 'nanostores'
 import { z } from 'zod'
 
 import { Auth as AuthSchema } from '@/schemas/auth'
@@ -32,7 +31,7 @@ export const $user = persistentMap<Auth>(
   }
 )
 
-export const login = action($user, 'login', async (user, userData: UserData) => {
+export const login = async (userData: UserData) => {
   const formData = new FormData()
 
   formData.append('login', '1')
@@ -43,15 +42,15 @@ export const login = action($user, 'login', async (user, userData: UserData) => 
   const res = await fetch(API_URL, { method: 'POST', body: formData })
   const data = AuthSchema.parse(await res.json())
 
-  user.set({ ...data, isLoggedIn: data.username.length > 0 })
-})
+  $user.set({ ...data, isLoggedIn: data.username.length > 0 })
+}
 
-export const logout = action($user, 'logout', async (user) => {
+export const logout = async () => {
   const formData = new FormData()
   formData.append('logout', '1')
 
   const res = await fetch(API_URL, { method: 'POST', body: formData })
   const data = AuthSchema.parse(await res.json())
 
-  user.set({ ...data, isLoggedIn: false })
-})
+  $user.set({ ...data, isLoggedIn: false })
+}

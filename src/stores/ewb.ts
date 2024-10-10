@@ -1,4 +1,4 @@
-import { action, atom, computed } from 'nanostores'
+import { atom, computed } from 'nanostores'
 
 import type { EWBImages, EWBIntImages, EWBItems } from '@/types/ewb'
 
@@ -74,16 +74,16 @@ export const metadata: Record<string, { items: EWBItems; variants: { val: number
 }
 
 const $ewbImages = atom<EWBImages>()
-export const setEWBImages = action($ewbImages, 'setEWBImages', (imgs, newVal) => imgs.set(newVal))
+export const setEWBImages = (newVal: EWBImages) => $ewbImages.set(newVal)
 
 const $activeImgType = atom('fcst')
-const setActiveImgType = action($activeImgType, 'setActiveImgType', (imgType, newVal) => imgType.set(newVal))
+const setActiveImgType = (newVal: string) => $activeImgType.set(newVal)
 
 const $activeGroupIdx = atom(0)
-const setActiveGroupIdx = action($activeGroupIdx, 'setActiveGroupIdx', (gIdx, newVal) => gIdx.set(newVal))
+const setActiveGroupIdx = (newVal: number) => $activeGroupIdx.set(newVal)
 
 const $activeIdx = atom(0)
-const setActiveIdx = action($activeIdx, 'setActiveIdx', (idx, newVal) => idx.set(newVal))
+const setActiveIdx = (newVal: number) => $activeIdx.set(newVal)
 
 const $activeVariables = computed($activeImgType, (imgType) => metadata[imgType]?.items ?? metadata['fcst']?.items)
 

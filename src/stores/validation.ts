@@ -1,4 +1,4 @@
-import { action, atom, computed } from 'nanostores'
+import { atom, computed } from 'nanostores'
 
 import type { Images } from '@/types/validation'
 
@@ -25,17 +25,15 @@ export const leadTimes = [
 ]
 
 export const $selectedDate = atom(new Date())
-export const setSelectedDate = action($selectedDate, 'setSelectedDate', (dt, newVal: Date) => dt.set(newVal))
+export const setSelectedDate = (newVal: Date) => $selectedDate.set(newVal)
 
 const $validationImages = atom([] as any as Images)
-export const setValidationImages = action($validationImages, 'setValidationImages', (imgs, newVal: Images) =>
-  imgs.set(newVal)
-)
+export const setValidationImages = (newVal: Images) => $validationImages.set(newVal)
 
 const activeImgIdx = atom(0)
-const setActiveImgIdx = action(activeImgIdx, 'setActiveImgIdx', (idx, newVal) => idx.set(newVal))
+const setActiveImgIdx = (newVal: number) => activeImgIdx.set(newVal)
 const activeImageGroupIdx = atom(0)
-const setActiveImageGroupIdx = action(activeImageGroupIdx, 'setActiveImageGroupIdx', (idx, newVal) => idx.set(newVal))
+const setActiveImageGroupIdx = (newVal: number) => activeImageGroupIdx.set(newVal)
 const activeImageGroup = computed(activeImageGroupIdx, (imgGrpIdx) => imageGroups[imgGrpIdx])
 const activeImages = computed([$validationImages, activeImageGroup], (imgs, imgGrp) => imgs?.[imgGrp.id])
 

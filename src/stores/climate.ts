@@ -1,15 +1,20 @@
-import { action, atom, computed } from 'nanostores'
+import { atom, computed } from 'nanostores'
 
 import { route } from '@/stores/routes'
 
 const imgSrcPath = route('resources/climate/img')
 
-export const scenarios = [
+type Item = {
+  val: string
+  text: string
+}
+
+export const scenarios: Item[] = [
   { val: 'RCP45', text: 'RCP45' },
   { val: 'RCP85', text: 'RCP85' },
 ]
 
-export const variables = [
+export const variables: Item[] = [
   { val: 'tmean', text: 'Daily Average Temperature' },
   { val: 'tmin', text: 'Daily Minimum Temperature' },
   { val: 'tmax', text: 'Daily Maximum Temperature' },
@@ -27,17 +32,17 @@ export const decades = [
   [2090, 2099],
 ]
 
-export const $activeScenario = atom(scenarios[0])
-export const setActiveScenario = action($activeScenario, 'setActiveScenario', (s, newName: string) => {
+export const $activeScenario = atom<Item>(scenarios[0])
+export const setActiveScenario = (newName: string) => {
   const newScenario = scenarios.find((s) => s.val === newName)
-  if (newScenario) s.set(newScenario)
-})
+  if (newScenario) $activeScenario.set(newScenario)
+}
 
 export const $activeVariable = atom(variables[0])
-export const setActiveVariable = action($activeVariable, 'setActiveVariable', (v, newVal) => v.set(newVal))
+export const setActiveVariable = (newVal: Item) => $activeVariable.set(newVal)
 
 export const $activeDecade = atom(2020)
-export const setActiveDecade = action($activeDecade, 'setActiveDecade', (dec, newVal) => dec.set(newVal))
+export const setActiveDecade = (newVal: number) => $activeDecade.set(newVal)
 
 export const $activeImage = computed([$activeDecade, $activeScenario, $activeVariable], (dec, scen, v) => {
   const [sYear, eYear] = decades.find((d) => d[0] === dec) ?? [0, 0]
