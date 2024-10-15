@@ -58,7 +58,9 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { format, parseISO } from 'date-fns'
-  import { computed, toRefs } from 'vue'
+  import { computed, toRefs, watch } from 'vue'
+
+  import { useActiveWeatherStation } from '@/composables/activeWeatherStation';
 
   const props = withDefaults(
     defineProps<{
