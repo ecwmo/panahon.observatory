@@ -18,7 +18,7 @@ export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
   const stnLocStr = computed(() => {
     const { latitude: lat, longitude: lon } = coords.value
     const _pt = unref(pt)
-    if (_pt && _pt.split(',').length === 2) return pt
+    if (_pt && _pt.split(',').length === 2) return _pt
     if (Number.isFinite(lat) && Number.isFinite(lon)) return `${lon.toFixed(3)},${lat.toFixed(3)}`
     return ''
   })
