@@ -10,6 +10,7 @@ import { activePage, route, setActivePage } from '@/stores/routes'
 
 setActivePage(Astro.url.href)
 
+const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
 const { description: pageDesc, label: pageLabel } = activePage.get()
 ---
 
@@ -33,14 +34,14 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
     <meta name="description" content={pageDesc} />
     <script
       type="text/partytown"
-      src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_MEASUREMENT_ID}`}></script>
+      src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementID}`}></script>
     <script type="text/partytown">
     window.dataLayer = window.dataLayer || []
     function gtag() {
       dataLayer.push(arguments)
     }
     gtag('js', new Date())
-    gtag('config', import.meta.env.GA_MEASUREMENT_ID)
+    gtag('config', gaMeasurementID)
     </script>
     <script src="/src/pwa.ts"></script>
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
