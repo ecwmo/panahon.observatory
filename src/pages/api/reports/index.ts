@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { convert as pdf2ImgConvert } from 'pdf-img-convert'
 
 import { prisma } from '@/db'
 import { resourceDir } from '@/lib/helper/pages'
@@ -100,8 +101,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
     await writeFile(`${resourceDir}/reports/draft.json`, JSON.stringify(reportConf))
 
-    const pdf2img = await import("pdf-img-convert")
-    const imgs = await pdf2img.convert(repLocalPath, { scale: 2 })
+    const imgs = await pdf2ImgConvert(repLocalPath, { scale: 2 })
 
     for (let i = 0; i < imgs.length; i++) {
       const iStr = `${i}`.padStart(3, '0')

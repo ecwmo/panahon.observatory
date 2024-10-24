@@ -36,7 +36,7 @@
     "ldapjs": "^3.0.7",
     "mapbox-gl": "^3.7.0",
     "nanostores": "^0.11.3",
-    "pdf-img-convert": "^2.0.0",
+    "pdf-img-convert": "github:atsuyaourt/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533",
     "typescript": "^5.6.2",
     "vue": "^3.5.11",
     "zod": "^3.23.8"

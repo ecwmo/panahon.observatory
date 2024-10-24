@@ -66,8 +66,8 @@ importers:
         specifier: ^0.11.3
         version: 0.11.3
       pdf-img-convert:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: github:atsuyaourt/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533
+        version: https://codeload.github.com/atsuyaourt/pdf-img-convert.js/tar.gz/2b4c85727de057a50cc91773132f73e9c04ed533
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -4040,8 +4040,9 @@ packages:
     resolution: {integrity: sha512-XDF38WCH3z5OV/OVa8GKUNtLAyneuzbCisx7QUCF8Q6Nutx0WnJrQe5O+kOtBlLfRNUws98Y58Lblp+NJG5T4Q==}
     hasBin: true
 
-  pdf-img-convert@2.0.0:
-    resolution: {integrity: sha512-aRKW7ObK0NtKFJGFyNe8zQujfTTrOIGBT8TuzLYwxlqhhz43mQyZW4Wa/MZ8HFrlaNhJGevGFmt2wWuCJ2plfw==}
+  pdf-img-convert@https://codeload.github.com/atsuyaourt/pdf-img-convert.js/tar.gz/2b4c85727de057a50cc91773132f73e9c04ed533:
+    resolution: {tarball: https://codeload.github.com/atsuyaourt/pdf-img-convert.js/tar.gz/2b4c85727de057a50cc91773132f73e9c04ed533}
+    version: 2.0.0
 
   pdfjs-dist@4.7.76:
     resolution: {integrity: sha512-8y6wUgC/Em35IumlGjaJOCm3wV4aY/6sqnIT3fVW/67mXsOZ9HWBn8GDKmJUK0GSzpbmX3gQqwfoFayp78Mtqw==}
@@ -10329,7 +10330,7 @@ snapshots:
       ieee754: 1.2.1
       resolve-protobuf-schema: 2.1.0
 
-  pdf-img-convert@2.0.0:
+  pdf-img-convert@https://codeload.github.com/atsuyaourt/pdf-img-convert.js/tar.gz/2b4c85727de057a50cc91773132f73e9c04ed533:
     dependencies:
       canvas: 2.11.2
       is-url: 1.2.4
