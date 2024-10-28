@@ -60,6 +60,8 @@
 </template>
 
 <script setup lang="ts">
+  import 'mapbox-gl/dist/mapbox-gl.css'
+  
   import { useStore } from '@nanostores/vue'
   import { distance, point } from '@turf/turf'
   import { format } from 'date-fns'
