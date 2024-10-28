@@ -2,6 +2,7 @@
 import { pwaInfo } from 'virtual:pwa-info'
 
 import ReloadPrompt from '../components/ReloadPrompt.astro'
+import CookieConsent from '../components/CookieConsent.astro'
 
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
@@ -32,16 +33,22 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
     <meta name="generator" content={Astro.generator} />
     <title>Panahon - {pageLabel} - Manila Observatory</title>
     <meta name="description" content={pageDesc} />
-    <script
-      type="text/partytown"
-      src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementID}`}></script>
-    <script type="text/partytown">
-    window.dataLayer = window.dataLayer || []
-    function gtag() {
-      dataLayer.push(arguments)
-    }
-    gtag('js', new Date())
-    gtag('config', gaMeasurementID)
+    <script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementID}`} is:inline></script>
+    <script define:vars={{ gaMeasurementID }}>
+      window.dataLayer = window.dataLayer || []
+
+      window.gtag = function gtag() {
+        dataLayer.push(arguments)
+      }
+
+      window.gtag('js', new Date())
+      window.gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+      })
+      window.gtag('config', gaMeasurementID)
     </script>
     <script src="/src/pwa.ts"></script>
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
@@ -55,6 +62,7 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
           <slot />
         </div>
         <Footer class="z-10" />
+        <CookieConsent />
         <ReloadPrompt />
       </div>
     </div>

@@ -6,7 +6,6 @@ import mkcert from 'vite-plugin-mkcert'
 import UnoCSS from 'unocss/astro'
 
 import node from '@astrojs/node'
-import partytown from '@astrojs/partytown'
 import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
@@ -55,12 +54,6 @@ export default defineConfig({
             purpose: 'any maskable',
           },
         ],
-      },
-    }),
-    partytown({
-      // Adds dataLayer.push as a forwarding-event.
-      config: {
-        forward: ['dataLayer.push'],
       },
     }),
   ],
