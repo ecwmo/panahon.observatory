@@ -1,12 +1,8 @@
-import { defineConfig } from 'unocss'
-
-import presetIcons from '@unocss/preset-icons'
-import presetWind from '@unocss/preset-wind'
-import transformerDirectives from '@unocss/transformer-directives'
+import { defineConfig, presetWind3, presetIcons, transformerDirectives } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetWind(),
+    presetWind3(),
     presetIcons({
       customizations: {
         iconCustomizer(collection, icon, props) {

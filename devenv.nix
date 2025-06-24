@@ -1,6 +1,7 @@
 { pkgs, lib, config, inputs, ... }:
 let
-  pkgs-unstable = import inputs.nixpkgs-unstable { system = pkgs.stdenv.system; };
+  pkgs-unstable =
+    import inputs.nixpkgs-unstable { system = pkgs.stdenv.system; };
 in {
   # packages = with pkgs-unstable; [ git ];
 
@@ -8,7 +9,6 @@ in {
     enable = true;
     pnpm = {
       enable = true;
-      package = pkgs-unstable.pnpm;
       install.enable = true;
     };
   };
