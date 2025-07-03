@@ -107,7 +107,7 @@ importers:
         version: 20.19.4
       '@vite-pwa/astro':
         specifier: ^1.1.0
-        version: 1.1.0(astro@5.11.0(@types/node@20.19.4)(jiti@2.4.2)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))(vite-plugin-pwa@0.20.5(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0))
+        version: 1.1.0(astro@5.11.0(@types/node@20.19.4)(jiti@2.4.2)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))(vite-plugin-pwa@1.0.1(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0))
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
@@ -136,8 +136,8 @@ importers:
         specifier: ^1.17.8
         version: 1.17.8(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))
       vite-plugin-pwa:
-        specifier: 0.20.5
-        version: 0.20.5(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0)
+        specifier: ^1.0.1
+        version: 1.0.1(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0)
       vitest:
         specifier: ^1.6.1
         version: 1.6.1(@types/node@20.19.4)(happy-dom@9.20.3)(terser@5.43.1)
@@ -4953,14 +4953,14 @@ packages:
     peerDependencies:
       vite: '>=3'
 
-  vite-plugin-pwa@0.20.5:
-    resolution: {integrity: sha512-aweuI/6G6n4C5Inn0vwHumElU/UEpNuO+9iZzwPZGTCH87TeZ6YFMrEY6ZUBQdIHHlhTsbMDryFARcSuOdsz9Q==}
+  vite-plugin-pwa@1.0.1:
+    resolution: {integrity: sha512-STyUomQbydj7vGamtgQYIJI0YsUZ3T4pJLGBQDQPhzMse6aGSncmEN21OV35PrFsmCvmtiH+Nu1JS1ke4RqBjQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@vite-pwa/assets-generator': ^0.2.6
-      vite: ^3.1.0 || ^4.0.0 || ^5.0.0
-      workbox-build: ^7.1.0
-      workbox-window: ^7.1.0
+      '@vite-pwa/assets-generator': ^1.0.0
+      vite: ^3.1.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+      workbox-build: ^7.3.0
+      workbox-window: ^7.3.0
     peerDependenciesMeta:
       '@vite-pwa/assets-generator':
         optional: true
@@ -7998,10 +7998,10 @@ snapshots:
     transitivePeerDependencies:
       - vue
 
-  '@vite-pwa/astro@1.1.0(astro@5.11.0(@types/node@20.19.4)(jiti@2.4.2)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))(vite-plugin-pwa@0.20.5(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0))':
+  '@vite-pwa/astro@1.1.0(astro@5.11.0(@types/node@20.19.4)(jiti@2.4.2)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))(vite-plugin-pwa@1.0.1(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0))':
     dependencies:
       astro: 5.11.0(@types/node@20.19.4)(jiti@2.4.2)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0)
-      vite-plugin-pwa: 0.20.5(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0)
+      vite-plugin-pwa: 1.0.1(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0)
 
   '@vitejs/plugin-vue-jsx@4.2.0(vite@6.3.5(@types/node@20.19.4)(jiti@2.4.2)(terser@5.43.1)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
@@ -11476,7 +11476,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-pwa@0.20.5(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0):
+  vite-plugin-pwa@1.0.1(vite@5.4.19(@types/node@20.19.4)(terser@5.43.1))(workbox-build@7.3.0)(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.1
       pretty-bytes: 6.1.1
