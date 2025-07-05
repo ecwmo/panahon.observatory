@@ -31,7 +31,7 @@ export const useWeather = () => {
     const schema = viewType.value === 'validation' ? stationValidation : stationObsLatest
     const dat = schema.array().parse(data)
 
-    return geojsonize(
+    const gDat = geojsonize(
       dat.map((d) => {
         if ('obs' in d) {
           const { obs } = d
@@ -51,8 +51,10 @@ export const useWeather = () => {
         }
         return d
       }),
-      ['tsImg', 'obs', 'colors']
+      ['tsImg', 'obs', 'colors'],
     )
+
+    return gDat
   }
 
   const q = useQuery({

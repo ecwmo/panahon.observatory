@@ -7,7 +7,10 @@
       <div class="text-3xl font-semibold">{{ stationName }}</div>
     </div>
     <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
-      <template v-if="stationName">
+      <template v-if="isPending">
+        <FakeCard v-for="f in 4" :key="f" />
+      </template>
+      <template v-else-if="stationName">
         <Card
           v-for="c in cards"
           :key="c.title"
@@ -34,9 +37,6 @@
           />
         </Card>
       </template>
-      <template v-else>
-        <FakeCard v-for="f in 4" :key="f" />
-      </template>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
-  import { computed, watch } from 'vue'
+  import { computed } from 'vue'
 
   import { useActiveWeatherStation } from '@/composables/activeWeatherStation'
   import { windDirDeg } from '@/lib/weather'
@@ -58,7 +58,6 @@
     $activeStationObsStr,
     $activeStationTs,
     $activeVariable,
-    setActiveStation,
     setActiveVariable,
   } from '@/stores/station'
 
@@ -69,15 +68,12 @@
 
   const stationName = computed(() => activeStation.value?.name)
   const tsStringLong = computed(() =>
-    timestamp.value ? format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb") : null
+    timestamp.value ? format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb") : null,
   )
   const tsStringShort = computed(() => (timestamp.value ? format(timestamp.value, 'h:mm bbb') : undefined))
 
   const stationID = computed(() => activeStation.value.id)
-  const { station, isSuccess } = useActiveWeatherStation({ id: stationID })
-  watch(isSuccess, () => {
-    if (isSuccess.value && station.value) setActiveStation(station.value)
-  })
+  const { isPending } = useActiveWeatherStation({ id: stationID })
 
   const cards = computed(() => {
     return [
