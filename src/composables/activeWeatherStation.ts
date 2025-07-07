@@ -7,6 +7,7 @@ import { computed, unref } from 'vue'
 import { heatIndex } from '@/lib/weather'
 import { stationObsLatest } from '@/schemas/station'
 import { apiRoute } from '@/stores/routes'
+import { setActiveStation } from '@/stores/station'
 
 type StationInfo = {
   id?: MaybeRef<number | string>
@@ -35,14 +36,15 @@ export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
     const { data } = await axios.get(url)
     const dat = stationObsLatest.parse(data)
     dat.obs.hi = dat.obs.hi ?? heatIndex(dat.obs.temp ?? 0, dat.obs.rh ?? 0)
+    setActiveStation(dat)
     return dat
   }
 
-  const { isSuccess, data: station } = useQuery({
+  const q = useQuery({
     queryKey: ['stations', stnID, 'latest'],
     queryFn: getStationObs,
     refetchInterval: 10 * 60 * 1000,
   })
 
-  return { station, isSuccess }
+  return { ...q }
 }

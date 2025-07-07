@@ -36,6 +36,6 @@
   })
 
   const activeStnImg = computed(() =>
-    activeStation.value && 'tsImg' in activeStation.value ? activeStation.value?.tsImg : ''
+    activeStation.value && 'tsImg' in activeStation.value ? activeStation.value?.tsImg : '',
   )
 </script>

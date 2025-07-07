@@ -6,37 +6,33 @@
       <div class="text-sm font-extralight">{{ tsStringLong }}</div> <!-- information above info cards -->
       <div class="text-3xl font-semibold">{{ stationName }}</div>
     </div>
-    <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6"> <!-- card grid -->
-      <template v-if="stationName">
-        <Card
-          v-for="c in cards" 
-          :key="c.title"
-          :data="c"
-          :is-active="c.id === activeVariable"
-          @click="setActiveVariable(c.id)"
-        > <!-- Card.vue component -->
-          <template #icon1>
-            <div class="text-4xl md:text-5xl" :class="c.icon" />
-          </template>
-          <template #icon2>
-            <div
-              v-if="c.icon2"
-              class="text-lg md:text-xl"
-              :class="c.icon2"
-              :style="{ transform: `rotate(${windDirDeg[c?.value2 ?? 'N']}deg)` }"
-            />
-          </template>
-          <WeatherDescription
-            :id="c.id"
-            :data="activeStationObsStr"
-            :station-name="stationName"
-            :date-string="tsStringShort"
-          /> <!-- WeatherDescription component -->
-        </Card>
-      </template>
-      <template v-else>
-        <FakeCard v-for="f in 4" :key="f" /> <!-- FakeCard component -->
-      </template>
+    <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
+      <Card
+        v-for="c in cards"
+        :key="c.title"
+        :data="c"
+        :is-active="c.id === activeVariable"
+        :is-loading="isPending"
+        @click="setActiveVariable(c.id)"
+      >
+        <template #icon1>
+          <div class="text-4xl md:text-5xl" :class="c.icon" />
+        </template>
+        <template #icon2>
+          <div
+            v-if="c.icon2"
+            class="text-lg md:text-xl"
+            :class="c.icon2"
+            :style="{ transform: `rotate(${windDirDeg[c?.value2 ?? 'N']}deg)` }"
+          />
+        </template>
+        <WeatherDescription
+          :id="c.id"
+          :data="activeStationObsStr"
+          :station-name="stationName"
+          :date-string="tsStringShort"
+        />
+      </Card>
     </div>
   </div>
 </template>
@@ -44,13 +40,12 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
-  import { computed, watch } from 'vue'
+  import { computed } from 'vue'
 
   import { useActiveWeatherStation } from '@/composables/activeWeatherStation'
   import { windDirDeg } from '@/lib/weather'
 
   import Card from '@/components/Card.vue'
-  import FakeCard from '@/components/FakeCard.vue'
   import WeatherDescription from '@/components/WeatherDescription.vue'
 
   import {
@@ -58,7 +53,6 @@
     $activeStationObsStr,
     $activeStationTs,
     $activeVariable,
-    setActiveStation,
     setActiveVariable,
   } from '@/stores/station'
 
@@ -69,15 +63,12 @@
 
   const stationName = computed(() => activeStation.value?.name)
   const tsStringLong = computed(() =>
-    timestamp.value ? format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb") : null
+    timestamp.value ? format(timestamp.value, "d MMM yyyy, 'as of' h:mm bbb") : null,
   )
   const tsStringShort = computed(() => (timestamp.value ? format(timestamp.value, 'h:mm bbb') : undefined))
 
   const stationID = computed(() => activeStation.value.id)
-  const { station, isSuccess } = useActiveWeatherStation({ id: stationID })
-  watch(isSuccess, () => {
-    if (isSuccess.value && station.value) setActiveStation(station.value)
-  })
+  const { isPending } = useActiveWeatherStation({ id: stationID })
 
   const cards = computed(() => { //constructs the information in weather info cards
     return [

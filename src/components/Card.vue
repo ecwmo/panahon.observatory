@@ -1,7 +1,8 @@
 <template>
+  <FakeCard v-if="isLoading" />
   <div
-    v-if="data?.value1"
-    :class="[ 
+    v-else-if="data?.value1"
+    :class="[
       isActive
         ? 'bg-card-defaultHover text-card-Dark'
         : 'cursor-pointer bg-card-defaultBg text-card-defaultHover hover:bg-card-defaultHover hover:text-card-defaultBg',
@@ -56,6 +57,7 @@
 <script setup lang="ts" generic="T extends CardProps">
   import { ref } from 'vue'
 
+  import FakeCard from '@/components/FakeCard.vue'
   import Popup from '@/components/Popup.vue'
 
   export type CardProps = {
@@ -70,10 +72,12 @@
     defineProps<{
       data: T
       isActive?: boolean
+      isLoading?: boolean
     }>(),
     {
       isActive: false,
-    }
+      isLoading: true,
+    },
   )
 
   const showPopup = ref(false)
