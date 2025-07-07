@@ -25,7 +25,8 @@ export default defineConfig({
         "defaultHover":`#e5e7eb`, //gray-200
         "Dark":`#111827`, //gray-900
         "fake":`#e2e8f0`, //slate-200
-        "Light": `#1f2937` //gray-800
+        "Light": `#1f2937`, //gray-800
+        "iHover": `#93c5fd` //blue-300
       },
       navbar: { //navbar
         "Title":`#111827`, //gray-900

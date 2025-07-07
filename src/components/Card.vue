@@ -41,11 +41,11 @@
     </div>
     <div
       v-show="isActive"
-      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-card-Light hover:text-gray-900 hover:bg-blue-300 rounded-full"
+      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-card-Light hover:text-card-Dark hover:bg-card-iHover rounded-full"
       @mouseover="showPopup = true"
       @mouseout="showPopup = false"
       data-test="card-info-popup"
-    >
+    > <!-- i icon at top right of card -->
       <div class="i-fa-solid-info text-xs scale-75" />
       <Popup class="w-32 px-3 py-2 text-center text-xs rounded-lg pointer-events-none" :show="showPopup">
         <slot></slot>
