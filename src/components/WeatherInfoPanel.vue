@@ -1,20 +1,20 @@
 <template>
   <div
-    class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4"
-  >
+    class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4" 
+  > <!-- Background of the right half of index screen -->
     <div class="flex flex-col md:items-start w-full mb-6">
-      <div class="text-sm font-extralight">{{ tsStringLong }}</div>
+      <div class="text-sm font-extralight">{{ tsStringLong }}</div> <!-- information above info cards -->
       <div class="text-3xl font-semibold">{{ stationName }}</div>
     </div>
-    <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6">
+    <div class="grid grid-flow-row md:grid-cols-2 gap-3 md:gap-6"> <!-- card grid -->
       <template v-if="stationName">
         <Card
-          v-for="c in cards"
+          v-for="c in cards" 
           :key="c.title"
           :data="c"
           :is-active="c.id === activeVariable"
           @click="setActiveVariable(c.id)"
-        >
+        > <!-- Card.vue component -->
           <template #icon1>
             <div class="text-4xl md:text-5xl" :class="c.icon" />
           </template>
@@ -31,11 +31,11 @@
             :data="activeStationObsStr"
             :station-name="stationName"
             :date-string="tsStringShort"
-          />
+          /> <!-- WeatherDescription component -->
         </Card>
       </template>
       <template v-else>
-        <FakeCard v-for="f in 4" :key="f" />
+        <FakeCard v-for="f in 4" :key="f" /> <!-- FakeCard component -->
       </template>
     </div>
   </div>
@@ -79,7 +79,7 @@
     if (isSuccess.value && station.value) setActiveStation(station.value)
   })
 
-  const cards = computed(() => {
+  const cards = computed(() => { //constructs the information in weather info cards
     return [
       {
         id: 'rain',

@@ -1,15 +1,17 @@
 <template>
   <div
     v-if="data?.value1"
-    :class="[
+    :class="[ 
       isActive
-        ? 'bg-gray-200 text-gray-900'
-        : 'cursor-pointer bg-gray-500 text-gray-200 hover:bg-gray-200 hover:text-gray-500',
+        ? 'bg-card-defaultHover text-card-Dark'
+        : 'cursor-pointer bg-card-defaultBg text-card-defaultHover hover:bg-card-defaultHover hover:text-card-defaultBg',
     ]"
-    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 h-32 w-52 md:w-60"
+    class="relative flex flex-col justify-center cursor-pointer py-1.5 md:py-3 px-1 md:px-2 h-32 w-52 md:w-60 bg-card-defaultBg"
     data-test="card"
-  >
-    <div class="flex justify-evenly items-center">
+  > <!-- determines if card is active or grayed out -->
+
+
+    <div class="flex justify-evenly items-center"> <!-- layout of each card -->
       <div data-test="card-icon">
         <slot name="icon1"></slot>
       </div>
@@ -38,7 +40,7 @@
     </div>
     <div
       v-show="isActive"
-      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-gray-800 hover:text-gray-900 hover:bg-blue-300 rounded-full"
+      class="hidden md:flex items-center justify-center absolute right-2 top-2 shadow-lg w-5 h-5 text-xs stroke-current text-card-Light hover:text-gray-900 hover:bg-blue-300 rounded-full"
       @mouseover="showPopup = true"
       @mouseout="showPopup = false"
       data-test="card-info-popup"

@@ -35,7 +35,7 @@
     "ldapjs": "^3.0.7",
     "mapbox-gl": "^3.12.0",
     "nanostores": "^0.11.4",
-    "pdf-img-convert": "github:atsuyaourt/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533",
+    "pdf-img-convert": "github:yohlime/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533",
     "typescript": "^5.8.3",
     "vanilla-cookieconsent": "3.0.1",
     "vue": "^3.5.14",

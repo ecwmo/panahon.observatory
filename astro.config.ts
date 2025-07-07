@@ -9,17 +9,17 @@ import node from '@astrojs/node'
 import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
-const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '')
+const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '') //will read from .env file regardless of env file type
 
-const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/`
+const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/` //normalizes the APP_BASE variable into basePath
 
 export default defineConfig({
   output: 'server',
-  server: {
+  server: { //builds the server
     host: APP_HOST,
     port: +APP_PORT,
   },
-  site: APP_SITE,
+  site: APP_SITE, //builds the site
   base: basePath,
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),

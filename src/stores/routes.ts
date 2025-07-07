@@ -1,6 +1,7 @@
 import { atom } from 'nanostores'
 
-export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+export const basePath = 'https://127.0.0.1:8000' //creates basePath
+//import.meta.env.BASE_URL?.replace(/\/$/, '') to fix
 
 export const _baseAPIPath = `${basePath}/api`
 export const baseAPIPath = import.meta.env.PUBLIC_API_URL.replace(/\/$/, '')
@@ -18,7 +19,7 @@ interface Page {
   auth?: boolean
   parent?: string
 }
-export const pages = atom<Page[]>([
+export const pages = atom<Page[]>([ //make paths reusable, avoid hardcoding paths in project
   {
     name: 'index',
     description: 'Latest Summaries - Weather Conditions and Maps',

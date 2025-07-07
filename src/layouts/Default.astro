@@ -13,6 +13,7 @@ setActivePage(Astro.url.href)
 
 const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
 const { description: pageDesc, label: pageLabel } = activePage.get()
+const { navMode = 'alternate' } = Astro.props //define navMode default or alternate
 ---
 
 <!doctype html>
@@ -53,15 +54,17 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
     <script src="/src/pwa.ts"></script>
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
   </head>
-  <body>
-    <div class="fixed inset-0 bg-gray-700/30" aria-hidden="true"></div>
+  <body class="fixed inset-0 bg-gray-700/30" aria-hidden="true">
+    <!-- moved gray background to body itself -->
     <div class="flex justify-center items-center">
       <div class="max-w-screen-2xl flex flex-col w-full select-none h-screen">
-        <NavBar client:load class="z-10" />
+        <!-- uses vue components from ./components folder -->
+        <NavBar mode={navMode} client:load />
         <div class="bg-gray-700 text-gray-200 flex-1 overflow-y-auto z-0">
           <slot />
+          <!-- slot for code within .astro file which uses layout -->
         </div>
-        <Footer class="z-10" />
+        <Footer class="z-50" />
         <CookieConsent />
         <ReloadPrompt />
       </div>
@@ -70,6 +73,7 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
 </html>
 
 <script>
+  import NavBar from '@/components/NavBar.vue'
   import { $user } from '@/stores/auth'
   import { activePage, basePath, route, setActivePage } from '@/stores/routes'
 
@@ -82,5 +86,17 @@ const { description: pageDesc, label: pageLabel } = activePage.get()
     location.href = route(`login?ref=${to.replace(basePath, '')}`)
   } else if (to === route('login') && isLoggedIn) {
     location.href = route()
+  }
+
+  export default {
+    //exports prop for navbar
+    components: {
+      NavBar,
+    },
+    data() {
+      return {
+        mode,
+      }
+    },
   }
 </script>
