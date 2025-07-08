@@ -1,7 +1,6 @@
 import { atom } from 'nanostores'
 
-export const basePath = 'https://127.0.0.1:8000' //creates basePath
-//import.meta.env.BASE_URL?.replace(/\/$/, '') to fix
+export const basePath = import.meta.env.BASE_URL?.replace(/\/$/, '') //creates basePath
 
 export const _baseAPIPath = `${basePath}/api`
 export const baseAPIPath = import.meta.env.PUBLIC_API_URL.replace(/\/$/, '')

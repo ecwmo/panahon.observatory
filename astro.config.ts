@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import { loadEnv } from 'vite'
+import { createNotivue } from 'notivue/astro'
 
 import mkcert from 'vite-plugin-mkcert'
 
@@ -13,13 +14,17 @@ const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV,
 
 const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/` //normalizes the APP_BASE variable into basePath
 
+const notivue = createNotivue({
+  //stuff
+})
+
 export default defineConfig({
   output: 'server',
-  server: { //builds the server
+  server: { //specify server host and port
     host: APP_HOST,
     port: +APP_PORT,
   },
-  site: APP_SITE, //builds the site
+  site: APP_SITE, //app url site
   base: basePath,
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),

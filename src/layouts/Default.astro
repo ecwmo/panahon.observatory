@@ -13,7 +13,7 @@ setActivePage(Astro.url.href)
 
 const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
 const { description: pageDesc, label: pageLabel } = activePage.get()
-const { navMode = 'alternate' } = Astro.props //define navMode default or alternate
+const { navMode = 'default' } = Astro.props //define navMode default or alternate
 ---
 
 <!doctype html>
@@ -86,17 +86,5 @@ const { navMode = 'alternate' } = Astro.props //define navMode default or altern
     location.href = route(`login?ref=${to.replace(basePath, '')}`)
   } else if (to === route('login') && isLoggedIn) {
     location.href = route()
-  }
-
-  export default {
-    //exports prop for navbar
-    components: {
-      NavBar,
-    },
-    data() {
-      return {
-        mode,
-      }
-    },
   }
 </script>

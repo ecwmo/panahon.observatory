@@ -184,3 +184,9 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+
+# testing for notivue
+
+src/components/NotivueTest.vue
+src/layouts/NotiTest.astro
+src/pages/test.astro

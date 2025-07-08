@@ -34,6 +34,7 @@
     "ldapjs": "^3.0.7",
     "mapbox-gl": "^3.13.0",
     "nanostores": "^1.0.1",
+    "notivue": "^2.4.5",
     "pdf-img-convert": "github:yohlime/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533",
     "typescript": "^5.8.3",
     "vanilla-cookieconsent": "3.0.1",

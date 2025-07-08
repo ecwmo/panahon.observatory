@@ -38,3 +38,7 @@
 - APP_RES_DIR : path to public/resources
 - MAPBOX_TOKEN : token from mapbox
 - PUBLIC_API_URL : api where the data will be coming from
+
+## notes
+
+- added notivue
