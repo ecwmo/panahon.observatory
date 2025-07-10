@@ -59,6 +59,9 @@ importers:
       nanostores:
         specifier: ^1.0.1
         version: 1.0.1
+      notivue:
+        specifier: ^2.4.5
+        version: 2.4.5(defu@6.1.4)
       pdf-img-convert:
         specifier: github:yohlime/pdf-img-convert.js#2b4c85727de057a50cc91773132f73e9c04ed533
         version: https://codeload.github.com/yohlime/pdf-img-convert.js/tar.gz/2b4c85727de057a50cc91773132f73e9c04ed533
@@ -3519,6 +3522,20 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+
+  notivue@2.4.5:
+    resolution: {integrity: sha512-7yBdaKesUZIwdcQP3nv1oWYyisI2bURkZ+D9KfLgeNqguHUzkQ1WdhGcTj59PBZa8mqa1/K5Mh8YsphSToMKcQ==}
+    peerDependencies:
+      '@nuxt/kit': '>=3.5.0'
+      '@nuxt/schema': '>=3.5.0'
+      defu: '>=6'
+    peerDependenciesMeta:
+      '@nuxt/kit':
+        optional: true
+      '@nuxt/schema':
+        optional: true
+      defu:
+        optional: true
 
   npm-run-path@5.3.0:
     resolution: {integrity: sha512-ppwTtiJZq0O/ai0z7yfudtBpWIoxM8yE6nHi1X47eFR2EWORqfbu6CnPlNsjeN683eT0qG6H/Pyf9fCcvjnnnQ==}
@@ -8984,6 +9001,10 @@ snapshots:
       abbrev: 2.0.0
 
   normalize-path@3.0.0: {}
+
+  notivue@2.4.5(defu@6.1.4):
+    optionalDependencies:
+      defu: 6.1.4
 
   npm-run-path@5.3.0:
     dependencies:

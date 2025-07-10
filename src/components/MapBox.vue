@@ -17,7 +17,7 @@
       <div
         v-show="visibleStationsSorted"
         class="absolute flex justify-between top-2 left-2 bg-white text-black pr-3 py-1 rounded-full drop-shadow-md opacity-90"
-      >
+      > <!-- bar at top left of map -->
         <SwitchGroup>
           <div class="flex items-center px-2 gap-1.5">
             <Switch
@@ -50,7 +50,7 @@
       <WeatherButtons
         v-if="dataViewType === 'default'"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
-      />
+      /> <!-- container for buttons at bottom right -->
       <Colorbar
         v-if="dataViewType === 'default'"
         class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
