@@ -73,6 +73,7 @@ const { navMode = 'default' } = Astro.props //define navMode default or alternat
 </html>
 
 <script>
+  import NavBar from '@/components/NavBar.vue'
   import { $user } from '@/stores/auth'
   import { activePage, basePath, route, setActivePage } from '@/stores/routes'
 
