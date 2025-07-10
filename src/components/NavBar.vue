@@ -126,7 +126,7 @@
   import { ref } from 'vue'
 
   import { $user, logout } from '@/stores/auth'
-  import { activePage, pages, route } from '@/stores/routes'
+  import { activePage, pages, route, basePath } from '@/stores/routes'
 
   const user = useStore($user)
   const $tabs = useStore(pages)

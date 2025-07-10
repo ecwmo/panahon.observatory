@@ -19,7 +19,7 @@ export default defineConfig({
     host: APP_HOST,
     port: +APP_PORT,
   },
-  site: APP_SITE, //app site url
+  site: APP_SITE, //app url site
   base: basePath,
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),
