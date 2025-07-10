@@ -7,5 +7,7 @@ const url = Astro.url
 ---
 
 <DefaultLayout>
+  <!-- uses default from ./layouts-->
   <EWBPage client:visible />
+  <!-- inserts EWBPage from ./components into layout slot -->
 </DefaultLayout>

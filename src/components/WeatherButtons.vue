@@ -20,34 +20,34 @@
 
   const activeVariable = useStore($activeVariable)
 
-  const buttons = ref([
+  const buttons = ref([ //constructs the button at the bottom right of the map
     {
       id: 'rain',
       label: 'RAIN (mm)',
       icon: 'i-fa6-solid-cloud-rain',
-      defaultClass: 'text-stone-600 hover:text-blue-600',
-      activeClass: 'text-blue-600',
+      defaultClass: 'text-widgets-Default hover:text-widgets-Rain',
+      activeClass: 'text-widgets-Rain',
     },
     {
       id: 'temp',
       label: 'TEMPERATURE (°C)',
       icon: 'i-fa-solid-thermometer-half',
-      defaultClass: 'text-stone-600 hover:text-red-600',
-      activeClass: 'text-red-600',
+      defaultClass: 'text-widgets-Default hover:text-widgets-Temp',
+      activeClass: 'text-widgets-Temp',
     },
     {
       id: 'wind',
       label: 'WIND (m/s)',
       icon: 'i-fa6-solid-wind',
-      defaultClass: 'text-stone-600 hover:text-cyan-600',
-      activeClass: 'text-cyan-600',
+      defaultClass: 'text-widgets-Default hover:text-widgets-Wind',
+      activeClass: 'text-widgets-Wind',
     },
     {
       id: 'pres',
       label: 'PRESSURE (hPa)',
       icon: 'i-wi-barometer',
-      defaultClass: 'text-stone-600 hover:text-amber-600',
-      activeClass: 'text-amber-600',
+      defaultClass: 'text-widgets-Default hover:text-widgets-Pres',
+      activeClass: 'text-widgets-Pres',
     },
   ])
 </script>

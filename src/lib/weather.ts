@@ -1,4 +1,4 @@
-export const windDirDeg2Str = (val: number) => {
+export const windDirDeg2Str = (val: number) => { //determines the wind direction for WeatherInfoPanel
   if (!(val >= 0 && val <= 360)) return ''
   if (val <= 22.5) return 'N'
   else if (val <= 45) return 'NNE'

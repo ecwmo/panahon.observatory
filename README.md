@@ -27,3 +27,14 @@
 ## Deployment
 
 1. Build docker image (`yarn deploy:docker`)
+
+## .env file
+
+1. Create .env file with the following information:
+
+- APP_HOST : localhost ip for your device
+- APP_PORT : port you want to host the site
+- APP_SITE : something
+- APP_RES_DIR : path to public/resources
+- MAPBOX_TOKEN : token from mapbox
+- PUBLIC_API_URL : api where the data will be coming from

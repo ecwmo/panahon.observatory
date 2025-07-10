@@ -1,5 +1,5 @@
 <template>
-  <div v-if="stationName">
+  <div v-if="stationName"> <!-- Creates the additional info found in the Cards -->
     <template v-if="id === 'temp'">
       At <span class="font-semibold">{{ stationName }}</span
       >, the temperature at <span class="font-semibold">{{ dateString }}</span> was
