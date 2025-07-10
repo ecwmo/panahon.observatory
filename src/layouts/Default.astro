@@ -73,7 +73,6 @@ const { navMode = 'alternate' } = Astro.props //define navMode default or altern
 </html>
 
 <script>
-  import NavBar from '@/components/NavBar.vue'
   import { $user } from '@/stores/auth'
   import { activePage, basePath, route, setActivePage } from '@/stores/routes'
 
@@ -86,17 +85,5 @@ const { navMode = 'alternate' } = Astro.props //define navMode default or altern
     location.href = route(`login?ref=${to.replace(basePath, '')}`)
   } else if (to === route('login') && isLoggedIn) {
     location.href = route()
-  }
-
-  export default {
-    //exports prop for navbar
-    components: {
-      NavBar,
-    },
-    data() {
-      return {
-        mode,
-      }
-    },
   }
 </script>

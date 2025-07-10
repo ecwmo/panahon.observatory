@@ -141,13 +141,9 @@
     if ($activeTab.value.to === route('report/upload')) location.href = route('login')
   }
 
-  const isActive = (pathName: string) => {
-    // console.log("tab.to:", pathName)
-    // console.log("$activeTab.value.to:", $activeTab.value.to)
-    const tabPath = pathName.replace('https://127.0.0.1:8000','')
-    // console.log("tabPath:", tabPath)
-    // console.log("$activeTab.value.to === tabPath",$activeTab.value.to === tabPath)
-    return $activeTab.value.to === tabPath //compare relative paths
+  const isActive = (pathName: string) => { //made activeTabPath dynamic
+    const activeTabPath = basePath + $activeTab.value.to
+    return pathName === activeTabPath //compare relative paths
   }
 
   const toggleNavbars = () => { //function for toggleNavbars button

@@ -15,11 +15,11 @@ const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/` //normalizes the APP
 
 export default defineConfig({
   output: 'server',
-  server: { //builds the server
+  server: { //specify server host and port
     host: APP_HOST,
     port: +APP_PORT,
   },
-  site: APP_SITE, //builds the site
+  site: APP_SITE, //app site url
   base: basePath,
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),
