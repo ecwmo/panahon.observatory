@@ -2,12 +2,8 @@
   <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   </head>
-    <div class="flex h-20">
+    <div class="flex justify-right">
       <NotificationBox :noti-count="notiCount" class="flex" />
-    </div>
-    <div class="flex flex-col">
-      <h1 class="font-serif">Testing notivue</h1>
-      <button class="rounded bg-white px-4" @click="pushStatic">Push</button>
     </div>
 </template>
 
