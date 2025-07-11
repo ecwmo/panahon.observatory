@@ -1,5 +1,93 @@
 ---
-import NotiTestLayout from '@/layouts/NotiTest.astro'
+import { pwaInfo } from 'virtual:pwa-info'
+
+import ReloadPrompt from '../components/ReloadPrompt.astro'
+import CookieConsent from '../components/CookieConsent.astro'
+
+import NotivueTest from '@/components/NotivueTest.vue'
+import Footer from '@/components/Footer.vue'
+import NavBar from '@/components/NavBar.vue'
+
+import { activePage, route, setActivePage } from '@/stores/routes'
+
+import 'notivue/astro/notification.css' //important for notification style
+import 'notivue/astro/animations.css'
+
+setActivePage(Astro.url.href)
+
+const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
+const { description: pageDesc, label: pageLabel } = activePage.get()
+const { navMode = 'default' } = Astro.props //define navMode default or alternate
 ---
 
-<NotiTestLayout />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={route('resources/static/img/logo/favicon.ico')} />
+    <link
+      rel="alternate icon"
+      href={route('resources/static/img/logo/favicon-16x16.png')}
+      type="image/png"
+      sizes="16x16"
+    />
+    <link rel="apple-touch-icon" href={route('resources/static/img/logo/apple-touch-icon.png')} sizes="180x180" />
+    <link rel="mask-icon" href={route('resources/static/img/logo/safari-pinned-tab.svg')} color="#5bbad5" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Panahon - {pageLabel} - Manila Observatory</title>
+    <meta name="description" content={pageDesc} />
+    <script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementID}`} is:inline></script>
+    <script define:vars={{ gaMeasurementID }}>
+      window.dataLayer = window.dataLayer || []
+
+      window.gtag = function gtag() {
+        dataLayer.push(arguments)
+      }
+
+      window.gtag('js', new Date())
+      window.gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+      })
+      window.gtag('config', gaMeasurementID)
+    </script>
+    <script src="/src/pwa.ts"></script>
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+  </head>
+  <body class="fixed inset-0 bg-gray-700/30" aria-hidden="true">
+    <!-- moved gray background to body itself -->
+    <div class="flex justify-center items-center">
+      <div class="max-w-screen-2xl flex flex-col w-full select-none h-screen">
+        <!-- uses vue components from ./components folder -->
+        <NavBar mode={navMode} client:load />
+        <div class="bg-gray-700 text-gray-200 flex-1 overflow-y-auto z-0">
+          <NotivueTest client:load />
+          <!-- slot for code within .astro file which uses layout -->
+        </div>
+        <Footer class="z-50" />
+        <CookieConsent />
+        <ReloadPrompt />
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  import { $user } from '@/stores/auth'
+  import { activePage, basePath, route, setActivePage } from '@/stores/routes'
+
+  setActivePage(location.href)
+
+  const { auth, to } = activePage.get()
+  const { isLoggedIn } = $user.get()
+
+  if (auth && !isLoggedIn) {
+    location.href = route(`login?ref=${to.replace(basePath, '')}`)
+  } else if (to === route('login') && isLoggedIn) {
+    location.href = route()
+  }
+</script>

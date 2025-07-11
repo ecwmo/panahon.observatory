@@ -2,6 +2,7 @@
   <div
     class="hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4" 
   > <!-- Background of the right half of index screen -->
+    <NotivueTest client:load :notifData="notifData"} />
     <div class="flex flex-col md:items-start w-full mb-6">
       <div class="text-sm font-extralight">{{ tsStringLong }}</div> <!-- information above info cards -->
       <div class="text-3xl font-semibold">{{ stationName }}</div>
@@ -47,6 +48,7 @@
 
   import Card from '@/components/Card.vue'
   import WeatherDescription from '@/components/WeatherDescription.vue'
+  import NotivueTest from '@/components/NotivueTest.vue'
 
   import {
     $activeStation,
@@ -105,4 +107,18 @@
       },
     ]
   })
+
+  const notifData = [ //prop to be passed into NotivueTest
+    {
+      title: 'Title',
+      message: 'Short Description, date issued, link to details',
+      duration: Infinity,
+    },
+        {
+      title: 'Title2',
+      message: 'Short Description, date issued, link to details',
+      duration: Infinity,
+    },
+  ]
+
 </script>

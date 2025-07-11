@@ -7,6 +7,9 @@ import CookieConsent from '../components/CookieConsent.astro'
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
 
+import 'notivue/astro/notification.css' //important for notification style
+import 'notivue/astro/animations.css'
+
 import { activePage, route, setActivePage } from '@/stores/routes'
 
 setActivePage(Astro.url.href)

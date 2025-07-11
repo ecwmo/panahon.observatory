@@ -12,10 +12,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { push } from 'notivue/astro'
   import NotificationBox from '@/components/NotificationBox.vue'
-  import { createNotivue } from 'notivue'
+  
   const notiCount = ref(0) //prop to pass into NotificationBox for notification count
 
   function pushStatic() {
@@ -25,10 +25,31 @@
       message: 'short description, date, link to report',
       duration: Infinity,
       onManualClear(item) {
-      console.log('Manually cleared!')
       notiCount.value -= 1
     }
     })
     notiCount.value += 1  
   }
+
+  const props = defineProps<{
+    notifData: {
+      title: string
+      message: string
+      duration: number
+    }[]
+  }>()
+
+  onMounted(() => { //creates notifications based on passed notifData
+    props.notifData.forEach(({ title, message, duration }) => {
+      push.success({
+        title,
+        message,
+        duration,
+        onManualClear(item) {
+          notiCount.value -= 1
+        }
+      })
+      notiCount.value += 1
+    })
+  })
 </script>

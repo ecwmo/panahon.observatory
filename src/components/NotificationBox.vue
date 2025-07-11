@@ -1,27 +1,27 @@
 <template>
-  <div>
-    <!-- Bell button to toggle notifications -->
-    <button :class="[
-        'rounded p-0 m-0 w-10 h-10',
-        notiCount !== 0 ? 'bg-amber' : 'bg-white'
-      ]" 
-      @click="bellButton"
-    ><i class="fa-solid fa-bell"></i>
-    </button>
+    <div class="flex">
+        <!-- Bell button to toggle notifications -->
+        <button :class="[
+            'rounded p-0 m-0 w-10 h-10',
+            notiCount !== 0 ? 'bg-amber' : 'bg-white'
+            ]" 
+            @click="bellButton"
+        ><i class="fa-solid fa-bell"></i>
+        </button>
 
-    <!-- Notification box -->
-    <Notivue :use="false" v-slot="item">
-    <div v-if="toggleNotifs" class="bg-white p-4 rounded shadow mt-2 w-[300px] max-h-[400px] overflow-y-auto">
-      <p class="font-semibold mb-2">Notification Center</p>
+        <!-- Notification box -->
+        <Notivue :use="false" v-slot="item">
+        <div v-if="toggleNotifs" class="bg-white p-4 rounded shadow mt-2 w-[300px] max-h-[400px] overflow-y-auto">
+            <p class="font-semibold mb-2">Notification Center</p>
 
-      <div class="flex flex-col gap-2">
-        <NotivueSwipe :item="item">
-          <Notification :defaults="false" :item="item" class="bg-gray-100 p-3 rounded" />
-        </NotivueSwipe>
-      </div>
+            <div class="flex flex-col gap-2">
+            <NotivueSwipe :item="item">
+                <Notification :defaults="false" :item="item" class="bg-gray-100 p-3 rounded" />
+            </NotivueSwipe>
+            </div>
+        </div>
+        </Notivue>
     </div>
-    </Notivue>
-  </div>
 </template>
 
 
