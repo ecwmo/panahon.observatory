@@ -26,6 +26,9 @@
       </div>
     </div>
     <div class="flex flex-1 flex-col items-center gap-2">
+       <div class="absolute top-0 right-0">
+        <NotivueTest client:load /> <!-- notification button -->
+      </div>          
       <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
       <Transition name="fade" mode="out-in">
         <Range
@@ -87,6 +90,7 @@
   import ModelCaption from '@/components/ModelCaption.vue'
   import Range from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
+  import NotivueTest from '@/components/NotivueTest.vue'
   import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
   import type { MetField } from '@/stores/model'

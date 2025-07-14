@@ -3,7 +3,7 @@
     class="relative hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4" 
   > <!-- Background of the right half of index screen -->
     <div class="absolute top-0 right-0">
-      <NotivueTest client:load :notifData="notifData" />
+      <NotivueTest client:load />
     </div>
     <div class="flex flex-col md:items-start w-full mb-6">
       <div class="text-sm font-extralight">{{ tsStringLong }}</div> <!-- information above info cards -->
@@ -109,18 +109,5 @@
       },
     ]
   })
-
-  const notifData = [ //prop to be passed into NotivueTest
-    {
-      title: 'Title',
-      message: 'Short Description, date issued, link to details',
-      duration: Infinity,
-    },
-        {
-      title: 'Title2',
-      message: 'Short Description, date issued, link to details',
-      duration: Infinity,
-    },
-  ]
 
 </script>

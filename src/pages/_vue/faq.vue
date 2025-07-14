@@ -108,7 +108,7 @@
       urban disaster risk reduction in light of our changing climate," said MO Executive Director Antonia Yulo Loyzaga.
     </p>
     <p class="m-3 text-gray-900 text-justify font-medium text-base">
-      "Metro Weather will also help save more lives on the road," said MMDA Chairman Francis Tolentino, adding that
+      Metro Weather will also help save more lives on the road," said MMDA Chairman Francis Tolentino, adding that
       Metro Weather's app, “Metro Manila Traffic Navigator,” will help motorists determine alternative routes during
       times of torrential rain and flooding.
     </p>

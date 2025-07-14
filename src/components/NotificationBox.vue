@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex relative">
         <!-- Bell button to toggle notifications -->
         <button :class="[
             'rounded p-0 m-0 w-10 h-10',
@@ -10,23 +10,22 @@
         </button>
 
         <!-- Notification box -->
-        <div class="bg-white p-4 rounded shadow mt-2 overflow-y-auto overflow-x-auto">
-          <p class="font-semibold mb-2">Notification Center</p>
-          <div class="flex flex-col gap-2">
-            <Notivue :use="false" v-slot="item">
+        <Notivue v-slot="item">
+          <div v-if="toggleNotifs" class="">
+            <div class="flex flex-col">
               <NotivueSwipe :item="item">
-                  <Notification :defaults="false" :item="item" class="bg-gray-100 p-3 rounded" />
+                  <Notification :item="item" class="bg-gray-100 rounded p-4 w-full break-words max-w-[30vw]" />
               </NotivueSwipe>
-            </Notivue>
+            </div>
           </div>
-        </div>
+        </Notivue>
     </div>
 </template>
 
 
 <script setup lang="ts">
 import { Notivue, NotivueSwipe, Notification, push } from 'notivue/astro'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 
 const toggleNotifs = ref(false)
 const notiCount = ref(0)
@@ -43,32 +42,36 @@ const props = defineProps<{ //prop containing notifData
   }[]
 }>()
 
-onMounted(() => { //creates notifications
-  props.notifData.forEach(({ title, message, duration }) => {
-    push.success({
-      title,
-      message,
-      duration,
-      onManualClear() {
-        notiCount.value -= 1
-      }
+watch(
+  () => props.notifData,
+  (newData, oldData) => { //tracks which notifs have been added
+    const newItems = newData.slice(oldData?.length || 0)
+
+    newItems.forEach(({ title, message, duration }) => { //adds notifications
+      push.success({
+        title,
+        message,
+        duration,
+        onManualClear() {
+          notiCount.value -= 1
+        },
+      })
+      notiCount.value += 1
     })
-    notiCount.value += 1
-  })
-})
+  },
+)
 
 watch(notiCount, (newVal) => { //set toggleNotifs to false if no more notifs
   if (newVal === 0) {
     toggleNotifs.value = false
   }
 })
-
 </script>
 
-<style>
+<!-- <style>
 :root { /* from notivue documentation */
   /* Your variables */
-  --header-height: 214px;
+  --header-height: 222px;
   --container-padding: 0px;
   --container-width: 1280px;
 
@@ -79,7 +82,7 @@ watch(notiCount, (newVal) => { //set toggleNotifs to false if no more notifs
   --nv-root-top: calc(var(--header-height) + var(--container-padding));
 
   /* Add the same left-right paddings of your app container */
-  --nv-root-left: 1100px;
+  --nv-root-left: 55%;
 }
 
 /* Rules for mobile devices */
@@ -89,4 +92,4 @@ watch(notiCount, (newVal) => { //set toggleNotifs to false if no more notifs
     --container-padding: 20px;
   }
 }
-</style>
+</style> -->

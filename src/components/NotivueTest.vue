@@ -8,14 +8,22 @@
 </template>
 
 <script setup lang="ts">
-  import NotificationBox from '@/components/NotificationBox.vue'
-  
-  const props = defineProps<{ //passes the data for notifications to the NotificationBox proper
-    notifData: {
-      title: string
-      message: string
-      duration: number
-    }[]
-  }>()
+import { ref, onMounted } from 'vue';
+import NotificationBox from '@/components/NotificationBox.vue'
 
+const notifData = ref([]);
+
+onMounted(() => {
+  const socket = new WebSocket("ws://127.0.0.1:9999/ws/notifications"); //connection to noficiation server
+
+  socket.onmessage = (event) => { //parse through each notification
+    const json = JSON.parse(event.data);
+    json.forEach(notificationParser);
+  };
+});
+
+function notificationParser(entry: any) { //renews array for each new entry para pansinin ni watch
+  console.log(entry.report_link)
+  notifData.value = [ ...notifData.value, {title:entry.title,message:entry.short_desc + entry.category + entry.date_issued + entry.report_link,duration:Infinity}];
+}
 </script>
