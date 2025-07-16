@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { useWebNotification } from '@vueuse/core';
 import { ref, onMounted } from 'vue';
 import NotificationBox from '@/components/NotificationBox.vue'
 
@@ -23,7 +24,19 @@ onMounted(() => {
 });
 
 function notificationParser(entry: any) { //renews array for each new entry para pansinin ni watch
-  console.log(entry.report_link)
   notifData.value = [ ...notifData.value, {title:entry.title,message:entry.short_desc + entry.category + entry.date_issued + entry.report_link,duration:Infinity}];
+  
+  const { //created desktop notif
+    isSupported,
+    permissionGranted,
+    show,
+  } = useWebNotification({
+    title: entry.title,
+    body: entry.short_desc + entry.category + entry.date_issued + entry.report_link,
+  })
+  
+  if (isSupported.value && permissionGranted.value) //if permission == true, then show desktop notification
+  show()
+
 }
 </script>
