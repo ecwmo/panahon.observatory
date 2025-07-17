@@ -145,7 +145,7 @@
     const activeTabPath = basePath + $activeTab.value.to
     return pathName === activeTabPath //compare relative paths
   }
-
+  
   const toggleNavbars = () => { //function for toggleNavbars button
     const newNav = document.getElementById("navbar1");
     const oldNav = document.getElementById("navbar2");

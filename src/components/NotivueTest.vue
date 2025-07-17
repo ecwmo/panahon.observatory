@@ -12,6 +12,10 @@ import { useWebNotification } from '@vueuse/core';
 import { ref, onMounted } from 'vue';
 import NotificationBox from '@/components/NotificationBox.vue'
 
+import { basePath } from '@/stores/routes';
+
+console.log("basePath:",basePath)
+
 const notifData = ref([]);
 
 onMounted(() => {
@@ -30,6 +34,7 @@ function notificationParser(entry: any) { //renews array for each new entry para
     isSupported,
     permissionGranted,
     show,
+    onClick,
   } = useWebNotification({
     title: entry.title,
     body: entry.short_desc + entry.category + entry.date_issued + entry.report_link,
@@ -37,6 +42,10 @@ function notificationParser(entry: any) { //renews array for each new entry para
   
   if (isSupported.value && permissionGranted.value) //if permission == true, then show desktop notification
   show()
+
+  onClick((evt: Event) => { //redirect to report when notification is clicked
+    location.replace("https://127.0.0.1:8000/" + entry.report_link.replace("app://weather/",""));
+  })
 
 }
 </script>

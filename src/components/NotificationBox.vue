@@ -67,29 +67,3 @@ watch(notiCount, (newVal) => { //set toggleNotifs to false if no more notifs
   }
 })
 </script>
-
-<!-- <style>
-:root { /* from notivue documentation */
-  /* Your variables */
-  --header-height: 222px;
-  --container-padding: 0px;
-  --container-width: 1280px;
-
-  /* Set the maximum width of the stream */
-  --nv-root-width: var(--container-width);
-
-  /* Add the top padding and place it below the header */
-  --nv-root-top: calc(var(--header-height) + var(--container-padding));
-
-  /* Add the same left-right paddings of your app container */
-  --nv-root-left: 55%;
-}
-
-/* Rules for mobile devices */
-@media (max-width: 768px) {
-  :root {
-    --header-height: 60px;
-    --container-padding: 20px;
-  }
-}
-</style> -->
