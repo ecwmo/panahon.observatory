@@ -9,7 +9,7 @@
         ><i class="fa-solid fa-bell"></i>
         </button>
 
-        <!-- Notification box -->
+        <!-- renders the notifications themselves -->
         <Notivue v-slot="item">
           <div v-if="toggleNotifs" class="">
             <div class="flex flex-col">
