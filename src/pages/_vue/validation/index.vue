@@ -48,8 +48,6 @@
   import Lazy from '@/components/Lazy.vue'
   import ValidationDateSelector from '@/components/ValidationDateSelector.vue'
 
-  import { _apiRoute } from '@/stores/routes'
-
   import {
     $activeImage,
     $selectedDate,
@@ -78,7 +76,7 @@
     queryKey: ['validation', selectedDate],
     queryFn: async () => {
       const dateStr = format(selectedDate.value, 'yyyyMMdd')
-      const url = `${_apiRoute('validation')}/${dateStr}`
+      const url = `/api/validation/${dateStr}`
       const { data } = await axios.get(url)
       const dat = ImagesSchema.parse(data)
       setValidationImages(dat)

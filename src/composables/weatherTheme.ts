@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/vue-query'
 import axios from 'axios'
 
 import { stationConfigurations } from '@/schemas/station'
-import { _apiRoute } from '@/stores/routes'
 
 import { gradientScale } from '@/lib/color'
 
@@ -12,7 +11,7 @@ export const useWeatherTheme = () => {
   const q = useQuery({
     queryKey: ['stations', 'config'],
     queryFn: async () => {
-      const url = _apiRoute('stations/weather_conf')
+      const url = '/api/stations/weather_conf'
       const { data } = await axios.get(url)
       const dat = stationConfigurations.parse(data)
 

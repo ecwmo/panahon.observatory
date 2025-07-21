@@ -13,8 +13,8 @@
               selected
                 ? 'bg-white shadow text-blue-700'
                 : selectedTab > 0
-                ? 'text-blue-400 hover:backdrop-blur-sm hover:bg-white/20 hover:text-blue-700'
-                : 'text-blue-200 hover:bg-white/10 hover:text-white',
+                  ? 'text-blue-400 hover:backdrop-blur-sm hover:bg-white/20 hover:text-blue-700'
+                  : 'text-blue-200 hover:bg-white/10 hover:text-white',
             ]"
           >
             {{ tab }}
@@ -75,8 +75,6 @@
   import axios from 'axios'
   import { computed, onMounted, ref, watchEffect } from 'vue'
 
-  import { _apiRoute } from '@/stores/routes'
-
   import { $activeImage, down, metadata, next, prev, setActiveImage, setEWBImages, up } from '@/stores/ewb'
 
   import { EWBImages } from '@/schemas/ewb'
@@ -129,7 +127,7 @@
   const { data: ewbImages } = useQuery({
     queryKey: ['ewb'],
     queryFn: async () => {
-      const url = `${_apiRoute('ewb')}`
+      const url = '/api/ewb'
       const { data } = await axios.get(url)
       const dat = EWBImages.parse(data)
       setEWBImages(dat)
@@ -176,7 +174,7 @@
             selectedTab.value = scrollDir.top ? idx : idx + 1
           }
         },
-        intObsOpts
+        intObsOpts,
       )
     })
   })

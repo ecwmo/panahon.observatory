@@ -5,7 +5,6 @@ import { format } from 'date-fns'
 import { computed } from 'vue'
 
 import { stationValidation } from '@/schemas/station'
-import { _apiRoute } from '@/stores/routes'
 
 import { $activeStation } from '@/stores/station'
 import { $selectedDate as $validationDate } from '@/stores/validation'
@@ -18,7 +17,7 @@ export const useActiveValidationStation = () => {
 
   const getStationObs = async () => {
     const selectedValidationDateStr = format(valDate.value, 'yyyyMMdd') ?? ''
-    const url = `${_apiRoute()}/validation/stations/${stationID.value}?dt=${selectedValidationDateStr}`
+    const url = `/api/validation/stations/${stationID.value}?dt=${selectedValidationDateStr}`
     const { data } = await axios.get(url)
     return stationValidation.parse(data)
   }

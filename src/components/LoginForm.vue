@@ -43,7 +43,7 @@
   import { ref } from 'vue'
 
   import { $user, login } from '@/stores/auth'
-  import { activePageURL, route } from '@/stores/routes'
+  import { activePageURL } from '@/stores/routes'
 
   const userForm = ref({ username: '', password: '' })
 
@@ -53,7 +53,7 @@
   const handleLogin = async () => {
     await login(userForm.value)
 
-    if (user.value.isLoggedIn) location.href = route($activeURL.value.searchParams.get('ref')?.replace(/^\//, ''))
+    if (user.value.isLoggedIn) location.href = $activeURL.value.searchParams.get('ref')
     else userForm.value = { username: '', password: '' }
   }
 </script>

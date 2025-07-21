@@ -4,7 +4,7 @@ import axios from 'axios'
 import { format } from 'date-fns'
 
 import { stationObsLatest, stationValidation } from '@/schemas/station'
-import { _apiRoute, apiRoute } from '@/stores/routes'
+import { apiRoute } from '@/stores/routes'
 
 import { useWeatherTheme } from '@/composables/weatherTheme'
 
@@ -25,7 +25,7 @@ export const useWeather = () => {
     const selectedValidationDateStr = format(valDate.value, 'yyyyMMdd') ?? ''
     const url =
       viewType.value === 'validation'
-        ? `${_apiRoute()}/validation/stations?dt=${selectedValidationDateStr}`
+        ? `/api/validation/stations?dt=${selectedValidationDateStr}`
         : `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
     const schema = viewType.value === 'validation' ? stationValidation : stationObsLatest

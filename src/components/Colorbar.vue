@@ -22,7 +22,6 @@
   import axios from 'axios'
   import { computed } from 'vue'
 
-  import { _apiRoute } from '@/stores/routes'
   import { $activeVariable } from '@/stores/station'
 
   import { stationConfigurations } from '@/schemas/station'
@@ -30,7 +29,7 @@
   const activeVariable = useStore($activeVariable)
 
   const fetchWeatherConf = async () => {
-    const url = _apiRoute('stations/weather_conf')
+    const url = '/api/stations/weather_conf'
     const { data } = await axios.get(url)
     return stationConfigurations.parse(data)
   }

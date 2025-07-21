@@ -46,7 +46,6 @@
   import ReportCard from '@/components/ReportCard.vue'
 
   import { $user } from '@/stores/auth'
-  import { _apiRoute, route } from '@/stores/routes'
 
   const bodyEl = ref()
   const { arrivedState } = useScroll(bodyEl)
@@ -59,7 +58,7 @@
 
   const cursor = ref(0)
   const fetchReports = async ({ pageParam = 0 }) => {
-    const url = `${_apiRoute('reports')}?take=5&skip=${pageParam}`
+    const url = `/api/reports?take=5&skip=${pageParam}`
     const { data } = await axios.get(url)
     cursor.value += data.length
     return Report.array().parse(data)
@@ -89,7 +88,7 @@
   }
 
   const handleFABClick = () => {
-    location.href = `${route('reports/upload')}`
+    location.href = '/reports/upload'
   }
 
   watch(arrivedState, ({ bottom }) => {

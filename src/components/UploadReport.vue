@@ -87,7 +87,6 @@
 </template>
 
 <script setup lang="ts">
-  import { _apiRoute, route } from '@/stores/routes'
   import { ref, computed } from 'vue'
 
   interface Report {
@@ -123,8 +122,8 @@
     if (report.value.file) formData.append('report', report.value.file)
     formData.append('upload', '1')
 
-    const res = await fetch(_apiRoute('reports'), { method: 'POST', body: formData })
+    const res = await fetch('/api/reports', { method: 'POST', body: formData })
     const data = await res.json()
-    if (data === 'success') location.href = route('reports/publish')
+    if (data === 'success') location.href = '/reports/publish'
   }
 </script>

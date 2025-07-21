@@ -1,4 +1,3 @@
-import { _apiRoute } from '@/stores/routes'
 import { persistentMap } from '@nanostores/persistent'
 import { z } from 'zod'
 
@@ -11,7 +10,7 @@ interface UserData {
 
 type Auth = z.infer<typeof AuthSchema>
 
-const API_URL = _apiRoute('auth')
+const API_URL = '/api/auth'
 
 export const $user = persistentMap<Auth>(
   'user:',
@@ -28,7 +27,7 @@ export const $user = persistentMap<Auth>(
       if (value !== '') return JSON.parse(value)
       return value
     },
-  }
+  },
 )
 
 export const login = async (userData: UserData) => {

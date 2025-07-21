@@ -1,7 +1,5 @@
 ---
 import ReportLayout from '@/layouts/Report.astro'
-
-import { route } from '@/stores/routes'
 ---
 
 <ReportLayout>
@@ -9,7 +7,7 @@ import { route } from '@/stores/routes'
     <h4 class="p-4 flex justify-center text-3xl font-medium">Publish success!</h4>
     <p class="p-1 mb-3">
       Click
-      <a href={route('reports')} class="underline text-blue-600 hover:text-blue-400">here</a>
+      <a href="/reports" class="underline text-blue-600 hover:text-blue-400">here</a>
     </p>
   </div>
 </ReportLayout>
