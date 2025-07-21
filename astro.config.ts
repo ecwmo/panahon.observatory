@@ -25,9 +25,7 @@ export default defineConfig({
   base: basePath,
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),
-    UnoCSS({
-      injectReset: true,
-    }),
+    UnoCSS(),
     AstroPWA({
       registerType: 'autoUpdate',
       base: basePath,
