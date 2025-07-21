@@ -2,8 +2,11 @@ node_modules
 .git
 .gitignore
 *.md
+devenv*
+*.devenv*
 dist
 tests
 public
 tools
+*.tar.gz
 .bak
