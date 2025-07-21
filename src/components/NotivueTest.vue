@@ -28,7 +28,11 @@ onMounted(() => {
 });
 
 function notificationParser(entry: any) { //renews array for each new entry para pansinin ni watch
-  notifData.value = [ ...notifData.value, {title:entry.title,message:entry.short_desc + entry.category + entry.date_issued + entry.report_link,duration:Infinity}];
+  notifData.value = [ 
+    ...notifData.value, 
+    {title:entry.title,
+    message:entry.short_desc + entry.category + entry.date_issued + entry.report_link,
+    duration:Infinity}];
   
   const { //created desktop notif
     isSupported,
@@ -40,9 +44,10 @@ function notificationParser(entry: any) { //renews array for each new entry para
     body: entry.short_desc + entry.category + entry.date_issued + entry.report_link,
   })
   
-  if (isSupported.value && permissionGranted.value) //if permission == true, then show desktop notification
-  show()
-
+  if (isSupported.value && permissionGranted.value) { //if permission == true, then show desktop notification
+    show()
+  } 
+    
   onClick((evt: Event) => { //redirect to report when notification is clicked
     location.replace("https://127.0.0.1:8000/" + entry.report_link.replace("app://weather/",""));
   })

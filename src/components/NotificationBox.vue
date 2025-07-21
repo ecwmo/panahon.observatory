@@ -1,13 +1,16 @@
 <template>
     <div class="flex relative">
         <!-- Bell button to toggle notifications -->
+        <div class="relative">
+        <div v-if="notiCount != 0 " class="absolute top-0 right-0 w-5 h-5 bg-red-600 text-white rounded-full text-xs flex items-center justify-center">{{ notiCount }}</div>
         <button :class="[
             'rounded p-0 m-0 w-10 h-10',
-            notiCount !== 0 ? 'bg-amber' : 'bg-white'
+            notiCount !== 0 ? 'bg-yellow-500' : 'bg-white'
             ]" 
             @click="bellButton"
         ><i class="fa-solid fa-bell"></i>
         </button>
+        </div>
 
         <!-- renders the notifications themselves -->
         <Notivue v-slot="item">
@@ -29,6 +32,8 @@ import { ref, watch } from 'vue'
 
 const toggleNotifs = ref(false)
 const notiCount = ref(0)
+const activeNotiCount = ref(0)
+const notifQueue = ref<{ title: string; message: string; duration: number }[]>([])
 
 function bellButton() { //toggle notifications
   toggleNotifs.value = !toggleNotifs.value
@@ -44,20 +49,15 @@ const props = defineProps<{ //prop containing notifData
 
 watch(
   () => props.notifData,
-  (newData, oldData) => { //tracks which notifs have been added
+  (newData, oldData) => { //tracks new notifications
     const newItems = newData.slice(oldData?.length || 0)
 
-    newItems.forEach(({ title, message, duration }) => { //adds notifications
-      push.success({
-        title,
-        message,
-        duration,
-        onManualClear() {
-          notiCount.value -= 1
-        },
-      })
-      notiCount.value += 1
-    })
+    notifQueue.value.push(...newItems) //queue for notifications
+    notiCount.value += newItems.length;
+
+    for (let i = 0; i < 3; i++) {
+      pushNextNotif()
+    }
   },
 )
 
@@ -66,4 +66,23 @@ watch(notiCount, (newVal) => { //set toggleNotifs to false if no more notifs
     toggleNotifs.value = false
   }
 })
+
+function pushNextNotif() { //function for pushing the next notification
+  if (activeNotiCount.value >= 3 || notifQueue.value.length === 0) return; //prevent hallucinating notifs
+
+  const { title, message, duration } = notifQueue.value.shift()!;
+  if (activeNotiCount.value < 3){
+    push.success({
+        title,
+        message,
+        duration,
+        onManualClear() {
+          activeNotiCount.value -= 1;
+          notiCount.value -= 1;
+          pushNextNotif()
+        },
+      })
+    activeNotiCount.value += 1;
+  }
+}
 </script>
