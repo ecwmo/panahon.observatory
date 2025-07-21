@@ -23,6 +23,9 @@ export default defineConfig({
   },
   site: APP_SITE, //app site url
   base: basePath,
+  security: {
+    checkOrigin: false,
+  },
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),
     UnoCSS(),
@@ -62,6 +65,16 @@ export default defineConfig({
       copyPublicDir: false,
     },
     plugins: [mkcert()],
+    server: {
+      proxy: {
+        '/panahon': {
+          target: 'https://panahon.observatory.ph',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/panahon/, ''),
+        },
+      },
+    },
   },
   adapter: node({
     mode: 'standalone',
