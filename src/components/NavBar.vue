@@ -8,7 +8,7 @@
     >
       <!-- left half of the navbar -->
       <div class="hidden md:flex flex-col text-white items-center">
-        <h1 class="font-trajan text-xl md:text-3xl tracking-3px">Panahon</h1>
+        <h1 class="font-trajan text-xl md:text-2xl tracking-3px">Panahon</h1>
         <div>
           <a
             v-for="tab in pages.filter(({ visible }) => visible ?? true)"
@@ -43,7 +43,7 @@
               Committed to a scientific culture for sustainable development
             </h3>
           </div>
-          <h1 class="flex md:hidden font-trajan text-mo-Blue">Panahon | MO</h1>
+          <h1 class="flex md:hidden font-trajan text-mo-Blue text-xl">Panahon | MO</h1>
           <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
         </div>
         <div class="flex md:hidden">
@@ -93,8 +93,8 @@
     <nav v-else id="navbar2" class="flex flex-col justify-between items-center bg-white shadow-lg">
       <!-- header -->
       <div class="flex justify-between items-center w-full px-2 md:px-6 py-2">
-        <h1 class="font-trajan text-mo-Blue flex md:text-4xl md:tracking-wider md:font-semibold">
-          Panahon<span class="flex md:hidden">&nbsp;| MO</span>
+        <h1 class="font-trajan text-mo-Blue flex-inline text-xl md:text-4xl md:tracking-wider md:font-semibold">
+          Panahon<span class="md:hidden">&nbsp;| MO</span>
         </h1>
         <div class="flex justify-between items-center">
           <!-- constructs the right half of the navbar -->
@@ -178,15 +178,3 @@
     return pathName === activeTabPath
   }
 </script>
-
-<!-- import custom MO font -->
-<style scoped>
-  @font-face {
-    font-family: Trajan;
-    src: url('/resources/static/font/trajan-pro/TrajanPro-Bold.otf');
-  }
-
-  .font-trajan {
-    font-family: 'Trajan', serif;
-  }
-</style>
