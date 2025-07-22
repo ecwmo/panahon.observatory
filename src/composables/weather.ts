@@ -29,7 +29,11 @@ export const useWeather = () => {
         : `${apiRoute()}/observations/latest`
     const { data } = await axios.get(url)
     const schema = viewType.value === 'validation' ? stationValidation : stationObsLatest
-    const dat = schema.array().parse(data)
+    const dat = schema
+      .array()
+      .parse(
+        data.filter(({ lat, lon }: { lat?: number; lon?: number }) => Number.isFinite(lat) && Number.isFinite(lon)),
+      )
 
     const gDat = geojsonize(
       dat.map((d) => {

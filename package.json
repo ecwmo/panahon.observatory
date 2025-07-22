@@ -1,7 +1,7 @@
 {
   "name": "panahon-astro",
   "type": "module",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": "Emilio Gozo",
   "license": "ISC",
   "scripts": {
@@ -35,7 +35,7 @@
     "pdf-to-img": "^4.5.0",
     "vanilla-cookieconsent": "3.0.1",
     "vue": "^3.5.17",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@iconify-json/fa-solid": "^1.2.1",
