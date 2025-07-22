@@ -71,9 +71,6 @@ export default defineConfig({
     }),
   ],
   vite: {
-    build: {
-      copyPublicDir: false,
-    },
     plugins: [mkcert()],
     server: {
       proxy: {

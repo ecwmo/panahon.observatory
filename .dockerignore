@@ -5,8 +5,9 @@ node_modules
 devenv*
 *.devenv*
 dist
+dev-dist
 tests
-public
+public/resources
 tools
 *.tar.gz
 .bak
