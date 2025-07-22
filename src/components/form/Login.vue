@@ -81,7 +81,7 @@
           isPending.value = true
         },
         onError: (ctx) => {
-          console.log(ctx.error.message)
+          console.error('login error with email', ctx.error)
         },
       },
     })
@@ -93,7 +93,7 @@
       callbackURL: getPageRef(),
       fetchOptions: {
         onError: (ctx) => {
-          console.log(ctx.error.message)
+          console.error('login error with google', ctx.error)
         },
       },
     })

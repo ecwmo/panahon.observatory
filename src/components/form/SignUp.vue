@@ -49,7 +49,7 @@
           isPending.value = true
         },
         onError: (ctx) => {
-          console.log(ctx.error.message)
+          console.error('sign up error', ctx.error)
         },
       },
     })

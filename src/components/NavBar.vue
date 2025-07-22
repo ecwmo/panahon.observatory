@@ -129,7 +129,7 @@
             {{ tab.label }}
           </a>
           <a
-            v-if="userSession"
+            v-if="userSession.data"
             href="#"
             class="text-center text-sm md:text-base font-semibold text-white hover:text-navbar-Active transition duration-300"
             @click.prevent="handleLogout"
@@ -168,6 +168,9 @@
       fetchOptions: {
         onSuccess: () => {
           if (activeTab.value.auth) location.href = location.origin + `/login?ref=${activeTab.value.to}`
+        },
+        onError: (ctx) => {
+          console.error('logout error', ctx.error)
         },
       },
     })
