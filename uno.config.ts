@@ -55,9 +55,8 @@ export default defineConfig({
   },
   shortcuts: [
     {
-      'new-navbar': `bg-gradient-to-r from-mo-Blue from-25% to-white to-65% shadow-lg px-2 md:px-6 py-2`,
+      'new-navbar': `bg-linear-to-r from-mo-Blue from-25% to-white to-65% shadow-lg px-2 md:px-6 py-2`,
     },
   ],
   rules: [],
 })
-

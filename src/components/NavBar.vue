@@ -1,14 +1,15 @@
 <template>
   <header>
     <!-- Constructs navbar found on top of the page -->
-    <nav v-if="mode === 'alternate'" id="navbar1" class="flex justify-between items-center bg-white md:new-navbar">
+    <nav
+      v-if="mode === 'alternate'"
+      id="navbar1"
+      class="flex justify-between items-center bg-white md:new-navbar p-3 md:p-2"
+    >
       <!-- left half of the navbar -->
-      <div class="hidden md:flex flex-col text-white w-full">
-        <h1 class="font-trajan text-lg md:text-2xl tracking-3px" v-if="activeTab.to != '/'">
-          Panahon | {{ activeTab.to.replace('/', '') }}
-        </h1>
-        <h1 class="font-trajan text-lg md:text-2xl tracking-3px" v-else>Panahon | Observatory</h1>
-        <div class="">
+      <div class="hidden md:flex flex-col text-white items-center">
+        <h1 class="font-trajan text-xl md:text-3xl tracking-3px">Panahon</h1>
+        <div>
           <a
             v-for="tab in pages.filter(({ visible }) => visible ?? true)"
             :key="tab.label"
@@ -31,22 +32,19 @@
           >
         </div>
       </div>
-      <div class="flex flex-row-reverse justify-between items-center w-full">
+      <div class="relative flex flex-row-reverse justify-between items-center w-full md:w-auto">
         <!-- constructs the right half of the navbar -->
-        <div class="flex items-center">
-          <div class="flex flex-col">
-            <span class="font-trajan text-mo-Blue text-lg text-sm md:text-2xl md:tracking-5px md:ml-10 mr-2"
-              >Manila Observatory</span
-            >
-            <h1 class="font-semibold text-xs md:text-base text-navbar-Subtitle shadow md:mr-6 hidden md:flex">
-              Committed to a scientific culture for sustainable development
+        <div class="flex items-center space-x-2 md:space-x-4">
+          <div class="hidden md:flex md:flex-col justify-between items-center">
+            <h1 class="font-trajan text-mo-Blue text-sm md:text-xl md:tracking-widest md:font-semibold">
+              Manila Observatory
             </h1>
+            <h3 class="text-navbar-Subtitle hidden md:flex md:text-xs">
+              Committed to a scientific culture for sustainable development
+            </h3>
           </div>
-          <img
-            src="/resources/static/img/logo/mo.png"
-            alt="Logo"
-            class="h-12 w-12 md:h-35 md:w-35 mr-2 mt-1 mb-1 md:m-0"
-          />
+          <h1 class="flex md:hidden font-trajan text-mo-Blue">Panahon | MO</h1>
+          <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
         </div>
         <div class="flex md:hidden">
           <button
@@ -91,58 +89,55 @@
       </div>
     </nav>
 
-    <!-- Other navbar design -->
-    <div v-else-if="mode === 'default'">
-      <nav id="navbar2" class="flex justify-between items-center bg-white shadow-lg px-2 md:px-6 py-2">
-        <!-- left half of the navbar -->
-        <div class="flex flex-row-reverse justify-between items-center w-full">
+    <!-- default navbar design -->
+    <nav v-else id="navbar2" class="flex flex-col justify-between items-center bg-white shadow-lg">
+      <!-- header -->
+      <div class="flex justify-between items-center w-full px-2 md:px-6 py-2">
+        <h1 class="font-trajan text-mo-Blue flex md:text-4xl md:tracking-wider md:font-semibold">
+          Panahon<span class="flex md:hidden">&nbsp;| MO</span>
+        </h1>
+        <div class="flex justify-between items-center">
           <!-- constructs the right half of the navbar -->
-          <div class="flex items-center">
-            <div class="flex flex-col">
-              <span class="font-trajan text-mo-Blue text-lg text-sm md:text-2xl md:tracking-5px md:ml-10 mr-2"
-                >Manila Observatory</span
-              >
-              <h1 class="font-semibold text-xs md:text-base text-navbar-Subtitle shadow md:mr-6 hidden md:flex">
-                Committed to a scientific culture for sustainable development
+          <div class="flex items-center space-x-2 md:space-x-4">
+            <div class="hidden md:flex flex-col justify-between items-center">
+              <h1 class="font-trajan text-mo-Blue text-sm md:text-xl md:tracking-widest md:font-semibold">
+                Manila Observatory
               </h1>
+              <h3 class="text-navbar-Subtitle hidden md:flex md:text-xs">
+                Committed to a scientific culture for sustainable development
+              </h3>
             </div>
-            <img
-              src="/resources/static/img/logo/mo.png"
-              alt="Logo"
-              class="h-12 w-12 md:h-35 md:w-35 mr-2 mt-1 mb-1 md:m-0"
-            />
+            <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
           </div>
         </div>
-      </nav>
-      <nav id="navbar2-sub" class="bg-mo-Blue flex">
-        <div class="flex justify-center w-full mb-1 mt-1">
-          <div class="flex justify-between items-center w-3/4">
-            <a
-              v-for="tab in pages.filter(({ visible }) => visible ?? true)"
-              :key="tab.label"
-              :href="tab.to"
-              :class="[
-                'text-center p-1 md:p-2 text-sm md:text-base font-semibold transition duration-300',
-                isActive(tab.to)
-                  ? 'text-navbar-Active border-b-2 border-navbar-Active'
-                  : 'hover:text-navbar-Active text-white',
-              ]"
-              @click="open = false"
-            >
-              {{ tab.label }}
-            </a>
-            <!-- Constructs each tab in navbar -->
-            <a
-              v-if="userSession.data"
-              href="#"
-              class="p-1 md:p-2 text-sm md:text-base font-semibold text-white hover:text-navbar-Blue transition duration-300"
-              @click.prevent="handleLogout"
-              >Logout</a
-            >
-          </div>
+      </div>
+      <!-- menu -->
+      <div class="bg-mo-Blue flex justify-center w-full py-1">
+        <div class="flex justify-between items-center w-8/9 md:w-3/4">
+          <a
+            v-for="tab in pages.filter(({ visible }) => visible ?? true)"
+            :key="tab.label"
+            :href="tab.to"
+            :class="[
+              'text-center text-sm md:text-base font-semibold transition duration-300',
+              isActive(tab.to)
+                ? 'text-navbar-Active border-b-2 border-navbar-Active'
+                : 'hover:text-navbar-Active text-white',
+            ]"
+            @click="open = false"
+          >
+            {{ tab.label }}
+          </a>
+          <a
+            v-if="userSession"
+            href="#"
+            class="text-center text-sm md:text-base font-semibold text-white hover:text-navbar-Active transition duration-300"
+            @click.prevent="handleLogout"
+            >Logout</a
+          >
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </header>
 </template>
 
@@ -181,23 +176,6 @@
   const isActive = (pathName: string) => {
     const activeTabPath = activeTab.value?.to ?? '/'
     return pathName === activeTabPath
-  }
-
-  const toggleNavbars = () => {
-    //function for toggleNavbars button
-    const newNav = document.getElementById('navbar1')
-    const oldNav = document.getElementById('navbar2')
-    const oldNavSub = document.getElementById('navbar2-sub')
-
-    if (newNav.style.display === 'flex') {
-      newNav.style.display = 'none'
-      oldNav.style.display = 'flex'
-      oldNavSub.style.display = 'flex'
-    } else {
-      newNav.style.display = 'flex'
-      oldNav.style.display = 'none'
-      oldNavSub.style.display = 'none'
-    }
   }
 </script>
 

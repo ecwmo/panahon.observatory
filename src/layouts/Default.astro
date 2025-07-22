@@ -8,7 +8,8 @@ import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
 
 const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
-const { navMode = 'default' } = Astro.props //define navMode default or alternate
+
+const navMode = 'default' // default, alternate
 
 const { description: pageLabel, label: pageDesc } = Astro.locals.page.description
 ---
