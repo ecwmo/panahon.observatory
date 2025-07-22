@@ -7,13 +7,10 @@ import CookieConsent from '../components/CookieConsent.astro'
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
 
-import { activePage, setActivePage } from '@/stores/routes'
-
-setActivePage(Astro.url.href)
-
 const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
-const { description: pageDesc, label: pageLabel } = activePage.get()
 const { navMode = 'default' } = Astro.props //define navMode default or alternate
+
+const { description: pageLabel, label: pageDesc } = Astro.locals.page.description
 ---
 
 <!doctype html>
@@ -66,20 +63,3 @@ const { navMode = 'default' } = Astro.props //define navMode default or alternat
     </div>
   </body>
 </html>
-
-<script>
-  import NavBar from '@/components/NavBar.vue'
-  import { $user } from '@/stores/auth'
-  import { activePage, setActivePage } from '@/stores/routes'
-
-  setActivePage(location.href)
-
-  const { auth, to } = activePage.get()
-  const { isLoggedIn } = $user.get()
-
-  if (auth && !isLoggedIn) {
-    location.href = '/login?ref=/'
-  } else if (to === '/login' && isLoggedIn) {
-    location.href = '/'
-  }
-</script>

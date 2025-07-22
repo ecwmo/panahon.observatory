@@ -4,13 +4,13 @@
     <nav v-if="mode === 'alternate'" id="navbar1" class="flex justify-between items-center bg-white md:new-navbar">
       <!-- left half of the navbar -->
       <div class="hidden md:flex flex-col text-white w-full">
-        <h1 class="font-trajan text-lg md:text-2xl tracking-3px" v-if="$activeTab.to != '/'">
-          Panahon | {{ $activeTab.to.replace('/', '') }}
+        <h1 class="font-trajan text-lg md:text-2xl tracking-3px" v-if="activeTab.to != '/'">
+          Panahon | {{ activeTab.to.replace('/', '') }}
         </h1>
         <h1 class="font-trajan text-lg md:text-2xl tracking-3px" v-else>Panahon | Observatory</h1>
         <div class="">
           <a
-            v-for="tab in $tabs.filter(({ visible }) => visible ?? true)"
+            v-for="tab in pages.filter(({ visible }) => visible ?? true)"
             :key="tab.label"
             :href="tab.to"
             :class="[
@@ -23,7 +23,7 @@
           </a>
           <!-- Constructs each tab in navbar -->
           <a
-            v-if="user.isLoggedIn"
+            v-if="userSession.data"
             href="#"
             class="p-1 md:p-2 text-sm md:text-base font-semibold text-navbar-Gray hover:text-navbar-Blue transition duration-300"
             @click.prevent="handleLogout"
@@ -66,7 +66,7 @@
           >
             <!-- handles drop down hamburger logic -->
             <a
-              v-for="tab in $tabs.filter(({ visible }) => visible ?? true)"
+              v-for="tab in pages.filter(({ visible }) => visible ?? true)"
               :key="tab.label"
               :href="tab.to"
               :class="[
@@ -80,7 +80,7 @@
               {{ tab.label }}
             </a>
             <a
-              v-if="user.isLoggedIn"
+              v-if="userSession.data"
               href="#"
               class="p-1 md:p-2 text-sm md:text-base font-semibold text-gray-500 hover:text-blue-500 transition duration-300"
               @click.prevent="handleLogout"
@@ -118,7 +118,7 @@
         <div class="flex justify-center w-full mb-1 mt-1">
           <div class="flex justify-between items-center w-3/4">
             <a
-              v-for="tab in $tabs.filter(({ visible }) => visible ?? true)"
+              v-for="tab in pages.filter(({ visible }) => visible ?? true)"
               :key="tab.label"
               :href="tab.to"
               :class="[
@@ -133,7 +133,7 @@
             </a>
             <!-- Constructs each tab in navbar -->
             <a
-              v-if="user.isLoggedIn"
+              v-if="userSession.data"
               href="#"
               class="p-1 md:p-2 text-sm md:text-base font-semibold text-white hover:text-navbar-Blue transition duration-300"
               @click.prevent="handleLogout"
@@ -149,27 +149,38 @@
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
   import { ref } from 'vue'
+  import { useSession, signOut } from '@/lib/auth-client'
 
-  import { $user, logout } from '@/stores/auth'
-  import { activePage, pages } from '@/stores/routes'
+  import { $activePage, pages } from '@/stores/routes'
 
-  const user = useStore($user)
-  const $tabs = useStore(pages)
-  const $activeTab = useStore(activePage)
+  withDefaults(
+    defineProps<{
+      mode?: string
+    }>(),
+    { mode: 'default' },
+  )
+
+  const userSession = useSession()
+
+  const activeTab = useStore($activePage)
 
   const open = ref(false)
 
   const toggle = () => (open.value = !open.value)
 
   const handleLogout = async () => {
-    await logout()
-    if ($activeTab.value.to === '/report/upload') location.href = '/login'
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          if (activeTab.value.auth) location.href = location.origin + `/login?ref=${activeTab.value.to}`
+        },
+      },
+    })
   }
 
   const isActive = (pathName: string) => {
-    //made activeTabPath dynamic
-    const activeTabPath = basePath + $activeTab.value.to
-    return pathName === activeTabPath //compare relative paths
+    const activeTabPath = activeTab.value?.to ?? '/'
+    return pathName === activeTabPath
   }
 
   const toggleNavbars = () => {
@@ -188,19 +199,10 @@
       oldNavSub.style.display = 'none'
     }
   }
-
-  const { mode = 'default' } = defineProps<{
-    //takes in mode prop from defaultLayout
-    mode?: string
-  }>()
 </script>
 
 <!-- import custom MO font -->
 <style scoped>
-  .router-link-active {
-    @apply text-gray-900 border-b-2 border-gray-900;
-  }
-
   @font-face {
     font-family: Trajan;
     src: url('/resources/static/font/trajan-pro/TrajanPro-Bold.otf');
@@ -210,4 +212,3 @@
     font-family: 'Trajan', serif;
   }
 </style>
-

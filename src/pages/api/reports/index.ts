@@ -1,10 +1,6 @@
 import type { APIRoute } from 'astro'
 
-import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
-import { convert as pdf2ImgConvert } from 'pdf-img-convert'
-
 import { prisma } from '@/db'
-import { resourceDir } from '@/lib/helper/pages'
 
 export const GET: APIRoute = async ({ request, url }) => {
   try {
@@ -58,7 +54,7 @@ export const GET: APIRoute = async ({ request, url }) => {
           number,
           coverImg: files[0].fileName,
         }
-      })
+      }),
     )
 
     return new Response(JSON.stringify(reports), {
@@ -71,69 +67,4 @@ export const GET: APIRoute = async ({ request, url }) => {
       statusText: 'Server error',
     })
   }
-}
-
-export const POST: APIRoute = async ({ request }) => {
-  const data = await request.formData()
-
-  if (data.has('upload')) {
-    const repFile = data.get('report') as File
-    const repFileName = repFile.name
-
-    const repTitle = `${data.get('title')}`.trim()
-    const repCode = `${data.get('code')}`.trim().toLowerCase()
-    const repNum = `${data.get('number')}`.padStart(3, '0')
-
-    const uploadDir = `${resourceDir}/reports/${repCode}/${repNum}`
-    const imgDir = `${uploadDir}/img`
-    const repLocalPath = `${uploadDir}/${repFileName}`
-
-    await rm(imgDir, { recursive: true, force: true })
-    await mkdir(imgDir, { recursive: true })
-
-    const fBuffer = Buffer.from(await repFile.arrayBuffer())
-    await writeFile(repLocalPath, fBuffer)
-
-    const reportConf = {
-      title: repTitle,
-      code: repCode,
-      num: repNum,
-    }
-    await writeFile(`${resourceDir}/reports/draft.json`, JSON.stringify(reportConf))
-
-    const imgs = await pdf2ImgConvert(repLocalPath, { scale: 2 })
-
-    for (let i = 0; i < imgs.length; i++) {
-      const iStr = `${i}`.padStart(3, '0')
-      const rdmStr = Math.random().toString(20).slice(2, 11)
-      await writeFile(`${imgDir}/${iStr}-output-${rdmStr}.png`, imgs[i])
-    }
-  } else if (data.has('publish')) {
-    const reportConf = await readFile(`${resourceDir}/reports/draft.json`).then((d) => JSON.parse(d.toString()))
-    const { title, code, num } = reportConf
-
-    const imgSrc = `${code}/${num}/img`
-    const imgs = await readdir(`${resourceDir}/reports/${imgSrc}`)
-
-    await prisma.report.create({
-      data: {
-        title: title,
-        name: code,
-        number: Number(num),
-        files: {
-          create: imgs.map((img: string, idx) => {
-            return {
-              fileName: `${imgSrc}/${img}`,
-              order: idx,
-            }
-          }),
-        },
-      },
-    })
-  }
-
-  return new Response(JSON.stringify('success'), {
-    status: 200,
-    headers: { 'content-type': 'application/json' },
-  })
 }

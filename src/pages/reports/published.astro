@@ -1,13 +1,18 @@
 ---
-import ReportLayout from '@/layouts/Report.astro'
+import FormLayout from '@/layouts/Form.astro'
 ---
 
-<ReportLayout>
-  <div>
-    <h4 class="p-4 flex justify-center text-3xl font-medium">Publish success!</h4>
-    <p class="p-1 mb-3">
-      Click
-      <a href="/reports" class="underline text-blue-600 hover:text-blue-400">here</a>
-    </p>
+<FormLayout>
+  <div class="w-full flex flex-col p-6 space-y-4 md:space-y-6 sm:p-8">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+      Publish success!
+    </h1>
+    <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
+    <div class="space-y-4 md:space-y-6">
+      <p class="text-lg text-gray-500 dark:text-gray-400">
+        Click
+        <a href="/reports" target="_blank" class="font-medium text-blue-600 hover:underline dark:text-blue-500">here</a>
+      </p>
+    </div>
   </div>
-</ReportLayout>
+</FormLayout>

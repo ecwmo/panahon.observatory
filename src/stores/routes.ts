@@ -1,10 +1,12 @@
 import { atom } from 'nanostores'
 
+const defaultPageName = 'index'
+
 export const baseAPIPath = import.meta.env.PUBLIC_API_URL.replace(/\/$/, '')
 
 export const apiRoute = (pathName?: string) => `${baseAPIPath}/${pathName ?? ''}`.replace(/\/$/, '')
 
-interface Page {
+export type Page = {
   name: string
   description: string
   label: string
@@ -13,10 +15,11 @@ interface Page {
   auth?: boolean
   parent?: string
 }
-export const pages = atom<Page[]>([
+
+export const pages: Page[] = [
   //make paths reusable, avoid hardcoding paths in project
   {
-    name: 'index',
+    name: defaultPageName,
     description: 'Latest Summaries - Weather Conditions and Maps',
     label: 'Quick View',
     to: '/',
@@ -43,6 +46,15 @@ export const pages = atom<Page[]>([
     visible: false,
   },
   {
+    name: 'published_report',
+    description: 'Published Report',
+    label: 'Reports',
+    to: '/reports/published',
+    parent: 'reports',
+    auth: true,
+    visible: false,
+  },
+  {
     name: 'ewb_quicklook',
     description: 'EWB Quicklook',
     label: 'EWB',
@@ -58,27 +70,17 @@ export const pages = atom<Page[]>([
   },
   // { name: 'faq', description: 'Frequently Asked Questions', label: 'FAQ', to: '/faq' },
   { name: 'login', description: 'Login Page', label: 'Login', to: '/login', visible: false },
-])
+]
 
-export const activePage = atom({} as Page)
-export const activePageURL = atom({} as URL)
+const defaultPage = pages.find(({ name }) => name === defaultPageName)!
 
-const setActivePageURL = (payload: URL) => activePageURL.set(payload)
+export const $activePage = atom<Page>(defaultPage)
 
-export const setActivePage = (payload: string) => {
-  const nPageUrl = new URL(payload)
-  const nPagePath = nPageUrl.pathname
-
-  const defaultPage = pages.get().find(({ name }) => name === 'index')
+export const setActivePage = (pathName: string) => {
   const newPage =
-    nPagePath === '/'
+    pathName === '/'
       ? defaultPage
-      : (pages
-          .get()
-          .filter(({ name }) => name !== 'index')
-          .find(({ to }) => nPagePath === to) ?? { ...defaultPage, to: nPageUrl.pathname })
+      : pages.filter(({ name }) => name !== defaultPage?.name).find(({ to }) => pathName === to)
 
-  setActivePageURL(nPageUrl)
-
-  activePage.set(newPage)
+  if (newPage) $activePage.set(newPage)
 }
