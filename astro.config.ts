@@ -31,31 +31,42 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       base: basePath,
-      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico'],
       manifest: {
         name: 'Manila Observatory - Panahon',
         short_name: 'MO - Panahon',
-        background_color: '#ffffff',
-        description: 'Manila Observatory - Panahon website',
         theme_color: '#ffffff',
+        description: 'Manila Observatory - Panahon website',
         icons: [
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-192x192.png`,
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-512x512.png`,
+            src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-512x512.png`,
+            src: 'maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
         ],
+      },
+      pwaAssets: {
+        config: true,
+      },
+      devOptions: {
+        enabled: true,
+        navigateFallbackAllowlist: [/^\/$/],
       },
     }),
   ],

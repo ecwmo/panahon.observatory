@@ -1,4 +1,5 @@
 ---
+import { pwaAssetsHead } from 'virtual:pwa-assets/head'
 import { pwaInfo } from 'virtual:pwa-info'
 
 import ReloadPrompt from '../components/ReloadPrompt.astro'
@@ -11,7 +12,7 @@ const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
 
 const navMode = 'default' // default, alternate
 
-const { description: pageLabel, label: pageDesc } = Astro.locals.page.description
+const { description: pageLabel, label: pageDesc } = Astro.locals.page
 ---
 
 <!doctype html>
@@ -19,14 +20,12 @@ const { description: pageLabel, label: pageDesc } = Astro.locals.page.descriptio
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/resources/static/img/logo/favicon.ico" />
-    <link rel="alternate icon" href="/resources/static/img/logo/favicon-16x16.png" type="image/png" sizes="16x16" />
-    <link rel="apple-touch-icon" href="/resources/static/img/logo/apple-touch-icon.png" sizes="180x180" />
-    <link rel="mask-icon" href="/resources/static/img/logo/safari-pinned-tab.svg" color="#5bbad5" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="generator" content={Astro.generator} />
     <title>Panahon - {pageLabel} - Manila Observatory</title>
     <meta name="description" content={pageDesc} />
+    {pwaAssetsHead.themeColor && <meta name="theme-color" content={pwaAssetsHead.themeColor.content} />}
+    {pwaAssetsHead.links.map((link) => <link {...link} />)}
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+    <script src="/src/pwa.ts"></script>
     <script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementID}`} is:inline></script>
     <script define:vars={{ gaMeasurementID }}>
       window.dataLayer = window.dataLayer || []
@@ -44,8 +43,6 @@ const { description: pageLabel, label: pageDesc } = Astro.locals.page.descriptio
       })
       window.gtag('config', gaMeasurementID)
     </script>
-    <script src="/src/pwa.ts"></script>
-    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
   </head>
   <body class="fixed inset-0 bg-gray-700/30" aria-hidden="true">
     <!-- moved gray background to body itself -->

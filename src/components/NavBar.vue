@@ -44,7 +44,7 @@
             </h3>
           </div>
           <h1 class="flex md:hidden font-trajan text-mo-Blue text-xl">Panahon | MO</h1>
-          <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
+          <img src="/pwa-192x192.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
         </div>
         <div class="flex md:hidden">
           <button
@@ -107,7 +107,7 @@
                 Committed to a scientific culture for sustainable development
               </h3>
             </div>
-            <img src="/resources/static/img/logo/mo.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
+            <img src="/pwa-192x192.png" alt="Logo" class="h-8 w-8 md:h-12 md:w-12" />
           </div>
         </div>
       </div>
