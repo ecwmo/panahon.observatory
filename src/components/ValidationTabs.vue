@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-  import { route } from '@/stores/routes'
   import { Tab, TabGroup, TabList } from '@headlessui/vue'
   import { onMounted, ref } from 'vue'
 
@@ -27,7 +26,7 @@
     defineProps<{
       tab?: string
     }>(),
-    { tab: '0' }
+    { tab: '0' },
   )
 
   const selectedTab = ref(0)
@@ -35,9 +34,9 @@
   const changeTab = (idx: number) => {
     selectedTab.value = idx
     if (idx === 1) {
-      location.href = route('validation/ts')
+      location.href = '/validation/ts'
     } else {
-      location.href = route('validation')
+      location.href = '/validation'
     }
   }
 

@@ -39,7 +39,6 @@
   import { computed, ref } from 'vue'
 
   import { ReportImages } from '@/schemas/report'
-  import { _apiRoute } from '@/stores/routes'
 
   import Lazy from '@/components/Lazy.vue'
 
@@ -53,7 +52,7 @@
   const { data: report } = useQuery({
     queryKey: ['reports', props.mode],
     queryFn: async () => {
-      const url = `${_apiRoute('reports')}/${props.mode}`
+      const url = `/api/reports/${props.mode}`
       const { data } = await axios.get(url)
       return ReportImages.parse(data)
     },

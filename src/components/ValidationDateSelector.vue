@@ -54,15 +54,13 @@
   import { useStore } from '@nanostores/vue'
   import { format, isSameMonth, isSameYear, parse, subDays } from 'date-fns'
 
-  import { _apiRoute } from '@/stores/routes'
-
   import { $selectedDate, setSelectedDate } from '@/stores/validation'
 
   const props = withDefaults(
     defineProps<{
       rangeView?: boolean
     }>(),
-    { rangeView: false }
+    { rangeView: false },
   )
 
   const selectedDate = useStore($selectedDate)
@@ -72,7 +70,7 @@
   const { data: validationDates, isSuccess } = useQuery({
     queryKey: ['validation', 'dates'],
     queryFn: async () => {
-      const url = `${_apiRoute('validation')}/dates`
+      const url = '/api/validation/dates'
       const { data } = await axios.get(url)
       const dates = (<string[]>data)?.map((dt) => parse(dt, 'yyyy-MM-dd', new Date())) ?? <Date[]>[]
       setSelectedDate(dates?.[0])
@@ -94,6 +92,6 @@
   }
 
   const selectedDtStr = computed(() =>
-    props.rangeView ? toDateRangeString(selectedDate.value) : format(selectedDate.value, dateFormat)
+    props.rangeView ? toDateRangeString(selectedDate.value) : format(selectedDate.value, dateFormat),
   )
 </script>

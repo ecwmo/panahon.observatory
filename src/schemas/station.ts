@@ -34,8 +34,8 @@ export const station = z.object({
   address: z.string().nullish(),
 })
 
-export const stationObsLatest = station.merge(numberID).merge(z.object({ obs: stationObservation }))
-export const stationValidation = station.merge(stringID).merge(z.object({ tsImg: z.string().optional() }))
+export const stationObsLatest = station.extend(numberID.shape).extend(z.object({ obs: stationObservation }).shape)
+export const stationValidation = station.extend(stringID.shape).extend(z.object({ tsImg: z.string().optional() }).shape)
 
 const stationConfiguration = z.object({
   varName: z.string().optional(),
@@ -53,4 +53,4 @@ const stationConfiguration = z.object({
     .optional(),
 })
 
-export const stationConfigurations = z.record(stationConfiguration)
+export const stationConfigurations = z.record(z.string(), stationConfiguration)

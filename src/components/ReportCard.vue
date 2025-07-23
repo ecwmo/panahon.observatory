@@ -1,5 +1,5 @@
 <template>
-  <a :href="route(`reports/${data.id}`)" class="group">
+  <a :href="`/reports/${data.id}`" class="group">
     <img
       :src="`${resourcePath}/reports/${data.coverImg}`"
       alt="image"
@@ -17,7 +17,6 @@
   import type { Report } from '@/types/report'
 
   import { resourcePath } from '@/lib/helper/pages'
-  import { route } from '@/stores/routes'
 
   defineProps<{
     data: Report

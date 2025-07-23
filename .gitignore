@@ -155,6 +155,8 @@ yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/node,vuejs,astro
 
+dev-dist/
+
 .bak/
 
 public/resources/

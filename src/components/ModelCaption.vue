@@ -5,7 +5,7 @@
       <a href="https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml" target="_blank" rel="noopener noreferrer"
         >Rothfusz (1990)</a
       >.
-      <img :src="route('resources/model/static/heat_index_static_table.png')" class="pt-5" />
+      <img src="/resources/model/static/heat_index_static_table.png" class="pt-5" />
     </span>
     <span v-else-if="id === 'wpd'">
       The Wind Power Potential plot uses 100-m wind speed of the model output to approximate the wind speed at 80-m, the
@@ -21,21 +21,21 @@
       >.
     </span>
     <span v-else-if="id === 'rainx'">
-    <!--   The figure above highlights areas with forecast 24-hour rainfall possibly exceeding the typical monthly total -->
-    <!--   rainfall based on data from TRMM Multi-Satellite Precipitation Analysis TMPA (3B42RT; -->
-    <!--   <a href="https://doi.org/10.5067/TRMM/TMPA/DAY-E/7" target="_blank" rel="noopener noreferrer"> -->
-    <!--     10.5067/TRMM/TMPA/DAY-E/7 </a -->
-    <!--   >). However, caution is advised in interpreting the maps. Since TRMM is observed to underestimate rainfall in the -->
-    <!--   Philippines (<a -->
-    <!--     href="https://journals.ametsoc.org/view/journals/hydr/21/7/jhmD190276.xml" -->
-    <!--     target="_blank" -->
-    <!--     rel="noopener noreferrer" -->
-    <!--   > -->
-    <!--     Peralta et al., 2020 </a -->
-    <!--   >) a lower baseline for monthly rainfall derived from TRMM may result in more areas forecast to receive extreme -->
-    <!--   rainfall. -->
-    <!-- </span> -->
-    <!-- <span v-else-if="id === 'ari'"> -->
+      <!--   The figure above highlights areas with forecast 24-hour rainfall possibly exceeding the typical monthly total -->
+      <!--   rainfall based on data from TRMM Multi-Satellite Precipitation Analysis TMPA (3B42RT; -->
+      <!--   <a href="https://doi.org/10.5067/TRMM/TMPA/DAY-E/7" target="_blank" rel="noopener noreferrer"> -->
+      <!--     10.5067/TRMM/TMPA/DAY-E/7 </a -->
+      <!--   >). However, caution is advised in interpreting the maps. Since TRMM is observed to underestimate rainfall in the -->
+      <!--   Philippines (<a -->
+      <!--     href="https://journals.ametsoc.org/view/journals/hydr/21/7/jhmD190276.xml" -->
+      <!--     target="_blank" -->
+      <!--     rel="noopener noreferrer" -->
+      <!--   > -->
+      <!--     Peralta et al., 2020 </a -->
+      <!--   >) a lower baseline for monthly rainfall derived from TRMM may result in more areas forecast to receive extreme -->
+      <!--   rainfall. -->
+      <!-- </span> -->
+      <!-- <span v-else-if="id === 'ari'"> -->
       The figure above shows daily rainfall amounts exceeding a 5-year average recurrence interval (ARI) threshold.
       <br />
       <br />
@@ -56,7 +56,6 @@
 </template>
 
 <script setup lang="ts">
-  import { route } from '@/stores/routes'
   defineProps<{
     id: string
   }>()

@@ -95,7 +95,6 @@
 
   import type { MetField } from '@/stores/model'
   import { imageTimesteps, metFields } from '@/stores/model'
-  import { _apiRoute } from '@/stores/routes'
 
   const activeVariable = ref(metFields[0])
   const activeTSIdx = ref(0)
@@ -116,7 +115,7 @@
   )
 
   const activeVariableName = computed(() =>
-    !isExtreme.value ? activeVariable.value.val : activeExtremeVariable.value ?? activeVariable.value.val,
+    !isExtreme.value ? activeVariable.value.val : (activeExtremeVariable.value ?? activeVariable.value.val),
   )
 
   const parseDateFromImageFile = (s?: string) => {
@@ -126,7 +125,7 @@
 
   const fetchModelImage = async (varName: string, timestep?: number, index?: number) => {
     const path = timestep !== undefined ? `${timestep}/${varName}/${index}` : varName
-    const { data } = await axios.get(`${_apiRoute('models')}/img/${path}`)
+    const { data } = await axios.get(`/api/models/img/${path}`)
     const imgSrc = z.string().parse(data)
     const initTimestamp = parseDateFromImageFile(imgSrc)
     const imgTimestamp =

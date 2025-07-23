@@ -1,9 +1,9 @@
 ---
-import ReportLayout from '@/layouts/Report.astro'
+import FormLayout from '@/layouts/Form.astro'
 
-import PublishReportPage from '@/pages/_vue/reports/publish.vue'
+import PublishReport from '@/components/form/PublishReport.vue'
 ---
 
-<ReportLayout>
-  <PublishReportPage client:visible />
-</ReportLayout>
+<FormLayout>
+  <PublishReport client:load />
+</FormLayout>

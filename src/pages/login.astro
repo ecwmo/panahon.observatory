@@ -1,17 +1,13 @@
 ---
-import DefaultLayout from '@/layouts/Default.astro'
+import FormLayout from '@/layouts/Form.astro'
 
-import LoginForm from '@/components/LoginForm.vue'
+import LoginForm from '@/components/form/Login.vue'
 
-import { $user } from '@/stores/auth'
-
-const { username, isLoggedIn } = $user.get()
+if (Astro.locals.session) {
+  return Astro.redirect('/')
+}
 ---
 
-<DefaultLayout>
-  <div class="flex py-4 justify-center">
-    <div class="flex flex-col bg-white text-gray-900 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {isLoggedIn ? <h3 class="text-xl font-medium">Hello {username}!!!</h3> : <LoginForm client:visible />}
-    </div>
-  </div>
-</DefaultLayout>
+<FormLayout>
+  <LoginForm client:load />
+</FormLayout>

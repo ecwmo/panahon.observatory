@@ -26,7 +26,7 @@ export const EWBIntImages = z.object({
   }),
 })
 
-export const EWBImages = EWBExtImages.merge(EWBIntImages)
+export const EWBImages = EWBExtImages.extend(EWBIntImages.shape)
 
 export const EWBItems = z
   .object({

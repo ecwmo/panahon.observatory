@@ -1,6 +1,6 @@
 <template>
   <div ref="bodyEl" class="relative h-full overflow-y-scroll">
-    <div v-if="user.isLoggedIn" class="absolute bottom-12 md:bottom-14 right-0 w-12 md:w-14 md:m-2">
+    <div v-if="userSession.data" class="absolute bottom-12 md:bottom-14 right-0 w-12 md:w-14 md:m-2">
       <button
         class="fixed z-20 w-10 md:w-12 h-10 md:h-12 bg-blue-600 rounded-full hover:bg-blue-700 active:shadow-2xl mouse shadow-xl transition ease-in duration-200 focus:outline-none"
         @click.prevent="handleFABClick"
@@ -35,31 +35,29 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore } from '@nanostores/vue'
   import { useInfiniteQuery } from '@tanstack/vue-query'
   import { useScroll } from '@vueuse/core'
   import axios from 'axios'
   import { computed, ref, watch } from 'vue'
 
+  import { useSession } from '@/lib/auth-client'
+
   import { Report } from '@/schemas/report'
 
   import ReportCard from '@/components/ReportCard.vue'
 
-  import { $user } from '@/stores/auth'
-  import { _apiRoute, route } from '@/stores/routes'
+  const userSession = useSession()
 
   const bodyEl = ref()
   const { arrivedState } = useScroll(bodyEl)
   const featuredImgPos = ref('landscape')
-
-  const user = useStore($user)
 
   const reportCount = computed(() => reports.value?.length ?? 0)
   const hasScroll = computed(() => bodyEl.value.clientHeight < bodyEl.value.scrollHeight)
 
   const cursor = ref(0)
   const fetchReports = async ({ pageParam = 0 }) => {
-    const url = `${_apiRoute('reports')}?take=5&skip=${pageParam}`
+    const url = `/api/reports?take=5&skip=${pageParam}`
     const { data } = await axios.get(url)
     cursor.value += data.length
     return Report.array().parse(data)
@@ -89,7 +87,7 @@
   }
 
   const handleFABClick = () => {
-    location.href = `${route('reports/upload')}`
+    location.href = '/reports/upload'
   }
 
   watch(arrivedState, ({ bottom }) => {

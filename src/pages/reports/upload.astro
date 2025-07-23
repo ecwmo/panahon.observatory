@@ -1,9 +1,8 @@
 ---
-import ReportLayout from '@/layouts/Report.astro'
-
-import UploadReport from '@/components/UploadReport.vue'
+import FormLayout from '@/layouts/Form.astro'
+import UploadReport from '@/components/form/UploadReport.vue'
 ---
 
-<ReportLayout>
-  <UploadReport class="w-64 md:w-80" client:visible />
-</ReportLayout>
+<FormLayout>
+  <UploadReport client:load />
+</FormLayout>

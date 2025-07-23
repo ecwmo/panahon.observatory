@@ -1,27 +1,46 @@
-FROM node:iron-bookworm AS base
+FROM node:lts as base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-COPY . /app
+RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
+
+FROM base as deps
 WORKDIR /app
-
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-RUN pnpm dlx prisma@5.20.0 generate
-
-FROM base AS build
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  build-essential \
+  libcairo2-dev \
+  libpango1.0-dev \
+  libjpeg-dev \
+  libgif-dev \
+  librsvg2-dev \
+  && rm -rf /var/lib/apt/lists/*
+COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build
+RUN pnpx prisma@6.11.1 generate
 
-FROM node:iron-bookworm-slim AS deploy
+FROM deps as build
 WORKDIR /app
-RUN apt-get update && apt-get install -y \
+COPY . .
+RUN pnpm build
+
+FROM node:lts-slim as deploy
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  libpango1.0-0 \
+  libpangocairo-1.0-0 \
+  libcairo2 \
+  libjpeg62-turbo \
+  libgif7 \
+  librsvg2-2 \
   openssl \
   && rm -rf /var/lib/apt/lists/*
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist /app
+ENV NODE_ENV=production
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/
 
-VOLUME [ "/app/prisma" ]
+VOLUME ["/app/prisma"]
 
 EXPOSE 3000
 ENV PORT=3000

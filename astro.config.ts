@@ -15,53 +15,73 @@ const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/` //normalizes the APP
 
 export default defineConfig({
   output: 'server',
-  server: { //specify server host and port
+  server: {
+    //specify server host and port
     host: APP_HOST,
     port: +APP_PORT,
   },
-  site: APP_SITE, //app url site
+  site: APP_SITE, //app site url
   base: basePath,
+  security: {
+    checkOrigin: false,
+  },
   integrations: [
     vue({ appEntrypoint: '/src/pages/_app' }),
-    UnoCSS({
-      injectReset: true,
-    }),
+    UnoCSS(),
     AstroPWA({
       registerType: 'autoUpdate',
       base: basePath,
-      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico'],
       manifest: {
         name: 'Manila Observatory - Panahon',
         short_name: 'MO - Panahon',
-        background_color: '#ffffff',
-        description: 'Manila Observatory - Panahon website',
         theme_color: '#ffffff',
+        description: 'Manila Observatory - Panahon website',
         icons: [
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-192x192.png`,
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-512x512.png`,
+            src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: `${basePath}resources/static/img/logo/android-chrome-512x512.png`,
+            src: 'maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
         ],
+      },
+      pwaAssets: {
+        config: true,
+      },
+      devOptions: {
+        enabled: true,
+        navigateFallbackAllowlist: [/^\/$/],
       },
     }),
   ],
   vite: {
-    build: {
-      copyPublicDir: false,
-    },
     plugins: [mkcert()],
+    server: {
+      proxy: {
+        '/panahon': {
+          target: 'https://panahon.observatory.ph',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/panahon/, ''),
+        },
+      },
+    },
   },
   adapter: node({
     mode: 'standalone',
