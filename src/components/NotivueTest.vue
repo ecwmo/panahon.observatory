@@ -12,10 +12,6 @@ import { useWebNotification } from '@vueuse/core';
 import { ref, onMounted } from 'vue';
 import NotificationBox from '@/components/NotificationBox.vue'
 
-import { basePath } from '@/stores/routes';
-
-console.log("basePath:",basePath)
-
 const notifData = ref([]);
 
 onMounted(() => {

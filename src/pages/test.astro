@@ -1,23 +1,21 @@
 ---
+import { pwaAssetsHead } from 'virtual:pwa-assets/head'
 import { pwaInfo } from 'virtual:pwa-info'
 
 import ReloadPrompt from '../components/ReloadPrompt.astro'
 import CookieConsent from '../components/CookieConsent.astro'
 
-import NotivueTest from '@/components/NotivueTest.vue'
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
-
-import { activePage, route, setActivePage } from '@/stores/routes'
 
 import 'notivue/astro/notification.css' //important for notification style
 import 'notivue/astro/animations.css'
 
-setActivePage(Astro.url.href)
-
 const gaMeasurementID = import.meta.env.GA_MEASUREMENT_ID
-const { description: pageDesc, label: pageLabel } = activePage.get()
-const { navMode = 'default' } = Astro.props //define navMode default or alternate
+
+const navMode = 'default' // default, alternate
+
+const { description: pageLabel, label: pageDesc } = Astro.locals.page
 ---
 
 <!doctype html>

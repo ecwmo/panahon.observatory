@@ -30,9 +30,5 @@
       </div>
     </div>
   </footer>
-<<<<<<< HEAD
-</template>
-=======
 </template>
 
->>>>>>> upstream/main
