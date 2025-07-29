@@ -30,7 +30,10 @@
         </button>
       </div>
     </div>
-    <div class="flex flex-col items-center gap-2 w-full">
+    <div class="relative flex flex-col items-center gap-2 w-full">
+      <div class="absolute top-0 right-0 mr-5">
+        <NotificationsContainer client:load /> <!-- notification button -->
+      </div>  
       <h2 class="text-center font-semibold text-2xl md:text-3xl">Climate Anomaly</h2>
       <Range
         :model-value="activeDecade"
@@ -55,6 +58,8 @@
 
   import Range, { type RangeTicks } from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
+  import NotificationsContainer from '@/components/NotificationsContainer.vue'
+
 
   import {
     $activeDecade,

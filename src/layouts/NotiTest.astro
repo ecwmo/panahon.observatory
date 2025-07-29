@@ -1,5 +1,5 @@
 ---
-import NotivueTest from '@/components/NotivueTest.vue'
+import NotificationsContainer from '@/components/NotificationsContainer.vue'
 import 'notivue/astro/notification.css'
 import 'notivue/astro/animations.css'
 ---
@@ -9,7 +9,7 @@ import 'notivue/astro/animations.css'
   <head> </head>
   <body class="h-full">
     <div class="flex bg-gray-400 grow h-full justify-right">
-      <NotivueTest client:load />
+      <NotificationsContainer client:load />
       <!-- contains buttons that send the notifications -->
       <slot />
     </div>

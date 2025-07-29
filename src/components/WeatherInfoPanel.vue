@@ -3,7 +3,7 @@
     class="relative hidden md:w-1/2 md:h-full md:flex md:flex-col justify-center items-center text-sm text-center gap-2 md:gap-4" 
   > <!-- Background of the right half of index screen -->
     <div class="absolute top-0 right-0">
-      <NotivueTest client:load />
+      <NotificationsContainer client:load />
     </div>
     <div class="flex flex-col md:items-start w-full mb-6">
       <div class="text-sm font-extralight">{{ tsStringLong }}</div> <!-- information above info cards -->
@@ -50,7 +50,7 @@
 
   import Card from '@/components/Card.vue'
   import WeatherDescription from '@/components/WeatherDescription.vue'
-  import NotivueTest from '@/components/NotivueTest.vue'
+  import NotificationsContainer from '@/components/NotificationsContainer.vue'
 
   import {
     $activeStation,

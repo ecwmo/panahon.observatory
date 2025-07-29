@@ -3,14 +3,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   </head>
     <div class="flex justify-right">
-      <NotificationBox :notifData="notifData" class="flex" />
+      <Notifications :notifData="notifData" class="flex" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { useWebNotification } from '@vueuse/core';
 import { ref, onMounted } from 'vue';
-import NotificationBox from '@/components/NotificationBox.vue'
+import Notifications from '@/components/Notifications.vue';
 
 const notifData = ref([]);
 
@@ -24,11 +24,16 @@ onMounted(() => {
 });
 
 function notificationParser(entry: any) { //renews array for each new entry para pansinin ni watch
-  notifData.value = [ 
-    ...notifData.value, 
-    {title:entry.title,
+  
+  const newNotif = {
+    title:entry.title,
     message:entry.short_desc + entry.category + entry.date_issued + entry.report_link,
-    duration:Infinity}];
+    duration:Infinity
+  };
+
+  notifData.value = [...notifData.value, newNotif];
+
+  localStorage.setItem("notifs",JSON.stringify({...notifData.value}))
   
   const { //created desktop notif
     isSupported,
@@ -36,8 +41,8 @@ function notificationParser(entry: any) { //renews array for each new entry para
     show,
     onClick,
   } = useWebNotification({
-    title: entry.title,
-    body: entry.short_desc + entry.category + entry.date_issued + entry.report_link,
+    title: newNotif.title,
+    body: newNotif.message,
   })
   
   if (isSupported.value && permissionGranted.value) { //if permission == true, then show desktop notification
