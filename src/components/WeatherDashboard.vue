@@ -60,14 +60,14 @@
   import { format, parseISO } from 'date-fns'
   import { computed, toRefs, watch } from 'vue'
 
-  import { useActiveWeatherStation } from '@/composables/activeWeatherStation';
+  import { useActiveWeatherStation } from '@/composables/activeWeatherStation'
 
   const props = withDefaults(
     defineProps<{
       stationId?: string
       stationPt?: string
     }>(),
-    { stationId: '', stationPt: '' }
+    { stationId: '', stationPt: '' },
   )
 
   const { stationId, stationPt } = toRefs(props)
@@ -76,7 +76,7 @@
 
   const obsStr = useStore($activeStationObsStr)
 
-  const { station, isSuccess } = useActiveWeatherStation({ id: stationId, pt: stationPt })
+  const { data: station, isSuccess } = useActiveWeatherStation({ id: stationId, pt: stationPt })
   watch(isSuccess, () => {
     if (station.value) setActiveStation(station.value)
   })
