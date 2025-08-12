@@ -40,21 +40,17 @@
         />
       </Transition>
       <Transition name="fade">
-        <SwitchGroup v-show="activeExtremeVariable" class="scale-75 md:scale-100">
-          <div class="flex items-center gap-1.5">
-            <Switch
-              v-model="isExtreme"
-              :class="isExtreme ? 'bg-gray-500' : 'bg-gray-200'"
-              class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
-            >
-              <span
-                :class="isExtreme ? 'translate-x-4 bg-gray-200' : 'bg-gray-500 translate-x-0'"
-                class="inline-block h-3.5 w-3.5 transform rounded-full transition-transform"
-              />
-            </Switch>
-            <SwitchLabel class="text-sm">Show extreme</SwitchLabel>
-          </div>
-        </SwitchGroup>
+        <div v-show="activeExtremeVariable" class="flex items-center gap-1.5">
+          <SwitchRoot
+            v-model="isExtreme"
+            class="w-8.5 h-5 shadow-sm flex data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-gray-500 border border-gray-800 data-[state=checked]:border-gray-500 rounded-full relative transition-[background] focus-within:outline-none focus-within:border-gray-600 focus-within:shadow-gray-600"
+          >
+            <SwitchThumb
+              class="w-3.5 h-3.5 my-auto data-[state=checked]:bg-gray-200 data-[state=unchecked]:bg-gray-500 text-xs flex items-center justify-center shadow-xl rounded-full transition-transform translate-x-0.5 will-change-transform data-[state=checked]:translate-x-full"
+            />
+          </SwitchRoot>
+          <label class="text-sm">Show extreme</label>
+        </div>
       </Transition>
       <Transition name="fade" mode="out-in">
         <img
@@ -87,7 +83,7 @@
   import ModelCaption from '@/components/ModelCaption.vue'
   import Range from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
-  import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+  import { SwitchRoot, SwitchThumb } from 'reka-ui'
 
   import type { MetField } from '@/stores/model'
   import { imageTimesteps, metFields } from '@/stores/model'

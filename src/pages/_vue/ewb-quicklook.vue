@@ -1,27 +1,28 @@
 <template>
   <div ref="bodyEl" class="h-full md:p-4 overflow-scroll">
-    <TabGroup :selected-index="selectedTab" @change="handleTabChange">
-      <TabList
+    <TabsRoot :model-value="selectedTab" @update:modelValue="handleTabChange">
+      <TabsList
         ref="tabHeaderEl"
         :class="['fixed flex space-x-2 rounded-xl p-1 mx-5 z-40 ', { 'backdrop-blur-sm bg-white/10': selectedTab > 0 }]"
       >
-        <Tab v-for="tab in tabs" v-slot="{ selected }" :key="tab" as="template">
-          <button
-            :class="[
-              'rounded-lg p-2.5 text-sm font-medium leading-5',
-              'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-              selected
-                ? 'bg-white shadow text-blue-700'
-                : selectedTab > 0
-                  ? 'text-blue-400 hover:backdrop-blur-sm hover:bg-white/20 hover:text-blue-700'
-                  : 'text-blue-200 hover:bg-white/10 hover:text-white',
-            ]"
-          >
-            {{ tab }}
-          </button>
-        </Tab>
-      </TabList>
-    </TabGroup>
+        <TabsTrigger
+          v-for="(tab, idx) in tabs"
+          :key="tab"
+          :value="idx"
+          :class="[
+            'rounded-lg p-2.5 text-sm font-medium leading-5',
+            'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+            selectedTab === idx
+              ? 'bg-white shadow text-blue-700'
+              : selectedTab > 0
+                ? 'text-blue-400 hover:backdrop-blur-sm hover:bg-white/20 hover:text-blue-700'
+                : 'text-blue-200 hover:bg-white/10 hover:text-white',
+          ]"
+        >
+          {{ tab }}
+        </TabsTrigger>
+      </TabsList>
+    </TabsRoot>
     <div ref="sectionEls" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
       <div>
         <img :src="ewbImages?.jtwc" class="border border-black shadow-md rounded-2xl" />
@@ -62,13 +63,14 @@
     </div>
   </div>
 
-  <ImageModal :open="imgPopUp" @close="imgPopUp = false" @up="up" @right="next" @down="down" @left="prev">
+  <ImageModal v-model="imgPopUp" @up="up" @right="next" @down="down" @left="prev">
     <img class="object-contain rounded-2xl drop-shadow-xl" :src="activeImage" />
   </ImageModal>
 </template>
 
 <script setup lang="ts">
-  import { Tab, TabGroup, TabList } from '@headlessui/vue'
+  import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
+
   import { useStore } from '@nanostores/vue'
   import { useQuery } from '@tanstack/vue-query'
   import { useIntersectionObserver, useScroll } from '@vueuse/core'
@@ -90,7 +92,7 @@
   const sectionEls = ref()
   const imgElHeight = ref(0)
 
-  const { directions: scrollDir, isScrolling } = useScroll(bodyEl)
+  const { directions: scrollDir, isScrolling, y } = useScroll(bodyEl, { behavior: 'smooth' })
 
   const tabs = ['JTWC', 'PAGASA', 'Forecast', 'Forecast (Accumulated)', 'Observed']
   const selectedTab = ref(0)
@@ -143,10 +145,7 @@
   const handleTabChange = (idx: number) => {
     const el = sectionEls.value.children[idx]
 
-    bodyEl.value.scrollTo({
-      behavior: 'smooth',
-      top: el.offsetTop - sectionEls.value.offsetTop,
-    })
+    y.value = el.offsetTop - sectionEls.value.offsetTop
   }
 
   watchEffect(() => {

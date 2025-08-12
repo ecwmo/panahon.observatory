@@ -17,23 +17,21 @@
       <div
         v-show="visibleStationsSorted"
         class="absolute flex justify-between top-2 left-2 bg-white text-black pr-3 py-1 rounded-full drop-shadow-md opacity-90"
-      > <!-- bar at top left of map -->
-        <SwitchGroup>
-          <div class="flex items-center px-2 gap-1.5">
-            <Switch
-              v-model="mapToggle"
-              :class="mapToggle ? 'bg-gray-500' : 'bg-gray-200'"
-              class="relative inline-flex h-3 w-6 items-center rounded-full transition-colors ring-1 ring-gray-700 ring-offset-1"
-              @update:model-value="handleMapScopeChange"
-            >
-              <span
-                :class="mapToggle ? 'translate-x-3 bg-gray-200' : 'bg-gray-500 translate-x-0'"
-                class="inline-block h-3 w-3 transform rounded-full transition-transform"
-              />
-            </Switch>
-            <SwitchLabel class="text-xs">All Data</SwitchLabel>
-          </div>
-        </SwitchGroup>
+      >
+        <!-- bar at top left of map -->
+        <div class="flex items-center px-2 gap-1.5">
+          <SwitchRoot
+            v-model="mapToggle"
+            class="w-6 h-4 shadow-sm flex data-[state=unchecked]:bg-blue-300 data-[state=checked]:bg-blue-500 border border-gray-800 data-[state=checked]:border-blue-500 rounded-full relative transition-[background] focus-within:outline-none focus-within:border-blue-600 focus-within:shadow-blue-600"
+            @update:model-value="handleMapScopeChange"
+          >
+            <SwitchThumb
+              class="w-2.5 h-2.5 my-auto bg-white text-xs flex items-center justify-center shadow-xl rounded-full transition-transform translate-x-0.5 will-change-transform data-[state=checked]:translate-x-full"
+            />
+          </SwitchRoot>
+          <label class="text-xs">All Data</label>
+        </div>
+
         <StationSelector
           :model-value="activeStation"
           :stations="visibleStationsSorted"
@@ -50,7 +48,8 @@
       <WeatherButtons
         v-if="dataViewType === 'default'"
         class="right-2 bottom-24 bg-white px-1 py-2.5 drop-shadow-md opacity-90"
-      /> <!-- container for buttons at bottom right -->
+      />
+      <!-- container for buttons at bottom right -->
       <Colorbar
         v-if="dataViewType === 'default'"
         class="bottom-2 right-2 bg-white p-2 rounded-md drop-shadow-md opacity-90"
@@ -78,7 +77,7 @@
     setActiveStation,
   } from '@/stores/station'
 
-  import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+  import { SwitchRoot, SwitchThumb } from 'reka-ui'
 
   import Colorbar from '@/components/Colorbar.vue'
   import LoadingIcon from '@/components/LoadingIcon.vue'

@@ -1,51 +1,53 @@
 <template>
   <div>
-    <Listbox :model-value="modelValue" @update:model-value="handleChange" by="id">
-      <div class="relative">
-        <ListboxButton
-          class="relative w-full cursor-default rounded-md bg-white py-1 pl-2 pr-6 text-xs sm:text-sm text-left shadow-md ring-gray-700 ring-1"
-        >
-          <span class="block truncate">{{ modelValue?.name ?? 'Loading...' }}</span>
-          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <div class="i-fa6-solid-chevron-down scale-75" />
-          </span>
-        </ListboxButton>
-        <transition
-          leave-active-class="transition duration-100 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="opacity-0"
-        >
-          <ListboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-xs sm:text-sm shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
-          >
-            <ListboxOption
+    <SelectRoot :model-value="modelValue" @update:model-value="handleChange" by="id">
+      <SelectTrigger
+        class="inline-flex w-full items-center justify-between rounded-lg text-xs md:text-sm bg-white text-gray-900 px-2 py-1 shadow-md ring-gray-700 ring-1"
+      >
+        <SelectValue class="truncate">{{ modelValue?.name ?? 'Loading...' }}</SelectValue>
+        <div class="i-mdi-chevron-down w-5 h-5" />
+      </SelectTrigger>
+      <SelectPortal>
+        <SelectContent align="center" class="w-full min-w-18 bg-white rounded-lg border shadow-sm text-xs md:text-sm">
+          <SelectScrollUpButton class="flex items-center justify-center bg-white text-blue-400 cursor-default">
+            <div class="i-mdi-chevron-up w-5 h-5" />
+          </SelectScrollUpButton>
+          <SelectViewport class="p-1">
+            <SelectItem
               v-for="stn in stations"
-              v-slot="{ active, selected }"
               :key="stn.id"
               :value="stn"
-              as="template"
+              class="text-xs md:text-sm leading-none flex w-full items-center pl-7 pr-2 py-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-blue-400 data-[highlighted]:text-gray-200 data-[state=checked]:text-blue-400"
             >
-              <li
-                :class="[
-                  active ? 'bg-blue-100 text-blue-700' : 'text-gray-900',
-                  'relative cursor-default select-none py-1 pl-2 sm:pl-8 pr-2',
-                ]"
-              >
-                <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ stn.name }}</span>
-                <span v-if="selected" class="hidden sm:flex absolute inset-y-0 left-0 items-center pl-2 text-blue-700">
-                  <div v-show="selected" class="i-fa-solid-check scale-75" aria-hidden="true" />
-                </span>
-              </li>
-            </ListboxOption>
-          </ListboxOptions>
-        </transition>
-      </div>
-    </Listbox>
+              <SelectItemIndicator class="absolute left-2 inline-flex items-center justify-center">
+                <div class="i-mdi-check w-3 h-3" />
+              </SelectItemIndicator>
+              <SelectItemText>{{ stn.name }}</SelectItemText>
+            </SelectItem>
+          </SelectViewport>
+          <SelectScrollDownButton class="flex items-center justify-center bg-white text-blue-400 cursor-default">
+            <div class="i-mdi-chevron-down w-5 h-5" />
+          </SelectScrollDownButton>
+        </SelectContent>
+      </SelectPortal>
+    </SelectRoot>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+  import {
+    SelectRoot,
+    SelectTrigger,
+    SelectValue,
+    SelectPortal,
+    SelectContent,
+    SelectScrollUpButton,
+    SelectScrollDownButton,
+    SelectViewport,
+    SelectItem,
+    SelectItemIndicator,
+    SelectItemText,
+  } from 'reka-ui'
 
   import type { StationObs } from '@/types/station'
 
