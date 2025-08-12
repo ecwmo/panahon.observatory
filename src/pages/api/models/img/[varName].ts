@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     const { varName } = params
     switch (varName) {
       case 'wrf-ts':
-        fName = `${resourcePath}/model/img/wrf-ts_${dtStr2}PHT.png`
+        fName = `${resourcePath}/model/img/wrf-ts_NCR_${dtStr2}PHT.png`
         break
     }
   }
