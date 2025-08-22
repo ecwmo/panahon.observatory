@@ -1,0 +1,13 @@
+---
+import CardLayout from '@/layouts/WeatherCard.astro'
+
+import WeatherCard from '@/components/WeatherCard.vue'
+
+const stationID = Astro.url.searchParams.get('id')
+const stationPt = Astro.url.searchParams.get('pt')
+const { name } = Astro.params
+---
+
+<CardLayout>
+  <WeatherCard station-id={stationID} station-pt={stationPt} cardName={name} client:load />
+</CardLayout>

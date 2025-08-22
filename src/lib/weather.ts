@@ -1,4 +1,7 @@
-export const windDirDeg2Str = (val: number) => { //determines the wind direction for WeatherInfoPanel
+import { clearSkyIrradiance } from '@/lib/irradiance'
+
+export const windDirDeg2Str = (val: number) => {
+  //determines the wind direction for WeatherInfoPanel
   if (!(val >= 0 && val <= 360)) return ''
   if (val <= 22.5) return 'N'
   else if (val <= 45) return 'NNE'
@@ -88,4 +91,23 @@ export const heatIndex = (t: number, rh: number) => {
     const hiC = ((hiF - 32.0) * 5.0) / 9.0
     return Math.round(hiC * 10) / 10
   }
+}
+
+export const cloudCover = (sRad: number, lat: number, lon: number, date = new Date()) => {
+  const clearSRad = clearSkyIrradiance(lat, lon, date)
+  if (clearSRad <= 0) {
+    return 'Night'
+  }
+
+  const transmittance = Math.max(0, Math.min(1, sRad / clearSRad))
+  const cloudFrac = Math.cbrt(1 - transmittance)
+
+  if (cloudFrac >= 0.88) {
+    return 'Overcast'
+  } else if (cloudFrac >= 0.51) {
+    return 'Mostly Cloudy'
+  } else if (cloudFrac >= 0.26) {
+    return 'Partly Cloudy'
+  }
+  return 'Clear'
 }

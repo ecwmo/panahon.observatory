@@ -33,6 +33,7 @@
     "nanostores": "^1.0.1",
     "pdf-to-img": "^4.5.0",
     "reka-ui": "^2.4.1",
+    "suncalc": "^1.9.0",
     "vanilla-cookieconsent": "3.0.1",
     "vue": "^3.5.17",
     "zod": "^4.0.5"
@@ -47,6 +48,7 @@
     "@types/chroma-js": "^2.4.5",
     "@types/mapbox-gl": "^2.7.21",
     "@types/node": "^24.0.15",
+    "@types/suncalc": "^1.9.2",
     "@vite-pwa/assets-generator": "^1.0.0",
     "@vite-pwa/astro": "^1.1.0",
     "@vue/test-utils": "^2.4.6",
