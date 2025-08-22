@@ -1,21 +1,21 @@
 <template>
-  <component :is="as" ref="lazyEl">
+  <component :is="as" ref="lazy">
     <slot v-if="isLoaded" />
   </component>
 </template>
 
 <script setup lang="ts">
   import { useIntersectionObserver } from '@vueuse/core'
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, useTemplateRef } from 'vue'
 
   withDefaults(
     defineProps<{
       as?: string
     }>(),
-    { as: 'div' }
+    { as: 'div' },
   )
 
-  const lazyEl = ref()
+  const lazyEl = useTemplateRef('lazy')
   const isLoaded = ref(false)
 
   const loadElement = () => (isLoaded.value = true)

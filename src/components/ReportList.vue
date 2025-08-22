@@ -1,5 +1,5 @@
 <template>
-  <div ref="bodyEl" class="relative h-full overflow-y-scroll">
+  <div ref="body-el" class="relative h-full overflow-y-scroll">
     <div v-if="userSession.data" class="absolute bottom-12 md:bottom-14 right-0 w-12 md:w-14 md:m-2">
       <button
         class="fixed z-20 w-10 md:w-12 h-10 md:h-12 bg-blue-600 rounded-full hover:bg-blue-700 active:shadow-2xl mouse shadow-xl transition ease-in duration-200 focus:outline-none"
@@ -38,7 +38,7 @@
   import { useInfiniteQuery } from '@tanstack/vue-query'
   import { useScroll } from '@vueuse/core'
   import axios from 'axios'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, watch, useTemplateRef } from 'vue'
 
   import { useSession } from '@/lib/auth-client'
 
@@ -48,12 +48,12 @@
 
   const userSession = useSession()
 
-  const bodyEl = ref()
+  const bodyEl = useTemplateRef('body-el')
   const { arrivedState } = useScroll(bodyEl)
   const featuredImgPos = ref('landscape')
 
   const reportCount = computed(() => reports.value?.length ?? 0)
-  const hasScroll = computed(() => bodyEl.value.clientHeight < bodyEl.value.scrollHeight)
+  const hasScroll = computed(() => bodyEl.value?.clientHeight < bodyEl.value?.scrollHeight)
 
   const cursor = ref(0)
   const fetchReports = async ({ pageParam = 0 }) => {

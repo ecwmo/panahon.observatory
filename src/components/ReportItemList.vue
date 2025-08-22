@@ -1,5 +1,5 @@
 <template>
-  <div ref="bodyEl" class="h-full overflow-y-scroll">
+  <div class="h-full overflow-y-scroll">
     <div class="flex flex-col gap-y-2 md:gap-y-4">
       <div class="flex justify-center">
         <img :src="imgs[0]" class="border border-black shadow-md rounded-2xl" @load="handleImgLoad" />
@@ -34,9 +34,9 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref } from 'vue'
   import { useQuery } from '@tanstack/vue-query'
   import axios from 'axios'
-  import { computed, ref } from 'vue'
 
   import { ReportImages } from '@/schemas/report'
 
@@ -58,7 +58,6 @@
     },
   })
 
-  const bodyEl = ref()
   const showLazyItems = ref(false)
   const elStyle = ref({})
 

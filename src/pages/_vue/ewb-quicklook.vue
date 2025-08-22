@@ -1,8 +1,8 @@
 <template>
-  <div ref="bodyEl" class="h-full md:p-4 overflow-scroll">
+  <div ref="body-el" class="h-full md:p-4 overflow-scroll">
     <TabsRoot :model-value="selectedTab" @update:modelValue="handleTabChange">
       <TabsList
-        ref="tabHeaderEl"
+        ref="tab-header-el"
         :class="['fixed flex space-x-2 rounded-xl p-1 mx-5 z-40 ', { 'backdrop-blur-sm bg-white/10': selectedTab > 0 }]"
       >
         <TabsTrigger
@@ -23,7 +23,7 @@
         </TabsTrigger>
       </TabsList>
     </TabsRoot>
-    <div ref="sectionEls" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
+    <div ref="section-els" class="flex flex-col justify-between items-center md:mx-6 md:space-y-6 mt-14">
       <div>
         <img :src="ewbImages?.jtwc" class="border border-black shadow-md rounded-2xl" />
       </div>
@@ -75,7 +75,7 @@
   import { useQuery } from '@tanstack/vue-query'
   import { useIntersectionObserver, useScroll } from '@vueuse/core'
   import axios from 'axios'
-  import { computed, onMounted, ref, watchEffect } from 'vue'
+  import { computed, onMounted, ref, watchEffect, useTemplateRef } from 'vue'
 
   import { $activeImage, down, metadata, next, prev, setActiveImage, setEWBImages, up } from '@/stores/ewb'
 
@@ -87,9 +87,9 @@
 
   const activeImage = useStore($activeImage)
 
-  const bodyEl = ref()
-  const tabHeaderEl = ref()
-  const sectionEls = ref()
+  const bodyEl = useTemplateRef('body-el')
+  const tabHeaderEl = useTemplateRef('tab-header-el')
+  const sectionEls = useTemplateRef('section-els')
   const imgElHeight = ref(0)
 
   const { directions: scrollDir, isScrolling, y } = useScroll(bodyEl, { behavior: 'smooth' })
@@ -143,7 +143,8 @@
   }
 
   const handleTabChange = (idx: number) => {
-    const el = sectionEls.value.children[idx]
+    if (!sectionEls.value) return
+    const el = sectionEls.value.children[idx] as HTMLElement
 
     y.value = el.offsetTop - sectionEls.value.offsetTop
   }

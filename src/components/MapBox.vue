@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <!-- Map -->
-    <div ref="mapEl" class="shadow w-full h-full"></div>
+    <div ref="map-el" class="shadow w-full h-full"></div>
 
     <LoadingIcon v-if="isPending" class="absolute top-0 left-0 w-full h-full" svg-class="w-16 h-16 text-slate-500" />
     <div v-else-if="isSuccess">
@@ -64,7 +64,7 @@
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
   import mapboxgl from 'mapbox-gl'
-  import { ref, computed, shallowRef, watch, onMounted, onUnmounted } from 'vue'
+  import { ref, computed, shallowRef, watch, onMounted, onUnmounted, useTemplateRef } from 'vue'
 
   import { useWeather } from '@/composables/weather'
   import {
@@ -107,7 +107,7 @@
   }
 
   const map = shallowRef<Map>()
-  const mapEl = ref()
+  const mapEl = useTemplateRef('map-el')
   const dotProps = ref<DotProps>({ xy: { x: -1, y: -1 }, show: false, showPopup: false })
   const mapToggle = ref(false)
   const dataViewType = useStore($viewType)

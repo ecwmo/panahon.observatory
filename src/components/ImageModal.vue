@@ -25,7 +25,7 @@
             />
           </div>
 
-          <div ref="imgEl">
+          <div ref="img-el">
             <slot />
           </div>
 
@@ -49,13 +49,13 @@
 <script setup lang="ts">
   import { DialogRoot, DialogPortal, DialogOverlay, DialogContent } from 'reka-ui'
   import { useSwipe } from '@vueuse/core'
-  import { ref } from 'vue'
+  import { useTemplateRef } from 'vue'
 
   const model = defineModel({ default: false })
 
   const emit = defineEmits(['left', 'right', 'up', 'down'])
 
-  const imgEl = ref()
+  const imgEl = useTemplateRef('img-el')
 
   useSwipe(imgEl, {
     onSwipeEnd(e: TouchEvent, direction: string) {

@@ -1,5 +1,5 @@
 <template>
-  <div ref="bodyEl" class="space-y-2 md:space-y-4">
+  <div ref="body-el" class="space-y-2 md:space-y-4">
     <ValidationDateSelector class="w-36 z-30" />
     <div>
       <table class="table-auto text-xs md:text-base">
@@ -37,7 +37,7 @@
 <script setup lang="ts">
   import { useQuery } from '@tanstack/vue-query'
   import axios from 'axios'
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, useTemplateRef } from 'vue'
 
   import { useStore } from '@nanostores/vue'
   import { format } from 'date-fns'
@@ -66,7 +66,7 @@
 
   const imgPopUp = ref(false)
 
-  const bodyEl = ref()
+  const bodyEl = useTemplateRef('body-el')
   const imgElHeight = ref(0)
   const lazyLoadGroupStartIdx = 1
 
