@@ -1,32 +1,44 @@
+import { test as baseTest } from 'vitest'
+import { shallowMount } from '@vue/test-utils'
+
 import RowGroupBtns from '@/components/RowGroupBtns.vue'
-import { mount } from '@vue/test-utils'
 
-const items = [
-  { val: 0, text: 'test1' },
-  { val: 1, text: 'test2' },
-  { val: 2, text: 'test3' },
-]
+import type { VueWrapper } from '@vue/test-utils'
+import type { ButtonProps } from '@/components/RowGroupBtns.vue'
 
-test('default', () => {
-  const wrapper = mount(RowGroupBtns)
-  expect(wrapper.findAll('button')).toHaveLength(0)
+const test = baseTest.extend<{
+  items: ButtonProps<number>[]
+  wrapper: VueWrapper
+}>({
+  items: async ({}, use) => {
+    await use([
+      { val: 0, text: 'test1' },
+      { val: 1, text: 'test2' },
+      { val: 2, text: 'test3' },
+    ])
+  },
+  wrapper: async ({}, use) => {
+    const w = shallowMount(RowGroupBtns, { props: { items: [] as ButtonProps<number>[], modelValue: 0 } })
+    await use(w)
+    w.unmount()
+  },
 })
 
-test('with props', () => {
+test('default', ({ expect, wrapper }) => {
+  expect(wrapper.findAll('button')).toHaveLength(0)
+  wrapper.unmount()
+})
+
+test('with props', async ({ expect, items, wrapper }) => {
   const activeBtnIdx = 1
-  const wrapper = mount(RowGroupBtns, { props: { items, modelValue: items[activeBtnIdx].val } })
+  await wrapper.setProps({ items, modelValue: items[activeBtnIdx].val })
   const btnEls = wrapper.findAll('button')
   expect(btnEls).toHaveLength(items.length)
 })
 
-test('click', async () => {
+test('click', async ({ expect, items, wrapper }) => {
   const activeBtnIdx = 1
-  const wrapper = mount(RowGroupBtns, {
-    props: {
-      items,
-      modelValue: items[activeBtnIdx].val,
-    },
-  })
+  await wrapper.setProps({ items, modelValue: items[activeBtnIdx].val })
   const btnEls = wrapper.findAll('button')
 
   const clickIdx = 2

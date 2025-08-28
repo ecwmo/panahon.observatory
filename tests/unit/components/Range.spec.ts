@@ -1,31 +1,42 @@
-import Range, { type RangeTicks } from '@/components/Range.vue'
-import { mount } from '@vue/test-utils'
+import { test as baseTest } from 'vitest'
+import { shallowMount } from '@vue/test-utils'
 
-test('default', () => {
-  const wrapper = mount(Range)
+import Range from '@/components/Range.vue'
+
+import type { VueWrapper } from '@vue/test-utils'
+import type { RangeTicks } from '@/components/Range.vue'
+
+const test = baseTest.extend<{
+  ticks: RangeTicks
+  wrapper: VueWrapper
+}>({
+  ticks: async ({}, use) => {
+    await use({
+      0: { label: 'test 1', popup: 'popup 1' },
+      1: { label: 'test 2' },
+      2: { label: 'test 3', popup: 'popup 3' },
+      3: { popup: 'popup 4' },
+      4: { label: 'test 5', popup: 'popup 5' },
+      5: { label: 'test 6', popup: 'popup 6' },
+      9: { popup: 'popup 10' },
+      10: { popup: 'popup 11' },
+      11: { label: 'test 12', popup: 'popup 12' },
+    })
+  },
+  wrapper: async ({}, use) => {
+    const w = shallowMount(Range, { props: { ticks: {} as RangeTicks, modelValue: 0 } })
+    await use(w)
+    w.unmount()
+  },
+})
+
+test('default', ({ expect, wrapper }) => {
   expect(wrapper.exists()).toBe(true)
 })
 
 describe('props', () => {
-  const ticks: RangeTicks = {
-    0: { label: 'test 1', popup: 'popup 1' },
-    1: { label: 'test 2' },
-    2: { label: 'test 3', popup: 'popup 3' },
-    3: { popup: 'popup 4' },
-    4: { label: 'test 5', popup: 'popup 5' },
-    5: { label: 'test 6', popup: 'popup 6' },
-    9: { popup: 'popup 10' },
-    10: { popup: 'popup 11' },
-    11: { label: 'test 12', popup: 'popup 12' },
-  }
-
-  test('ticks', () => {
-    const wrapper = mount(Range, {
-      props: {
-        ticks,
-        modelValue: 0,
-      },
-    })
+  test('ticks', async ({ expect, ticks, wrapper }) => {
+    await wrapper.setProps({ ticks })
     expect(wrapper.exists()).toBe(true)
 
     const rangeEl = wrapper.find<HTMLInputElement>('input[type="range"]')
@@ -42,14 +53,8 @@ describe('props', () => {
     expect(wrapper.find('[data-test="play-pause"]').exists()).toBe(false)
   })
 
-  test('step', () => {
-    const wrapper = mount(Range, {
-      props: {
-        ticks,
-        step: 3,
-        modelValue: 0,
-      },
-    })
+  test('step', async ({ expect, ticks, wrapper }) => {
+    await wrapper.setProps({ ticks, step: 3 })
 
     const svgEl = wrapper.find<SVGElement>('svg[data-test="range-ticks"]')
     expect(svgEl.exists()).toBe(true)
@@ -60,16 +65,8 @@ describe('props', () => {
     expect(svgEl.findAll('g text')).toHaveLength(1)
   })
 
-  test('minVal;maxVal', () => {
-    const wrapper = mount(Range, {
-      props: {
-        ticks,
-        step: 2,
-        minVal: 2,
-        maxVal: 9,
-        modelValue: 0,
-      },
-    })
+  test('minVal;maxVal', async ({ expect, ticks, wrapper }) => {
+    await wrapper.setProps({ ticks, step: 2, minVal: 2, maxVal: 9 })
 
     const svgEl = wrapper.find<SVGElement>('svg[data-test="range-ticks"]')
     expect(svgEl.exists()).toBe(true)
@@ -83,17 +80,10 @@ describe('props', () => {
     expect(rangeEl.element.valueAsNumber).toEqual(2)
   })
 
-  test('canPlay', async () => {
+  test('canPlay', async ({ expect, ticks, wrapper }) => {
     vi.useFakeTimers()
 
-    const wrapper = mount(Range, {
-      props: {
-        ticks,
-        step: 3,
-        modelValue: 0,
-        canPlay: true,
-      },
-    })
+    await wrapper.setProps({ ticks, step: 3, canPlay: true })
 
     const playBtn = wrapper.find('[data-test="play-pause"]')
     expect(playBtn.exists()).toBe(true)
@@ -107,18 +97,10 @@ describe('props', () => {
     vi.useRealTimers()
   })
 
-  test('timerDelay', async () => {
+  test('timerDelay', async ({ expect, ticks, wrapper }) => {
     vi.useFakeTimers()
 
-    const wrapper = mount(Range, {
-      props: {
-        ticks,
-        step: 3,
-        modelValue: 0,
-        canPlay: true,
-        timerDelay: 200,
-      },
-    })
+    await wrapper.setProps({ ticks, step: 3, canPlay: true, timerDelay: 200 })
 
     const playBtn = wrapper.find('[data-test="play-pause"]')
     expect(playBtn.exists()).toBe(true)

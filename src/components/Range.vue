@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends RangeTicks">
   import { computed, onMounted, ref, toRefs } from 'vue'
 
   import Popup from '@/components/Popup.vue'
@@ -51,7 +51,7 @@
 
   const props = withDefaults(
     defineProps<{
-      ticks?: RangeTicks
+      ticks?: T
       minVal?: number
       maxVal?: number
       step?: number
@@ -62,7 +62,7 @@
       step: 1,
       canPlay: false,
       timerDelay: 1000,
-    }
+    },
   )
 
   const modelValue = defineModel<number>({ required: true })
@@ -73,7 +73,7 @@
   const { minVal, maxVal, step, ticks, timerDelay } = toRefs(props)
 
   const $minVal = computed(() =>
-    minVal.value !== undefined ? minVal.value : ticks.value ? Math.min(...Object.keys(ticks.value).map(Number)) : 0
+    minVal.value !== undefined ? minVal.value : ticks.value ? Math.min(...Object.keys(ticks.value).map(Number)) : 0,
   )
   const $maxVal = computed(() => {
     const valx =
@@ -96,7 +96,7 @@
         width: curVal === modelValue.value ? 1.4 : 0.5,
         text: ticks.value?.[curVal]?.label,
       }
-    })
+    }),
   )
 
   const popupXPos = computed(() => {
