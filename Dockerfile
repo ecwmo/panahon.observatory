@@ -42,7 +42,8 @@ COPY --from=build /app/dist /app/
 
 VOLUME ["/app/prisma"]
 
-EXPOSE 3000
+ENV HOST=0.0.0.0
 ENV PORT=3000
+EXPOSE 3000
 
 CMD ["node", "/app/server/entry.mjs"]

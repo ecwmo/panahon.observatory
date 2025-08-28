@@ -1,0 +1,106 @@
+name: Build and Push
+
+on:
+  workflow_run:
+    workflows: ['Test']
+    types:
+      - completed
+    branches:
+      - build
+      - dev
+
+env:
+  APP_SITE: ${{ vars.APP_SITE }}
+  APP_RES_DIR: ${{ vars.APP_RES_DIR }}
+  PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+  DATABASE_URL: ${{ vars.DATABASE_URL }}
+  MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+  BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+  BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+  IMG_REGISTRY: ghcr.io
+
+jobs:
+  build_and_push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+
+      - name: Build variables
+        id: vars
+        run: |
+          PKG_NAME=$(jq -r '.name' package.json)
+          echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_OUTPUT
+          PKG_VER=$(jq -r '.version' package.json)
+          echo "PKG_VER=${PKG_VER}" >> $GITHUB_OUTPUT
+
+          SHORT_SHA=$(git rev-parse --short=7 ${{ github.sha }})
+          echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_OUTPUT
+
+          BRANCH="${{ github.event.workflow_run.head_branch }}"
+          if [[ "$BRANCH" == "dev" ]]; then
+            TAG_SUFFIX=-dev
+            LATEST_TAG=latest-dev
+            echo "APP_SITE=" >> $GITHUB_ENV
+          else
+            TAG_SUFFIX=
+            LATEST_TAG=latest
+          fi
+          echo "LATEST_TAG=${LATEST_TAG}" >> $GITHUB_OUTPUT
+
+          FULL_TAG="${PKG_VER}${TAG_SUFFIX}-${SHORT_SHA}"
+          echo "FULL_TAG=${FULL_TAG}" >> $GITHUB_OUTPUT
+
+      - name: Build image
+        id: build_image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ github.repository_owner }}/${{ steps.vars.outputs.PKG_NAME }}
+          tags: |
+            ${{ steps.vars.outputs.LATEST_TAG }}
+            ${{ steps.vars.outputs.FULL_TAG }}
+          platforms: linux/amd64, linux/arm64
+          containerfiles: ./Dockerfile
+
+      - name: Echo Outputs
+        run: |
+          echo "Image: ${{ steps.build_image.outputs.image }}"
+          echo "Tags: ${{ steps.build_image.outputs.tags }}"
+          echo "Tagged Image: ${{ steps.build_image.outputs.image-with-tag }}"
+
+      - name: Check images created
+        run: buildah images | grep '${{ steps.vars.outputs.PKG_NAME }}'
+
+      - name: Check manifest
+        run: |
+          set -x
+          buildah manifest inspect ${{ steps.build_image.outputs.image }}:${{ steps.vars.outputs.LATEST_TAG }}
+
+      - name: Log in to GHCR
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ${{ env.IMG_REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          registry: ${{ env.IMG_REGISTRY }}
+          image: ${{ github.repository_owner }}/${{ steps.vars.outputs.PKG_NAME }}
+          tags: |
+            ${{ steps.vars.outputs.LATEST_TAG }}
+            ${{ steps.vars.outputs.FULL_TAG }}
