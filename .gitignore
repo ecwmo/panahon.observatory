@@ -155,34 +155,27 @@ yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/node,vuejs,astro
 
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
 dev-dist/
 
 .bak/
 
-public/resources/
+public/resources/*
 !public/resources/static/
 !public/resources/reports/report.json.sample
+!public/resources/station/weather.json
 
 .env.development
 .env.production
 
 *.tgz
 *.tar.gz
-# Devenv
-.devenv*
-devenv.local.nix
-
-# direnv
-.direnv
-
-# pre-commit
-.pre-commit-config.yaml
-# Devenv
-.devenv*
-devenv.local.nix
-
-# direnv
-.direnv
-
-# pre-commit
-.pre-commit-config.yaml

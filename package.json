@@ -1,5 +1,5 @@
 {
-  "name": "panahon-astro",
+  "name": "panahon.observatory",
   "type": "module",
   "version": "0.7.0",
   "author": "Emilio Gozo",
@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && rm -rf ./dist/client/resources",
+    "build": "astro build",
     "preview": "astro preview",
-    "deploy:docker": "ENGINE='docker' ./tools/deploy-container.sh",
-    "deploy:podman": "./tools/deploy-container.sh",
+    "container:build": "./tools/deploy-container.sh",
+    "container:push": "./tools/deploy-container.sh --push",
     "astro": "astro",
     "test:unit": "vitest --dom"
   },

@@ -19,9 +19,10 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpx prisma@6.11.1 generate
 
 FROM deps as build
+ARG MODE=production
 WORKDIR /app
 COPY . .
-RUN pnpm build
+RUN pnpm build --mode "$MODE"
 
 FROM node:lts-slim as deploy
 WORKDIR /app
@@ -34,7 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   librsvg2-2 \
   openssl \
   && rm -rf /var/lib/apt/lists/*
-ENV NODE_ENV=production
+ENV NODE_ENV="production"
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 COPY --from=deps /app/node_modules /app/node_modules
@@ -42,7 +43,8 @@ COPY --from=build /app/dist /app/
 
 VOLUME ["/app/prisma"]
 
-EXPOSE 3000
+ENV HOST=0.0.0.0
 ENV PORT=3000
+EXPOSE 3000
 
 CMD ["node", "/app/server/entry.mjs"]

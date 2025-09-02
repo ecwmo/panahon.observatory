@@ -9,18 +9,22 @@ import node from '@astrojs/node'
 import vue from '@astrojs/vue'
 import AstroPWA from '@vite-pwa/astro'
 
-const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '') //will read from .env file regardless of env file type
+const mode = process.env.NODE_ENV ?? 'development'
 
-const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/` //normalizes the APP_BASE variable into basePath
+const { APP_HOST, APP_PORT, APP_SITE, APP_BASE } = loadEnv(mode, process.cwd(), '')
+
+const basePath = `${(APP_BASE ?? '/').replace(/\/$/, '')}/`
 
 export default defineConfig({
   output: 'server',
-  server: {
-    //specify server host and port
-    host: APP_HOST,
-    port: +APP_PORT,
-  },
-  site: APP_SITE, //app site url
+  server:
+    mode === 'production'
+      ? undefined
+      : {
+          host: APP_HOST,
+          port: Number(APP_PORT ?? 8080),
+        },
+  site: APP_SITE,
   base: basePath,
   security: {
     checkOrigin: false,
