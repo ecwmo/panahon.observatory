@@ -1,0 +1,11 @@
+---
+import DefaultLayout from '@/layouts/Default.astro'
+
+import ClimatePage from '@/pages/_vue/projection.vue'
+---
+
+<DefaultLayout>
+  <!-- uses default from ./layouts -->
+  <ClimatePage client:visible />
+  <!-- inserts ClimatePage from ./components into layout slot -->
+</DefaultLayout>

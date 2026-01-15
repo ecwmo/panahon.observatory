@@ -26,6 +26,7 @@ export const pages: Page[] = [
   },
   { name: 'models', description: 'Model Results - Forecasts and Maps', label: 'Models', to: '/models' },
   { name: 'climate', description: 'Philippine Climate Information', label: 'Climate', to: '/climate' },
+  { name: 'projection', description: 'projection', label: 'Projection', to: '/projection' },
   { name: 'reports', description: 'Tropical Cyclone Report', label: 'Reports', to: '/reports' },
   {
     name: 'new_report',
