@@ -179,3 +179,6 @@ public/resources/*
 
 *.tgz
 *.tar.gz
+
+# Ignore Visual Studio cache and workspace files
+.vs/

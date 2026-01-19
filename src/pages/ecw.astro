@@ -1,0 +1,21 @@
+---
+import DefaultLayout from '@/layouts/Default.astro'
+import MainApp from '@/components/climate/MainApp.vue'
+
+// Get Mapbox configuration from environment
+const mapboxToken = import.meta.env.MAPBOX_TOKEN as string
+const mapboxTileset = import.meta.env.MAPBOX_TILESET as string
+const mapboxSourceLayer = import.meta.env.MAPBOX_SOURCE_LAYER as string
+const mapboxAttributeKey = import.meta.env.MAPBOX_ATTRIBUTE_KEY as string
+---
+
+<DefaultLayout>
+  <!-- Pass token, tileset, and sourceLayer props to MainApp -->
+  <MainApp 
+    client:visible 
+    token={mapboxToken} 
+    tileset={mapboxTileset} 
+    sourceLayer={mapboxSourceLayer} 
+    admProperty={mapboxAttributeKey}
+  />
+</DefaultLayout>
