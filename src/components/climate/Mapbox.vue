@@ -29,59 +29,83 @@
             };
         },
         watch: {
-            'parameters.tab'(){
-                this.$nextTick(() => {
-                    if (this.currentPopup && this.lastPopupLngLat) {
-                        this.map.resize();
-                        this.map.flyTo({
-                            center: this.lastPopupLngLat,
-                            zoom: Math.max(this.map.getZoom(), 7)
+            parameters(newVal, oldVal) {
+                // 1) Ignore external events (Mapbox clicks) to avoid loops
+                if (newVal?.source === "external") return;
+
+                // 2) Extract params and locations safely
+                const newParams = { ...newVal };
+                const oldParams = { ...oldVal };
+                const newLocation = newParams.location || null;
+                const oldLocation = oldParams.location || null;
+                delete newParams.location;
+                delete oldParams.location;
+
+                // 3) If only non-location params changed, render and optionally refresh popup
+                const keysToCheck = [
+                    "tab",
+                    "pastData",
+                    "projectedData",
+                    "pastPeriod",
+                    "projectedPeriod",
+                    "scenario"
+                ];
+                const paramsChanged = keysToCheck.some(
+                    key => newParams[key] !== oldParams[key]
+                );
+                if (paramsChanged) {
+                    this.renderTif(newParams);
+                    if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
+                        const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
+                        this.fetchPopupData(newLocation.name, lngLat);
+                    }
+                    else if (this.currentPopup) {
+                        const pos = this.currentPopup.getLngLat();
+                        const lngLat = [pos.lng, pos.lat];
+                        this.fetchPopupData(this.admValue || "", lngLat);
+                    }
+                }
+
+                // 4) If the location changed, fly to the new location and fetch data
+                const locationChanged = !!newLocation && (!oldLocation || newLocation.name !== oldLocation.name);
+                if (locationChanged) {
+                    const lngLat = [
+                        parseFloat(newLocation.lon),
+                        parseFloat(newLocation.lat)
+                    ];
+                    if (Number.isFinite(lngLat[0]) && Number.isFinite(lngLat[1])) {
+                        this.admValue = newLocation.name;
+                        this.suppressEmit = true;
+                        this.map.flyTo({ center: lngLat, zoom: Math.max(this.map.getZoom(), 7) });
+                        this.map.once("moveend", () => {
+                            if (!paramsChanged) {
+                                this.fetchPopupData(this.admValue, lngLat);
+                            }
+                            this.suppressEmit = false;
                         });
                     }
-                });
-            },
-            parameters(newVal, oldVal) {
-                if (JSON.stringify(newVal) === JSON.stringify(oldVal)) {
+                }
+
+                // 5) If nothing changed at all, restore last popup
+                if (!paramsChanged && !locationChanged) {
                     this.restoreLastPopup();
-                    return;
                 }
 
-                const { location: newLocation, ...newParams } = newVal || {};
-                const { location: oldLocation, ...oldParams } = oldVal || {};
-
-                var gotNewData = false;
-
-                if (JSON.stringify(newParams) !== JSON.stringify(oldParams)) {
-                    this.renderTif(newParams);
-                    if (newLocation) {
-                        let lngLat;
-                        if (this.currentPopup) {
-                            const pos = this.currentPopup.getLngLat();
-                            lngLat = [pos.lng, pos.lat];
-                        } else {
-                            lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
+                // 6) If tab changed, resize and keep the last popup centered
+                if (newParams.tab !== oldParams.tab) {
+                    this.$nextTick(() => {
+                        this.map.resize();
+                        if (this.currentPopup && this.lastPopupLngLat) {
+                            this.map.flyTo({
+                                center: this.lastPopupLngLat,
+                                zoom: Math.max(this.map.getZoom(), 7)
+                            });
                         }
-                        this.fetchPopupData(newLocation.name, lngLat);
-                        gotNewData = true;
-                    }
-                }
-
-                if (newLocation && (!oldLocation || newLocation.name !== oldLocation.name)) {
-                    const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
-                    this.admValue = newLocation.name;
-                    this.suppressEmit = true;
-                    this.map.flyTo({ center: lngLat, zoom: 7 });
-                    const onMoveEnd = () => {
-                        if (!gotNewData) {
-                            this.fetchPopupData(this.admValue, lngLat);
-                            this.map.off("moveend", onMoveEnd);
-                        }
-                        this.suppressEmit = false;
-                    };
-                    this.map.on("moveend", onMoveEnd);
+                    });
                 }
             },
             selectedLocation(newVal, oldVal) {
+                // Keep panel layout stable when selection appears/disappears
                 if ((!oldVal && newVal) || (!newVal && oldVal)) {
                     this.$nextTick(() => {
                         this.map.resize();
@@ -234,7 +258,6 @@
                     let content = null;
 
                     try {
-                        console.log(paramString);
                         const res = await fetch(`${endpoint}?${paramString}`);
                         if (!res.ok) {
                             content = `<strong>${location}</strong><br/>Backend error`;

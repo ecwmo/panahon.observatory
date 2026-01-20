@@ -11,9 +11,9 @@
             <!-- Location -->
             <div class="section">
                 <h4>Location</h4>
-                <select v-model="location">
-                    <option v-show="!location" :value="null">Select Province</option>
-                    <option v-for="prov in provinces" :key="prov.name" :value="prov">
+                <select v-model="locationName">
+                    <option v-show="!locationName" :value="null">Select Province</option>
+                    <option v-for="prov in provinces" :key="prov.name" :value="prov.name">
                         {{ prov.name }}
                     </option>
                 </select>
@@ -74,14 +74,14 @@
         data() {
             return {
                 tab: "Current",
-                location: null,
+                locationName: null,
+                provinces: [],
                 pastData: "Temperature Anomaly",
                 projectedData: "Temperature Anomaly",
                 pastPeriod: "",
                 projectedPeriod: "2001 - 2050",
                 scenario: "SSP5 - 8.5",
                 months: [],
-                provinces: [],
                 suppressEmit: false
             };
         },
@@ -106,54 +106,60 @@
                 .catch(err => console.error("Error fetching provinces:", err));
         },
         methods: {
-            emitSelection() {
+            emitSelection(source) {
+                const selectedProv = this.provinces.find(p => p.name === this.locationName) || null;
                 this.$emit("selection-changed", {
                     tab: this.tab,
-                    location: this.location,
+                    location: selectedProv,
                     pastData: this.pastData,
                     projectedData: this.projectedData,
                     pastPeriod: this.pastPeriod,
                     projectedPeriod: this.projectedPeriod,
-                    scenario: this.scenario
+                    scenario: this.scenario,
+                    source
                 });
             }
         },
         watch: {
             externalLocation(newLoc) {
                 if (newLoc && newLoc.name) {
-                    const match = this.provinces.find(p => p.name === newLoc.name);
-                    if (match && (!this.location || this.location.name !== match.name)) {
-                        this.suppressEmit = true;
-                        this.location = match;
-                    }
-                } else {
-                    // blank externalLocation -> clear selection
                     this.suppressEmit = true;
-                    this.location = null;
+                    this.locationName = newLoc.name;
+                    this.emitSelection("external");
+                    this.$nextTick(() => { this.suppressEmit = false; });
+                } else {
+                    this.suppressEmit = true;
+                    this.locationName = null;
+                    this.emitSelection("external");
+                    this.$nextTick(() => { this.suppressEmit = false; });
                 }
             },
-            location(newVal, oldVal) {
-                if (this.suppressEmit) {
-                    this.suppressEmit = false;
-                    return;
-                }
-                if (!oldVal || !newVal || newVal.name !== oldVal.name) {
-                    this.emitSelection();
-                }
-                if (!newVal && oldVal)
-                {
-                    this.emitSelection();
+            locationName(newVal, oldVal) {
+                if (newVal !== oldVal && !this.suppressEmit) {
+                    this.emitSelection("manual");
                 }
             },
-            tab: "emitSelection",
-            pastData: "emitSelection",
-            projectedData: "emitSelection",
-            pastPeriod: "emitSelection",
-            projectedPeriod: "emitSelection",
-            scenario: "emitSelection"
+            tab() {
+                this.emitSelection("manual");
+            },
+            pastData() {
+                this.emitSelection("manual");
+            },
+            projectedData() {
+                this.emitSelection("manual");
+            },
+            pastPeriod() {
+                this.emitSelection("manual");
+            },
+            projectedPeriod() {
+                this.emitSelection("manual");
+            },
+            scenario() {
+                this.emitSelection("manual");
+            }
         },
         mounted() {
-            this.emitSelection();
+            this.emitSelection("manual");
         }
     };
 </script>
@@ -174,20 +180,20 @@
         margin-bottom: 1rem;
     }
 
-    .tabs button {
-        flex: 1;
-        padding: 0.6rem 1rem;
-        border: none;
-        background: #ddd;
-        cursor: pointer;
-        font-weight: bold;
-        border-radius: 4px;
-    }
+        .tabs button {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
 
-    .tabs button.active {
-        background: #4dabf7;
-        color: white;
-    }
+            .tabs button.active {
+                background: #4dabf7;
+                color: white;
+            }
 
     .controls {
         margin-top: 1rem;
@@ -197,11 +203,11 @@
         margin-bottom: 1.5rem;
     }
 
-    .section h4 {
-        margin: 0 0 0.5rem;
-        font-size: 0.95rem;
-        color: #333;
-    }
+        .section h4 {
+            margin: 0 0 0.5rem;
+            font-size: 0.95rem;
+            color: #333;
+        }
 
     select {
         width: 100%;
