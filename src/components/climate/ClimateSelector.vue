@@ -13,8 +13,8 @@
                 <h4>Location</h4>
                 <select v-model="location">
                     <option v-show="!location" :value="null">Select Province</option>
-                    <option v-for="prov in provinces" :key="prov.ADM2_EN" :value="prov">
-                        {{ prov.ADM2_EN }}
+                    <option v-for="prov in provinces" :key="prov.name" :value="prov">
+                        {{ prov.name }}
                     </option>
                 </select>
             </div>
@@ -120,9 +120,9 @@
         },
         watch: {
             externalLocation(newLoc) {
-                if (newLoc && newLoc.ADM2_EN) {
-                    const match = this.provinces.find(p => p.ADM2_EN === newLoc.ADM2_EN);
-                    if (match && (!this.location || this.location.ADM2_EN !== match.ADM2_EN)) {
+                if (newLoc && newLoc.name) {
+                    const match = this.provinces.find(p => p.name === newLoc.name);
+                    if (match && (!this.location || this.location.name !== match.name)) {
                         this.suppressEmit = true;
                         this.location = match;
                     }
@@ -137,7 +137,7 @@
                     this.suppressEmit = false;
                     return;
                 }
-                if (!oldVal || !newVal || newVal.ADM2_EN !== oldVal.ADM2_EN) {
+                if (!oldVal || !newVal || newVal.name !== oldVal.name) {
                     this.emitSelection();
                 }
                 if (!newVal && oldVal)

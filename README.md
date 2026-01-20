@@ -64,6 +64,9 @@ Create a `.env` file at the root with the following required environment variabl
 | `APP_SITE`             | Public site URL or identifier                 | `panahon.observatory.ph`                     |
 | `APP_RES_DIR`          | Path to static resources                      | `./public/resources`                         |
 | `MAPBOX_TOKEN`         | Mapbox API token (for maps)                   | `<your_mapbox_token>`                        |
+| `MAPBOX_TILESET`       | Mapbox tiletset                               | `<your_mapbox_tileset>`                      |
+| `MAPBOX_SOURCE_LAYER`  | Tileset layer                                 | `<your_tileset_layer>`                       |
+| `MAPBOX_ATTRIBUTE_KEY` | Layer attribute key                           | `<your_layer_attribute_key>`                 |
 | `PUBLIC_API_URL`       | Panahon API URL                               | `https://pahanon.observatory.ph/data/api/v1` |
 | `DATABASE_URL`         | SQLite database file connection string        | `file:./panahon.db`                          |
 | `BETTER_AUTH_SECRET`   | Secret key for Better Auth authentication     | `<your_better_auth_secret>`                  |

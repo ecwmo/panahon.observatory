@@ -8,7 +8,7 @@
     import { fromArrayBuffer } from "geotiff";
 
     export default {
-        name: "MapboxMap",
+        name: "Mapbox",
         props: {
             token: { type: String, required: true },
             tileset: { type: String, required: true },
@@ -59,16 +59,16 @@
                             const pos = this.currentPopup.getLngLat();
                             lngLat = [pos.lng, pos.lat];
                         } else {
-                            lngLat = [parseFloat(newLocation.Lon), parseFloat(newLocation.Lat)];
+                            lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
                         }
-                        this.fetchPopupData(newLocation.ADM2_EN, lngLat);
+                        this.fetchPopupData(newLocation.name, lngLat);
                         gotNewData = true;
                     }
                 }
 
-                if (newLocation && (!oldLocation || newLocation.ADM2_EN !== oldLocation.ADM2_EN)) {
-                    const lngLat = [parseFloat(newLocation.Lon), parseFloat(newLocation.Lat)];
-                    this.admValue = newLocation.ADM2_EN;
+                if (newLocation && (!oldLocation || newLocation.name !== oldLocation.name)) {
+                    const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
+                    this.admValue = newLocation.name;
                     this.suppressEmit = true;
                     this.map.flyTo({ center: lngLat, zoom: 7 });
                     const onMoveEnd = () => {
@@ -271,9 +271,9 @@
 
                     if (!this.suppressEmit) {
                         this.$emit("location-changed", {
-                            ADM2_EN: location,
-                            Lat: lngLat[1],
-                            Lon: lngLat[0],
+                            name: location,
+                            lat: lngLat[1],
+                            lon: lngLat[0],
                         });
                     }
                 } catch (err) {
