@@ -1,14 +1,20 @@
 <template>
-    <div id="map"></div>
+    <div class="map-container">
+        <div id="map"></div>
+        <Legend v-if="legendStyle" :style="legendStyle" class="legend-overlay" />
+    </div>
 </template>
 
 <script>
     import mapboxgl from "mapbox-gl";
     import "mapbox-gl/dist/mapbox-gl.css";
     import { fromArrayBuffer } from "geotiff";
+    import chroma from "chroma-js";
+    import Legend from "./Legend.vue";
 
     export default {
         name: "Mapbox",
+        components: { Legend },
         props: {
             token: { type: String, required: true },
             tileset: { type: String, required: true },
@@ -25,7 +31,8 @@
                 admValue: null,
                 suppressEmit: false,
                 lastLocation: null,
-                lastPopupLngLat: null
+                lastPopupLngLat: null,
+                legendStyle: null
             };
         },
         watch: {
@@ -129,7 +136,8 @@
                             pastData: newParams.pastData,
                             pastPeriod: newParams.pastPeriod
                         });
-                    } else if (newParams.tab === "Projected") {
+                    }
+                    else if (newParams.tab === "Projected") {
                         Object.assign(toSend, {
                             projectedData: newParams.projectedData,
                             projectedPeriod: newParams.projectedPeriod,
@@ -147,10 +155,13 @@
                             : "/api/climate/projected_tif";
 
                     const res = await fetch(`${endpoint}?${paramString}`);
+                    if (!res.ok) throw new Error(`Bad response: ${res.status}`);
 
-                    if (!res.ok) {
-                        throw new Error(`Bad response: ${res.status}`);
-                    }
+                    const scaling = res.headers.get("X-Scaling");
+                    const rampHeader = res.headers.get("X-Ramp");
+                    const ramp = rampHeader ? JSON.parse(rampHeader) : [];
+                    const minHeader = res.headers.get("X-Min");
+                    const maxHeader = res.headers.get("X-Max");
 
                     const arrayBuffer = await res.arrayBuffer();
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
@@ -161,25 +172,40 @@
                     const image = await tiff.getImage();
                     const raster = await image.readRasters();
                     const band = raster[0];
-
-                    if (!band || band.length === 0) {
-                        throw new Error("Invalid TIFF band data");
-                    }
+                    if (!band || band.length === 0) throw new Error("Invalid TIFF band data");
 
                     const width = image.getWidth();
                     const height = image.getHeight();
 
-                    let min = Infinity,
-                        max = -Infinity;
-                    for (let i = 0; i < band.length; i++) {
-                        const val = band[i];
-                        if (typeof val !== "number" || isNaN(val)) continue;
-                        if (val < min) min = val;
-                        if (val > max) max = val;
-                    }
+                    let min = minHeader !== null && !isNaN(parseFloat(minHeader)) ? parseFloat(minHeader) : Infinity;
+                    let max = maxHeader !== null && !isNaN(parseFloat(maxHeader)) ? parseFloat(maxHeader) : -Infinity;
 
+                    if (min === Infinity || max === -Infinity) {
+                        min = Infinity;
+                        max = -Infinity;
+                        for (let i = 0; i < band.length; i++) {
+                            const val = band[i];
+                            if (typeof val !== "number" || isNaN(val)) continue;
+                            if (val < min) min = val;
+                            if (val > max) max = val;
+                        }
+                    }
                     if (!isFinite(min) || !isFinite(max) || min === max) {
                         throw new Error("Invalid min/max values in TIFF");
+                    }
+
+                    this.legendStyle = { scaling, ramp, min, max };
+                    const colors = ramp.map(r => r.color);
+
+                    let scale;
+                    if (scaling === "quantile") {
+                        scale = chroma.scale(colors).mode("lab").domain(band, "quantile");
+                    }
+                    else if (scaling === "log") {
+                        scale = chroma.scale(colors).mode("lab").domain([min, max], "log");
+                    }
+                    else {
+                        scale = chroma.scale(colors).mode("lab").domain([min, max], "linear");
                     }
 
                     const canvas = document.createElement("canvas");
@@ -191,11 +217,10 @@
                     for (let i = 0; i < band.length; i++) {
                         const val = band[i];
                         if (typeof val !== "number" || isNaN(val)) continue;
-                        const ratio = (val - min) / (max - min);
-                        const r = Math.floor(255 * ratio);
-                        imgData.data[i * 4 + 0] = r;
-                        imgData.data[i * 4 + 1] = 0;
-                        imgData.data[i * 4 + 2] = 0;
+                        const color = scale(val).rgb();
+                        imgData.data[i * 4 + 0] = color[0];
+                        imgData.data[i * 4 + 1] = color[1];
+                        imgData.data[i * 4 + 2] = color[2];
                         imgData.data[i * 4 + 3] = 255;
                     }
                     ctx.putImageData(imgData, 0, 0);
@@ -223,10 +248,12 @@
                         source: "tif-source",
                         paint: { "raster-opacity": 0.7 }
                     });
-                } catch (err) {
+                }
+                catch (err) {
                     console.error("Error rendering tif:", err);
                     if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
                     if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
+                    this.legendStyle = null;
                 }
             },
             async fetchPopupData(location, lngLat) {
@@ -299,7 +326,8 @@
                             lon: lngLat[0],
                         });
                     }
-                } catch (err) {
+                }
+                catch (err) {
                     console.error("Popup fetch error:", err);
                 }
             },
@@ -389,11 +417,22 @@
 </script>
 
 <style scoped>
-    #map {
-        height: 100%;
+    .map-container {
+        position: relative;
         width: 100%;
-        margin: 0;
-        padding: 0;
+        height: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .legend-overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1;
     }
 
     * {

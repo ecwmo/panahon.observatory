@@ -9,10 +9,10 @@ export const GET: APIRoute = async ({ request }) => {
     const pastPeriod = url.searchParams.get('pastPeriod');
 
     if (!pastData || !pastPeriod) {
-        return new Response(JSON.stringify({ error: 'Missing pastData or pastPeriod parameter' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        return new Response(
+            JSON.stringify({ error: 'Missing pastData or pastPeriod parameter' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
     }
 
     let baseDir: string;
@@ -27,10 +27,10 @@ export const GET: APIRoute = async ({ request }) => {
         filePrefix = 'temp_wrf_anomaly_';
     }
     else {
-        return new Response(JSON.stringify({ error: 'Invalid pastData parameter' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        return new Response(
+            JSON.stringify({ error: 'Invalid pastData parameter' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
     }
 
     try {
@@ -43,19 +43,33 @@ export const GET: APIRoute = async ({ request }) => {
         await access(filePath);
         const buffer = await readFile(filePath);
 
+        const stylePath = path.join(baseDir, 'style.json');
+        let style: any = null;
+        try {
+            await access(stylePath);
+            const styleRaw = await readFile(stylePath, 'utf-8');
+            style = JSON.parse(styleRaw);
+        }
+        catch {
+            style = null;
+        }
+
         return new Response(buffer, {
             status: 200,
             headers: {
                 'Content-Type': 'image/tiff',
                 'Content-Disposition': `inline; filename="${fileName}"`,
-                //'X-Debug-File': filePath,
-            },
+                'X-Scaling': style.scaling,
+                'X-Ramp': JSON.stringify(style.ramp || []),
+                'X-Min': style.min,
+                'X-Max': style.max,
+            }
         });
     }
     catch (err) {
-        return new Response(JSON.stringify({ error: `Error reading tif file: ${err}` }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        return new Response(
+            JSON.stringify({ error: `Error reading tif file: ${err}` }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
     }
 };
