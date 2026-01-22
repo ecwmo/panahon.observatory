@@ -1,7 +1,7 @@
 <template>
     <div class="map-container">
         <div id="map"></div>
-        <Legend v-if="legendStyle" :style="legendStyle" class="legend-overlay" />
+        <Legend v-if="legendStyle" :style="legendStyle" class="legend-overlay" :hoveredValue="legendHoveredValue"/>
     </div>
 </template>
 
@@ -32,7 +32,11 @@
                 suppressEmit: false,
                 lastLocation: null,
                 lastPopupLngLat: null,
-                legendStyle: null
+                legendStyle: null,
+
+                tifBand: null,
+                tifImage: null,
+                legendHoveredValue: null
             };
         },
         watch: {
@@ -194,19 +198,38 @@
                         throw new Error("Invalid min/max values in TIFF");
                     }
 
-                    this.legendStyle = { scaling, ramp, min, max };
-                    const colors = ramp.map(r => r.color);
-
-                    let scale;
-                    if (scaling === "quantile") {
-                        scale = chroma.scale(colors).mode("lab").domain(band, "quantile");
+                    const n = ramp.length;
+                    let thresholds = [];
+                    if (scaling === "linear") {
+                        thresholds = [];
+                        for (let i = 0; i < n; i++) {
+                            const t = min + (i / (n - 1)) * (max - min);
+                            thresholds.push(t);
+                        }
                     }
                     else if (scaling === "log") {
-                        scale = chroma.scale(colors).mode("lab").domain([min, max], "log");
+                        const logMin = Math.log(min);
+                        const logMax = Math.log(max);
+                        thresholds = [];
+                        for (let i = 0; i < n; i++) {
+                            const t = Math.exp(logMin + (i / (n - 1)) * (logMax - logMin));
+                            thresholds.push(t);
+                        }
                     }
-                    else {
-                        scale = chroma.scale(colors).mode("lab").domain([min, max], "linear");
+                    else if (scaling === "quantile") {
+                        const sorted = band.filter(v => typeof v === "number" && !isNaN(v)).sort((a, b) => a - b);
+                        thresholds = [];
+                        for (let i = 0; i < n; i++) {
+                            const idx = Math.floor((i / (n - 1)) * (sorted.length - 1));
+                            thresholds.push(sorted[idx]);
+                        }
                     }
+                    const enrichedRamp = ramp.map((entry, i) => ({
+                        ...entry,
+                        threshold: thresholds[i]
+                    }));
+
+                    this.legendStyle = { ramp: enrichedRamp };
 
                     const canvas = document.createElement("canvas");
                     canvas.width = width;
@@ -217,7 +240,25 @@
                     for (let i = 0; i < band.length; i++) {
                         const val = band[i];
                         if (typeof val !== "number" || isNaN(val)) continue;
-                        const color = scale(val).rgb();
+                        let color;
+                        if (val <= thresholds[0]) {
+                            color = chroma(ramp[0].color).rgb();
+                        }
+                        else if (val >= thresholds[thresholds.length - 1]) {
+                            color = chroma(ramp[ramp.length - 1].color).rgb();
+                        }
+                        else {
+                            for (let j = 0; j < thresholds.length - 1; j++) {
+                                const low = thresholds[j];
+                                const high = thresholds[j + 1];
+                                if (val >= low && val <= high) {
+                                    const t = (val - low) / (high - low);
+                                    const scale = chroma.scale([ramp[j].color, ramp[j + 1].color]).mode("lab");
+                                    color = scale(t).rgb();
+                                    break;
+                                }
+                            }
+                        }
                         imgData.data[i * 4 + 0] = color[0];
                         imgData.data[i * 4 + 1] = color[1];
                         imgData.data[i * 4 + 2] = color[2];
@@ -227,10 +268,10 @@
 
                     const bbox = image.getBoundingBox();
                     const coords = [
-                        [bbox[0], bbox[3]],
-                        [bbox[2], bbox[3]],
+                        [bbox[0], bbox[1]],
                         [bbox[2], bbox[1]],
-                        [bbox[0], bbox[1]]
+                        [bbox[2], bbox[3]],
+                        [bbox[0], bbox[3]]
                     ];
 
                     if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
@@ -247,6 +288,30 @@
                         type: "raster",
                         source: "tif-source",
                         paint: { "raster-opacity": 0.7 }
+                    });
+
+                    this.tifBand = band;
+                    this.tifImage = image;
+
+                    this.map.on("mousemove", async (e) => {
+                        if (!this.tifImage) return;
+
+                        const [originX, originY] = this.tifImage.getOrigin();
+                        const [resX, resY] = this.tifImage.getResolution();
+
+                        const lng = e.lngLat.lng;
+                        const lat = e.lngLat.lat;
+
+                        const x = Math.floor((lng - originX) / resX);
+                        const y = Math.abs(Math.floor((lat - originY) / resY));
+
+                        const width = this.tifImage.getWidth();
+                        const height = this.tifImage.getHeight();
+
+                        const pixelIndex = y * width + x;
+                        const val = this.tifBand[pixelIndex];
+
+                        this.legendHoveredValue = val;
                     });
                 }
                 catch (err) {
