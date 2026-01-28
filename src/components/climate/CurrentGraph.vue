@@ -1,16 +1,22 @@
 <template>
     <div class="graph-panel">
-        <!-- show error if no data -->
-        <div v-if="!data" class="error-message">
+        <!-- Plot container always present -->
+        <div id="trend-plot"></div>
+
+        <!-- Unified overlay -->
+        <div v-if="!data || rendering" class="overlay loading-message">
+            {{ 'Rendering...' }}
+        </div>
+
+        <!-- Error overlay -->
+        <div v-else-if="data && data.failed" class="overlay error-message">
             Backend error
         </div>
-        <!-- otherwise render plot container -->
-        <div v-else id="trend-plot"></div>
     </div>
 </template>
 
 <script>
-    import { onMounted, watch, nextTick, onBeforeUnmount } from "vue";
+    import { ref, onMounted, watch, nextTick, onBeforeUnmount } from "vue";
 
     export default {
         name: "CurrentGraph",
@@ -21,6 +27,7 @@
             let Plotly = null;
             let plotEl = null;
             let handleResize = null;
+            const rendering = ref(false);
 
             const renderPlot = async (newVal) => {
                 if (!newVal || !newVal.trend || !Plotly || !plotEl) return;
@@ -29,12 +36,8 @@
                 const values = newVal.trend.map((item) => item[1]);
 
                 const numericValues = values.filter((v) => v !== null && !isNaN(v));
-                let minVal = 0;
-                let maxVal = 1;
-                if (numericValues.length > 0) {
-                    minVal = Math.min(...numericValues);
-                    maxVal = Math.max(...numericValues);
-                }
+                let minVal = numericValues.length ? Math.min(...numericValues) : 0;
+                let maxVal = numericValues.length ? Math.max(...numericValues) : 1;
 
                 const trace = {
                     x: months,
@@ -76,13 +79,16 @@
                 if (plotEl && plotEl.offsetParent !== null) {
                     Plotly.Plots.resize(plotEl);
                 }
+
+                rendering.value = false;
             };
 
             onMounted(async () => {
+                rendering.value = true;
                 Plotly = (await import("plotly.js-dist")).default;
                 plotEl = document.getElementById("trend-plot");
 
-                if (props.data) {
+                if (props.data && !props.data.failed) {
                     renderPlot(props.data);
                 }
 
@@ -106,18 +112,21 @@
             watch(
                 () => props.data,
                 (newVal) => {
-                    if (newVal) {
+                    if (newVal && !newVal.failed) {
                         renderPlot(newVal);
                     }
                 },
                 { immediate: true }
             );
+
+            return { rendering };
         }
     };
 </script>
 
 <style scoped>
     .graph-panel {
+        position: relative;
         flex: 2;
         flex-basis: 0;
         display: flex;
@@ -135,12 +144,24 @@
         height: 100%;
     }
 
-    .error-message {
-        flex: 1;
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .error-message {
         color: #d9534f;
+    }
+
+    .loading-message {
+        color: #666;
     }
 </style>

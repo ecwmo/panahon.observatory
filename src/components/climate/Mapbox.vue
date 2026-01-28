@@ -301,55 +301,44 @@
             },
             async fetchPopupData(location, lngLat) {
                 try {
-                    const flatParams = Object.fromEntries(
-                        Object.entries(this.parameters || {}).map(([k, v]) => [k, String(v)])
-                    );
-
-                    let toSend = {};
-
-                    if (this.parameters.tab === "Current") {
-                        Object.assign(toSend, {
-                            pastData: this.parameters.pastData,
-                            pastPeriod: this.parameters.pastPeriod,
-                            location
-                        });
-                    }
-                    else if (this.parameters.tab === "Projected") {
-                        Object.assign(toSend, {
-                            projectedData: this.parameters.projectedData,
-                            projectedPeriod: this.parameters.projectedPeriod,
-                            scenario: this.parameters.scenario,
-                            location
-                        });
-                    }
-
-                    const endpoint = this.parameters.tab === "Current" ? "/api/climate/current_average" : "/api/climate/projected_average";
-                    const paramString = new URLSearchParams(toSend).toString();
-                    let content = null;
-
+                    let content;
                     try {
-                        const res = await fetch(`${endpoint}?${paramString}`);
-                        if (!res.ok) {
-                            content = `<strong>${location}</strong><br/>Backend error`;
-                            this.$emit("data-fetched", null);
+                        let res;
+                        if (this.parameters.tab === "Current") {
+                            const toSend = {
+                                pastData: this.parameters.pastData,
+                                pastPeriod: this.parameters.pastPeriod,
+                                location
+                            };
+                            const paramString = new URLSearchParams(toSend).toString();
+                            res = await fetch(`/api/climate/current_average?${paramString}`);
+
+                            if (!res.ok) throw new Error("Backend error");
+
+                            const contentType = res.headers.get("content-type") || "";
+
+                            if (!contentType.includes("application/json")) throw new Error("Invalid response");
+
+                            const data = await res.json();
+                            this.fetchedData = data;
+                            this.$emit("data-fetched", data);
+                            content = data?.location ? `<strong>${data.location}</strong><br/>Value: ${data.value ?? "N/A"}` : "No data found";
                         }
                         else {
-                            const contentType = res.headers.get("content-type") || "";
-                            if (contentType.includes("application/json")) {
-                                const data = await res.json();
-                                this.fetchedData = data;
-                                this.$emit("data-fetched", data);
-                                content = data && data.location ? `<strong>${data.location}</strong><br/>Value: ${data.value ?? "N/A"}` : "No data found";
-                            }
-                            else {
-                                content = `<strong>${location}</strong><br/>Backend error`;
-                                this.$emit("data-fetched", null);
-                            }
+                            await Promise.reject(new Error("Projected not available"));
                         }
                     }
-                    catch (err) {
-                        content = `<strong>${location}</strong><br/>Backend error`;
-                        this.$emit("data-fetched", null);
+                    catch {
+                        if (this.parameters.tab === "Projected")
+                        {
+                            content = `<strong>${location}</strong>`;
+                            this.$emit("data-fetched", null);
+                        }
+                        else
+                        {
+                            content = `<strong>${location}</strong><br/>Backend error`;
+                            this.$emit("data-fetched", { failed: true } );
+                        }
                     }
 
                     if (this.currentPopup) {

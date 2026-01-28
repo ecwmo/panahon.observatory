@@ -180,20 +180,20 @@
         margin-bottom: 1rem;
     }
 
-        .tabs button {
-            flex: 1;
-            padding: 0.6rem 1rem;
-            border: none;
-            background: #ddd;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 4px;
-        }
+    .tabs button {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        border: none;
+        background: #ddd;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 4px;
+    }
 
-            .tabs button.active {
-                background: #4dabf7;
-                color: white;
-            }
+    .tabs button.active {
+        background: #4dabf7;
+        color: white;
+    }
 
     .controls {
         margin-top: 1rem;
@@ -203,11 +203,11 @@
         margin-bottom: 1.5rem;
     }
 
-        .section h4 {
-            margin: 0 0 0.5rem;
-            font-size: 0.95rem;
-            color: #333;
-        }
+    .section h4 {
+        margin: 0 0 0.5rem;
+        font-size: 0.95rem;
+        color: #333;
+    }
 
     select {
         width: 100%;

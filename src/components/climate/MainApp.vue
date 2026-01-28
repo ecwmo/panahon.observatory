@@ -22,8 +22,9 @@
                 </span>
                 <span v-else>
                     <GraphProjection 
+                        v-if="panelReady"
                         :selectedProvince="selectedLocation?.name" 
-                        :filteredData="filteredData" 
+                        :filteredData="filteredData"
                     />
                 </span>
             </div>
@@ -36,12 +37,11 @@
     import ClimateSelector from "./ClimateSelector.vue";
     import Mapbox from "./Mapbox.vue";
     import CurrentGraph from "./CurrentGraph.vue";
-    import ProjectedGraph from "./ProjectedGraph.vue"
     import GraphProjection from './GraphProjection.vue'
 
     export default {
         name: "MainApp",
-        components: { ClimateSelector, Mapbox, CurrentGraph, ProjectedGraph, GraphProjection  },
+        components: { ClimateSelector, Mapbox, CurrentGraph, GraphProjection },
         props: {
             token: { type: String, required: true },
             tileset: { type: String, required: true },
@@ -89,10 +89,11 @@
                 });
 
                 try {
-                    const res = await fetch(`/api/filtereddata?${params}`);
+                    const res = await fetch(`/api/climate/filtereddata?${params}`);
                     const data = await res.json();
                     this.filteredData = data.mapped; // <-- reactive, for GraphProjection
-                } catch (err) {
+                }
+                catch (err) {
                     console.error('Failed to fetch filtered data:', err);
                 }
             },
