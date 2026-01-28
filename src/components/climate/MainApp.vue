@@ -21,7 +21,10 @@
                     <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
                 </span>
                 <span v-else>
-                    <ProjectedGraph v-if="panelReady" :data="latestDataSafe" />
+                    <GraphProjection 
+                        :selectedProvince="selectedLocation?.name" 
+                        :filteredData="filteredData" 
+                    />
                 </span>
             </div>
         </div>
@@ -34,10 +37,11 @@
     import Mapbox from "./Mapbox.vue";
     import CurrentGraph from "./CurrentGraph.vue";
     import ProjectedGraph from "./ProjectedGraph.vue"
+    import GraphProjection from './GraphProjection.vue'
 
     export default {
         name: "MainApp",
-        components: { ClimateSelector, Mapbox, CurrentGraph, ProjectedGraph },
+        components: { ClimateSelector, Mapbox, CurrentGraph, ProjectedGraph, GraphProjection  },
         props: {
             token: { type: String, required: true },
             tileset: { type: String, required: true },
@@ -48,6 +52,7 @@
             return {
                 parameters: {},
                 latestData: null,
+                filteredData: null,
                 showSelector: false,
                 selectedLocation: null,
                 panelReady: false
@@ -68,11 +73,29 @@
             async onLocationChanged(loc) {
                 this.selectedLocation = loc;
                 this.panelReady = false;
+                if (this.parameters.tab !== 'Current') {
+                    await this.fetchFilteredData(); // fetch filtered data only when tab is not Current
+                }
                 await nextTick();
                 requestAnimationFrame(() => {
                     this.panelReady = true;
                 });
-            }
+            },
+            async fetchFilteredData() {
+                if (!this.selectedLocation.name) return;
+
+                const params = new URLSearchParams({
+                    province: this.selectedLocation.name
+                });
+
+                try {
+                    const res = await fetch(`/api/filtereddata?${params}`);
+                    const data = await res.json();
+                    this.filteredData = data.mapped; // <-- reactive, for GraphProjection
+                } catch (err) {
+                    console.error('Failed to fetch filtered data:', err);
+                }
+            },
         },
         mounted() {
             this.$nextTick(() => {
@@ -123,7 +146,8 @@
     }
 
     .rightSide.column-layout .panel-container {
-        flex: 2;
+        flex: 5;
+        overflow-y: auto;
     }
 
     .map-container {
