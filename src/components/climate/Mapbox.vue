@@ -65,7 +65,7 @@
                     key => newParams[key] !== oldParams[key]
                 );
                 if (paramsChanged) {
-                    this.renderTif(newParams);
+                    this.renderClimate(newParams);
                     if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
                         const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
                         this.fetchPopupData(newLocation.name, lngLat);
@@ -131,10 +131,9 @@
             }
         },
         methods: {
-            async renderTif(newParams) {
+            async renderClimate(newParams) {
                 try {
                     const toSend = {};
-
                     if (newParams.tab === "Current") {
                         Object.assign(toSend, {
                             pastData: newParams.pastData,
@@ -167,137 +166,197 @@
                     const minHeader = res.headers.get("X-Min");
                     const maxHeader = res.headers.get("X-Max");
 
-                    const arrayBuffer = await res.arrayBuffer();
-                    if (!arrayBuffer || arrayBuffer.byteLength === 0) throw new Error("Empty TIFF buffer");
+                    if (newParams.tab === "Current") {
+                        const arrayBuffer = await res.arrayBuffer();
+                        const tiff = await fromArrayBuffer(arrayBuffer);
+                        const image = await tiff.getImage();
+                        const band = (await image.readRasters())[0];
 
-                    const tiff = await fromArrayBuffer(arrayBuffer);
-                    const image = await tiff.getImage();
-                    const band = (await image.readRasters())[0];
-                    if (!band || band.length === 0) throw new Error("Invalid TIFF band data");
+                        const { thresholds, enrichedRamp } = this.computeThresholds(
+                            band, ramp, scaling, minHeader, maxHeader
+                        );
+                        this.legendStyle = { ramp: enrichedRamp };
 
-                    const width = image.getWidth();
-                    const height = image.getHeight();
-
-                    let min = minHeader !== null && !isNaN(parseFloat(minHeader))
-                        ? parseFloat(minHeader)
-                        : Infinity;
-                    let max = maxHeader !== null && !isNaN(parseFloat(maxHeader))
-                        ? parseFloat(maxHeader)
-                        : -Infinity;
-
-                    if (min === Infinity || max === -Infinity) {
-                        for (let val of band) {
-                            if (typeof val !== "number" || isNaN(val)) continue;
-                            if (val < min) min = val;
-                            if (val > max) max = val;
-                        }
+                        this.tifSource(image, band, ramp, thresholds);
+                        this.tifBand = band;
+                        this.tifImage = image;
                     }
-                    if (!isFinite(min) || !isFinite(max) || min === max) throw new Error("Invalid min/max values in TIFF");
-
-                    const n = ramp.length;
-                    let thresholds = [];
-                    if (scaling === "linear") {
-                        for (let i = 0; i < n; i++) thresholds.push(min + (i / (n - 1)) * (max - min));
+                    else {
+                        const jsonData = await res.json();
+                        const band = jsonData.map(d => d[1]);
+                        const { thresholds, enrichedRamp } = this.computeThresholds(
+                            band, ramp, scaling, minHeader, maxHeader
+                        );
+                        this.legendStyle = { ramp: enrichedRamp };
+                        this.jsonSource(jsonData, ramp, thresholds);
                     }
-                    else if (scaling === "log") {
-                        const logMin = Math.log(min), logMax = Math.log(max);
-                        for (let i = 0; i < n; i++) thresholds.push(Math.exp(logMin + (i / (n - 1)) * (logMax - logMin)));
-                    }
-                    else if (scaling === "quantile") {
-                        const sorted = band.filter(v => typeof v === "number" && !isNaN(v)).sort((a, b) => a - b);
-                        for (let i = 0; i < n; i++) {
-                            const idx = Math.floor((i / (n - 1)) * (sorted.length - 1));
-                            thresholds.push(sorted[idx]);
-                        }
-                    }
-
-                    const enrichedRamp = ramp.map((entry, i) => ({ ...entry, threshold: thresholds[i] }));
-                    this.legendStyle = { ramp: enrichedRamp };
-
-                    const [originX, originY] = image.getOrigin();
-                    const [resX, resY] = image.getResolution();
-
-                    const features = [];
-                    for (let y = 0; y < height; y++) {
-                        const top = originY - y * resY;
-                        const bottom = top - resY;
-                        for (let x = 0; x < width; x++) {
-                            const left = originX + x * resX;
-                            const right = left + resX;
-                            const idx = y * width + x;
-                            const val = band[idx];
-                            if (typeof val !== "number" || isNaN(val)) continue;
-                            let color;
-                            if (val <= thresholds[0]) color = ramp[0].color;
-                            else if (val >= thresholds[thresholds.length - 1]) color = ramp[ramp.length - 1].color;
-                            else {
-                                for (let j = 0; j < thresholds.length - 1; j++) {
-                                    const low = thresholds[j], high = thresholds[j + 1];
-                                    if (val >= low && val <= high) {
-                                        const t = (val - low) / (high - low);
-                                        color = chroma.scale([ramp[j].color, ramp[j + 1].color]).mode("lab")(t).hex();
-                                        break;
-                                    }
-                                }
-                            }
-                            features.push({
-                                type: "Feature",
-                                geometry: {
-                                    type: "Polygon",
-                                    coordinates: [[
-                                        [left, top],
-                                        [right, top],
-                                        [right, bottom],
-                                        [left, bottom],
-                                        [left, top]
-                                    ]]
-                                },
-                                properties: { value: val, color }
-                            });
-                        }
-                    }
-
-                    const geojson = { type: "FeatureCollection", features };
-
-                    if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
-                    if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
-
-                    this.map.addSource("tif-source", {
-                        type: "geojson",
-                        data: geojson
-                    });
-
-                    this.map.addLayer({
-                        id: "tif-layer",
-                        type: "fill",
-                        source: "tif-source",
-                        paint: { "fill-color": ["get", "color"], "fill-opacity": 0.7 }
-                    });
-
-                    this.tifBand = band;
-                    this.tifImage = image;
-
-                    this.map.on("mousemove", (e) => {
-                        if (!this.tifImage) return;
-                        const [originX, originY] = this.tifImage.getOrigin();
-                        const [resX, resY] = this.tifImage.getResolution();
-                        const x = Math.floor((e.lngLat.lng - originX) / resX);
-                        const y = Math.floor((originY - e.lngLat.lat) / resY);
-                        const width = this.tifImage.getWidth();
-                        const height = this.tifImage.getHeight();
-                        if (x < 0 || y < 0 || x >= width || y >= height) {
-                            this.legendHoveredValue = null;
-                            return;
-                        }
-                        this.legendHoveredValue = this.tifBand[y * width + x];
-                    });
                 }
                 catch (err) {
-                    console.error("Error rendering tif:", err);
+                    console.error("Error rendering:", err);
                     if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
                     if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
+                    if (this.map.getLayer("newfill")) this.map.removeLayer("newfill");
                     this.legendStyle = null;
                 }
+            },
+            computeThresholds(band, ramp, scaling, minHeader, maxHeader) {
+                let min = minHeader !== null && !isNaN(parseFloat(minHeader))
+                    ? parseFloat(minHeader)
+                    : Infinity;
+                let max = maxHeader !== null && !isNaN(parseFloat(maxHeader))
+                    ? parseFloat(maxHeader)
+                    : -Infinity;
+
+                if (min === Infinity || max === -Infinity) {
+                    for (let val of band) {
+                        if (typeof val !== "number" || isNaN(val)) continue;
+                        if (val < min) min = val;
+                        if (val > max) max = val;
+                    }
+                }
+                if (!isFinite(min) || !isFinite(max) || min === max) throw new Error("Invalid min/max");
+                const n = ramp.length;
+                let thresholds = [];
+                if (scaling === "linear") {
+                    for (let i = 0; i < n; i++) thresholds.push(min + (i / (n - 1)) * (max - min));
+                }
+                else if (scaling === "log") {
+                    const logMin = Math.log(min), logMax = Math.log(max);
+                    for (let i = 0; i < n; i++) thresholds.push(Math.exp(logMin + (i / (n - 1)) * (logMax - logMin)));
+                }
+                else if (scaling === "quantile") {
+                    const sorted = band.filter(v => typeof v === "number" && !isNaN(v)).sort((a, b) => a - b);
+                    for (let i = 0; i < n; i++) {
+                        const idx = Math.floor((i / (n - 1)) * (sorted.length - 1));
+                        thresholds.push(sorted[idx]);
+                    }
+                }
+                const enrichedRamp = ramp.map((entry, i) => ({ ...entry, threshold: thresholds[i] }));
+                return { thresholds, enrichedRamp };
+            },
+            tifSource(image, band, ramp, thresholds) {
+                const width = image.getWidth();
+                const height = image.getHeight();
+                const [originX, originY] = image.getOrigin();
+                const [resX, resY] = image.getResolution();
+
+                const features = [];
+                for (let y = 0; y < height; y++) {
+                    const top = originY - y * resY;
+                    const bottom = top - resY;
+                    for (let x = 0; x < width; x++) {
+                        const left = originX + x * resX;
+                        const right = left + resX;
+                        const idx = y * width + x;
+                        const val = band[idx];
+                        if (typeof val !== "number" || isNaN(val)) continue;
+                        let color = this.interpolateColor(val, ramp, thresholds);
+                        features.push({
+                            type: "Feature",
+                            geometry: {
+                                type: "Polygon",
+                                coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]]
+                            },
+                            properties: { value: val, color }
+                        });
+                    }
+                }
+
+                const geojson = { type: "FeatureCollection", features };
+
+                if (this.map.getLayer("newfill")) this.map.removeLayer("newfill");
+                if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
+                if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
+
+                this.map.addSource("tif-source", { type: "geojson", data: geojson });
+                this.map.addLayer({
+                    id: "tif-layer",
+                    type: "fill",
+                    source: "tif-source",
+                    paint: { "fill-color": ["get", "color"], "fill-opacity": 0.7 }
+                });
+
+                if (this._hoverHandler) {
+                    this.map.off("mousemove", this._hoverHandler);
+                    this._hoverHandler = null;
+                }
+
+                this.legendHoveredValue = null;
+
+                this._hoverHandler = (e) => {
+                    if (!this.tifImage) return;
+                    const [originX, originY] = this.tifImage.getOrigin();
+                    const [resX, resY] = this.tifImage.getResolution();
+                    const x = Math.floor((e.lngLat.lng - originX) / resX);
+                    const y = Math.floor((originY - e.lngLat.lat) / resY);
+                    const width = this.tifImage.getWidth();
+                    const height = this.tifImage.getHeight();
+                    if (x < 0 || y < 0 || x >= width || y >= height) {
+                        this.legendHoveredValue = null;
+                        return;
+                    }
+                    this.legendHoveredValue = this.tifBand[y * width + x];
+                };
+
+                this.map.on("mousemove", this._hoverHandler);
+            },
+            jsonSource(data, ramp, thresholds) {
+                const matchExpression = ["match", ["get", this.admProperty]];
+                const valueMap = {};
+
+                data.forEach(([province, val]) => {
+                    const color = this.interpolateColor(val, ramp, thresholds);
+                    matchExpression.push(province, color);
+                    valueMap[province] = val;
+                });
+                matchExpression.push("#9d4edd");
+
+                if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
+                if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
+                if (this.map.getLayer("newfill")) this.map.removeLayer("newfill");
+
+                this.map.addLayer({
+                    id: "newfill",
+                    type: "fill",
+                    source: "dynamic-source",
+                    "source-layer": this.sourceLayer,
+                    paint: {
+                        "fill-color": matchExpression,
+                        "fill-opacity": 0.7
+                    }
+                });
+
+                if (this._hoverHandler) {
+                    this.map.off("mousemove", this._hoverHandler);
+                    this._hoverHandler = null;
+                }
+
+                this.legendHoveredValue = null;
+
+                this._hoverHandler = (e) => {
+                    const features = this.map.queryRenderedFeatures(e.point, { layers: ["newfill"] });
+                    if (!features || features.length === 0) {
+                        this.legendHoveredValue = null;
+                        return;
+                    }
+                    const props = features[0].properties;
+                    const province = props[this.admProperty];
+                    this.legendHoveredValue = valueMap[province];
+                };
+
+                this.map.on("mousemove", this._hoverHandler);
+            },
+            interpolateColor(val, ramp, thresholds) {
+                if (val <= thresholds[0]) return ramp[0].color;
+                if (val >= thresholds[thresholds.length - 1]) return ramp[ramp.length - 1].color;
+                for (let j = 0; j < thresholds.length - 1; j++) {
+                    const low = thresholds[j], high = thresholds[j + 1];
+                    if (val >= low && val <= high) {
+                        const t = (val - low) / (high - low);
+                        return chroma.scale([ramp[j].color, ramp[j + 1].color]).mode("lab")(t).hex();
+                    }
+                }
+                return "#9d4edd";
             },
             async fetchPopupData(location, lngLat) {
                 try {
