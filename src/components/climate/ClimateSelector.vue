@@ -39,8 +39,9 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Period</h4>
                 <select v-model="projectedPeriod">
-                    <option>2001 - 2050</option>
-                    <option>2051 - 2100</option>
+                    <option>Historical: 1981 - 2015</option>
+                    <option>Mid Future: 2030 - 2055</option>
+                    <option>Far Future: 2056 - 2080</option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Current'">
@@ -56,9 +57,9 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Scenario</h4>
                 <select v-model="scenario">
-                    <option>SSP1 - 2.6</option>
-                    <option>SSP2 - 4.5</option>
-                    <option>SSP5 - 8.5</option>
+                    <option v-for="opt in availableScenarios" :key="opt" :value="opt">
+                        {{ opt }}
+                    </option>
                 </select>
             </div>
         </div>
@@ -79,11 +80,20 @@
                 pastData: "Temperature Anomaly",
                 projectedData: "Temperature Anomaly",
                 pastPeriod: "",
-                projectedPeriod: "2001 - 2050",
-                scenario: "SSP5 - 8.5",
+                projectedPeriod: "Historical: 1981 - 2015",
+                scenario: "Historical",
                 months: [],
                 suppressEmit: false
             };
+        },
+        computed: {
+            availableScenarios() {
+                if (this.projectedPeriod === 'Historical: 1981 - 2015') {
+                    return ['Historical'];
+                } else {
+                    return ['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'];
+                }
+            }
         },
         created() {
             const start = new Date(2022, 11);
@@ -151,11 +161,16 @@
             pastPeriod() {
                 this.emitSelection("manual");
             },
-            projectedPeriod() {
-                this.emitSelection("manual");
-            },
             scenario() {
                 this.emitSelection("manual");
+            },
+            projectedPeriod(newPeriod) {
+                if (newPeriod === 'Historical: 1981 - 2015') {
+                    this.scenario = 'Historical';
+                } else if (!['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'].includes(this.scenario)) {
+                    this.scenario = 'SSP1 - 2.6'; // default for future periods
+                }
+                 // emit immediately on period change
             }
         },
         mounted() {

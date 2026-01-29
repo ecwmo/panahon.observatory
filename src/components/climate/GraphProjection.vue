@@ -135,7 +135,7 @@
         labels,
         datasets,
       }
-      myChart.value.options.plugins.title.text = props.selectedProvince
+      myChart.value.options.plugins.title.text = `Projected Temperature Anomaly in ${props.selectedProvince}`
       myChart.value.data = data
       myChart.value.update('none') // <-- smoothly update the chart
       console.log('updated chart value')
@@ -148,6 +148,7 @@
     // Create chart for the first time
     const datasets = experiments.map((experiment, index) => {
       const items = groupedByExperiment[experiment]
+
 
       return {
         label: experiment,
