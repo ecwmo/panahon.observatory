@@ -84,12 +84,12 @@
             },
             async onLocationChanged(loc) {
                 var changeData = true;
-                if (this.selectedLocation?.name === loc.name) {
+                if (this.selectedLocation?.name === loc?.name) {
                     changeData = false;
                 }
                 this.selectedLocation = loc;
                 this.panelReady = false;
-                if (this.parameters.tab !== 'Current' && changeData) {
+                if (this.parameters.tab !== 'Current' && changeData && loc !== null) {
                     await this.fetchFilteredData(); // fetch filtered data only when tab is not Current
                 }
                 await nextTick();
@@ -98,7 +98,7 @@
                 });
             },
             async fetchFilteredData() {
-                if (!this.selectedLocation.name) return;
+                if (!this.selectedLocation) return;
 
                 const params = new URLSearchParams({
                     province: this.selectedLocation.name
