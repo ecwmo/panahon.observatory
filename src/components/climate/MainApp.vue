@@ -63,6 +63,18 @@
                 return this.latestData;
             }
         },
+        watch: {
+            async "parameters.tab"(newVal) {
+                if (newVal === "Projected" && this.selectedLocation) {
+                    this.panelReady = false;
+                    await this.fetchFilteredData();
+                    await nextTick();
+                    requestAnimationFrame(() => {
+                        this.panelReady = true;
+                    });
+                }
+            }
+        },
         methods: {
             handleData(data) {
                 this.latestData = data;
@@ -71,9 +83,13 @@
                 this.parameters = data || {};
             },
             async onLocationChanged(loc) {
+                var changeData = true;
+                if (this.selectedLocation?.name === loc.name) {
+                    changeData = false;
+                }
                 this.selectedLocation = loc;
                 this.panelReady = false;
-                if (this.parameters.tab !== 'Current') {
+                if (this.parameters.tab !== 'Current' && changeData) {
                     await this.fetchFilteredData(); // fetch filtered data only when tab is not Current
                 }
                 await nextTick();

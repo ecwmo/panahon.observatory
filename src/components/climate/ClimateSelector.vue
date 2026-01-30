@@ -165,12 +165,19 @@
                 this.emitSelection("manual");
             },
             projectedPeriod(newPeriod) {
+                var scenarioChange = false;
                 if (newPeriod === 'Historical: 1981 - 2015') {
                     this.scenario = 'Historical';
-                } else if (!['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'].includes(this.scenario)) {
-                    this.scenario = 'SSP1 - 2.6'; // default for future periods
+                    scenarioChange = true;
                 }
-                 // emit immediately on period change
+                else if (!['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'].includes(this.scenario)) {
+                    this.scenario = 'SSP1 - 2.6';
+                    scenarioChange = true;
+                }
+
+                if (!scenarioChange) {
+                    this.emitSelection("manual");
+                }
             }
         },
         mounted() {

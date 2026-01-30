@@ -155,7 +155,7 @@
                     const endpoint =
                         newParams.tab === "Current"
                             ? "/api/climate/current_tif"
-                            : "/api/climate/projected_tif";
+                            : "/api/climate/projectedmapjson";
 
                     const res = await fetch(`${endpoint}?${paramString}`);
                     if (!res.ok) throw new Error(`Bad response: ${res.status}`);
@@ -182,7 +182,8 @@
                         this.tifImage = image;
                     }
                     else {
-                        const jsonData = await res.json();
+                        const response = await res.json();
+                        const jsonData = response.map(d => [d.province, d.averageAnomaly]);
                         const band = jsonData.map(d => d[1]);
                         const { thresholds, enrichedRamp } = this.computeThresholds(
                             band, ramp, scaling, minHeader, maxHeader

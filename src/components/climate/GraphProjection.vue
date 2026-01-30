@@ -641,8 +641,6 @@
   }
   .graph-container {
     padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
     display: flex;
     height: 100%;           /* fill panel height */
     width: 100%;
