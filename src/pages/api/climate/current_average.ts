@@ -3,6 +3,18 @@ import path from 'path';
 import { readFile, access } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
 
+const RAIN_BASE_DIR = path.join(resourceDir, 'climate/current/anom_rain/csv');
+const TEMP_BASE_DIR = path.join(resourceDir, 'climate/current/anom_temp/csv');
+
+const RAIN_FILE_PREFIX = 'anom_rain_wrf_anomaly_';
+const TEMP_FILE_PREFIX = 'anom_temp_wrf_anomaly_';
+
+const RAIN_MEASUREMENT = 'Rainfall (mm)';
+const TEMP_MEASUREMENT = 'Temperature (\u00B0C)';
+
+const RAIN_NAME = 'Rainfall Trend';
+const TEMP_NAME = 'Temperature Trend';
+
 function parseCSV(content: string): Record<string, string>[] {
     const lines = content.split(/\r?\n/).filter(Boolean);
     const headers = lines[0].split(',');
@@ -23,10 +35,10 @@ export const GET: APIRoute = async ({ request }) => {
     const pastPeriod = url.searchParams.get('pastPeriod');
 
     if (!locationParam || !pastData || !pastPeriod) {
-        return new Response(JSON.stringify({ error: 'Missing location or pastData or pastPeriod parameter' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        return new Response(
+            JSON.stringify({ error: 'Missing location or pastData or pastPeriod parameter' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
     }
 
     let value: number | null = null;
@@ -35,26 +47,25 @@ export const GET: APIRoute = async ({ request }) => {
     let trend: (string | number)[][] = [];
     let debug: string[] = [];
 
-    let baseDir: string;
-    let filePrefix: string;
+    let baseDir: string | null = null;
+    let filePrefix: string | null = null;
 
     if (pastData === 'Rain Anomaly') {
-        baseDir = path.join(resourceDir, 'climate/rain/csv');
-        filePrefix = 'rain_wrf_anomaly_';
-        measurement = 'Rainfall (mm)';
-        name = 'Rainfall Trend';
+        baseDir = RAIN_BASE_DIR;
+        filePrefix = RAIN_FILE_PREFIX;
+        measurement = RAIN_MEASUREMENT;
+        name = RAIN_NAME;
     }
     else if (pastData === 'Temperature Anomaly') {
-        baseDir = path.join(resourceDir, 'climate/temp/csv');
-        filePrefix = 'temp_wrf_anomaly_';
-        measurement = 'Temperature (\u00B0C)';
-        name = 'Temperature Trend';
+        baseDir = TEMP_BASE_DIR;
+        filePrefix = TEMP_FILE_PREFIX;
+        measurement = TEMP_MEASUREMENT;
+        name = TEMP_NAME;
     }
 
-    if (pastData && pastPeriod && baseDir) {
+    if (pastData && pastPeriod && baseDir && filePrefix) {
         try {
             const parsed = new Date(`${pastPeriod} 1`);
-
             const year = parsed.getFullYear();
             const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
             const fileName = `${filePrefix}${year}-${month}.csv`;
@@ -77,7 +88,6 @@ export const GET: APIRoute = async ({ request }) => {
                 } else {
                     debug.push(`No match found for location: ${locationParam}`);
                 }
-
             } catch {
                 debug.push(`CSV file not found: ${filePath}`);
             }
@@ -104,14 +114,12 @@ export const GET: APIRoute = async ({ request }) => {
                     } else {
                         debug.push(`No match for location in trend CSV: ${trendFilePath}`);
                     }
-
                 } catch {
                     debug.push(`Trend CSV not found: ${trendFilePath}`);
                 }
             }
 
             trend = trend.reverse();
-
         } catch (err) {
             debug.push(`Error processing pastPeriod: ${err}`);
             trend = [];

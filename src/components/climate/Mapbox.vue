@@ -128,6 +128,26 @@
                         }
                     });
                 }
+            },
+            admValue(newVal) {
+                if (this.map) {
+                    if (this.map.getLayer("dynamic-layer-highlight")) {
+                        this.map.removeLayer("dynamic-layer-highlight");
+                    }
+                    this.map.addLayer({
+                        id: "dynamic-layer-highlight",
+                        type: "line",
+                        source: "dynamic-source",
+                        "source-layer": this.sourceLayer,
+                        paint: {
+                            "line-color": "#ff0000",
+                            "line-width": 2,
+                            "line-opacity": 1.0
+                        },
+                        filter: ["==", ["get", this.admProperty], newVal]
+                    }, "dynamic-layer-outline");
+                    this.map.moveLayer("dynamic-layer-highlight");
+                }
             }
         },
         methods: {
@@ -277,6 +297,14 @@
                     paint: { "fill-color": ["get", "color"], "fill-opacity": 0.7 }
                 });
 
+                if (this.map.getLayer("dynamic-layer-outline")) {
+                    this.map.moveLayer("dynamic-layer-outline");
+                }
+
+                if (this.map.getLayer("dynamic-layer-highlight")) {
+                    this.map.moveLayer("dynamic-layer-highlight");
+                }
+
                 if (this._hoverHandler) {
                     this.map.off("mousemove", this._hoverHandler);
                     this._hoverHandler = null;
@@ -323,7 +351,8 @@
                     "source-layer": this.sourceLayer,
                     paint: {
                         "fill-color": matchExpression,
-                        "fill-opacity": 0.7
+                        "fill-opacity": 0.7,
+                        "fill-antialias": false
                     }
                 });
 
@@ -346,6 +375,10 @@
                 };
 
                 this.map.on("mousemove", this._hoverHandler);
+
+                if (this.map.getLayer("dynamic-layer-highlight")) {
+                    this.map.moveLayer("dynamic-layer-highlight");
+                }
             },
             interpolateColor(val, ramp, thresholds) {
                 if (val <= thresholds[0]) return ramp[0].color;
@@ -462,7 +495,7 @@
                     type: "line",
                     source: "dynamic-source",
                     "source-layer": this.sourceLayer,
-                    paint: { "line-color": "#1c3d5a", "line-width": 4, "line-opacity": 1.0 },
+                    paint: { "line-color": "#1c3d5a", "line-width": 2, "line-opacity": 1.0 },
                 });
             });
 
@@ -475,6 +508,7 @@
                     if (this.currentPopup) {
                         this.currentPopup.remove();
                         this.currentPopup = null;
+                        this.admValue = null;
                     }
                     this.$emit("location-changed", null); // only emit blank for empty click
                     return;

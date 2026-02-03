@@ -3,6 +3,14 @@ import path from 'path';
 import { access, readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
 
+const RAIN_BASE_DIR = path.join(resourceDir, 'climate/current/anom_rain/tif');
+const TEMP_BASE_DIR = path.join(resourceDir, 'climate/current/anom_temp/tif');
+
+const RAIN_FILE_PREFIX = 'anom_rain_wrf_anomaly_';
+const TEMP_FILE_PREFIX = 'anom_temp_wrf_anomaly_';
+
+const STYLE_FILENAME = 'style.json';
+
 export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url);
     const pastData = url.searchParams.get('pastData');
@@ -19,12 +27,12 @@ export const GET: APIRoute = async ({ request }) => {
     let filePrefix: string;
 
     if (pastData === 'Rain Anomaly') {
-        baseDir = path.join(resourceDir, 'climate/rain/tif');
-        filePrefix = 'rain_wrf_anomaly_';
+        baseDir = RAIN_BASE_DIR;
+        filePrefix = RAIN_FILE_PREFIX;
     }
     else if (pastData === 'Temperature Anomaly') {
-        baseDir = path.join(resourceDir, 'climate/temp/tif');
-        filePrefix = 'temp_wrf_anomaly_';
+        baseDir = TEMP_BASE_DIR;
+        filePrefix = TEMP_FILE_PREFIX;
     }
     else {
         return new Response(
@@ -43,7 +51,7 @@ export const GET: APIRoute = async ({ request }) => {
         await access(filePath);
         const buffer = await readFile(filePath);
 
-        const stylePath = path.join(baseDir, 'style.json');
+        const stylePath = path.join(baseDir, STYLE_FILENAME);
         let style: any = null;
         try {
             await access(stylePath);
@@ -59,10 +67,10 @@ export const GET: APIRoute = async ({ request }) => {
             headers: {
                 'Content-Type': 'image/tiff',
                 'Content-Disposition': `inline; filename="${fileName}"`,
-                'X-Scaling': style.scaling,
-                'X-Ramp': JSON.stringify(style.ramp || []),
-                'X-Min': style.min,
-                'X-Max': style.max,
+                'X-Scaling': style?.scaling,
+                'X-Ramp': JSON.stringify(style?.ramp || []),
+                'X-Min': style?.min,
+                'X-Max': style?.max,
             }
         });
     }
