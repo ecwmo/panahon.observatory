@@ -34,7 +34,7 @@
 
         <StationSelector
           :model-value="activeStation"
-          :stations="visibleStationsSorted"
+          :items="visibleStationsSorted"
           class="w-32 sm:w-48"
           @update:model-value="handleStationChange"
         />
@@ -83,7 +83,7 @@
   import LoadingIcon from '@/components/LoadingIcon.vue'
   import Popup from '@/components/Popup.vue'
   import PulsatingDot from '@/components/PulsatingDot.vue'
-  import StationSelector from '@/components/StationSelector.vue'
+  import StationSelector from '@/components/ui/Selector.vue'
   import WeatherButtons from '@/components/WeatherButtons.vue'
   import WeatherPopupInfo from '@/components/WeatherPopupInfo.vue'
 
