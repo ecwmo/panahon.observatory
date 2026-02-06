@@ -5,7 +5,7 @@
             <div v-if="hoveredValue !== null"
                  class="pointer"
                  :style="{ left: pointerPosition + '%' }">
-                <span class="pointer-label">{{ hoveredValue.toFixed(2) }}</span>
+                <span class="pointer-label">{{ hoveredValue }}{{ style.unit }}</span>
             </div>
             <div v-for="(entry, idx) in style.ramp"
                  :key="'tick-' + idx"

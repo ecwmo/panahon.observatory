@@ -36,7 +36,11 @@
 
                 tifBand: null,
                 tifImage: null,
-                legendHoveredValue: null
+                legendHoveredValue: null,
+                unit: null,
+
+                hoverFeature: null,
+                selectedFeature: null
             };
         },
         watch: {
@@ -66,14 +70,14 @@
                 );
                 if (paramsChanged) {
                     this.renderClimate(newParams);
-                    if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
-                        const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
-                        this.fetchPopupData(newLocation.name, lngLat);
-                    }
-                    else if (this.currentPopup) {
+                    if (this.currentPopup) {
                         const pos = this.currentPopup.getLngLat();
                         const lngLat = [pos.lng, pos.lat];
                         this.fetchPopupData(this.admValue || "", lngLat);
+                    }
+                    else if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
+                        const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
+                        this.fetchPopupData(newLocation.name, lngLat);
                     }
                 }
 
@@ -185,30 +189,32 @@
                     const ramp = rampHeader ? JSON.parse(rampHeader) : [];
                     const minHeader = res.headers.get("X-Min");
                     const maxHeader = res.headers.get("X-Max");
+                    const decimals = res.headers.get("X-Decimals") || 1;
+                    const unit = res.headers.get("X-Unit") || "";
+                    this.unit = unit;
 
                     if (newParams.tab === "Current") {
                         const arrayBuffer = await res.arrayBuffer();
                         const tiff = await fromArrayBuffer(arrayBuffer);
                         const image = await tiff.getImage();
-                        const band = (await image.readRasters())[0];
-
+                        const rawBand = (await image.readRasters())[0];
+                        const band = Array.from(rawBand, v => Number(v.toFixed(decimals)));
                         const { thresholds, enrichedRamp } = this.computeThresholds(
                             band, ramp, scaling, minHeader, maxHeader
                         );
-                        this.legendStyle = { ramp: enrichedRamp };
-
+                        this.legendStyle = { ramp: enrichedRamp, unit };
                         this.tifSource(image, band, ramp, thresholds);
                         this.tifBand = band;
                         this.tifImage = image;
                     }
                     else {
                         const response = await res.json();
-                        const jsonData = response.map(d => [d.province, d.averageAnomaly]);
+                        const jsonData = response.map(d => [d.province, Number(d.averageAnomaly.toFixed(decimals))]);
                         const band = jsonData.map(d => d[1]);
                         const { thresholds, enrichedRamp } = this.computeThresholds(
                             band, ramp, scaling, minHeader, maxHeader
                         );
-                        this.legendStyle = { ramp: enrichedRamp };
+                        this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, ramp, thresholds);
                     }
                 }
@@ -235,24 +241,28 @@
                         if (val > max) max = val;
                     }
                 }
-                if (!isFinite(min) || !isFinite(max) || min === max) throw new Error("Invalid min/max");
+
+                if (!isFinite(min) || !isFinite(max)) {
+                    throw new Error("Invalid min/max");
+                }
+
                 const n = ramp.length;
                 let thresholds = [];
+
                 if (scaling === "linear") {
-                    for (let i = 0; i < n; i++) thresholds.push(min + (i / (n - 1)) * (max - min));
-                }
-                else if (scaling === "log") {
-                    const logMin = Math.log(min), logMax = Math.log(max);
-                    for (let i = 0; i < n; i++) thresholds.push(Math.exp(logMin + (i / (n - 1)) * (logMax - logMin)));
-                }
-                else if (scaling === "quantile") {
-                    const sorted = band.filter(v => typeof v === "number" && !isNaN(v)).sort((a, b) => a - b);
                     for (let i = 0; i < n; i++) {
-                        const idx = Math.floor((i / (n - 1)) * (sorted.length - 1));
-                        thresholds.push(sorted[idx]);
+                        thresholds.push(min + (i / (n - 1)) * (max - min));
                     }
                 }
-                const enrichedRamp = ramp.map((entry, i) => ({ ...entry, threshold: thresholds[i] }));
+                else if (scaling === "fixed") {
+                    thresholds = ramp.map(entry => entry.value);
+                }
+
+                const enrichedRamp = ramp.map((entry, i) => ({
+                    ...entry,
+                    threshold: thresholds[i]
+                }));
+
                 return { thresholds, enrichedRamp };
             },
             tifSource(image, band, ramp, thresholds) {
@@ -263,11 +273,11 @@
 
                 const features = [];
                 for (let y = 0; y < height; y++) {
-                    const top = originY - y * resY;
-                    const bottom = top - resY;
+                    const top = +(originY - y * resY).toFixed(6);
+                    const bottom = +(top - resY).toFixed(6);
                     for (let x = 0; x < width; x++) {
-                        const left = originX + x * resX;
-                        const right = left + resX;
+                        const left = +(originX + x * resX).toFixed(6);
+                        const right = +(left + resX).toFixed(6);
                         const idx = y * width + x;
                         const val = band[idx];
                         if (typeof val !== "number" || isNaN(val)) continue;
@@ -276,7 +286,7 @@
                             type: "Feature",
                             geometry: {
                                 type: "Polygon",
-                                coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]]
+                                coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom]]]
                             },
                             properties: { value: val, color }
                         });
@@ -294,7 +304,7 @@
                     id: "tif-layer",
                     type: "fill",
                     source: "tif-source",
-                    paint: { "fill-color": ["get", "color"], "fill-opacity": 0.7 }
+                    paint: { "fill-color": ["get", "color"], "fill-opacity": 0.7, "fill-antialias": false }
                 });
 
                 if (this.map.getLayer("dynamic-layer-outline")) {
@@ -303,6 +313,10 @@
 
                 if (this.map.getLayer("dynamic-layer-highlight")) {
                     this.map.moveLayer("dynamic-layer-highlight");
+                }
+
+                if (this.map.getLayer("tif-highlight-layer")) {
+                    this.map.moveLayer("tif-highlight-layer");
                 }
 
                 if (this._hoverHandler) {
@@ -320,11 +334,36 @@
                     const y = Math.floor((originY - e.lngLat.lat) / resY);
                     const width = this.tifImage.getWidth();
                     const height = this.tifImage.getHeight();
+
                     if (x < 0 || y < 0 || x >= width || y >= height) {
                         this.legendHoveredValue = null;
+                        this.map.getSource("tif-highlight")
+                            .setData({ type: "FeatureCollection", features: [] });
                         return;
                     }
+
                     this.legendHoveredValue = this.tifBand[y * width + x];
+
+                    const left = +(originX + x * resX).toFixed(6);
+                    const right = +(left + resX).toFixed(6);
+                    const top = +(originY - y * resY).toFixed(6);
+                    const bottom = +(top - resY).toFixed(6);
+
+                    this.hoverFeature = {
+                        type: "Feature",
+                        geometry: {
+                            type: "Polygon",
+                            coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]]
+                        },
+                        properties: {}
+                    };
+
+                    const features = [];
+                    if (this.hoverFeature) features.push(this.hoverFeature);
+                    if (this.selectedFeature) features.push(this.selectedFeature);
+                    console.log(features);
+                    const src = this.map.getSource("tif-highlight");
+                    if (src) src.setData({ type: "FeatureCollection", features });
                 };
 
                 this.map.on("mousemove", this._hoverHandler);
@@ -379,6 +418,8 @@
                 if (this.map.getLayer("dynamic-layer-highlight")) {
                     this.map.moveLayer("dynamic-layer-highlight");
                 }
+
+                this.map.getSource("tif-highlight").setData({ type: "FeatureCollection", features: [] });
             },
             interpolateColor(val, ramp, thresholds) {
                 if (val <= thresholds[0]) return ramp[0].color;
@@ -401,7 +442,9 @@
                             const toSend = {
                                 pastData: this.parameters.pastData,
                                 pastPeriod: this.parameters.pastPeriod,
-                                location
+                                location,
+                                lon: lngLat.lng || lngLat[0],
+                                lat: lngLat.lat || lngLat[1]
                             };
                             const paramString = new URLSearchParams(toSend).toString();
                             res = await fetch(`/api/climate/current_average?${paramString}`);
@@ -415,7 +458,7 @@
                             const data = await res.json();
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
-                            content = data?.location ? `<strong>${data.location}</strong><br/>Value: ${data.value ?? "N/A"}` : "No data found";
+                            content = data?.location ? `<strong>${data.location}</strong><br/>Grid Value: ${data.value ?? "N/A"}${this.unit}` : "No data found";
                         }
                         else {
                             await Promise.reject(new Error("Projected not available"));
@@ -440,6 +483,7 @@
                     }
 
                     this.currentPopup = new mapboxgl.Popup({ closeButton: false }).setLngLat(lngLat).setHTML(content).addTo(this.map);
+                    this.lockPixelHover({ lat: lngLat[1] || lngLat.lat, lon: lngLat[0] || lngLat.lng })
 
                     this.lastLocation = location;
                     this.lastPopupLngLat = lngLat;
@@ -447,8 +491,8 @@
                     if (!this.suppressEmit) {
                         this.$emit("location-changed", {
                             name: location,
-                            lat: lngLat[1],
-                            lon: lngLat[0],
+                            lat: lngLat[1] || lngLat.lat,
+                            lon: lngLat[0] || lngLat.lng,
                         });
                     }
                 }
@@ -466,6 +510,41 @@
                     };
                     this.map.on("moveend", onMoveEnd);
                 }
+            },
+            lockPixelHover(lngLat) {
+                if (!this.tifImage) return;
+
+                const [originX, originY] = this.tifImage.getOrigin();
+                const [resX, resY] = this.tifImage.getResolution();
+                const x = Math.floor((lngLat.lon - originX) / resX);
+                const y = Math.floor((originY - lngLat.lat) / resY);
+                const width = this.tifImage.getWidth();
+                const height = this.tifImage.getHeight();
+
+                if (x < 0 || y < 0 || x >= width || y >= height) return;
+
+                this.legendHoveredValue = this.tifBand[y * width + x];
+
+                const left = +(originX + x * resX).toFixed(6);
+                const right = +(left + resX).toFixed(6);
+                const top = +(originY - y * resY).toFixed(6);
+                const bottom = +(top - resY).toFixed(6);
+
+                this.selectedFeature = {
+                    type: "Feature",
+                    geometry: {
+                        type: "Polygon",
+                        coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]]
+                    },
+                    properties: { outline: "selected" }
+                };
+
+                const features = [];
+                if (this.hoverFeature) features.push(this.hoverFeature);
+                if (this.selectedFeature) features.push(this.selectedFeature);
+
+                const src = this.map.getSource("tif-highlight");
+                if (src) src.setData({ type: "FeatureCollection", features });
             }
         },
         mounted() {
@@ -497,6 +576,19 @@
                     "source-layer": this.sourceLayer,
                     paint: { "line-color": "#1c3d5a", "line-width": 2, "line-opacity": 1.0 },
                 });
+                this.map.addSource("tif-highlight", {
+                    type: "geojson",
+                    data: { type: "FeatureCollection", features: [] }
+                });
+                this.map.addLayer({
+                    id: "tif-highlight-layer",
+                    type: "line",
+                    source: "tif-highlight",
+                    paint: {
+                        "line-color": "#FFFF00",
+                        "line-width": 2
+                    }
+                });
             });
 
             this.map.on("click", async (e) => {
@@ -511,6 +603,7 @@
                         this.admValue = null;
                     }
                     this.$emit("location-changed", null); // only emit blank for empty click
+                    this.selectedFeature = null;
                     return;
                 }
 

@@ -71,6 +71,8 @@ export const GET: APIRoute = async ({ request }) => {
                 'X-Ramp': JSON.stringify(style?.ramp || []),
                 'X-Min': style?.min,
                 'X-Max': style?.max,
+                'X-Decimals': style?.decimals,
+                'X-Unit': style?.unit,
             }
         });
     }
