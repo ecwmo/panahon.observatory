@@ -2,10 +2,12 @@
   <div class="flex flex-col-reverse md:flex-row py-2 md:py-4 justify-center">
     <div class="flex flex-col">
       <!-- Forecast Interval -->
-      <div class="flex flex-col items-center space-y-2 px-6">
-        <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
-        <RowGroupBtns v-model="timestep" :items="imageTimesteps" class="text-xs" />
-      </div>
+      <Transition name="fade" mode="out-in">
+        <div v-if="isMultTime" class="flex flex-col items-center space-y-2 px-6">
+          <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
+          <RowGroupBtns v-model="timestep" :items="imageTimesteps" class="text-xs" />
+        </div>
+      </Transition>
       <!-- Fields -->
       <div class="flex flex-col items-center space-y-2 px-6 min-w-max w-2/5 md:w-full mx-auto">
         <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Fields</h3>
@@ -29,7 +31,7 @@
       <h2 class="text-center font-semibold text-2xl md:text-3xl">{{ headerName }}</h2>
       <Transition name="fade" mode="out-in">
         <Range
-          v-if="showFcstTime"
+          v-if="isMultTime"
           v-model.number="activeTSIdx"
           :ticks="ticks"
           :min-val="0"
@@ -37,6 +39,16 @@
           :step="1"
           :can-play="true"
           class="max-w-lg w-full md:w-9/12 scale-[.8]"
+        />
+      </Transition>
+      <Transition name="fade" mode="out-in">
+        <Selector
+          v-if="isMultLoc"
+          :items="locNames"
+          v-model="locName"
+          trigger-class="inline-flex min-w-16 items-center justify-between rounded-lg text-sm md:text-base bg-white text-gray-900 py-2 px-3 shadow-md ring-gray-700 ring-1"
+          content-class="min-w-24 bg-white rounded-lg border shadow-sm text-xs md:text-sm"
+          item-class="text-xs md:text-sm leading-none flex w-full items-center pl-7 pr-2 py-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-blue-400 data-[highlighted]:text-gray-200 data-[state=checked]:text-blue-400"
         />
       </Transition>
       <Transition name="fade">
@@ -83,14 +95,16 @@
   import ModelCaption from '@/components/ModelCaption.vue'
   import Range from '@/components/Range.vue'
   import RowGroupBtns from '@/components/RowGroupBtns.vue'
+  import Selector from '@/components/ui/Selector.vue'
   import { SwitchRoot, SwitchThumb } from 'reka-ui'
 
   import type { MetField } from '@/stores/model'
-  import { imageTimesteps, metFields } from '@/stores/model'
+  import { imageTimesteps, metFields, locationNames } from '@/stores/model'
 
   const activeVariable = ref(metFields[0])
   const activeTSIdx = ref(0)
   const timestep = ref(imageTimesteps[1].val)
+  const locName = ref({ id: 0, name: locationNames[0] })
   const isExtreme = ref(false)
 
   const defaultHeaderName = 'Model Forecast Maps'
@@ -98,7 +112,10 @@
 
   const headerName = computed(() => activeVariable.value.headerName ?? defaultHeaderName)
 
-  const showFcstTime = computed(() => activeVariable.value.mult !== false)
+  const isMultTime = computed(() => activeVariable.value?.multTime !== false)
+  const isMultLoc = computed(() => !!activeVariable.value.multLoc)
+
+  const locNames = computed(() => locationNames.map((loc, idx) => ({ id: idx, name: loc })))
 
   const activeExtremeVariable = computed(() =>
     typeof activeVariable.value.extVal === 'object'
@@ -115,13 +132,24 @@
     return parse(dtStr, 'yyyy-MM-dd_H X', new Date())
   }
 
-  const fetchModelImage = async (varName: string, timestep?: number, index?: number) => {
-    const path = timestep !== undefined ? `${timestep}/${varName}/${index}` : varName
+  type FetchModelImageOpts = {
+    varName: string
+    timestep?: number
+    timeIdx?: number
+    locName?: string
+  }
+  const fetchModelImage = async ({ varName, timestep, timeIdx, locName }: FetchModelImageOpts) => {
+    const path =
+      timestep !== undefined
+        ? `${timestep}/${varName}/${timeIdx}`
+        : locName !== undefined
+          ? `${locName}/${varName}`
+          : varName
     const { data } = await axios.get(`/api/models/img/${path}`)
     const imgSrc = z.string().parse(data)
     const initTimestamp = parseDateFromImageFile(imgSrc)
     const imgTimestamp =
-      index !== undefined && timestep !== undefined ? addHours(initTimestamp, index * timestep) : initTimestamp
+      timeIdx !== undefined && timestep !== undefined ? addHours(initTimestamp, timeIdx * timestep) : initTimestamp
     const relTimestamp = formatRelative(imgTimestamp, new Date())
     return {
       src: imgSrc,
@@ -131,19 +159,27 @@
 
   const queries = computed(() => {
     const n = 120 / timestep.value
-    if (activeVariable.value.mult !== false) {
+    if (isMultTime.value) {
       return Array.from({ length: 3 }, (_, i) => {
         const index = (i + activeTSIdx.value) % n
         return {
           queryKey: ['models', 'images', { varName: activeVariableName.value, timestep, index }],
-          queryFn: () => fetchModelImage(activeVariableName.value, timestep.value, index),
+          queryFn: () =>
+            fetchModelImage({ varName: activeVariableName.value, timestep: timestep.value, timeIdx: index }),
         }
       })
+    } else if (isMultLoc.value) {
+      return [
+        {
+          queryKey: ['models', 'images', { varName: activeVariableName.value, locName: locName.value.name }],
+          queryFn: () => fetchModelImage({ varName: activeVariableName.value, locName: locName.value.name }),
+        },
+      ]
     } else {
       return [
         {
           queryKey: ['models', 'images', { varName: activeVariableName.value }],
-          queryFn: () => fetchModelImage(activeVariableName.value),
+          queryFn: () => fetchModelImage({ varName: activeVariableName.value }),
         },
       ]
     }

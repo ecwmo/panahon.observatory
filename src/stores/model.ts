@@ -11,7 +11,8 @@ export type MetField = {
   val: string
   text: string
   extVal?: string | { [key: number]: string }
-  mult?: boolean
+  multTime?: boolean
+  multLoc?: boolean
   headerName?: string
 }
 export const metFields: MetField[] = [
@@ -33,7 +34,8 @@ export const metFields: MetField[] = [
     val: 'wrf-ts',
     text: 'Hourly Forecasts',
     headerName: 'Hourly Forecasts',
-    mult: false,
+    multTime: false,
+    multLoc: true,
   },
   {
     val: 'wpd',
@@ -43,4 +45,29 @@ export const metFields: MetField[] = [
     val: 'ppv',
     text: 'Solar Power Forecast',
   },
+]
+
+export const locationNames = [
+  'NCR',
+  'Baguio',
+  'Balesin',
+  'Batangas',
+  'Bongao',
+  'CDO',
+  'Calapan',
+  'Cebu',
+  'Clark',
+  'Davao',
+  'GeneralSantos',
+  'Iloilo',
+  'Koronadal',
+  'Legazpi',
+  'PuertoPrincesa',
+  'SanFernando',
+  'Surigao',
+  'Tacloban',
+  'Tarlac',
+  'Tuguegarao',
+  'Vigan',
+  'Zamboanga',
 ]
