@@ -134,29 +134,29 @@ function getProvinceAveragesByPeriod(
 
 
 export const GET: APIRoute = ({ url }) => {
-    try {
-        const projectedData = url.searchParams.get('projectedData') ?? 'Temperature Anomaly';
-        const projectedPeriod = url.searchParams.get('projectedPeriod');
-        const scenario = url.searchParams.get('scenario');
-        const model = url.searchParams.get('model') ?? undefined;
+  try {
+    const projectedData = url.searchParams.get('projectedData') ?? 'Temperature Anomaly';
+    const projectedPeriod = url.searchParams.get('projectedPeriod');
+    const scenario = url.searchParams.get('scenario');
+    const model = url.searchParams.get('model') ?? undefined;
 
-        const result = getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
+    const result = getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
 
-        return new Response(JSON.stringify(result.data), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Scaling': result.header.style.scaling,
-                'X-Ramp': JSON.stringify(result.header.style.ramp || []),
-                'X-Min': result.header.style.min !== null ? String(result.header.style.min) : '',
-                'X-Max': result.header.style.max !== null ? String(result.header.style.max) : ''
-            },
-        });
+    return new Response(JSON.stringify(result.data), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Scaling': result.header.style.scaling,
+        'X-Ramp': JSON.stringify(result.header.style.ramp || []),
+        'X-Min': result.header.style.min !== null ? String(result.header.style.min) : '',
+        'X-Max': result.header.style.max !== null ? String(result.header.style.max) : ''
+      },
+    });
 
-    } catch (err) {
-        return new Response(JSON.stringify({ error: (err as Error).message }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
+  } catch (err) {
+    return new Response(JSON.stringify({ error: (err as Error).message }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 };
