@@ -4,33 +4,7 @@
     <h3>Graph Projection</h3>
     <p><strong>Province:</strong> {{ selectedProvince }}</p>
     -->
-    <div style="width: 100%; height: 100%; white-space: nowrap">
-      <!-- Main chart -->
-      <div style="display: inline-block; width: 70%; height: 100%; vertical-align: top; margin-right: 1%">
-        <canvas id="myChart" style="width: 100%; height: 100%"></canvas>
-      </div>
-      <!-- Boxplot -->
-      <div id="boxPlot" style="display: inline-block; width: 29%; height: 100%; vertical-align: top"></div>
-    </div>
-    <!--
-    <table v-if="filteredData && filteredData.length" class="data-table">
-      <thead>
-        <tr>
-          <th>Year</th>
-          <th>Anomaly</th>
-          <th>Experiment</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in filteredData" :key="index">
-          <td>{{ item.year }}</td>
-          <td>{{ item.data }}</td>
-          <td>{{ item.experiment }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p v-else>No data available</p>
-        -->
+    <div id="plot" style="width: 100%; height: 100%; white-space: nowrap"></div>
   </div>
 </template>
 
@@ -84,7 +58,22 @@
     }
   })
 
-  function renderChart() {
+  const yearRange = computed(() => {
+    const years = props.filteredData
+      .map(d => Number(d.year))
+      .filter(y => !Number.isNaN(y))
+
+    if (!years.length) {
+      return { start: 0, end: 0 }
+    }
+
+    return {
+      start: Math.min(...years),
+      end: Math.max(...years),
+    }
+  })
+
+  function renderChartOld() {
     console.log('RenderChart called')
 
     const groupedByExperiment = props.filteredData.reduce(
@@ -98,13 +87,10 @@
       {} as Record<string, FilteredDataItem[]>,
     )
 
-    //const labels = [...new Set(props.filteredData.map((item) => item.year))] << Use if you want exact years in data
-
-    const START_YEAR = 1981
-    const END_YEAR = 2080
-
-    const labels = Array.from({ length: END_YEAR - START_YEAR + 1 }, (_, i) => String(START_YEAR + i))
-
+    const labels = Array.from(
+      { length: yearRange.value.end - yearRange.value.start + 1 },
+      (_, i) => String(yearRange.value.start + i),
+    )
     const experiments = Object.keys(groupedByExperiment).sort((a, b) => {
       if (a === 'historical') return -1
       if (b === 'historical') return 1
@@ -427,6 +413,124 @@
 
     Plotly.newPlot(div, data, layout, { responsive: true })
     console.log('Created new box plot')
+  }
+
+  function renderChart() {
+    console.log('RenderChart called')
+    if (!Plotly) {
+      console.warn('Plotly not loaded yet')
+      return
+    }
+
+    console.log('Start boxplotdata')
+
+
+    // Group data by experiment
+    const grouped: Record<string, number[]> = {}
+    props.filteredData.forEach((item) => {
+      const exp = item.experiment
+      const val = Number(item.data)
+      if (!grouped[exp]) grouped[exp] = []
+      grouped[exp].push(val)
+    })
+
+    const experiments = Object.keys(grouped).sort((a, b) => {
+      if (a === 'historical') return -1
+      if (b === 'historical') return 1
+      return a.localeCompare(b)
+    })
+
+    const x = [1, 2, 3, 4, 5];
+    const y1 = [1,3,5,2,0
+    ];
+    const line1 = {
+      x,
+      y: y1,
+      type: 'scatter',
+      mode: 'lines+markers',
+      name: 'Dataset A',
+      line: { color: 'royalblue' },
+      xaxis: 'x', // ← assign to first column
+      yaxis: 'y',
+      legendgroup: 'A'
+    };
+
+    // Create Plotly traces
+    const boxData = experiments.map((exp, idx) => ({
+      y: grouped[exp],
+      type: 'box',
+      name: exp,
+      boxpoints: 'outliers',
+      //use modulo to repeat colors of idx > colors.length
+      marker: { color: colorPalette[idx % colorPalette.length] },
+      line: { color: colorPalette[idx % colorPalette.length], width: 2 },
+      xaxis: 'x2',  // ← assign to second column
+      yaxis: 'y2' 
+    }))
+
+    const layout = {
+      margin: { t: 85, b: 60, l: 70, r: 20 },
+      title: 'Two Datasets: Lines (Left) & Boxes (Right)',
+      grid: {
+        rows: 1,
+        columns: 2,
+        pattern: 'independent'
+      },
+      xaxis: {
+        title: '', // no x-axis label
+        showticklabels: true, // show the experiment names
+        automargin: false, // automatically adjusts margins so labels fit
+      },
+      legend: true,
+      showlegend: false,
+      autosize: true,
+      title: {
+        text: '', //`Box Plot of Temperature Anomaly in ${props.selectedProvince}`,
+        font: { size: 18 },
+        xref: 'paper',
+        x: 0.5,
+        xanchor: 'center',
+      },
+      yaxis: {
+        title: 'Value'
+      },
+      xaxis2: {
+        title: '', // no x-axis label
+        showticklabels: true, // show the experiment names
+        automargin: false, // automatically adjusts margins so labels fit
+      },
+      yaxis2: {
+        title: {
+          text: 'Temperature Anomaly °C',
+          font: {
+            size: 14,
+            family: 'Arial, sans-serif',
+            color: '#000',
+            // NOTE: font-weight is not supported in Plotly
+          },
+        },
+        range: [-1.8, 5.5],
+        autorange: false,
+        fixedrange: true,
+        zeroline: false,
+        matches: 'y',
+        showticklabels: false
+      },
+      legend: true,
+      showlegend: false,
+      autosize: true,
+      title: {
+        text: '', //`Box Plot of Temperature Anomaly in ${props.selectedProvince}`,
+        font: { size: 18 },
+        xref: 'paper',
+        x: 0.5,
+        xanchor: 'center',
+      },
+      boxmode: 'group'
+    }
+
+    Plotly.newPlot("plot", [line1, ...boxData], layout, { responsive: true })
+    console.log('Created new combination plot')
   }
 
   function computeHoverValues(data: FilteredDataItem[]): HoverValues {
