@@ -23,7 +23,9 @@
             <div class="section" v-if="tab === 'Current'">
                 <h4>Data</h4>
                 <select v-model="pastData">
+                    <option>Temperature</option>
                     <option>Temperature Anomaly</option>
+                    <option>Rain</option>
                     <option>Rain Anomaly</option>
                 </select>
             </div>
@@ -83,7 +85,8 @@
                 projectedPeriod: "Historical: 1981 - 2015",
                 scenario: "Historical",
                 months: [],
-                suppressEmit: false
+                suppressEmit: false,
+                initialized: false,
             };
         },
         computed: {
@@ -95,28 +98,15 @@
                 }
             }
         },
-        created() {
-            const start = new Date(2022, 11);
-            const end = new Date(2025, 11);
-            const options = [];
-            let current = new Date(start);
-            while (current <= end) {
-                const monthName = current.toLocaleString("default", { month: "long" });
-                const year = current.getFullYear();
-                options.push(`${monthName} ${year}`);
-                current.setMonth(current.getMonth() + 1);
-            }
-            this.months = options;
-            this.pastPeriod = this.months[this.months.length - 1];
-            fetch("/api/climate/provinces")
-                .then(res => res.json())
-                .then(data => {
-                    this.provinces = data;
-                })
-                .catch(err => console.error("Error fetching provinces:", err));
+        async created() {
+            await this.setupMonths();
+            await this.setupProvinces();
+            this.initialized = true;
+            this.emitSelection("manual");
         },
         methods: {
             emitSelection(source) {
+                if (!this.initialized) return;
                 const selectedProv = this.provinces.find(p => p.name === this.locationName) || null;
                 this.$emit("selection-changed", {
                     tab: this.tab,
@@ -128,6 +118,39 @@
                     scenario: this.scenario,
                     source
                 });
+            },
+            async setupMonths() {
+                const res = await fetch("/api/climate/months");
+                const data = await res.json();
+                if (data.success) {
+                    const start = new Date(data.start);
+                    const end = new Date(data.end);
+
+                    const options = [];
+                    let current = new Date(start);
+                    while (current <= end) {
+                        const monthName = current.toLocaleString("default", { month: "long" });
+                        const year = current.getFullYear();
+                        options.push(`${monthName} ${year}`);
+                        current.setMonth(current.getMonth() + 1);
+                    }
+
+                    this.months = options;
+                    this.pastPeriod = this.months[this.months.length - 1];
+                }
+                else {
+                    throw new Error("Failed to fetch climate range");
+                }
+            },
+            async setupProvinces() {
+                try {
+                    const res = await fetch("/api/climate/provinces");
+                    const data = await res.json();
+                    this.provinces = data;
+                }
+                catch (err) {
+                    console.error("Error fetching provinces:", err);
+                }
             }
         },
         watch: {

@@ -2,7 +2,7 @@
     <div class="legend">
         <div class="gradient-bar">
             <div class="gradient-fill" :style="gradientStyle"></div>
-            <div v-if="hoveredValue !== null"
+            <div v-if="hoveredValue"
                  class="pointer"
                  :style="{ left: pointerPosition + '%' }">
                 <span class="pointer-label">{{ hoveredValue }}{{ style.unit }}</span>

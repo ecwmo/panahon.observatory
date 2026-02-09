@@ -3,13 +3,30 @@ import path from 'path';
 import { access, readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
 
-const RAIN_BASE_DIR = path.join(resourceDir, 'climate/current/anom_rain/tif');
-const TEMP_BASE_DIR = path.join(resourceDir, 'climate/current/anom_temp/tif');
-
-const RAIN_FILE_PREFIX = 'anom_rain_wrf_anomaly_';
-const TEMP_FILE_PREFIX = 'anom_temp_wrf_anomaly_';
-
 const STYLE_FILENAME = 'style.json';
+
+const DATA_TYPES = [
+    {
+        key: 'Rain',
+        baseDir: path.join(resourceDir, 'climate/current/rain'),
+        prefix: 'rain_wrf_anomaly_',
+    },
+    {
+        key: 'Rain Anomaly',
+        baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
+        prefix: 'anom_rain_wrf_anomaly_',
+    },
+    {
+        key: 'Temperature',
+        baseDir: path.join(resourceDir, 'climate/current/temp'),
+        prefix: 'temp_wrf_anomaly_',
+    },
+    {
+        key: 'Temperature Anomaly',
+        baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
+        prefix: 'anom_temp_wrf_anomaly_',
+    }
+];
 
 export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url);
@@ -23,18 +40,8 @@ export const GET: APIRoute = async ({ request }) => {
         );
     }
 
-    let baseDir: string;
-    let filePrefix: string;
-
-    if (pastData === 'Rain Anomaly') {
-        baseDir = RAIN_BASE_DIR;
-        filePrefix = RAIN_FILE_PREFIX;
-    }
-    else if (pastData === 'Temperature Anomaly') {
-        baseDir = TEMP_BASE_DIR;
-        filePrefix = TEMP_FILE_PREFIX;
-    }
-    else {
+    const config = DATA_TYPES.find(d => d.key === pastData);
+    if (!config) {
         return new Response(
             JSON.stringify({ error: 'Invalid pastData parameter' }),
             { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -45,13 +52,13 @@ export const GET: APIRoute = async ({ request }) => {
         const parsed = new Date(`${pastPeriod} 1`);
         const year = parsed.getFullYear();
         const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
-        const fileName = `${filePrefix}${year}-${month}.tif`;
-        const filePath = path.join(baseDir, fileName);
+        const fileName = `${config.prefix}${year}-${month}.tif`;
+        const filePath = path.join(config.baseDir, fileName);
 
         await access(filePath);
         const buffer = await readFile(filePath);
 
-        const stylePath = path.join(baseDir, STYLE_FILENAME);
+        const stylePath = path.join(config.baseDir, STYLE_FILENAME);
         let style: any = null;
         try {
             await access(stylePath);
