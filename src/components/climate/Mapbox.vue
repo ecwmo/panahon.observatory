@@ -273,20 +273,23 @@
 
                 const features = [];
                 for (let y = 0; y < height; y++) {
-                    const top = +(originY - y * resY).toFixed(6);
-                    const bottom = +(top - resY).toFixed(6);
+                    const top = +(originY + y * resY).toFixed(6);
+                    const bottom = +(top + resY).toFixed(6);
+
                     for (let x = 0; x < width; x++) {
                         const left = +(originX + x * resX).toFixed(6);
                         const right = +(left + resX).toFixed(6);
                         const idx = y * width + x;
                         const val = band[idx];
                         if (typeof val !== "number" || isNaN(val)) continue;
-                        let color = this.interpolateColor(val, ramp, thresholds);
+
+                        const color = this.interpolateColor(val, ramp, thresholds);
+
                         features.push({
                             type: "Feature",
                             geometry: {
                                 type: "Polygon",
-                                coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom]]]
+                                coordinates: [[[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]]
                             },
                             properties: { value: val, color }
                         });
@@ -331,14 +334,14 @@
                     const [originX, originY] = this.tifImage.getOrigin();
                     const [resX, resY] = this.tifImage.getResolution();
                     const x = Math.floor((e.lngLat.lng - originX) / resX);
-                    const y = Math.floor((originY - e.lngLat.lat) / resY);
+                    const y = Math.floor((e.lngLat.lat - originY) / resY);
                     const width = this.tifImage.getWidth();
                     const height = this.tifImage.getHeight();
 
                     if (x < 0 || y < 0 || x >= width || y >= height) {
                         this.legendHoveredValue = null;
-                        this.map.getSource("tif-highlight")
-                            .setData({ type: "FeatureCollection", features: [] });
+                        const src = this.map.getSource("tif-highlight");
+                        if (src) src.setData({ type: "FeatureCollection", features: [] });
                         return;
                     }
 
@@ -346,8 +349,8 @@
 
                     const left = +(originX + x * resX).toFixed(6);
                     const right = +(left + resX).toFixed(6);
-                    const top = +(originY - y * resY).toFixed(6);
-                    const bottom = +(top - resY).toFixed(6);
+                    const top = +(originY + y * resY).toFixed(6);
+                    const bottom = +(top + resY).toFixed(6);
 
                     this.hoverFeature = {
                         type: "Feature",
@@ -361,7 +364,6 @@
                     const features = [];
                     if (this.hoverFeature) features.push(this.hoverFeature);
                     if (this.selectedFeature) features.push(this.selectedFeature);
-                    console.log(features);
                     const src = this.map.getSource("tif-highlight");
                     if (src) src.setData({ type: "FeatureCollection", features });
                 };
@@ -447,7 +449,7 @@
                                 lat: lngLat.lat || lngLat[1]
                             };
                             const paramString = new URLSearchParams(toSend).toString();
-                            res = await fetch(`/api/climate/current_average?${paramString}`);
+                            res = await fetch(`/api/climate/pixel_value?${paramString}`);
 
                             if (!res.ok) throw new Error("Backend error");
 
@@ -517,7 +519,7 @@
                 const [originX, originY] = this.tifImage.getOrigin();
                 const [resX, resY] = this.tifImage.getResolution();
                 const x = Math.floor((lngLat.lon - originX) / resX);
-                const y = Math.floor((originY - lngLat.lat) / resY);
+                const y = Math.floor((lngLat.lat - originY) / resY);
                 const width = this.tifImage.getWidth();
                 const height = this.tifImage.getHeight();
 
@@ -527,8 +529,8 @@
 
                 const left = +(originX + x * resX).toFixed(6);
                 const right = +(left + resX).toFixed(6);
-                const top = +(originY - y * resY).toFixed(6);
-                const bottom = +(top - resY).toFixed(6);
+                const top = +(originY + y * resY).toFixed(6);
+                const bottom = +(top + resY).toFixed(6);
 
                 this.selectedFeature = {
                     type: "Feature",
