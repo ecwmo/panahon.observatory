@@ -424,14 +424,19 @@
 
     console.log('Start boxplotdata')
 
+    const labels = Array.from(
+      { length: yearRange.value.end - yearRange.value.start + 1 },
+      (_, i) => String(yearRange.value.start + i),
+    )
 
     // Group data by experiment
-    const grouped: Record<string, number[]> = {}
+    const grouped: Record<string, Record<string, number>> = {}
     props.filteredData.forEach((item) => {
       const exp = item.experiment
+      const year = String(item.year)
       const val = Number(item.data)
-      if (!grouped[exp]) grouped[exp] = []
-      grouped[exp].push(val)
+      if (!grouped[exp]) grouped[exp] = {}
+      grouped[exp][year] = val
     })
 
     const experiments = Object.keys(grouped).sort((a, b) => {
@@ -440,68 +445,68 @@
       return a.localeCompare(b)
     })
 
-    const x = [1, 2, 3, 4, 5];
-    const y1 = [1,3,5,2,0
-    ];
-    const line1 = {
-      x,
-      y: y1,
+    const line1 = experiments.map((exp,i) => ({
+      x: labels,
+      y: labels.map(year => grouped[exp][year] ?? null),
       type: 'scatter',
-      mode: 'lines+markers',
-      name: 'Dataset A',
-      line: { color: 'royalblue' },
+      mode: 'lines',
+      name: exp,
+      legendgroup: exp,
+      line: {
+        color: colorPalette[i % colorPalette.length],
+        width: 2,
+        dash: 'solid', // ← force solid lines
+      },
       xaxis: 'x', // ← assign to first column
-      yaxis: 'y',
-      legendgroup: 'A'
-    };
+      yaxis: 'y',      
+    }))
 
     // Create Plotly traces
     const boxData = experiments.map((exp, idx) => ({
-      y: grouped[exp],
+      y: Object.values(grouped[exp]),
       type: 'box',
       name: exp,
+      legendgroup: exp,
       boxpoints: 'outliers',
       //use modulo to repeat colors of idx > colors.length
       marker: { color: colorPalette[idx % colorPalette.length] },
       line: { color: colorPalette[idx % colorPalette.length], width: 2 },
       xaxis: 'x2',  // ← assign to second column
-      yaxis: 'y2' 
+      yaxis: 'y2',
+      width: 0.4
     }))
 
     const layout = {
       margin: { t: 85, b: 60, l: 70, r: 20 },
-      title: 'Two Datasets: Lines (Left) & Boxes (Right)',
+      title: `Projected Temperature Anomaly °C for the province of ${props.selectedProvince ?? 'Unknown'}`,
       grid: {
         rows: 1,
         columns: 2,
         pattern: 'independent'
       },
       xaxis: {
-        title: '', // no x-axis label
-        showticklabels: true, // show the experiment names
-        automargin: false, // automatically adjusts margins so labels fit
+        title: '', 
+        domain: [0, 0.61],
+        showticklabels: true, 
+        automargin: false,
       },
       legend: true,
       showlegend: false,
       autosize: true,
-      title: {
-        text: '', //`Box Plot of Temperature Anomaly in ${props.selectedProvince}`,
-        font: { size: 18 },
-        xref: 'paper',
-        x: 0.5,
-        xanchor: 'center',
-      },
       yaxis: {
-        title: 'Value'
+        title: 'Temperature Anomaly °C'
       },
       xaxis2: {
-        title: '', // no x-axis label
-        showticklabels: true, // show the experiment names
-        automargin: false, // automatically adjusts margins so labels fit
+        title: '',
+        domain: [0.72, 1], 
+        showticklabels: true, 
+        automargin: false, 
       },
       yaxis2: {
+        matches: 'y',
         title: {
           text: 'Temperature Anomaly °C',
+          side: 'right',
           font: {
             size: 14,
             family: 'Arial, sans-serif',
@@ -516,22 +521,48 @@
         matches: 'y',
         showticklabels: false
       },
-      legend: true,
-      showlegend: false,
-      autosize: true,
-      title: {
-        text: '', //`Box Plot of Temperature Anomaly in ${props.selectedProvince}`,
-        font: { size: 18 },
-        xref: 'paper',
-        x: 0.5,
-        xanchor: 'center',
-      },
       boxmode: 'group'
     }
 
-    Plotly.newPlot("plot", [line1, ...boxData], layout, { responsive: true })
+    Plotly.newPlot("plot", [...line1, ...boxData], layout, { responsive: true,displayModeBar: false })
     console.log('Created new combination plot')
+
+    const plot = document.getElementById('plot')
+
+
+    // Fade all traces except the hovered experiment
+    function fadeOthers(activeGroup) {
+      const update = { opacity: [] }
+
+      plot.data.forEach(trace => {
+        update.opacity.push(
+          trace.legendgroup === activeGroup ? 1 : 0.15
+        )
+      })
+
+      Plotly.restyle(plot, update)
+    }
+
+    // Restore full opacity
+    function resetOpacity() {
+      Plotly.restyle(plot, { opacity: 1 })
+    }
+
+    // Hover in
+    plot.on('plotly_hover', event => {
+      const trace = event.points[0].data
+      if (trace.legendgroup) {
+        fadeOthers(trace.legendgroup)
+      }
+    })
+
+    // Hover out
+    plot.on('plotly_unhover', () => {
+      resetOpacity()
+    })
   }
+
+
 
   function computeHoverValues(data: FilteredDataItem[]): HoverValues {
     const ranges = {
@@ -716,6 +747,9 @@
       ctx.restore()
     },
   }
+
+  //////////////// PLOTLY GRAPH FUNCTIONS ///////////////////
+
 
   // On mounted, render chart
   onMounted(async () => {
