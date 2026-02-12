@@ -69,13 +69,12 @@ function formatValue(val: number, decimals: number): number {
 
 export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url);
-    const locationParam = url.searchParams.get('location');
     const lat = parseFloat(url.searchParams.get('lat') || '');
     const lon = parseFloat(url.searchParams.get('lon') || '');
     const pastData = url.searchParams.get('pastData');
     const pastPeriod = url.searchParams.get('pastPeriod');
 
-    if (!locationParam || isNaN(lat) || isNaN(lon) || !pastData || !pastPeriod) {
+    if (isNaN(lat) || isNaN(lon) || !pastData || !pastPeriod) {
         return new Response(
             JSON.stringify({ error: 'Missing location, lat, lon, pastData or pastPeriod parameter' }),
             { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -120,7 +119,6 @@ export const GET: APIRoute = async ({ request }) => {
 
     return new Response(
         JSON.stringify({
-            location: locationParam,
             lat,
             lon,
             value,
