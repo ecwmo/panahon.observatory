@@ -11,14 +11,20 @@ const DATA_TYPES = [
         measurement: 'Rainfall (mm)',
         name: 'Grid Rainfall Trend',
         decimals: 0,
+        graph: 'line',
+        negativeColor: '#08306b',
+        positiveColor: '#08306b'
     },
     {
         key: 'Rain Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
         prefix: 'anom_rain_wrf_anomaly_',
         measurement: 'Rainfall (mm)',
-        name: 'Grid Rainfall Anomaly Trend',
+        name: 'Grid Rainfall Anomaly Graph',
         decimals: 0,
+        graph: 'bar',
+        negativeColor: '#8c510a',
+        positiveColor: '#1a9850'
     },
     {
         key: 'Temperature',
@@ -27,14 +33,20 @@ const DATA_TYPES = [
         measurement: 'Temperature (\u00B0C)',
         name: 'Grid Temperature Trend',
         decimals: 1,
+        graph: 'line',
+        negativeColor: '#cb181d',
+        positiveColor: '#cb181d'
     },
     {
         key: 'Temperature Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
         prefix: 'anom_temp_wrf_anomaly_',
         measurement: 'Temperature (\u00B0C)',
-        name: 'Grid Temperature Anomaly Trend',
+        name: 'Grid Temperature Anomaly Graph',
         decimals: 1,
+        graph: 'bar',
+        negativeColor: '#313695',
+        positiveColor: '#a50026'
     },
 ];
 
@@ -125,6 +137,9 @@ export const GET: APIRoute = async ({ request }) => {
             measurement: config.measurement,
             name: config.name,
             trend,
+            graph: config.graph,
+            positiveColor: config.positiveColor,
+            negativeColor: config.negativeColor
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );

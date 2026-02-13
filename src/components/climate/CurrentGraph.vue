@@ -39,15 +39,51 @@
                 let minVal = numericValues.length ? Math.min(...numericValues) : 0;
                 let maxVal = numericValues.length ? Math.max(...numericValues) : 1;
 
-                const trace = {
-                    x: months,
-                    y: values,
-                    type: "scatter",
-                    mode: "lines+markers",
-                    line: { color: "#4dabf7" },
-                    marker: { size: 8 },
-                    hovertemplate: "%{y}<extra></extra>"
-                };
+                const posColor = newVal.positiveColor;
+                const negColor = newVal.negativeColor;
+                const colors = values.map(v => v < 0 ? negColor : posColor);
+
+                function hexToRgba(hex, alpha) {
+                    const bigint = parseInt(hex.slice(1), 16);
+                    const r = (bigint >> 16) & 255;
+                    const g = (bigint >> 8) & 255;
+                    const b = bigint & 255;
+                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                }
+
+                let trace;
+                if (newVal.graph === "bar") {
+                    trace = {
+                        x: months,
+                        y: values,
+                        type: "bar",
+                        marker: { color: colors , opacity: 0.7 },
+                        hovertemplate: "%{y}<extra></extra>"
+                    };
+                }
+                else if (newVal.graph === "line") {
+                    trace = {
+                        x: months,
+                        y: values,
+                        type: "scatter",
+                        mode: "lines+markers",
+                        line: { color: hexToRgba(posColor, 0.7) },
+                        marker: { size: 8, color: hexToRgba(posColor, 0.7) },
+                        hovertemplate: "%{y}<extra></extra>"
+                    };
+                }
+
+                let yRange;
+                if (newVal.graph === "bar") {
+                    const absMax = Math.max(Math.abs(minVal), Math.abs(maxVal));
+                    yRange = [-absMax, absMax];
+                }
+                else {
+                    yRange = [
+                        minVal - Math.abs(minVal) * 0.1,
+                        maxVal + Math.abs(maxVal) * 0.1
+                    ];
+                }
 
                 const layout = {
                     title: {
@@ -66,10 +102,7 @@
                     },
                     yaxis: {
                         title: { text: newVal.measurement || "Value", font: { size: 16 } },
-                        range: [
-                            minVal - Math.abs(minVal) * 0.1,
-                            maxVal + Math.abs(maxVal) * 0.1
-                        ]
+                        range: yRange
                     }
                 };
 
