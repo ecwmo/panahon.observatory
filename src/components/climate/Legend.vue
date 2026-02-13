@@ -1,17 +1,40 @@
 <template>
     <div class="legend">
+        <!-- Gradient bar with hover marker + red line -->
         <div class="gradient-bar">
             <div class="gradient-fill" :style="gradientStyle"></div>
+
+            <!-- Hover pixel marker (inside bar, halfway down, no arrow) -->
             <div v-if="hoveredValue"
-                 class="pointer"
+                 class="hover-marker"
                  :style="{ left: pointerPosition + '%' }">
-                <span class="pointer-label">{{ hoveredValue }}{{ style.unit }}</span>
+                <span class="hover-label">{{ hoveredValue }}{{ style.unit }}</span>
             </div>
+
+            <!-- Red vertical line showing hover position -->
+            <div v-if="hoveredValue"
+                 class="hover-line"
+                 :style="{ left: pointerPosition + '%' }"></div>
+
+            <!-- Threshold tick lines -->
             <div v-for="(entry, idx) in style.ramp"
                  :key="'tick-' + idx"
                  class="tick-line"
                  :style="{ left: uniformTickPosition(idx) + '%' }"></div>
         </div>
+
+        <!-- Threshold values with unit directly below ticks -->
+        <div class="threshold-values">
+            <span v-for="(entry, idx) in style.ramp"
+                  :key="'threshold-' + idx"
+                  class="threshold-value"
+                  :class="{ 'edge-label-left': idx === 0, 'edge-label-right': idx === style.ramp.length - 1 }"
+                  :style="{ left: uniformTickPosition(idx) + '%' }">
+                {{ entry.threshold }}{{ style.unit }}
+            </span>
+        </div>
+
+        <!-- Legend labels below threshold values -->
         <div class="labels">
             <span v-for="(entry, idx) in style.ramp"
                   :key="'label-' + idx"
@@ -88,15 +111,16 @@
         font-family: sans-serif;
         background: #f8f9fa;
         border: 1px solid #ccc;
-        padding: 1rem;
+        padding: 0.5rem; /* smaller padding */
         border-radius: 4px;
         width: 100%;
         max-width: 600px;
+        position: relative;
     }
 
     .gradient-bar {
         position: relative;
-        height: 30px;
+        height: 24px; /* shorter bar */
         border: 1px solid #999;
     }
 
@@ -105,31 +129,35 @@
         width: 100%;
     }
 
-    .pointer {
+    /* Hover pixel marker inside bar, halfway down */
+    .hover-marker {
         position: absolute;
-        bottom: -8px;
-        width: 0;
-        height: 0;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-top: 7px solid #000;
-        transform: translateX(-50%);
+        top: 50%; /* halfway down the bar */
+        transform: translate(-50%, -50%);
         z-index: 1000;
     }
 
-    .pointer-label {
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.8rem;
+    .hover-label {
+        font-size: 0.8rem; /* smaller text */
         background: #fff;
-        padding: 0 4px;
+        padding: 0 3px;
         border: 1px solid #ccc;
         border-radius: 2px;
         white-space: nowrap;
     }
 
+    /* Red vertical line marker */
+    .hover-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: red;
+        transform: translateX(-50%);
+        z-index: 999;
+    }
+
+    /* Threshold tick lines */
     .tick-line {
         position: absolute;
         top: 0;
@@ -139,15 +167,16 @@
         transform: translateX(-50%);
     }
 
-    .labels {
+    /* Threshold values with unit */
+    .threshold-values {
         position: relative;
-        margin-top: 1.25rem;
-        min-height: 1.25rem;
+        margin-top: 0.25rem; /* tighter spacing */
+        min-height: 1rem;
     }
 
-    .tick-label {
+    .threshold-value {
         position: absolute;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         transform: translateX(-50%);
         white-space: nowrap;
         text-align: center;
@@ -159,6 +188,30 @@
     }
 
     .edge-label-right {
+        transform: translateX(-100%);
+    }
+
+    /* Legend labels below threshold values */
+    .labels {
+        position: relative;
+        margin-top: 0.25rem; /* tighter spacing */
+        min-height: 1rem;
+    }
+
+    .tick-label {
+        position: absolute;
+        font-size: 0.8rem;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .tick-label.edge-label-left {
+        transform: translateX(0);
+    }
+
+    .tick-label.edge-label-right {
         transform: translateX(-100%);
     }
 </style>

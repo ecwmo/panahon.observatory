@@ -684,9 +684,10 @@
 
     .legend-overlay {
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 10px;
+        left: 10px;
         z-index: 1;
+        box-shadow: 0 0 0 2px #0000001a;
     }
 
     * {
