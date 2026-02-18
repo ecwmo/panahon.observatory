@@ -83,7 +83,7 @@
                 pastData: "Temperature Anomaly",
                 projectedData: "Temperature Anomaly",
                 pastPeriod: "",
-                projectedPeriod: "Historical: 1981 - 2015",
+                projectedPeriod: "Historical: 1981 - 2014",
                 scenario: "Historical",
                 months: [],
                 suppressEmit: false,
@@ -92,7 +92,7 @@
         },
         computed: {
             availableScenarios() {
-                if (this.projectedPeriod === 'Historical: 1981 - 2015') {
+                if (this.projectedPeriod === 'Historical: 1981 - 2014') {
                     return ['Historical'];
                 } else {
                     return ['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'];
@@ -190,7 +190,7 @@
             },
             projectedPeriod(newPeriod) {
                 var scenarioChange = false;
-                if (newPeriod === 'Historical: 1981 - 2015') {
+                if (newPeriod === 'Historical: 1981 - 2014') {
                     this.scenario = 'Historical';
                     scenarioChange = true;
                 }

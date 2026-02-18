@@ -47,6 +47,33 @@ function getProvinceAveragesByPeriod(
       'public/resources/climate/projected/provinces_TMean_Anomaly_V3_AllModels.csv'
     );
 
+    const fileContent = fs.readFileSync(csvPath, 'utf-8');
+    const records: ProvinceData[] = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+
+    // Group by "province-year-experiment" key
+    const groupMap = new Map<string, number[]>();
+
+    for (const r of records) {
+      const key = `${r.province}|${r.year}|${r.experiment}`;
+      if (!groupMap.has(key)) {
+        groupMap.set(key, []);
+      }
+      groupMap.get(key)!.push(Number(r.anomaly));
+    }
+
+    const groupedAverages = Array.from(groupMap.entries()).map(([key, values]) => {
+      const [province, year, experiment] = key.split('|');
+      const avgAnomaly = values.reduce((a, b) => a + b, 0) / values.length;
+      return { province, year, experiment, averageAnomaly: avgAnomaly };
+    });
+
+    const averages = groupedAverages.map(g => g.averageAnomaly);
+    const min = Math.min(...averages);
+    const max = Math.max(...averages);
+
     style = {
       scaling: 'linear',
       ramp: [
@@ -56,8 +83,12 @@ function getProvinceAveragesByPeriod(
         { color: '#b52121', label: 'High' },
         { color: '#6b0808', label: 'Very High' }
       ],
-      min: null,
-      max: null
+      min,
+      max,
+      decimals: 2,
+      unit: 'C',
+
+
     };
 
   } else if (projectedData === 'Rainfall Anomaly') {
@@ -75,7 +106,9 @@ function getProvinceAveragesByPeriod(
         { color: '#08306b', label: 'Very High' }
       ],
       min: null,
-      max: null
+      max: null,
+      decimals: 2,
+      unit: 'mm',
     };
 
   } else {
@@ -123,8 +156,6 @@ function getProvinceAveragesByPeriod(
 
   return {
     header: {
-      min: Math.min(...anomalies),
-      max: Math.max(...anomalies),
       period: projectedPeriod,
       projectedData,
       style
@@ -142,16 +173,19 @@ export const GET: APIRoute = ({ url }) => {
     const model = url.searchParams.get('model') ?? undefined;
 
     const result = getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
+    const { style } = result.header;
 
     return new Response(JSON.stringify(result.data), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'X-Scaling': result.header.style.scaling,
-        'X-Ramp': JSON.stringify(result.header.style.ramp || []),
-        'X-Min': result.header.style.min !== null ? String(result.header.style.min) : '',
-        'X-Max': result.header.style.max !== null ? String(result.header.style.max) : ''
-      },
+        'X-Scaling': style.scaling,
+        'X-Ramp': JSON.stringify(style.ramp || []),
+        'X-Min': String(style.min),
+        'X-Max': String(style.max),
+        'X-Decimals': String(style.decimals),
+        'X-Unit': String(style.unit),
+      }
     });
 
   } catch (err) {
