@@ -28,7 +28,9 @@ const DATA_TYPES = [
         decimals: 0,
         graph: 'bar',
         negativeColor: '#8c510a',
-        positiveColor: '#1a9850'
+        positiveColor: '#1a9850',
+        negativeLegend: 'Drier Than Baseline',
+        positiveLegend: 'Wetter Than Baseline'
     },
     {
         key: 'Temperature',
@@ -54,7 +56,9 @@ const DATA_TYPES = [
         decimals: 1,
         graph: 'bar',
         negativeColor: '#313695',
-        positiveColor: '#a50026'
+        positiveColor: '#a50026',
+        negativeLegend: 'Colder Than Baseline',
+        positiveLegend: 'Hotter Than Baseline'
     },
 ];
 
@@ -172,7 +176,9 @@ export const GET: APIRoute = async ({ request }) => {
             positiveColor: config.positiveColor,
             negativeColor: config.negativeColor,
             baselinePositiveColor: config.baselinePositiveColor,
-            baselineNegativeColor: config.baselineNegativeColor
+            baselineNegativeColor: config.baselineNegativeColor,
+            positiveLegend: config.positiveLegend,
+            negativeLegend: config.negativeLegend
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
