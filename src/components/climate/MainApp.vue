@@ -16,17 +16,11 @@
                         @location-changed="onLocationChanged"
                         :selected-location="selectedLocation" />
             </div>
-            <div v-show="selectedLocation" ref="panel" class="panel-container">
-                <span v-if="parameters.tab === 'Current'">
-                    <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
-                </span>
-                <span v-else>
-                    <GraphProjection 
-                        v-if="panelReady"
-                        :selectedProvince="selectedLocation?.name" 
-                        :filteredData="filteredData"
-                    />
-                </span>
+            <div v-if="selectedLocation && parameters.tab === 'Current' && latestData" ref="panel" class="panel-container">
+                <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
+            </div>
+            <div v-if="selectedLocation?.name && parameters.tab === 'Projected'" ref="panel" class="panel-container">
+                <GraphProjection v-if="panelReady" :selectedProvince="selectedLocation?.name" :filteredData="filteredData" />
             </div>
         </div>
     </div>
@@ -89,7 +83,7 @@
                 }
                 this.selectedLocation = loc;
                 this.panelReady = false;
-                if (this.parameters.tab !== 'Current' && changeData && loc !== null) {
+                if (this.parameters.tab !== 'Current' && changeData && loc?.name) {
                     await this.fetchFilteredData(); // fetch filtered data only when tab is not Current
                 }
                 await nextTick();

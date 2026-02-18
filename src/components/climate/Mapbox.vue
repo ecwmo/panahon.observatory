@@ -110,12 +110,6 @@
                 if (newParams.tab !== oldParams.tab) {
                     this.$nextTick(() => {
                         this.map.resize();
-                        if (this.currentPopup && this.lastPopupLngLat) {
-                            this.map.flyTo({
-                                center: this.lastPopupLngLat,
-                                zoom: Math.max(this.map.getZoom(), 7)
-                            });
-                        }
                     });
                 }
             },
@@ -124,12 +118,6 @@
                 if ((!oldVal && newVal) || (!newVal && oldVal)) {
                     this.$nextTick(() => {
                         this.map.resize();
-                        if (this.currentPopup && this.lastPopupLngLat) {
-                            this.map.flyTo({
-                                center: this.lastPopupLngLat,
-                                zoom: Math.max(this.map.getZoom(), 7)
-                            });
-                        }
                     });
                 }
             },
@@ -363,7 +351,7 @@
 
                     const features = [];
                     if (this.hoverFeature) features.push(this.hoverFeature);
-                    if (this.selectedFeature) features.push(this.selectedFeature);
+                    if (this.selectedFeature && this.currentPopup) features.push(this.selectedFeature);
                     const src = this.map.getSource("tif-highlight");
                     if (src) src.setData({ type: "FeatureCollection", features });
                 };
@@ -436,15 +424,15 @@
                 return "#9d4edd";
             },
             async fetchPopupData(location, lngLat) {
+                if (location === "") location = null;
                 try {
-                    let content;
+                    var content;
                     try {
                         let res;
                         if (this.parameters.tab === "Current") {
                             const toSend = {
                                 pastData: this.parameters.pastData,
                                 pastPeriod: this.parameters.pastPeriod,
-                                location,
                                 lon: lngLat.lng || lngLat[0],
                                 lat: lngLat.lat || lngLat[1]
                             };
@@ -460,7 +448,7 @@
                             const data = await res.json();
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
-                            content = data?.location ? `<strong>${data.location}</strong><br/>Grid Value: ${data.value ?? "N/A"}${this.unit}` : "No data found";
+                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value ?? "N/A"}${this.unit}`;
                         }
                         else {
                             await Promise.reject(new Error("Projected not available"));
@@ -469,7 +457,12 @@
                     catch {
                         if (this.parameters.tab === "Projected")
                         {
-                            content = `<strong>${location}</strong>`;
+                            if (location) {
+                                content = `<strong>${location}</strong>`;
+                            }
+                            else {
+                                content = null;
+                            }
                             this.$emit("data-fetched", null);
                         }
                         else
@@ -484,8 +477,8 @@
                         this.currentPopup = null;
                     }
 
-                    this.currentPopup = new mapboxgl.Popup({ closeButton: false }).setLngLat(lngLat).setHTML(content).addTo(this.map);
-                    this.lockPixelHover({ lat: lngLat[1] || lngLat.lat, lon: lngLat[0] || lngLat.lng })
+                    if (content) this.currentPopup = new mapboxgl.Popup({ closeButton: false }).setLngLat(lngLat).setHTML(content).addTo(this.map);
+                    if (this.parameters.tab === "Current") this.lockPixelHover({ lat: lngLat[1] || lngLat.lat, lon: lngLat[0] || lngLat.lng })
 
                     this.lastLocation = location;
                     this.lastPopupLngLat = lngLat;
@@ -497,6 +490,16 @@
                             lon: lngLat[0] || lngLat.lng,
                         });
                     }
+
+                    this.$nextTick(() => {
+                        this.map.resize();
+                        if (this.currentPopup && this.lastPopupLngLat) {
+                            this.map.flyTo({
+                                center: this.lastPopupLngLat,
+                                zoom: Math.max(this.map.getZoom(), 7)
+                            });
+                        }
+                    });
                 }
                 catch (err) {
                     console.error("Popup fetch error:", err);
@@ -543,7 +546,7 @@
 
                 const features = [];
                 if (this.hoverFeature) features.push(this.hoverFeature);
-                if (this.selectedFeature) features.push(this.selectedFeature);
+                if (this.selectedFeature && this.currentPopup) features.push(this.selectedFeature);
 
                 const src = this.map.getSource("tif-highlight");
                 if (src) src.setData({ type: "FeatureCollection", features });
@@ -594,9 +597,34 @@
             });
 
             this.map.on("click", async (e) => {
-                const features = this.map.queryRenderedFeatures(e.point, {
+                let features = [];
+
+                features = this.map.queryRenderedFeatures(e.point, {
                     layers: ["dynamic-layer"],
                 });
+
+                let pixelMode = false;
+                if (!features.length && this.map.getLayer("tif-layer")) {
+                    const tifFeatures = this.map.queryRenderedFeatures(e.point, {
+                        layers: ["tif-layer"],
+                    });
+
+                    if (tifFeatures.length) {
+                        const pixelGeom = tifFeatures[0].geometry;
+                        const bounds = pixelGeom.coordinates[0];
+                        const xs = bounds.map(coord => this.map.project(coord).x);
+                        const ys = bounds.map(coord => this.map.project(coord).y);
+                        const minX = Math.min(...xs), maxX = Math.max(...xs);
+                        const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+                        const bbox = [[minX, minY], [maxX, maxY]];
+                        features = this.map.queryRenderedFeatures(bbox, {
+                            layers: ["dynamic-layer"],
+                        });
+
+                        pixelMode = true;
+                    }
+                }
 
                 if (!features.length) {
                     if (this.currentPopup) {
@@ -604,7 +632,7 @@
                         this.currentPopup = null;
                         this.admValue = null;
                     }
-                    this.$emit("location-changed", null); // only emit blank for empty click
+                    this.$emit("location-changed", null);
                     this.selectedFeature = null;
                     return;
                 }
@@ -615,18 +643,23 @@
                 }
 
                 const feature = features[0];
-                this.admValue = feature?.properties?.[this.admProperty] ?? null;
 
-                if (!this.admValue) {
+                if (pixelMode) {
+                    this.admValue = null;
+                }
+                else {
+                    this.admValue = feature?.properties?.[this.admProperty] ?? null;
+                }
+
+                if (!this.admValue && !pixelMode) {
                     this.currentPopup = new mapboxgl.Popup({ closeButton: true })
                         .setLngLat(e.lngLat)
                         .setHTML(`Polygon has no property "${this.admProperty}"`)
                         .addTo(this.map);
-                    this.$emit("location-changed", null); // only emit blank for invalid polygon
+                    this.$emit("location-changed", null);
                     return;
                 }
 
-                // valid polygon -> fetch data and emit location inside fetchPopupData
                 this.fetchPopupData(this.admValue, e.lngLat);
                 this.map.flyTo({ center: e.lngLat, zoom: Math.max(this.map.getZoom(), 7) });
             });
@@ -651,9 +684,10 @@
 
     .legend-overlay {
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 10px;
+        left: 10px;
         z-index: 1;
+        box-shadow: 0 0 0 2px #0000001a;
     }
 
     * {

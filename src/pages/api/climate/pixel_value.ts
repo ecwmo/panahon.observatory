@@ -11,14 +11,20 @@ const DATA_TYPES = [
         measurement: 'Rainfall (mm)',
         name: 'Grid Rainfall Trend',
         decimals: 0,
+        graph: 'line',
+        negativeColor: '#08306b',
+        positiveColor: '#08306b'
     },
     {
         key: 'Rain Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
         prefix: 'anom_rain_wrf_anomaly_',
         measurement: 'Rainfall (mm)',
-        name: 'Grid Rainfall Anomaly Trend',
+        name: 'Grid Rainfall Anomaly Graph',
         decimals: 0,
+        graph: 'bar',
+        negativeColor: '#8c510a',
+        positiveColor: '#1a9850'
     },
     {
         key: 'Temperature',
@@ -27,14 +33,20 @@ const DATA_TYPES = [
         measurement: 'Temperature (\u00B0C)',
         name: 'Grid Temperature Trend',
         decimals: 1,
+        graph: 'line',
+        negativeColor: '#cb181d',
+        positiveColor: '#cb181d'
     },
     {
         key: 'Temperature Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
         prefix: 'anom_temp_wrf_anomaly_',
         measurement: 'Temperature (\u00B0C)',
-        name: 'Grid Temperature Anomaly Trend',
+        name: 'Grid Temperature Anomaly Graph',
         decimals: 1,
+        graph: 'bar',
+        negativeColor: '#313695',
+        positiveColor: '#a50026'
     },
 ];
 
@@ -69,13 +81,12 @@ function formatValue(val: number, decimals: number): number {
 
 export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url);
-    const locationParam = url.searchParams.get('location');
     const lat = parseFloat(url.searchParams.get('lat') || '');
     const lon = parseFloat(url.searchParams.get('lon') || '');
     const pastData = url.searchParams.get('pastData');
     const pastPeriod = url.searchParams.get('pastPeriod');
 
-    if (!locationParam || isNaN(lat) || isNaN(lon) || !pastData || !pastPeriod) {
+    if (isNaN(lat) || isNaN(lon) || !pastData || !pastPeriod) {
         return new Response(
             JSON.stringify({ error: 'Missing location, lat, lon, pastData or pastPeriod parameter' }),
             { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -120,13 +131,15 @@ export const GET: APIRoute = async ({ request }) => {
 
     return new Response(
         JSON.stringify({
-            location: locationParam,
             lat,
             lon,
             value,
             measurement: config.measurement,
             name: config.name,
             trend,
+            graph: config.graph,
+            positiveColor: config.positiveColor,
+            negativeColor: config.negativeColor
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
