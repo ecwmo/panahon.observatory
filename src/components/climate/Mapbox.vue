@@ -203,7 +203,7 @@
                         const rawBand = (await image.readRasters())[0];
                         const band = Array.from(rawBand, v => Number(v.toFixed(decimals)));
                         const { thresholds, enrichedRamp } = this.computeThresholds(
-                            band, ramp, scaling, minHeader, maxHeader
+                            band, ramp, scaling, minHeader, maxHeader, decimals
                         );
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.tifSource(image, band, ramp, thresholds);
@@ -215,7 +215,7 @@
                         const jsonData = response.map(d => [d.province, Number(d.averageAnomaly.toFixed(decimals))]);
                         const band = jsonData.map(d => d[1]);
                         const { thresholds, enrichedRamp } = this.computeThresholds(
-                            band, ramp, scaling, minHeader, maxHeader
+                            band, ramp, scaling, minHeader, maxHeader, decimals
                         );
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, ramp, thresholds);
@@ -245,7 +245,7 @@
                     this.errorLoadingData = true;
                 }
             },
-            computeThresholds(band, ramp, scaling, minHeader, maxHeader) {
+            computeThresholds(band, ramp, scaling, minHeader, maxHeader, decimals) {
                 let min = minHeader !== null && !isNaN(parseFloat(minHeader))
                     ? parseFloat(minHeader)
                     : Infinity;
@@ -270,11 +270,12 @@
 
                 if (scaling === "linear") {
                     for (let i = 0; i < n; i++) {
-                        thresholds.push(min + (i / (n - 1)) * (max - min));
+                        const raw = min + (i / (n - 1)) * (max - min);
+                        thresholds.push(Number(raw.toFixed(decimals)));
                     }
                 }
                 else if (scaling === "fixed") {
-                    thresholds = ramp.map(entry => entry.value);
+                    thresholds = ramp.map(entry => Number(entry.value.toFixed(decimals)));
                 }
 
                 const enrichedRamp = ramp.map((entry, i) => ({
