@@ -77,11 +77,11 @@ function getProvinceAveragesByPeriod(
     style = {
       scaling: 'linear',
       ramp: [
-        { color: '#fff7f7', label: 'Very Low' },
-        { color: '#efc6c6', label: 'Low' },
-        { color: '#d66b6b', label: 'Mid' },
-        { color: '#b52121', label: 'High' },
-        { color: '#6b0808', label: 'Very High' }
+        { color: '#fff7f7', label: 'Lowest Anomaly' },
+        { color: '#efc6c6', label: '' },
+        { color: '#d66b6b', label: '' },
+        { color: '#b52121', label: '' },
+        { color: '#6b0808', label: 'Highest Anomaly' }
       ],
       min,
       max,
