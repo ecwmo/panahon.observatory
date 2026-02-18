@@ -214,4 +214,8 @@
     .tick-label.edge-label-right {
         transform: translateX(-100%);
     }
+
+    * {
+        color: black;
+    }
 </style>

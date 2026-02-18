@@ -32,12 +32,18 @@
             const renderPlot = async (newVal) => {
                 if (!newVal || !newVal.trend || !Plotly || !plotEl) return;
 
-                const months = newVal.trend.map((item) => item[0]);
-                const values = newVal.trend.map((item) => item[1]);
+                const months = newVal.trend.map(item => item[0]);
+                const values = newVal.trend.map(item => item[1]);
 
-                const numericValues = values.filter((v) => v !== null && !isNaN(v));
-                let minVal = numericValues.length ? Math.min(...numericValues) : 0;
-                let maxVal = numericValues.length ? Math.max(...numericValues) : 1;
+                const numericValues = values.filter(v => v !== null && !isNaN(v));
+
+                const baselineMonths = newVal.baseline ? newVal.baseline.map(item => item[0]) : [];
+                const baselineValues = newVal.baseline ? newVal.baseline.map(item => item[1]) : [];
+                const baselineNumeric = baselineValues.filter(v => v !== null && !isNaN(v));
+
+                const allValues = [...numericValues, ...baselineNumeric];
+                let minVal = allValues.length ? Math.min(...allValues) : 0;
+                let maxVal = allValues.length ? Math.max(...allValues) : 1;
 
                 const posColor = newVal.positiveColor;
                 const negColor = newVal.negativeColor;
@@ -51,38 +57,67 @@
                     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 }
 
-                let trace;
+                let trendTrace;
                 if (newVal.graph === "bar") {
-                    trace = {
+                    trendTrace = {
                         x: months,
                         y: values,
                         type: "bar",
-                        marker: { color: colors , opacity: 0.7 },
-                        hovertemplate: "%{y}<extra></extra>"
+                        marker: { color: colors, opacity: 0.7 },
+                        hovertemplate: "%{y}<extra></extra>",
+                        name: "Trend"
                     };
                 }
                 else if (newVal.graph === "line") {
-                    trace = {
+                    trendTrace = {
                         x: months,
                         y: values,
                         type: "scatter",
                         mode: "lines+markers",
                         line: { color: hexToRgba(posColor, 0.7) },
-                        marker: { size: 8, color: hexToRgba(posColor, 0.7) },
-                        hovertemplate: "%{y}<extra></extra>"
+                        marker: { size: 8, color: colors, opacity: 0.7 },
+                        hovertemplate: "%{y}<extra></extra>",
+                        name: "Trend"
                     };
+                }
+
+                let baselineTrace = null;
+                if (newVal.baseline && newVal.baseline.length > 0) {
+                    const baselineColors = baselineValues.map(v =>
+                        v < 0 ? newVal.baselineNegativeColor : newVal.baselinePositiveColor
+                    );
+                    if (newVal.graph === "bar") {
+                        baselineTrace = {
+                            x: baselineMonths,
+                            y: baselineValues,
+                            type: "bar",
+                            marker: { color: baselineColors, opacity: 0.7 },
+                            hovertemplate: "%{y}<extra></extra>",
+                            name: "Baseline"
+                        };
+                    }
+                    else if (newVal.graph === "line") {
+                        baselineTrace = {
+                            x: baselineMonths,
+                            y: baselineValues,
+                            type: "scatter",
+                            mode: "lines+markers",
+                            line: { color: hexToRgba(newVal.baselinePositiveColor, 0.7) },
+                            marker: { size: 8, color: baselineColors, opacity: 0.7 },
+                            hovertemplate: "%{y}<extra></extra>",
+                            name: "Baseline"
+                        };
+                    }
                 }
 
                 let yRange;
                 if (newVal.graph === "bar") {
-                    const absMax = Math.max(Math.abs(minVal), Math.abs(maxVal));
+                    const absMax = Math.max(...allValues.map(v => Math.abs(v)));
                     yRange = [-absMax, absMax];
                 }
                 else {
-                    yRange = [
-                        minVal - Math.abs(minVal) * 0.1,
-                        maxVal + Math.abs(maxVal) * 0.1
-                    ];
+                    const padding = Math.max(Math.abs(minVal), Math.abs(maxVal)) * 0.1;
+                    yRange = [minVal - padding, maxVal + padding];
                 }
 
                 const layout = {
@@ -106,7 +141,9 @@
                     }
                 };
 
-                await Plotly.newPlot(plotEl, [trace], layout, { responsive: true });
+                const traces = baselineTrace ? [trendTrace, baselineTrace] : [trendTrace];
+
+                await Plotly.newPlot(plotEl, traces, layout, { responsive: true });
 
                 await nextTick();
                 if (plotEl && plotEl.offsetParent !== null) {

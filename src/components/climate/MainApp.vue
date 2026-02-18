@@ -20,7 +20,7 @@
                 <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
             </div>
             <div v-if="selectedLocation?.name && parameters.tab === 'Projected'" ref="panel" class="panel-container">
-                <GraphProjection v-if="panelReady" :selectedProvince="selectedLocation?.name" :filteredData="filteredData" />
+                <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" />
             </div>
         </div>
     </div>

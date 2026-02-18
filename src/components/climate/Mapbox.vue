@@ -1,7 +1,17 @@
 ﻿<template>
     <div class="map-container">
         <div id="map"></div>
-        <Legend v-if="legendStyle" :style="legendStyle" class="legend-overlay" :hoveredValue="legendHoveredValue"/>
+        <template v-if="legendStyle">
+            <Legend :style="legendStyle"
+                    class="legend-overlay"
+                    :hoveredValue="legendHoveredValue" />
+        </template>
+        <template v-else>
+            <div class="legend-overlay missing-message">
+                <span v-if="loadingData">Loading Data...</span>
+                <span v-if="errorLoadingData">Missing Dataset</span>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -40,7 +50,10 @@
                 unit: null,
 
                 hoverFeature: null,
-                selectedFeature: null
+                selectedFeature: null,
+
+                loadingData: false,
+                errorLoadingData: false,
             };
         },
         watch: {
@@ -169,6 +182,8 @@
                             ? "/api/climate/current_tif"
                             : "/api/climate/projectedmapjson";
 
+                    this.loadingData = true;
+                    this.errorLoadingData = false;
                     const res = await fetch(`${endpoint}?${paramString}`);
                     if (!res.ok) throw new Error(`Bad response: ${res.status}`);
 
@@ -205,13 +220,29 @@
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, ramp, thresholds);
                     }
+                    this.loadingData = false;
                 }
                 catch (err) {
                     console.error("Error rendering:", err);
                     if (this.map.getLayer("tif-layer")) this.map.removeLayer("tif-layer");
                     if (this.map.getSource("tif-source")) this.map.removeSource("tif-source");
                     if (this.map.getLayer("newfill")) this.map.removeLayer("newfill");
+                    if (this._hoverHandler) {
+                        this.map.off("mousemove", this._hoverHandler);
+                        this._hoverHandler = null;
+                    }
+                    const src = this.map.getSource("tif-highlight");
+                    if (src) {
+                        src.setData({
+                            type: "FeatureCollection",
+                            features: []
+                        });
+                    }
+                    this.tifBand = null;
+                    this.tifImage = null;
                     this.legendStyle = null;
+                    this.loadingData = false;
+                    this.errorLoadingData = true;
                 }
             },
             computeThresholds(band, ramp, scaling, minHeader, maxHeader) {
@@ -448,15 +479,14 @@
                             const data = await res.json();
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
-                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value ?? "N/A"}${this.unit}`;
+                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value ? `${data.value}${this.unit}` : "N/A"}`;
                         }
                         else {
                             await Promise.reject(new Error("Projected not available"));
                         }
                     }
                     catch {
-                        if (this.parameters.tab === "Projected")
-                        {
+                        if (this.parameters.tab === "Projected") {
                             if (location) {
                                 content = `<strong>${location}</strong>`;
                             }
@@ -465,10 +495,9 @@
                             }
                             this.$emit("data-fetched", null);
                         }
-                        else
-                        {
+                        else {
                             content = `<strong>${location}</strong><br/>Backend error`;
-                            this.$emit("data-fetched", { failed: true } );
+                            this.$emit("data-fetched", { failed: true });
                         }
                     }
 
@@ -680,6 +709,7 @@
     #map {
         width: 100%;
         height: 100%;
+        color: black !important;
     }
 
     .legend-overlay {
@@ -688,9 +718,13 @@
         left: 10px;
         z-index: 1;
         box-shadow: 0 0 0 2px #0000001a;
+        background-color: white;
     }
 
-    * {
-        color: black !important;
+    .missing-message {
+        padding: 2px;
+        color: #d9534f;
+        font-weight: bold;
+        border-radius: 4px;
     }
 </style>

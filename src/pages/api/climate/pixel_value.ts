@@ -13,7 +13,11 @@ const DATA_TYPES = [
         decimals: 0,
         graph: 'line',
         negativeColor: '#08306b',
-        positiveColor: '#08306b'
+        positiveColor: '#08306b',
+        baselineDir: path.join(resourceDir, 'climate/current/rain_baseline'),
+        baselinePattern: '{month}_gsmap_2001-2020_clim.tif',
+        baselineNegativeColor: '#666666',
+        baselinePositiveColor: '#666666'
     },
     {
         key: 'Rain Anomaly',
@@ -35,7 +39,11 @@ const DATA_TYPES = [
         decimals: 1,
         graph: 'line',
         negativeColor: '#cb181d',
-        positiveColor: '#cb181d'
+        positiveColor: '#cb181d',
+        baselineDir: path.join(resourceDir, 'climate/current/temp_baseline'),
+        baselinePattern: '{month}_aphrodite_1971-2000_clim.tif',
+        baselineNegativeColor: '#666666',
+        baselinePositiveColor: '#666666'
     },
     {
         key: 'Temperature Anomaly',
@@ -102,7 +110,6 @@ export const GET: APIRoute = async ({ request }) => {
     }
 
     let value: number | null = null;
-    let trend: (string | number)[][] = [];
 
     const parsed = new Date(`${pastPeriod} 1`);
     const year = parsed.getFullYear();
@@ -115,6 +122,7 @@ export const GET: APIRoute = async ({ request }) => {
         value = formatValue(rawValue, config.decimals);
     }
 
+    let trend: (string | number)[][] = [];
     for (let i = 0; i < 13; i++) {
         const d = new Date(parsed.getFullYear(), parsed.getMonth() - i, 1);
         const monthAbbr = d.toLocaleString('default', { month: 'short' });
@@ -126,8 +134,30 @@ export const GET: APIRoute = async ({ request }) => {
         if (v !== null) {
             trend.push([`${monthAbbr} ${y}`, formatValue(v, config.decimals)]);
         }
+        else {
+            trend.push([`${monthAbbr} ${y}`, null]);
+        }
     }
     trend = trend.reverse();
+
+    let baseline: (string | number)[][] = [];
+    if (config.baselineDir && config.baselinePattern) {
+        for (let i = 0; i < 13; i++) {
+            const d = new Date(parsed.getFullYear(), parsed.getMonth() - i, 1);
+            const monthAbbr = d.toLocaleString('default', { month: 'short' });
+            const monthNum = (d.getMonth() + 1).toString().padStart(2, '0');
+            const baselineFileName = config.baselinePattern.replace('{month}', monthNum);
+            const baselineFilePath = path.join(config.baselineDir, baselineFileName);
+            const v = await getRasterValue(baselineFilePath, lat, lon);
+            if (v !== null) {
+                baseline.push([`${monthAbbr} ${d.getFullYear()}`, formatValue(v, config.decimals)]);
+            }
+            else {
+                baseline.push([`${monthAbbr} ${d.getFullYear()}`, null]);
+            }
+        }
+        baseline = baseline.reverse();
+    }
 
     return new Response(
         JSON.stringify({
@@ -137,9 +167,12 @@ export const GET: APIRoute = async ({ request }) => {
             measurement: config.measurement,
             name: config.name,
             trend,
+            baseline,
             graph: config.graph,
             positiveColor: config.positiveColor,
-            negativeColor: config.negativeColor
+            negativeColor: config.negativeColor,
+            baselinePositiveColor: config.baselinePositiveColor,
+            baselineNegativeColor: config.baselineNegativeColor
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
