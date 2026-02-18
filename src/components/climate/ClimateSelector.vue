@@ -41,9 +41,10 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Period</h4>
                 <select v-model="projectedPeriod">
-                    <option>Historical: 1981 - 2015</option>
-                    <option>Mid Future: 2030 - 2055</option>
-                    <option>Far Future: 2056 - 2080</option>
+                    <option>Historical: 1981 - 2014</option>
+                    <option>Near Future: 2025 - 2045</option>
+                    <option>Mid Future: 2046 - 2065</option>
+                    <option>Far Future: 2066 - 2085</option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Current'">

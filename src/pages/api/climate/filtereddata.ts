@@ -24,23 +24,27 @@ function getFilteredData(selectedProvince: string, selectedModel?: string) {
 
   let filtered = records.filter(r => r.province === selectedProvince);
   const yearExperimentMap = {}
-  if (selectedModel && selectedModel !== 'Multi-model') {
-    filtered = filtered.filter(r => r.model === selectedModel);
-  } else if (selectedModel && selectedModel === 'Multi-model') {
+
+
+  if (!selectedModel || selectedModel === 'Multi-model') {
     // Compute average across all models for each year & experiment
     const yearExperimentMap: Record<string, Record<string, number[]>> = {};
 
     filtered.forEach(r => {
       if (!yearExperimentMap[r.year]) yearExperimentMap[r.year] = {};
-      if (!yearExperimentMap[r.year][r.experiment]) yearExperimentMap[r.year][r.experiment] = [];
+      if (!yearExperimentMap[r.year][r.experiment]) {
+        yearExperimentMap[r.year][r.experiment] = [];
+      }
       yearExperimentMap[r.year][r.experiment].push(Number(r.anomaly));
     });
+
     const mapped: { year: string; data: number; experiment: string }[] = [];
 
     Object.keys(yearExperimentMap).forEach(year => {
       Object.keys(yearExperimentMap[year]).forEach(experiment => {
         const values = yearExperimentMap[year][experiment];
         const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
+
         mapped.push({
           year,
           data: avg,
@@ -52,19 +56,23 @@ function getFilteredData(selectedProvince: string, selectedModel?: string) {
     return {
       mapped,
       yearExperimentMap
-    }
+    };
   }
-  // Map to the shape your frontend expects
+
+  // Otherwise → filter by specific model
+  filtered = filtered.filter(r => r.model === selectedModel);
+
+  // Map to frontend shape
   const mapped = filtered.map(r => ({
     year: r.year,
-    data: r.anomaly, // make sure this is a number, not string
+    data: r.anomaly,
     experiment: r.experiment
   }));
 
   return {
     mapped,
     yearExperimentMap
-  }
+  };
   //return filtered.map(r => ({
   //  year: r.year,
   //  data: r.ANOMALY_C, // make sure this is a number, not string

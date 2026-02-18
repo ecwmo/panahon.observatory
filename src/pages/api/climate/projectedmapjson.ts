@@ -13,9 +13,10 @@ interface ProvinceData {
 }
 
 const PERIODS: Record<string, { start: number; end: number }> = {
-  'Historical: 1981 - 2015': { start: 1981, end: 2015 },
-  'Mid Future: 2030 - 2055': { start: 2030, end: 2055 },
-  'Far Future: 2056 - 2080': { start: 2056, end: 2080 },
+  'Historical: 1981 - 2014': { start: 1981, end: 2014 },
+  'Near Future: 2025 - 2045': { start: 2025, end: 2045 },
+  'Mid Future: 2046 - 2065': { start: 2046, end: 2065 },
+  'Far Future: 2066 - 2085': { start: 2066, end: 2085 },
 };
 
 const SCENARIO_DICT: Record<string, string> = {
