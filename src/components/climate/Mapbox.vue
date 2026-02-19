@@ -47,6 +47,7 @@
                 tifBand: null,
                 tifImage: null,
                 legendHoveredValue: null,
+                provincialValueMap: {},
                 unit: null,
 
                 hoverFeature: null,
@@ -82,16 +83,17 @@
                     key => newParams[key] !== oldParams[key]
                 );
                 if (paramsChanged) {
-                    this.renderClimate(newParams);
-                    if (this.currentPopup) {
-                        const pos = this.currentPopup.getLngLat();
-                        const lngLat = [pos.lng, pos.lat];
-                        this.fetchPopupData(this.admValue || "", lngLat);
-                    }
-                    else if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
-                        const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
-                        this.fetchPopupData(newLocation.name, lngLat);
-                    }
+                    this.renderClimate(newParams).then(() => {
+                        if (this.currentPopup) {
+                            const pos = this.currentPopup.getLngLat();
+                            const lngLat = [pos.lng, pos.lat];
+                            this.fetchPopupData(this.admValue || "", lngLat);
+                        }
+                        else if (newLocation?.name && newLocation?.lon != null && newLocation?.lat != null) {
+                            const lngLat = [parseFloat(newLocation.lon), parseFloat(newLocation.lat)];
+                            this.fetchPopupData(newLocation.name, lngLat);
+                        }
+                    });
                 }
 
                 // 4) If the location changed, fly to the new location and fetch data
@@ -392,12 +394,12 @@
             },
             jsonSource(data, ramp, thresholds) {
                 const matchExpression = ["match", ["get", this.admProperty]];
-                const valueMap = {};
+                this.provincialValueMap = {};
 
                 data.forEach(([province, val]) => {
                     const color = this.interpolateColor(val, ramp, thresholds);
                     matchExpression.push(province, color);
-                    valueMap[province] = val;
+                    this.provincialValueMap[province] = val;
                 });
                 matchExpression.push("#9d4edd");
 
@@ -432,7 +434,7 @@
                     }
                     const props = features[0].properties;
                     const province = props[this.admProperty];
-                    this.legendHoveredValue = valueMap[province];
+                    this.legendHoveredValue = this.provincialValueMap[province];
                 };
 
                 this.map.on("mousemove", this._hoverHandler);
@@ -489,7 +491,7 @@
                     catch {
                         if (this.parameters.tab === "Projected") {
                             if (location) {
-                                content = `<strong>${location}</strong>`;
+                                content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`;
                             }
                             else {
                                 content = null;
