@@ -14,7 +14,7 @@ interface ProvinceData {
 
 // Function to filter CSV
 function getFilteredData(selectedProvince: string, selectedModel?: string) {
-  const csvPath = path.resolve('public/resources/climate/projected/provinces_TMean_Anomaly_V3_AllModels.csv');
+  const csvPath = path.resolve('public/resources/climate/projected/tmean_v2.csv');
   const fileContent = fs.readFileSync(csvPath, 'utf-8');
 
   const records: ProvinceData[] = parse(fileContent, {
@@ -76,7 +76,7 @@ function getFilteredData(selectedProvince: string, selectedModel?: string) {
   //return filtered.map(r => ({
   //  year: r.year,
   //  data: r.ANOMALY_C, // make sure this is a number, not string
-  experiment: r.experiment
+  //experiment: r.experiment
   //}));
   //return filtered.map(r => ({ year: r.year, data: r.ANOMALY_C }));
 }

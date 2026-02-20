@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse/sync';
+import { readdir, writeFile, stat, readFile } from 'node:fs/promises';
+import { resourceDir } from '@/lib/helper/pages';
 
 interface ProvinceData {
   province: string;
@@ -33,7 +35,28 @@ type Style = {
   max: number | null;
 };
 
-function getProvinceAveragesByPeriod(
+const SNAPSHOT_FILENAME = 'snapshotprojected.json';
+
+type FileSnapshot = {
+  datemodified: number;
+  min: number;
+  max: number;
+};
+type SnapshotFile = Record<string, FileSnapshot>;
+
+async function getSnapshot(dir: string) {
+  const files = await readdir(dir);
+  const csvs = files.filter(f => f.endsWith('.csv'));
+  const snapshot: Record<string, number> = {};
+  for (const f of csvs) {
+    const s = await stat(path.join(dir, f));
+    snapshot[f] = s.mtimeMs;
+  }
+  return snapshot;
+}
+
+
+async function getProvinceAveragesByPeriod(
   projectedData: string,
   projectedPeriod: string,
   scenario: string,
@@ -44,16 +67,60 @@ function getProvinceAveragesByPeriod(
 
   if (projectedData === 'Temperature Anomaly') {
     csvPath = path.resolve(
-      'public/resources/climate/projected/provinces_TMean_Anomaly_V3_AllModels.csv'
+      'public/resources/climate/projected/tmean_v2.csv'
     );
 
+    const snapshotPath = path.join(
+      path.dirname(csvPath),
+      SNAPSHOT_FILENAME
+    );
+    const fileName = path.basename(csvPath);
+
+    let snapshot: SnapshotFile = {};
+
+    try {
+      const raw = await readFile(snapshotPath, 'utf-8');
+      snapshot = JSON.parse(raw);
+    } catch {
+      await writeFile(snapshotPath, JSON.stringify({}, null, 2));
+      snapshot = {};
+    }
+
+    const stats = await stat(csvPath);
+    const currentModified = stats.mtimeMs;
+
+    const existing = snapshot[fileName];
+
+    if (existing && existing.datemodified === currentModified) {
+      const min = existing.min;
+      const max = existing.max;
+
+      style = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#fff7f7', label: 'Lowest Anomaly' },
+          { color: '#efc6c6', label: '' },
+          { color: '#d66b6b', label: '' },
+          { color: '#b52121', label: '' },
+          { color: '#6b0808', label: 'Highest Anomaly' }
+        ],
+        min,
+        max,
+        decimals: 1,
+        unit: 'C',
+      };
+
+      console.log('[Snapshot] Using cached temp min/max');
+    }
+
+
     const fileContent = fs.readFileSync(csvPath, 'utf-8');
+
     const records: ProvinceData[] = parse(fileContent, {
       columns: true,
       skip_empty_lines: true,
     });
 
-    // Group by "province-year-experiment" key
     const groupMap = new Map<string, number[]>();
 
     for (const r of records) {
@@ -64,15 +131,21 @@ function getProvinceAveragesByPeriod(
       groupMap.get(key)!.push(Number(r.anomaly));
     }
 
-    const groupedAverages = Array.from(groupMap.entries()).map(([key, values]) => {
-      const [province, year, experiment] = key.split('|');
-      const avgAnomaly = values.reduce((a, b) => a + b, 0) / values.length;
-      return { province, year, experiment, averageAnomaly: avgAnomaly };
-    });
+    const averages = Array.from(groupMap.values()).map(values =>
+      values.reduce((a, b) => a + b, 0) / values.length
+    );
 
-    const averages = groupedAverages.map(g => g.averageAnomaly);
     const min = Math.min(...averages);
     const max = Math.max(...averages);
+
+    // 5️⃣ Update snapshot structure
+    snapshot[fileName] = {
+      datemodified: currentModified,
+      min,
+      max,
+    };
+
+    await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
 
     style = {
       scaling: 'linear',
@@ -85,16 +158,91 @@ function getProvinceAveragesByPeriod(
       ],
       min,
       max,
-      decimals: 2,
+      decimals: 1,
       unit: 'C',
-
-
     };
 
-  } else if (projectedData === 'Rainfall Anomaly') {
+    console.log('[Snapshot] Recalculating temp min/max');
+  } else if (projectedData === 'Rain Anomaly') {
     csvPath = path.resolve(
-      'public/resources/climate/projected/provinces_PMean_Anomaly_V3_AllModels.csv'
+      'public/resources/climate/projected/pr_v2.csv'
     );
+
+    const snapshotPath = path.join(
+      path.dirname(csvPath),
+      SNAPSHOT_FILENAME
+    );
+    const fileName = path.basename(csvPath);
+
+    let snapshot: SnapshotFile = {};
+
+    try {
+      const raw = await readFile(snapshotPath, 'utf-8');
+      snapshot = JSON.parse(raw);
+    } catch {
+      await writeFile(snapshotPath, JSON.stringify({}, null, 2));
+      snapshot = {};
+    }
+
+    const stats = await stat(csvPath);
+    const currentModified = stats.mtimeMs;
+
+    const existing = snapshot[fileName];
+
+    if (existing && existing.datemodified === currentModified) {
+      const min = existing.min;
+      const max = existing.max;
+
+      style = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#f7fbff', label: 'Very Low' },
+          { color: '#c6dbef', label: 'Low' },
+          { color: '#6baed6', label: 'Mid' },
+          { color: '#2171b5', label: 'High' },
+          { color: '#08306b', label: 'Very High' }
+        ],
+        min,
+        max,
+        decimals: 0,
+        unit: 'mm',
+      };
+
+      console.log('[Snapshot] Using cached prep min/max');
+    }
+
+
+    const fileContent = fs.readFileSync(csvPath, 'utf-8');
+
+    const records: ProvinceData[] = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+
+    const groupMap = new Map<string, number[]>();
+
+    for (const r of records) {
+      const key = `${r.province}|${r.year}|${r.experiment}`;
+      if (!groupMap.has(key)) {
+        groupMap.set(key, []);
+      }
+      groupMap.get(key)!.push(Number(r.anomaly));
+    }
+
+    const averages = Array.from(groupMap.values()).map(values =>
+      values.reduce((a, b) => a + b, 0) / values.length
+    );
+
+    const min = Math.min(...averages);
+    const max = Math.max(...averages);
+
+    snapshot[fileName] = {
+      datemodified: currentModified,
+      min,
+      max,
+    };
+
+    await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
 
     style = {
       scaling: 'linear',
@@ -105,11 +253,13 @@ function getProvinceAveragesByPeriod(
         { color: '#2171b5', label: 'High' },
         { color: '#08306b', label: 'Very High' }
       ],
-      min: null,
-      max: null,
-      decimals: 2,
+      min,
+      max,
+      decimals: 0,
       unit: 'mm',
     };
+
+    console.log('[Snapshot] Recalculating prep min/max');
 
   } else {
     throw new Error('Unsupported projectedData');
@@ -165,14 +315,14 @@ function getProvinceAveragesByPeriod(
 }
 
 
-export const GET: APIRoute = ({ url }) => {
+export const GET: APIRoute = async ({ url }) => {
   try {
     const projectedData = url.searchParams.get('projectedData') ?? 'Temperature Anomaly';
     const projectedPeriod = url.searchParams.get('projectedPeriod');
     const scenario = url.searchParams.get('scenario');
     const model = url.searchParams.get('model') ?? undefined;
 
-    const result = getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
+    const result = await getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
     const { style } = result.header;
 
     return new Response(JSON.stringify(result.data), {
