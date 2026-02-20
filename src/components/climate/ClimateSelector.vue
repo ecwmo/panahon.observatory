@@ -73,7 +73,8 @@
     export default {
         name: "ClimateSelector",
         props: {
-            externalLocation: { type: Object, default: null }
+            externalLocation: { type: Object, default: null },
+            mapReady: { type: Boolean, default: false }
         },
         data() {
             return {
@@ -103,7 +104,6 @@
             await this.setupMonths();
             await this.setupProvinces();
             this.initialized = true;
-            this.emitSelection("manual");
         },
         methods: {
             emitSelection(source) {
@@ -155,6 +155,9 @@
             }
         },
         watch: {
+            mapReady(newVal) {
+                this.emitSelection("manual");
+            },
             externalLocation(newLoc) {
                 if (newLoc && newLoc.name) {
                     this.suppressEmit = true;

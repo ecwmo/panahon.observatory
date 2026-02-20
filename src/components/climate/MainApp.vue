@@ -3,7 +3,8 @@
         <div class="leftSide">
             <ClimateSelector v-if="showSelector"
                              @selection-changed="handleSelection"
-                             :external-location="selectedLocation" />
+                             :external-location="selectedLocation"
+                             :mapReady="mapReady" />
         </div>
         <div class="rightSide" :class="parameters.tab === 'Current' ? 'row-layout' : 'column-layout'">
             <div class="map-container">
@@ -14,7 +15,8 @@
                         :source-layer="sourceLayer"
                         :adm-property="admProperty"
                         @location-changed="onLocationChanged"
-                        :selected-location="selectedLocation" />
+                        :selected-location="selectedLocation" 
+                        @map-ready="onMapReady"/>
             </div>
             <div v-if="selectedLocation && parameters.tab === 'Current' && latestData" ref="panel" class="panel-container">
                 <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
@@ -49,7 +51,8 @@
                 filteredData: null,
                 showSelector: false,
                 selectedLocation: null,
-                panelReady: false
+                panelReady: false,
+                mapReady: false
             };
         },
         computed: {
@@ -70,6 +73,10 @@
             }
         },
         methods: {
+            onMapReady()
+            {
+                this.mapReady = true;
+            },
             handleData(data) {
                 this.latestData = data;
             },

@@ -7,7 +7,7 @@
                     :hoveredValue="legendHoveredValue" />
         </template>
         <template v-else>
-            <div class="legend-overlay missing-message">
+            <div v-if="loadingData || errorLoadingData" class="legend-overlay missing-message">
                 <span v-if="loadingData">Loading Data...</span>
                 <span v-if="errorLoadingData">Missing Dataset</span>
             </div>
@@ -694,6 +694,10 @@
 
                 this.fetchPopupData(this.admValue, e.lngLat);
                 this.map.flyTo({ center: e.lngLat, zoom: Math.max(this.map.getZoom(), 7) });
+            });
+
+            this.map.once("idle", () => {
+                this.$emit("map-ready");
             });
         },
         beforeUnmount() {
