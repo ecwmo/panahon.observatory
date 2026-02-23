@@ -112,57 +112,57 @@ async function getProvinceAveragesByPeriod(
 
       console.log('[Snapshot] Using cached temp min/max');
     }
+    else {
+      const fileContent = fs.readFileSync(csvPath, 'utf-8');
 
+      const records: ProvinceData[] = parse(fileContent, {
+        columns: true,
+        skip_empty_lines: true,
+      });
 
-    const fileContent = fs.readFileSync(csvPath, 'utf-8');
+      const groupMap = new Map<string, number[]>();
 
-    const records: ProvinceData[] = parse(fileContent, {
-      columns: true,
-      skip_empty_lines: true,
-    });
-
-    const groupMap = new Map<string, number[]>();
-
-    for (const r of records) {
-      const key = `${r.province}|${r.year}|${r.experiment}`;
-      if (!groupMap.has(key)) {
-        groupMap.set(key, []);
+      for (const r of records) {
+        const key = `${r.province}|${r.year}|${r.experiment}`;
+        if (!groupMap.has(key)) {
+          groupMap.set(key, []);
+        }
+        groupMap.get(key)!.push(Number(r.anomaly));
       }
-      groupMap.get(key)!.push(Number(r.anomaly));
+
+      const averages = Array.from(groupMap.values()).map(values =>
+        values.reduce((a, b) => a + b, 0) / values.length
+      );
+
+      const min = Math.min(...averages);
+      const max = Math.max(...averages);
+
+      // 5️⃣ Update snapshot structure
+      snapshot[fileName] = {
+        datemodified: currentModified,
+        min,
+        max,
+      };
+
+      await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
+
+      style = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#fff7f7', label: 'Lowest Anomaly' },
+          { color: '#efc6c6', label: '' },
+          { color: '#d66b6b', label: '' },
+          { color: '#b52121', label: '' },
+          { color: '#6b0808', label: 'Highest Anomaly' }
+        ],
+        min,
+        max,
+        decimals: 1,
+        unit: 'C',
+      };
+
+      console.log('[Snapshot] Recalculating temp min/max');
     }
-
-    const averages = Array.from(groupMap.values()).map(values =>
-      values.reduce((a, b) => a + b, 0) / values.length
-    );
-
-    const min = Math.min(...averages);
-    const max = Math.max(...averages);
-
-    // 5️⃣ Update snapshot structure
-    snapshot[fileName] = {
-      datemodified: currentModified,
-      min,
-      max,
-    };
-
-    await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
-
-    style = {
-      scaling: 'linear',
-      ramp: [
-        { color: '#fff7f7', label: 'Lowest Anomaly' },
-        { color: '#efc6c6', label: '' },
-        { color: '#d66b6b', label: '' },
-        { color: '#b52121', label: '' },
-        { color: '#6b0808', label: 'Highest Anomaly' }
-      ],
-      min,
-      max,
-      decimals: 1,
-      unit: 'C',
-    };
-
-    console.log('[Snapshot] Recalculating temp min/max');
   } else if (projectedData === 'Rain Anomaly') {
     csvPath = path.resolve(
       'public/resources/climate/projected/pr_v2.csv'
@@ -210,57 +210,56 @@ async function getProvinceAveragesByPeriod(
 
       console.log('[Snapshot] Using cached prep min/max');
     }
+    else {
+      const fileContent = fs.readFileSync(csvPath, 'utf-8');
 
+      const records: ProvinceData[] = parse(fileContent, {
+        columns: true,
+        skip_empty_lines: true,
+      });
 
-    const fileContent = fs.readFileSync(csvPath, 'utf-8');
+      const groupMap = new Map<string, number[]>();
 
-    const records: ProvinceData[] = parse(fileContent, {
-      columns: true,
-      skip_empty_lines: true,
-    });
-
-    const groupMap = new Map<string, number[]>();
-
-    for (const r of records) {
-      const key = `${r.province}|${r.year}|${r.experiment}`;
-      if (!groupMap.has(key)) {
-        groupMap.set(key, []);
+      for (const r of records) {
+        const key = `${r.province}|${r.year}|${r.experiment}`;
+        if (!groupMap.has(key)) {
+          groupMap.set(key, []);
+        }
+        groupMap.get(key)!.push(Number(r.anomaly));
       }
-      groupMap.get(key)!.push(Number(r.anomaly));
+
+      const averages = Array.from(groupMap.values()).map(values =>
+        values.reduce((a, b) => a + b, 0) / values.length
+      );
+
+      const min = Math.min(...averages);
+      const max = Math.max(...averages);
+
+      snapshot[fileName] = {
+        datemodified: currentModified,
+        min,
+        max,
+      };
+
+      await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
+
+      style = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#f7fbff', label: 'Very Low' },
+          { color: '#c6dbef', label: 'Low' },
+          { color: '#6baed6', label: 'Mid' },
+          { color: '#2171b5', label: 'High' },
+          { color: '#08306b', label: 'Very High' }
+        ],
+        min,
+        max,
+        decimals: 0,
+        unit: 'mm',
+      };
+
+      console.log('[Snapshot] Recalculating prep min/max');
     }
-
-    const averages = Array.from(groupMap.values()).map(values =>
-      values.reduce((a, b) => a + b, 0) / values.length
-    );
-
-    const min = Math.min(...averages);
-    const max = Math.max(...averages);
-
-    snapshot[fileName] = {
-      datemodified: currentModified,
-      min,
-      max,
-    };
-
-    await writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
-
-    style = {
-      scaling: 'linear',
-      ramp: [
-        { color: '#f7fbff', label: 'Very Low' },
-        { color: '#c6dbef', label: 'Low' },
-        { color: '#6baed6', label: 'Mid' },
-        { color: '#2171b5', label: 'High' },
-        { color: '#08306b', label: 'Very High' }
-      ],
-      min,
-      max,
-      decimals: 0,
-      unit: 'mm',
-    };
-
-    console.log('[Snapshot] Recalculating prep min/max');
-
   } else {
     throw new Error('Unsupported projectedData');
   }
