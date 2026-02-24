@@ -41,10 +41,11 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Period</h4>
                 <select v-model="projectedPeriod">
-                    <option>Historical: 1981 - 2014</option>
-                    <option>Near Future: 2025 - 2045</option>
-                    <option>Mid Future: 2046 - 2065</option>
-                    <option>Far Future: 2066 - 2085</option>
+                    <option>Historical: 1995 - 2014</option>
+                    <option>2015 - 2034</option>
+                    <option>2035 - 2054</option>
+                    <option>2055 - 2074</option>
+                    <option>2075 - 2094</option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Current'">
@@ -84,7 +85,7 @@
                 pastData: "Temperature Anomaly",
                 projectedData: "Temperature Anomaly",
                 pastPeriod: "",
-                projectedPeriod: "Historical: 1981 - 2014",
+                projectedPeriod: "Historical: 1995 - 2014",
                 scenario: "Historical",
                 months: [],
                 suppressEmit: false,
@@ -93,7 +94,7 @@
         },
         computed: {
             availableScenarios() {
-                if (this.projectedPeriod === 'Historical: 1981 - 2014') {
+                if (this.projectedPeriod === 'Historical: 1995 - 2014') {
                     return ['Historical'];
                 } else {
                     return ['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'];
@@ -193,7 +194,7 @@
             },
             projectedPeriod(newPeriod) {
                 var scenarioChange = false;
-                if (newPeriod === 'Historical: 1981 - 2014') {
+                if (newPeriod === 'Historical: 1995 - 2014') {
                     this.scenario = 'Historical';
                     scenarioChange = true;
                 }

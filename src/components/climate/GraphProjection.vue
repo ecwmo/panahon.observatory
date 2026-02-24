@@ -2,17 +2,17 @@
   <div class="graph-container">
     <div class="top-rect">
       <label
-        v-for="key in keys"
-        :key="key"
+        v-for="item in keys"
+        :key="item.value"
         class="radio-option"
       >
         <input
           type="radio"
           name="timeframe"
-          :value="key"
+          :value="item.value"
           v-model="selectedTimeFrame"
         />
-        {{ key }}
+        {{ item.label }}
       </label>
     </div>
     <div id="plot" class="bot-rect" style="width: 100%; white-space: nowrap"></div>
@@ -85,11 +85,12 @@
   })
 
   const timeFrames = {
-    historical: [1981, 2014],
-    near: [2025, 2045],
-    mid: [2046, 2065],
-    far: [2066, 2085],
-    all: [2025, 2085],
+    historical: [1995, 2014],
+    P1: [2015, 2034],
+    P2: [2035, 2054],
+    P3: [2055, 2074],
+    P4: [2075, 2094],
+    all: [2015, 2094],
   } as const
 
   function renderChart() {
@@ -359,9 +360,10 @@
       if (!result[exp]) {
         result[exp] = {
           historical: null,
-          near: null,
-          mid: null,
-          far: null,
+          P1: null,
+          P2: null,
+          P3: null,
+          P4: null,
           all: null
         }
       }
@@ -384,7 +386,7 @@
 
     // Finalize averages
     for (const exp of Object.keys(result)) {
-      for (const key of ['historical', 'near', 'mid', 'far', 'all'] as const) {
+      for (const key of ['historical', 'P1', 'P2', 'P3', 'P4', 'all'] as const) {
         const countKey = `${key}Count`
         const count = (result[exp] as any)[countKey] || 0
 
@@ -402,15 +404,22 @@
   }
 
   function getTimeframeFromYear(year: number) {
-    if (year >= 1981 && year <= 2014) return 'historical'
-    if (year >= 2025 && year <= 2045) return 'near'
-    if (year >= 2046 && year <= 2065) return 'mid'
-    if (year >= 2065 && year <= 2085) return 'far'
+    if (year >= 1995 && year <= 2014) return 'historical'
+    if (year >= 2015 && year <= 2034) return 'P1'
+    if (year >= 2035 && year <= 2054) return 'P2'
+    if (year >= 2055 && year <= 2074) return 'P3'
+    if (year >= 2075 && year <= 2094) return 'P4'
     return null
   }
 
 
-  const keys = ['All', 'near', 'mid', 'far']
+  const keys = [
+    { value: 'All', label: 'All' },
+    { value: 'P1', label: '2015-2034' },
+    { value: 'P2', label: '2035-2054' },
+    { value: 'P3', label: '2055-2074' },
+    { value: 'P4', label: '2075-2094' }
+  ]
   const selectedTimeFrame = ref('All')
 
 

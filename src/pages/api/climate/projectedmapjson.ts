@@ -15,10 +15,11 @@ interface ProvinceData {
 }
 
 const PERIODS: Record<string, { start: number; end: number }> = {
-  'Historical: 1981 - 2014': { start: 1981, end: 2014 },
-  'Near Future: 2025 - 2045': { start: 2025, end: 2045 },
-  'Mid Future: 2046 - 2065': { start: 2046, end: 2065 },
-  'Far Future: 2066 - 2085': { start: 2066, end: 2085 },
+  'Historical: 1995 - 2014': { start: 1995, end: 2014 },
+  '2015 - 2034': { start: 2015, end: 2034 },
+  '2035 - 2054': { start: 2035, end: 2054 },
+  '2055 - 2074': { start: 2055, end: 2074 },
+  '2075 - 2094': { start: 2075, end: 2094 },
 };
 
 const SCENARIO_DICT: Record<string, string> = {
@@ -197,9 +198,9 @@ async function getProvinceAveragesByPeriod(
         scaling: 'linear',
         ramp: [
           { color: '#f7fbff', label: 'Very Low' },
-          { color: '#c6dbef', label: 'Low' },
-          { color: '#6baed6', label: 'Mid' },
-          { color: '#2171b5', label: 'High' },
+          { color: '#c6dbef', label: '' },
+          { color: '#6baed6', label: '' },
+          { color: '#2171b5', label: '' },
           { color: '#08306b', label: 'Very High' }
         ],
         min,
