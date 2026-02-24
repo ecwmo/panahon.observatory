@@ -128,6 +128,7 @@
         display: flex;
         flex-direction: row;
         height: 100%;
+        overflow: hidden;
     }
 
     .leftSide {
@@ -176,5 +177,43 @@
         flex-basis: 0;
         min-height: 0;
         overflow-y: auto;
+    }
+
+    /* Mobile / tight view: stack vertically and allow scroll */
+    @media (max-width: 768px) {
+        .app-layout {
+            flex-direction: column; /* leftSide on top, rightSide below */
+            height: auto; /* let it grow naturally */
+            overflow-y: auto; /* whole layout scrolls */
+        }
+
+        .leftSide,
+        .rightSide {
+            flex: none;
+            width: 100%;
+        }
+
+        .rightSide {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-container {
+            flex: none;
+            width: 100%;
+            height: 50vh; /* proportional height so map is visible */
+        }
+
+        .panel-container {
+            flex: none;
+            width: 100%;
+            overflow-y: visible; /* allow natural growth */
+            max-height: none; /* remove height cap */
+        }
+
+        /* Hide empty rightSide when no content */
+        .rightSide:empty {
+            display: none;
+        }
     }
 </style>

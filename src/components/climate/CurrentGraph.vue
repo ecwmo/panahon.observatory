@@ -124,12 +124,13 @@
                 const layout = {
                     title: {
                         text: newVal.name || "Trend Data",
-                        font: { size: 20 },
+                        font: { size: 14 },
                         xref: "paper",
                         x: 0.5,
                         y: 0.95
                     },
-                    margin: { t: 100, l: 80, r: 20, b: 80 },
+                    margin: { t: 90, l: 80, r: 20, b: 80 },
+                    autosize: true,
                     xaxis: {
                         title: "Month",
                         tickangle: -45,
@@ -137,14 +138,16 @@
                         tickfont: { size: 12 }
                     },
                     yaxis: {
-                        title: { text: newVal.measurement || "Value", font: { size: 16 } },
+                        title: { text: newVal.measurement || "Value", font: { size: 14 } },
+                        automargin: true,
                         range: yRange
                     },
                     legend: {
                         orientation: "h",
                         x: 0.5,
                         xanchor: "center",
-                        y: 1.05
+                        yanchor: "bottom",
+                        y: 1.0
                     },
                     ...(newVal.graph === "bar" ? { barmode: "overlay" } : {})
                 };
@@ -207,7 +210,6 @@
         flex-basis: 0;
         display: flex;
         flex-direction: column;
-        padding: 1rem;
         border-left: 1px solid #ccc;
         height: 100%;
         overflow: hidden;

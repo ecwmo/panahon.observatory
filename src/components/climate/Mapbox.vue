@@ -7,7 +7,7 @@
                     :hoveredValue="legendHoveredValue" />
         </template>
         <template v-else>
-            <div v-if="loadingData || errorLoadingData" class="legend-overlay missing-message">
+            <div v-if="loadingData || errorLoadingData" class="missing-message">
                 <span v-if="loadingData">Loading Data...</span>
                 <span v-if="errorLoadingData">Missing Dataset</span>
             </div>
@@ -106,7 +106,7 @@
                     if (Number.isFinite(lngLat[0]) && Number.isFinite(lngLat[1])) {
                         this.admValue = newLocation.name;
                         this.suppressEmit = true;
-                        this.map.flyTo({ center: lngLat, zoom: Math.max(this.map.getZoom(), 7) });
+                        this.flyToWithOffset(lngLat, Math.max(this.map.getZoom(), 7));
                         this.map.once("moveend", () => {
                             if (!paramsChanged) {
                                 this.fetchPopupData(this.admValue, lngLat);
@@ -526,10 +526,7 @@
                     this.$nextTick(() => {
                         this.map.resize();
                         if (this.currentPopup && this.lastPopupLngLat) {
-                            this.map.flyTo({
-                                center: this.lastPopupLngLat,
-                                zoom: Math.max(this.map.getZoom(), 7)
-                            });
+                            this.flyToWithOffset(this.lastPopupLngLat, Math.max(this.map.getZoom(), 7));
                         }
                     });
                 }
@@ -539,7 +536,7 @@
             },
             restoreLastPopup() {
                 if (this.lastLocation && this.lastPopupLngLat) {
-                    this.map.flyTo({ center: this.lastPopupLngLat, zoom: 7 });
+                    this.flyToWithOffset(this.lastPopupLngLat, 7);
                     const onMoveEnd = () => {
                         this.fetchPopupData(this.lastLocation, this.lastPopupLngLat);
                         this.map.off("moveend", onMoveEnd);
@@ -582,6 +579,15 @@
 
                 const src = this.map.getSource("tif-highlight");
                 if (src) src.setData({ type: "FeatureCollection", features });
+            },
+            flyToWithOffset(lngLat, zoom, offsetY = 87) {
+                const point = this.map.project(lngLat);
+                point.y -= offsetY;
+                const adjustedLngLat = this.map.unproject(point);
+                this.map.flyTo({
+                    center: adjustedLngLat,
+                    zoom: Math.max(this.map.getZoom(), zoom)
+                });
             }
         },
         mounted() {
@@ -693,7 +699,7 @@
                 }
 
                 this.fetchPopupData(this.admValue, e.lngLat);
-                this.map.flyTo({ center: e.lngLat, zoom: Math.max(this.map.getZoom(), 7) });
+                this.flyToWithOffset(e.lngLat, Math.max(this.map.getZoom(), 7));
             });
 
             this.map.once("idle", () => {
@@ -726,9 +732,18 @@
         z-index: 1;
         box-shadow: 0 0 0 2px #0000001a;
         background-color: white;
+        max-width: min(600px, calc(100% - 70px));
+        height: 87px;
+        border-radius: 4px;
     }
 
     .missing-message {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+        box-shadow: 0 0 0 2px #0000001a;
+        background-color: white;
         padding: 2px;
         color: #d9534f;
         font-weight: bold;

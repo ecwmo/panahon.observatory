@@ -112,7 +112,6 @@
         background: #f8f9fa;
         border: 1px solid #ccc;
         padding: 0.5rem; /* smaller padding */
-        border-radius: 4px;
         width: 100%;
         max-width: 600px;
         position: relative;
