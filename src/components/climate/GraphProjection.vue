@@ -185,7 +185,7 @@
     ])
 
     const boxData = experimentData.map(({ exp, color, visibleY }) => ({
-      y: visibleY.filter(v => v !== null),
+      y: visibleY.filter(v => v !== null).map(v => Number(v.toFixed(2))),
       type: 'box',
       name: exp,
       legendgroup: exp,
@@ -198,7 +198,7 @@
     }))
 
     const layout = {
-      margin: { t: 85, b: 60, l: 70, r: 80 },
+      margin: { t: 60, b: 30, l: 70, r: 80 },
       title: `Historical and Projected Temperature Anomaly °C for the province of ${props.selectedProvince ?? 'Unknown'}`,
       grid: {
         rows: 1,
@@ -290,6 +290,19 @@
       fadeOthers(exp)
       let timeframe: string | null = null
       let avg: number | null = null
+
+      if (trace.type === 'box') {
+        Plotly.restyle(plot, {
+          hovertemplate:
+            '<b>%{fullData.name}</b><br>' +
+            'Median: %{median:.2f}<br>' +
+            'Q1: %{q1:.2f}<br>' +
+            'Q3: %{q3:.2f}' +
+            '<extra></extra>'
+        }, [curveNumber])
+
+        return
+      }
 
       if (selectedTimeFrame.value === 'All') {
         timeframe = getTimeframeFromYear(Number(x))
@@ -451,18 +464,19 @@
 
 <style scoped>
   .graph-container {
-    padding: 1rem;
+    padding: 0;
     display: flex;
     flex-direction: column;
     height: 100%;           /* fill panel height */
     width: 100%;
-    gap: 1%;
+    gap: 0;
   }
 
   .top-rect {
     flex: 0 0 2rem;
     background: #ffffff;   /* white background */
     border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     justify-content: left;
