@@ -3,14 +3,14 @@
         <!-- Plot container always present -->
         <div id="trend-plot"></div>
 
-        <!-- Unified overlay -->
-        <div v-if="!data || rendering" class="overlay loading-message">
-            {{ 'Rendering...' }}
+        <!-- Error overlay -->
+        <div v-if="data && data.failed" class="overlay error-message">
+            Backend error
         </div>
 
-        <!-- Error overlay -->
-        <div v-else-if="data && data.failed" class="overlay error-message">
-            Backend error
+        <!-- Unified overlay -->
+        <div v-else-if="!data || rendering" class="overlay loading-message">
+            {{ 'Rendering...' }}
         </div>
     </div>
 </template>

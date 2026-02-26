@@ -265,10 +265,11 @@
             },
             async reloadClimate()
             {
-                this.renderClimate(this.reloadParams);
-                if (this.currentPopup) {
-                    this.fetchPopupData(this.lastLocation, this.lastPopupLngLat);
-                }
+                this.renderClimate(this.reloadParams).then(() => {
+                    if (this.currentPopup) {
+                        this.fetchPopupData(this.lastLocation, this.lastPopupLngLat);
+                    }
+                })
             },
             computeThresholds(band, ramp, scaling, minHeader, maxHeader, decimals) {
                 let min = minHeader !== null && !isNaN(parseFloat(minHeader))
