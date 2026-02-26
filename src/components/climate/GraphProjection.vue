@@ -187,31 +187,33 @@ function renderChart() {
       },
     ]),
     // National traces (dashed lines)
-    ...experimentDataNational.flatMap(({ exp, color, visibleY, fadedY }) => [
-      {
-        x: labels,
-        y: visibleY,
-        type: 'scatter',
-        mode: 'lines',
-        name: `${exp} (National)`,
-        legendgroup: exp + '_national',
-        line: { color, width: 2, dash: 'dot' }, // <-- dashed line
-        meta: { baseOpacity: 1 },
-        opacity: 1,
-      },
-      {
-        x: labels,
-        y: fadedY,
-        type: 'scatter',
-        mode: 'lines',
-        showlegend: false,
-        legendgroup: exp + '_national',
-        line: { color, width: 2, dash: 'dash' }, // <-- dashed line
-        meta: { baseOpacity: 0.15 },
-        opacity: 0.15,
-        hoverinfo: 'skip',
-      },
-    ]),
+    ...(selectedNational.value
+      ? experimentDataNational.flatMap(({ exp, color, visibleY, fadedY }) => [
+          {
+            x: labels,
+            y: visibleY,
+            type: 'scatter',
+            mode: 'lines',
+            name: `${exp} (National)`,
+            legendgroup: exp + '_national',
+            line: { color, width: 2, dash: 'dot' },
+            meta: { baseOpacity: 1 },
+            opacity: 1,
+          },
+          {
+            x: labels,
+            y: fadedY,
+            type: 'scatter',
+            mode: 'lines',
+            showlegend: false,
+            legendgroup: exp + '_national',
+            line: { color, width: 2, dash: 'dash' },
+            meta: { baseOpacity: 0.15 },
+            opacity: 0.15,
+            hoverinfo: 'skip',
+          },
+        ])
+      : []),
   ]
 
   const boxData = experimentData.map(({ exp, color, visibleY }) => ({
