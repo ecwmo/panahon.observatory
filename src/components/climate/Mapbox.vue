@@ -7,7 +7,8 @@
                     :hoveredValue="legendHoveredValue" />
         </template>
         <template v-else>
-            <div v-if="loadingData || errorLoadingData" class="missing-message">
+            <div v-if="connectionError || loadingData || errorLoadingData" class="missing-message">
+                <button v-if="connectionError" @click="reloadClimate">Reload Data</button>
                 <span v-if="loadingData">Loading Data...</span>
                 <span v-if="errorLoadingData">Missing Dataset</span>
             </div>
@@ -55,6 +56,8 @@
 
                 loadingData: false,
                 errorLoadingData: false,
+                connectionError: false,
+                reloadParams: null
             };
         },
         watch: {
@@ -159,6 +162,7 @@
         },
         methods: {
             async renderClimate(newParams) {
+                const savedParams = newParams;
                 try {
                     const toSend = {};
                     if (newParams.tab === "Current") {
@@ -186,8 +190,11 @@
 
                     this.loadingData = true;
                     this.errorLoadingData = false;
+                    this.connectionError = false;
                     const res = await fetch(`${endpoint}?${paramString}`);
-                    if (!res.ok) throw new Error(`Bad response: ${res.status}`);
+                    if (!res.ok) {
+                        throw new Error(`Bad response: ${res.status}`);
+                    }
 
                     const scaling = res.headers.get("X-Scaling");
                     const rampHeader = res.headers.get("X-Ramp");
@@ -244,7 +251,23 @@
                     this.tifImage = null;
                     this.legendStyle = null;
                     this.loadingData = false;
-                    this.errorLoadingData = true;
+
+                    if (err.name === "TypeError") {
+                        this.connectionError = true;
+                        this.errorLoadingData = false;
+                        this.reloadParams = savedParams;
+                    }
+                    else {
+                        this.errorLoadingData = true;
+                        this.connectionError = false;
+                    }  
+                }
+            },
+            async reloadClimate()
+            {
+                this.renderClimate(this.reloadParams);
+                if (this.currentPopup) {
+                    this.fetchPopupData(this.lastLocation, this.lastPopupLngLat);
                 }
             },
             computeThresholds(band, ramp, scaling, minHeader, maxHeader, decimals) {
@@ -482,7 +505,7 @@
                             const data = await res.json();
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
-                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value ? `${data.value}${this.unit}` : "N/A"}`;
+                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined? `${data.value}${this.unit}`: "N/A"}`;
                         }
                         else {
                             await Promise.reject(new Error("Projected not available"));

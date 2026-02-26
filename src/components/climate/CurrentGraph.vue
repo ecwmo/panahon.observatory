@@ -55,11 +55,20 @@
                     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 }
 
-                let traces = [];
-
+                let yRange;
                 if (newVal.graph === "bar") {
-                    const negVals = values.map(v => (v !== null && v < 0 ? v : 0));
-                    const posVals = values.map(v => (v !== null && v >= 0 ? v : 0));
+                    const absMax = Math.max(...allValues.map(v => Math.abs(v)), 1);
+                    yRange = [-absMax, absMax];
+                }
+                else {
+                    const padding = Math.max(Math.abs(minVal), Math.abs(maxVal)) * 0.1;
+                    yRange = [minVal - padding, maxVal + padding];
+                }
+
+                let traces = [];
+                if (newVal.graph === "bar") {
+                    const negVals = values.map(v => (v !== null && v < 0 ? v : null));
+                    const posVals = values.map(v => (v !== null && v >= 0 ? v : null));
 
                     const negTrace = {
                         x: months,
@@ -81,7 +90,49 @@
                         showlegend: numericValues.some(v => v >= 0)
                     };
 
-                    traces.push(negTrace, posTrace);
+                    const nullIndices = values
+                        .map((v, i) => (v === null ? i : null))
+                        .filter(i => i !== null);
+
+                    const nullTraceNeg = {
+                        x: nullIndices.map(i => months[i]),
+                        y: nullIndices.map(() => yRange[0]),
+                        base: 0,
+                        type: "bar",
+                        marker: {
+                            color: "lightgrey",
+                            opacity: 0.3,
+                            pattern: {
+                                shape: "/",
+                                fillmode: "overlay",
+                                size: 6,
+                                solidity: 0.3
+                            }
+                        },
+                        hovertemplate: "N/A<extra></extra>",
+                        showlegend: false
+                    };
+
+                    const nullTracePos = {
+                        x: nullIndices.map(i => months[i]),
+                        y: nullIndices.map(() => yRange[1]),
+                        base: 0,
+                        type: "bar",
+                        marker: {
+                            color: "lightgrey",
+                            opacity: 0.3,
+                            pattern: {
+                                shape: "/",
+                                fillmode: "overlay",
+                                size: 6,
+                                solidity: 0.3
+                            }
+                        },
+                        hovertemplate: "N/A<extra></extra>",
+                        showlegend: false
+                    };
+
+                    traces.push(negTrace, posTrace, nullTraceNeg, nullTracePos);
                 }
                 else {
                     const trendTrace = {
@@ -109,16 +160,6 @@
                     };
 
                     traces.push(trendTrace, baselineTrace);
-                }
-
-                let yRange;
-                if (newVal.graph === "bar") {
-                    const absMax = Math.max(...allValues.map(v => Math.abs(v)), 1);
-                    yRange = [-absMax, absMax];
-                }
-                else {
-                    const padding = Math.max(Math.abs(minVal), Math.abs(maxVal)) * 0.1;
-                    yRange = [minVal - padding, maxVal + padding];
                 }
 
                 const layout = {
