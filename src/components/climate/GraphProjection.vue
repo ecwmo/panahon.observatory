@@ -39,11 +39,22 @@ interface ExperimentAverages {
 type HoverValues = Record<string, ExperimentAverages>
 const hoverValues = ref<HoverValues>({})
 
-const props = defineProps<{
-  selectedProvince: string
-  filteredData: FilteredDataItem[]
-  projectedData: string
-}>()
+const props = defineProps({
+  selectedProvince: String,
+  filteredData: {
+    type: Array as () => FilteredDataItem[],
+    default: () => [],
+  },
+  projectedData: String,
+  yMin: {
+    type: Number,
+    default: 0,
+  },
+  yMax: {
+    type: Number,
+    default: 1,
+  },
+})
 
 const mapBackground = ref<'historical' | 'mid' | 'far' | null>(null)
 const hoveredDatasetRef = ref<number | null>(null)
@@ -232,25 +243,6 @@ async function renderChart() {
 
   let yAxisTitle = ''
 
-  const res = await fetch(
-    `/api/climate/projectedmapjson?projectedData=${encodeURIComponent(props.projectedData)}&projectedPeriod=Historical: 1995 - 2014&scenario=Historical`
-  );
-
-  console.log('Response status:', res.status);
-  console.log('Response headers:', [...res.headers]);
-
-  if (!res.ok) {
-    console.error('Failed to fetch projected map data');
-    return;
-  }
-
-  const data = await res.json();
-
-
-  const yMin = Number(res.headers.get('X-Min'));
-  const yMax = Number(res.headers.get('X-Max'));
-
-
   if (props.projectedData === 'Temperature Anomaly') {
     yAxisTitle = 'Temperature Anomaly (°C)'
 
@@ -304,7 +296,7 @@ async function renderChart() {
           // NOTE: font-weight is not supported in Plotly
         },
       },
-      range: [yMin, yMax],
+      range: [props.yMin ?? 0, props.yMax ?? 1],
       autorange: false,
       fixedrange: true,
       zeroline: false,

@@ -205,6 +205,11 @@
                     const unit = res.headers.get("X-Unit") || "";
                     this.unit = unit;
 
+                    //Used by projected
+                    // Store min/max for popups
+                    this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
+                    this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
+
                     if (newParams.tab === "Current") {
                         const arrayBuffer = await res.arrayBuffer();
                         const tiff = await fromArrayBuffer(arrayBuffer);
@@ -507,6 +512,30 @@
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
                             content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined? `${data.value}${this.unit}`: "N/A"}`;
+                        }
+                        else if (this.parameters.tab === "Projected") {
+
+                            const params = new URLSearchParams({
+                                province: location,
+                                projectedData: this.parameters.projectedData || "Temperature Anomaly",
+                            });
+
+                            const res = await fetch(`/api/climate/filtereddata?${params}`);
+
+                            if (!res.ok) throw new Error("Backend error");
+
+                            const data = await res.json();
+                            //console.log('[Mapbox] emitting projected-data-fetched', data.mapped, this.projectedMin, this.projectedMax)
+                            this.$emit("projected-data-fetched", {
+                                data: data.mapped,
+                                yMin: this.projectedMin,
+                                yMax: this.projectedMax,
+                            });
+
+                            // Optional popup content
+                            content = location
+                                ? `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`
+                                : null;
                         }
                         else {
                             await Promise.reject(new Error("Projected not available"));

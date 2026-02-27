@@ -12,6 +12,7 @@
       <div class="map-container">
         <Mapbox
           @data-fetched="handleData"
+          @projected-data-fetched="handleProjectedData"
           :parameters="parameters"
           :token="token"
           :tileset="tileset"
@@ -25,8 +26,8 @@
       <div v-if="selectedLocation && parameters.tab === 'Current' && latestData" ref="panel" class="panel-container">
         <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
       </div>
-      <div v-if="selectedLocation?.name && parameters.tab === 'Projected'" ref="panel" class="panel-container">
-        <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" :projectedData="parameters.projectedData"/>
+      <div v-if="selectedLocation?.name && parameters.tab === 'Projected' && filteredData" ref="panel" class="panel-container">
+        <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" :projectedData="parameters.projectedData" :yMin="projectedMin" :yMax="projectedMax"/>
       </div>
     </div>
   </div>
@@ -53,6 +54,8 @@
         parameters: {},
         latestData: null,
         filteredData: null,
+        projectedMin: null,   
+        projectedMax: null,
         showSelector: false,
         selectedLocation: null,
         panelReady: false,
@@ -68,7 +71,6 @@
         async 'parameters.tab'(newVal) {
         if (newVal === 'Projected' && this.selectedLocation) {
             this.panelReady = false
-            await this.fetchFilteredData()
             await nextTick()
             requestAnimationFrame(() => {
             this.panelReady = true
@@ -78,7 +80,6 @@
         async 'parameters.projectedData'(newVal, oldVal) {
         if (this.parameters.tab === 'Projected' && this.selectedLocation && newVal !== oldVal) {
             this.panelReady = false
-            await this.fetchFilteredData()
             await nextTick()
             requestAnimationFrame(() => {
             this.panelReady = true
@@ -103,28 +104,16 @@
         }
         this.selectedLocation = loc
         this.panelReady = false
-        if (this.parameters.tab !== 'Current' && changeData && loc?.name) {
-            await this.fetchFilteredData() // fetch filtered data only when tab is not Current
-        }
         await nextTick()
         requestAnimationFrame(() => {
             this.panelReady = true
         })
         },
-        async fetchFilteredData() {
-        if (!this.selectedLocation) return
-        const params = new URLSearchParams({
-            province: this.selectedLocation.name,
-            projectedData: this.parameters.projectedData || 'Temperature Anomaly',
-        })
-
-        try {
-            const res = await fetch(`/api/climate/filtereddata?${params}`)
-            const data = await res.json()
-            this.filteredData = data.mapped // <-- reactive, for GraphProjection
-        } catch (err) {
-            console.error('Failed to fetch filtered data:', err)
-        }
+        handleProjectedData(payload) {
+          console.log('[Projected Data Fetched]', payload)
+          this.filteredData = payload.data;
+          this.projectedMin = payload.yMin;
+          this.projectedMax = payload.yMax;
         },
     },
     mounted() {
