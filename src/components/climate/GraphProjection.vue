@@ -10,7 +10,7 @@
       <div class="toggle national">
         <label class="radio-option">
           <input type="checkbox" name="nationalToggle" v-model="selectedNational" />
-          Show national values
+          Show national data
         </label>
       </div>
     </div>
@@ -42,6 +42,7 @@ const hoverValues = ref<HoverValues>({})
 const props = defineProps<{
   selectedProvince: string
   filteredData: FilteredDataItem[]
+  projectedData: string
 }>()
 
 const mapBackground = ref<'historical' | 'mid' | 'far' | null>(null)
@@ -92,7 +93,7 @@ const timeFrames = {
   all: [2015, 2094],
 } as const
 
-function renderChart() {
+async function renderChart() {
   console.log('RenderChart called')
   if (!Plotly) {
     console.warn('Plotly not loaded yet')
@@ -169,7 +170,7 @@ function renderChart() {
         mode: 'lines',
         name: exp,
         legendgroup: exp,
-        line: { color, width: 2 },
+        line: { color, width: 1 },
         meta: { baseOpacity: 1 },
         opacity: 1,
       },
@@ -180,7 +181,7 @@ function renderChart() {
         mode: 'lines',
         showlegend: false,
         legendgroup: exp,
-        line: { color, width: 2 },
+        line: { color, width: 1 },
         meta: { baseOpacity: 0.15 },
         opacity: 0.15,
         hoverinfo: 'skip',
@@ -196,7 +197,7 @@ function renderChart() {
             mode: 'lines',
             name: `${exp} (National)`,
             legendgroup: exp + '_national',
-            line: { color, width: 2, dash: 'dot' },
+            line: { color, width: 1, dash: 'dot' },
             meta: { baseOpacity: 1 },
             opacity: 1,
           },
@@ -207,7 +208,7 @@ function renderChart() {
             mode: 'lines',
             showlegend: false,
             legendgroup: exp + '_national',
-            line: { color, width: 2, dash: 'dash' },
+            line: { color, width: 1, dash: 'dash' },
             meta: { baseOpacity: 0.15 },
             opacity: 0.15,
             hoverinfo: 'skip',
@@ -223,15 +224,46 @@ function renderChart() {
     legendgroup: exp,
     boxpoints: 'outliers',
     marker: { color },
-    line: { color, width: 2 },
+    line: { color, width: 1 },
     xaxis: 'x2',
     yaxis: 'y2',
     width: 0.4,
   }))
 
+  let yAxisTitle = ''
+
+  const res = await fetch(
+    `/api/climate/projectedmapjson?projectedData=${encodeURIComponent(props.projectedData)}&projectedPeriod=Historical: 1995 - 2014&scenario=Historical`
+  );
+
+  console.log('Response status:', res.status);
+  console.log('Response headers:', [...res.headers]);
+
+  if (!res.ok) {
+    console.error('Failed to fetch projected map data');
+    return;
+  }
+
+  const data = await res.json();
+
+
+  const yMin = Number(res.headers.get('X-Min'));
+  const yMax = Number(res.headers.get('X-Max'));
+
+
+  if (props.projectedData === 'Temperature Anomaly') {
+    yAxisTitle = 'Temperature Anomaly (°C)'
+
+  } else if (props.projectedData === 'Rain Anomaly') {
+    yAxisTitle = 'Rainfall Anomaly (mm)'
+
+  } else {
+    yAxisTitle = props.projectedData || ''
+  }
+
   const layout = {
     margin: { t: 60, b: 30, l: 70, r: 80 },
-    title: `Historical and Projected Temperature Anomaly °C for the province of ${props.selectedProvince ?? 'Unknown'}`,
+    title: `Historical and Projected ${props.projectedData} for the province of ${props.selectedProvince ?? 'Unknown'}`,
     grid: {
       rows: 1,
       columns: 2,
@@ -247,7 +279,7 @@ function renderChart() {
     showlegend: false,
     autosize: true,
     yaxis: {
-      title: 'Temperature Anomaly °C',
+      title: yAxisTitle,
       font: {
         size: 14,
         family: 'Arial, sans-serif',
@@ -264,7 +296,7 @@ function renderChart() {
       matches: 'y',
       side: 'right',
       title: {
-        text: 'Temperature Anomaly °C',
+        text: yAxisTitle,
         font: {
           size: 14,
           family: 'Arial, sans-serif',
@@ -272,7 +304,7 @@ function renderChart() {
           // NOTE: font-weight is not supported in Plotly
         },
       },
-      range: [-1.8, 5.5],
+      range: [yMin, yMax],
       autorange: false,
       fixedrange: true,
       zeroline: false,
@@ -391,7 +423,7 @@ function renderChart() {
           yref: 'y',
           line: {
             color: trace.line?.color || 'black',
-            width: 2,
+            width: 1,
             dash: 'dash',
           },
           layer: 'above',

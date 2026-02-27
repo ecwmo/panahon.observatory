@@ -26,113 +26,113 @@
         <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
       </div>
       <div v-if="selectedLocation?.name && parameters.tab === 'Projected'" ref="panel" class="panel-container">
-        <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" />
+        <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" :projectedData="parameters.projectedData"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { nextTick } from 'vue'
-import ClimateSelector from './ClimateSelector.vue'
-import Mapbox from './Mapbox.vue'
-import CurrentGraph from './CurrentGraph.vue'
-import GraphProjection from './GraphProjection.vue'
+    import { nextTick } from 'vue'
+    import ClimateSelector from './ClimateSelector.vue'
+    import Mapbox from './Mapbox.vue'
+    import CurrentGraph from './CurrentGraph.vue'
+    import GraphProjection from './GraphProjection.vue'
 
-export default {
-  name: 'MainApp',
-  components: { ClimateSelector, Mapbox, CurrentGraph, GraphProjection },
-  props: {
-    token: { type: String, required: true },
-    tileset: { type: String, required: true },
-    sourceLayer: { type: String, required: true },
-    admProperty: { type: String, required: true },
-  },
-  data() {
-    return {
-      parameters: {},
-      latestData: null,
-      filteredData: null,
-      showSelector: false,
-      selectedLocation: null,
-      panelReady: false,
-      mapReady: false,
+    export default {
+    name: 'MainApp',
+    components: { ClimateSelector, Mapbox, CurrentGraph, GraphProjection },
+    props: {
+        token: { type: String, required: true },
+        tileset: { type: String, required: true },
+        sourceLayer: { type: String, required: true },
+        admProperty: { type: String, required: true },
+    },
+    data() {
+        return {
+        parameters: {},
+        latestData: null,
+        filteredData: null,
+        showSelector: false,
+        selectedLocation: null,
+        panelReady: false,
+        mapReady: false,
+        }
+    },
+    computed: {
+        latestDataSafe() {
+        return this.latestData
+        },
+    },
+    watch: {
+        async 'parameters.tab'(newVal) {
+        if (newVal === 'Projected' && this.selectedLocation) {
+            this.panelReady = false
+            await this.fetchFilteredData()
+            await nextTick()
+            requestAnimationFrame(() => {
+            this.panelReady = true
+            })
+        }
+        },
+        async 'parameters.projectedData'(newVal, oldVal) {
+        if (this.parameters.tab === 'Projected' && this.selectedLocation && newVal !== oldVal) {
+            this.panelReady = false
+            await this.fetchFilteredData()
+            await nextTick()
+            requestAnimationFrame(() => {
+            this.panelReady = true
+            })
+        }
+        },
+    },
+    methods: {
+        onMapReady() {
+        this.mapReady = true
+        },
+        handleData(data) {
+        this.latestData = data
+        },
+        handleSelection(data) {
+        this.parameters = data || {}
+        },
+        async onLocationChanged(loc) {
+        var changeData = true
+        if (this.selectedLocation?.name === loc?.name) {
+            changeData = false
+        }
+        this.selectedLocation = loc
+        this.panelReady = false
+        if (this.parameters.tab !== 'Current' && changeData && loc?.name) {
+            await this.fetchFilteredData() // fetch filtered data only when tab is not Current
+        }
+        await nextTick()
+        requestAnimationFrame(() => {
+            this.panelReady = true
+        })
+        },
+        async fetchFilteredData() {
+        if (!this.selectedLocation) return
+        const params = new URLSearchParams({
+            province: this.selectedLocation.name,
+            projectedData: this.parameters.projectedData || 'Temperature Anomaly',
+        })
+
+        try {
+            const res = await fetch(`/api/climate/filtereddata?${params}`)
+            const data = await res.json()
+            this.filteredData = data.mapped // <-- reactive, for GraphProjection
+        } catch (err) {
+            console.error('Failed to fetch filtered data:', err)
+        }
+        },
+    },
+    mounted() {
+        this.$nextTick(() => {
+        this.showSelector = true
+        })
+    },
     }
-  },
-  computed: {
-    latestDataSafe() {
-      return this.latestData
-    },
-  },
-  watch: {
-    async 'parameters.tab'(newVal) {
-      if (newVal === 'Projected' && this.selectedLocation) {
-        this.panelReady = false
-        await this.fetchFilteredData()
-        await nextTick()
-        requestAnimationFrame(() => {
-          this.panelReady = true
-        })
-      }
-    },
-    async 'parameters.projectedData'(newVal, oldVal) {
-      if (this.parameters.tab === 'Projected' && this.selectedLocation && newVal !== oldVal) {
-        this.panelReady = false
-        await this.fetchFilteredData()
-        await nextTick()
-        requestAnimationFrame(() => {
-          this.panelReady = true
-        })
-      }
-    },
-  },
-  methods: {
-    onMapReady() {
-      this.mapReady = true
-    },
-    handleData(data) {
-      this.latestData = data
-    },
-    handleSelection(data) {
-      this.parameters = data || {}
-    },
-    async onLocationChanged(loc) {
-      var changeData = true
-      if (this.selectedLocation?.name === loc?.name) {
-        changeData = false
-      }
-      this.selectedLocation = loc
-      this.panelReady = false
-      if (this.parameters.tab !== 'Current' && changeData && loc?.name) {
-        await this.fetchFilteredData() // fetch filtered data only when tab is not Current
-      }
-      await nextTick()
-      requestAnimationFrame(() => {
-        this.panelReady = true
-      })
-    },
-    async fetchFilteredData() {
-      if (!this.selectedLocation) return
-      const params = new URLSearchParams({
-        province: this.selectedLocation.name,
-        projectedData: this.parameters.projectedData || 'Temperature Anomaly',
-      })
-
-      try {
-        const res = await fetch(`/api/climate/filtereddata?${params}`)
-        const data = await res.json()
-        this.filteredData = data.mapped // <-- reactive, for GraphProjection
-      } catch (err) {
-        console.error('Failed to fetch filtered data:', err)
-      }
-    },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.showSelector = true
-    })
-  },
-}
 </script>
 
 <style scoped>
