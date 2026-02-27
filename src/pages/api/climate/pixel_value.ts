@@ -1,5 +1,6 @@
 ﻿import type { APIRoute } from 'astro';
 import path from 'path';
+import fs from 'fs/promises';
 import { fromFile } from 'geotiff';
 import { resourceDir } from '@/lib/helper/pages';
 
@@ -59,11 +60,25 @@ const DATA_TYPES = [
         positiveColor: '#a50026',
         negativeLegend: 'Colder Than Baseline',
         positiveLegend: 'Hotter Than Baseline'
-    },
+    }
 ];
+
+async function fileExists(filePath: string): Promise<boolean> {
+    try {
+        await fs.access(filePath);
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
 
 async function getRasterValue(filePath: string, lat: number, lon: number): Promise<number | null> {
     try {
+        if (!(await fileExists(filePath))) {
+            return null;
+        }
+
         const tiff = await fromFile(filePath);
         const image = await tiff.getImage();
         const rasters = await image.readRasters({ window: null });
@@ -134,13 +149,13 @@ export const GET: APIRoute = async ({ request }) => {
         const m = (d.getMonth() + 1).toString().padStart(2, '0');
         const trendFileName = `${config.prefix}${y}-${m}.tif`;
         const trendFilePath = path.join(config.baseDir, trendFileName);
-        const v = await getRasterValue(trendFilePath, lat, lon);
-        if (v !== null) {
-            trend.push([`${monthAbbr} ${y}`, formatValue(v, config.decimals)]);
+
+        let v: number | null = null;
+        if (await fileExists(trendFilePath)) {
+            v = await getRasterValue(trendFilePath, lat, lon);
         }
-        else {
-            trend.push([`${monthAbbr} ${y}`, null]);
-        }
+
+        trend.push([`${monthAbbr} ${y}`, v !== null ? formatValue(v, config.decimals) : null]);
     }
     trend = trend.reverse();
 
@@ -152,13 +167,13 @@ export const GET: APIRoute = async ({ request }) => {
             const monthNum = (d.getMonth() + 1).toString().padStart(2, '0');
             const baselineFileName = config.baselinePattern.replace('{month}', monthNum);
             const baselineFilePath = path.join(config.baselineDir, baselineFileName);
-            const v = await getRasterValue(baselineFilePath, lat, lon);
-            if (v !== null) {
-                baseline.push([`${monthAbbr} ${d.getFullYear()}`, formatValue(v, config.decimals)]);
+
+            let v: number | null = null;
+            if (await fileExists(baselineFilePath)) {
+                v = await getRasterValue(baselineFilePath, lat, lon);
             }
-            else {
-                baseline.push([`${monthAbbr} ${d.getFullYear()}`, null]);
-            }
+
+            baseline.push([`${monthAbbr} ${d.getFullYear()}`, v !== null ? formatValue(v, config.decimals) : null]);
         }
         baseline = baseline.reverse();
     }
