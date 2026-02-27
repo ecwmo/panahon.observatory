@@ -43,6 +43,7 @@
                 suppressEmit: false,
                 lastLocation: null,
                 lastPopupLngLat: null,
+                lastProjectedData: null,
                 legendStyle: null,
 
                 tifBand: null,
@@ -205,8 +206,6 @@
                     const unit = res.headers.get("X-Unit") || "";
                     this.unit = unit;
 
-                    //Used by projected
-                    // Store min/max for popups
                     this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
                     this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
 
@@ -493,6 +492,8 @@
                     try {
                         let res;
                         if (this.parameters.tab === "Current") {
+                            this.lastProjectedData = null;
+
                             const toSend = {
                                 pastData: this.parameters.pastData,
                                 pastPeriod: this.parameters.pastPeriod,
@@ -511,50 +512,36 @@
                             const data = await res.json();
                             this.fetchedData = data;
                             this.$emit("data-fetched", data);
-                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined? `${data.value}${this.unit}`: "N/A"}`;
+                            content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined ? `${data.value}${this.unit}` : "N/A"}`;
                         }
                         else if (this.parameters.tab === "Projected") {
+                            content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`;
 
                             const params = new URLSearchParams({
                                 province: location,
-                                projectedData: this.parameters.projectedData || "Temperature Anomaly",
+                                projectedData: this.parameters.projectedData,
                             });
 
-                            const res = await fetch(`/api/climate/filtereddata?${params}`);
+                            if (this.parameters.projectedData !== this.lastProjectedData || location !== this.lastLocation) {
+                                this.lastProjectedData = this.parameters.projectedData;
 
-                            if (!res.ok) throw new Error("Backend error");
+                                const res = await fetch(`/api/climate/filtereddata?${params}`);
 
-                            const data = await res.json();
-                            //console.log('[Mapbox] emitting projected-data-fetched', data.mapped, this.projectedMin, this.projectedMax)
-                            this.$emit("projected-data-fetched", {
-                                data: data.mapped,
-                                yMin: this.projectedMin,
-                                yMax: this.projectedMax,
-                            });
+                                if (!res.ok) throw new Error("Backend error");
 
-                            // Optional popup content
-                            content = location
-                                ? `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`
-                                : null;
-                        }
-                        else {
-                            await Promise.reject(new Error("Projected not available"));
+                                const data = await res.json();
+
+                                this.$emit("projected-data-fetched", {
+                                    data: data.mapped,
+                                    yMin: this.projectedMin,
+                                    yMax: this.projectedMax,
+                                });
+                            }
                         }
                     }
                     catch {
-                        if (this.parameters.tab === "Projected") {
-                            if (location) {
-                                content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`;
-                            }
-                            else {
-                                content = null;
-                            }
-                            this.$emit("data-fetched", null);
-                        }
-                        else {
-                            content = `<strong>${location}</strong><br/>Backend error`;
-                            this.$emit("data-fetched", { failed: true });
-                        }
+                        content = `<strong>${location}</strong><br/>Backend error`;
+                        this.$emit("data-fetched", { failed: true });
                     }
 
                     if (this.currentPopup) {
