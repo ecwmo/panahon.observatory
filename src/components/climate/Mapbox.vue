@@ -515,6 +515,14 @@
                             content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined ? `${data.value}${this.unit}` : "N/A"}`;
                         }
                         else if (this.parameters.tab === "Projected") {
+                            if (location === null) {
+                                if (this.currentPopup) {
+                                    this.currentPopup.remove();
+                                    this.currentPopup = null;
+                                    this.$emit("data-fetched", null);
+                                }
+                                return;
+                            }
                             content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`;
 
                             const params = new URLSearchParams({
