@@ -242,12 +242,17 @@ async function renderChart() {
   }))
 
   let yAxisTitle = ''
+  let hoverTitle = ''
+  let hoverUnits = ''
 
   if (props.projectedData === 'Temperature Anomaly') {
     yAxisTitle = 'Temperature Anomaly (°C)'
-
+    hoverTitle = 'Average temperature anomaly'
+    hoverUnits = '°C'
   } else if (props.projectedData === 'Rain Anomaly') {
     yAxisTitle = 'Rainfall Anomaly (mm)'
+    hoverTitle = 'Average rain anomaly'
+    hoverUnits = 'mm'
 
   } else {
     yAxisTitle = props.projectedData || ''
@@ -391,7 +396,7 @@ async function renderChart() {
         //`X value = ${x?.toFixed(2) ?? 'N/A'}°C<br>` +
         `Timeframe = ${timeframeLabel}<br>` +
         `Scenario = ${expNational}<br>` +
-        `Average temperature anomaly = ${avg ?? 'N/A'}°C<extra></extra>`
+        `${hoverTitle} = ${avg ?? 'N/A'} ${hoverUnits}<extra></extra>`
     } else {
       hoverText =
         `Province = ${props.selectedProvince}<br>` +
@@ -399,7 +404,7 @@ async function renderChart() {
         //`X value = ${x?.toFixed(2) ?? 'N/A'}°C<br>` +
         `Timeframe = ${timeframeLabel}<br>` +
         `Scenario = ${exp}<br>` +
-        `Average temperature anomaly = ${avg ?? 'N/A'}°C<extra></extra>`
+        `${hoverTitle} = ${avg ?? 'N/A'} ${hoverUnits}<extra></extra>`
     }
     Plotly.restyle(plot, { hovertemplate: hoverText }, [point.curveNumber])
 
