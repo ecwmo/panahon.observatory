@@ -197,11 +197,11 @@ async function getProvinceAveragesByPeriod(
       style = {
         scaling: 'linear',
         ramp: [
-          { color: '#f7fbff', label: 'Very Low' },
+          { color: '#f7fbff', label: 'Lowest Anomaly' },
           { color: '#c6dbef', label: '' },
           { color: '#6baed6', label: '' },
           { color: '#2171b5', label: '' },
-          { color: '#08306b', label: 'Very High' }
+          { color: '#08306b', label: 'Highest Anomaly' }
         ],
         min,
         max,
@@ -247,11 +247,11 @@ async function getProvinceAveragesByPeriod(
       style = {
         scaling: 'linear',
         ramp: [
-          { color: '#f7fbff', label: 'Very Low' },
-          { color: '#c6dbef', label: 'Low' },
-          { color: '#6baed6', label: 'Mid' },
-          { color: '#2171b5', label: 'High' },
-          { color: '#08306b', label: 'Very High' }
+          { color: '#f7fbff', label: 'Lowest Anomaly' },
+          { color: '#c6dbef', label: '' },
+          { color: '#6baed6', label: '' },
+          { color: '#2171b5', label: '' },
+          { color: '#08306b', label: 'Highest Anomaly' }
         ],
         min,
         max,
