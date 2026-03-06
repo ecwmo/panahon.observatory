@@ -14,7 +14,10 @@
         </label>
       </div>
     </div>
-    <div id="plot" class="bot-rect" style="width: 100%; white-space: nowrap"></div>
+    <div v-if="hasBackendError" class="bot-rect error-message">
+      Backend error
+    </div>
+    <div v-else id="plot" class="bot-rect" style="width: 100%; white-space: nowrap"></div>
   </div>
 </template>
 
@@ -30,6 +33,10 @@ interface FilteredDataItem {
   data: number
   experiment: string
 }
+
+const hasBackendError = computed(() => {
+  return (props.filteredData as any)?.failed === true
+})
 
 interface ExperimentAverages {
   historical: number | null
@@ -569,6 +576,7 @@ const selectedTimeFrame = ref('All')
 
 // On mounted, render chart
 onMounted(async () => {
+  (props.filteredData as any).failed = true
   // <-- make the function async
   const plotlyModule = await import('plotly.js-dist-min')
   Plotly = plotlyModule.default
@@ -682,5 +690,12 @@ watch(selectedNational, () => {
 
 .radio-option input {
   margin-right: 0.5rem; /* space between checkbox and text */
+}
+
+.error-message {
+  color: #b00020;
+  background: #fff0f0;
+  font-weight: bold;
+  font-size: 1rem;
 }
 </style>

@@ -65,6 +65,7 @@ async function getProvinceAveragesByPeriod(
 ) {
   let csvPath: string;
   let style: Style;
+  let altstyle: Style;
 
   if (projectedData === 'Temperature Anomaly') {
     csvPath = path.resolve(
@@ -108,6 +109,20 @@ async function getProvinceAveragesByPeriod(
         min,
         max,
         decimals: 1,
+        unit: 'C',
+      };
+      altstyle = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#fff7f7', label: 'Alt Lowest Anomaly' },
+          { color: '#efc6c6', label: '' },
+          { color: '#d66b6b', label: '' },
+          { color: '#b52121', label: '' },
+          { color: '#6b0808', label: 'Alt Highest Anomaly' }
+        ],
+        min: 0,
+        max: 5,
+        decimals: 2,
         unit: 'C',
       };
 
@@ -161,6 +176,20 @@ async function getProvinceAveragesByPeriod(
         decimals: 1,
         unit: 'C',
       };
+      altstyle = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#fff7f7', label: 'Alt Lowest Anomaly' },
+          { color: '#efc6c6', label: '' },
+          { color: '#d66b6b', label: '' },
+          { color: '#b52121', label: '' },
+          { color: '#6b0808', label: 'Alt Highest Anomaly' }
+        ],
+        min: 0,
+        max: 5,
+        decimals: 2,
+        unit: 'C',
+      };
 
       console.log('[Snapshot] Recalculating temp min/max');
     }
@@ -206,6 +235,20 @@ async function getProvinceAveragesByPeriod(
         min,
         max,
         decimals: 0,
+        unit: 'mm',
+      };
+      altstyle = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#f7fbff', label: 'Alt Lowest Anomaly' },
+          { color: '#c6dbef', label: '' },
+          { color: '#6baed6', label: '' },
+          { color: '#2171b5', label: '' },
+          { color: '#08306b', label: 'Alt Highest Anomaly' }
+        ],
+        min: 0,
+        max: 500,
+        decimals: 1,
         unit: 'mm',
       };
 
@@ -258,6 +301,20 @@ async function getProvinceAveragesByPeriod(
         decimals: 0,
         unit: 'mm',
       };
+      altstyle = {
+        scaling: 'linear',
+        ramp: [
+          { color: '#f7fbff', label: 'Alt Lowest Anomaly' },
+          { color: '#c6dbef', label: '' },
+          { color: '#6baed6', label: '' },
+          { color: '#2171b5', label: '' },
+          { color: '#08306b', label: 'Alt Highest Anomaly' }
+        ],
+        min: 0,
+        max: 500,
+        decimals: 1,
+        unit: 'mm',
+      };
 
       console.log('[Snapshot] Recalculating prep min/max');
     }
@@ -308,7 +365,8 @@ async function getProvinceAveragesByPeriod(
     header: {
       period: projectedPeriod,
       projectedData,
-      style
+      style,
+      altstyle
     },
     data: provinces
   };
@@ -324,6 +382,7 @@ export const GET: APIRoute = async ({ url }) => {
 
     const result = await getProvinceAveragesByPeriod(projectedData, projectedPeriod, scenario, model);
     const { style } = result.header;
+    const { altstyle } = result.header;
 
     return new Response(JSON.stringify(result.data), {
       status: 200,
@@ -331,6 +390,7 @@ export const GET: APIRoute = async ({ url }) => {
         'Content-Type': 'application/json',
         'X-Scaling': style.scaling,
         'X-Ramp': JSON.stringify(style.ramp || []),
+        'X-AltRamp': JSON.stringify(altstyle.ramp || []),
         'X-Min': String(style.min),
         'X-Max': String(style.max),
         'X-Decimals': String(style.decimals),
