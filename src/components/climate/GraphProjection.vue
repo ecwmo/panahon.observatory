@@ -576,7 +576,7 @@ const selectedTimeFrame = ref('All')
 
 // On mounted, render chart
 onMounted(async () => {
-  (props.filteredData as any).failed = true
+  // debug (props.filteredData as any).failed = true
   // <-- make the function async
   const plotlyModule = await import('plotly.js-dist-min')
   Plotly = plotlyModule.default
