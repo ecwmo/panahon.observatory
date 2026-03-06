@@ -393,6 +393,8 @@ export const GET: APIRoute = async ({ url }) => {
         'X-AltRamp': JSON.stringify(altstyle.ramp || []),
         'X-Min': String(style.min),
         'X-Max': String(style.max),
+        'X-AltMin': String(altstyle.min),
+        'X-AltMax': String(altstyle.max),
         'X-Decimals': String(style.decimals),
         'X-Unit': String(style.unit),
       }
