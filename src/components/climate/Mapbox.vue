@@ -235,12 +235,11 @@
                         const jsonData = response.map(d => [d.province, Number(d.averageAnomaly.toFixed(decimals))]);
                         const band = jsonData.map(d => d[1]);
                         const { thresholds, enrichedRamp } = this.computeThresholds(
-                            band, ramp, scaling, minHeader, maxHeader, decimals
+                            band, this._usingAltRamp ? altRamp : ramp, scaling, this._usingAltRamp ? altMinHeader : minHeader, this._usingAltRamp ? altMaxHeader : maxHeader, decimals
                         );
                         this.legendStyle = { ramp: enrichedRamp, unit };
-                        this.jsonSource(jsonData, ramp, thresholds);
+                        this.jsonSource(jsonData, this._usingAltRamp ? altRamp : ramp, thresholds);
                         this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit };
-                        this._usingAltRamp = false;
                     }
                     this.loadingData = false;
                 }
@@ -546,7 +545,7 @@
                                 }
                                 return;
                             }
-                            content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]} ${this.unit}`;
+                            content = `<strong>${location}</strong><br>Provincial Value: ${this.provincialValueMap[location]}${this.unit}`;
 
                             const params = new URLSearchParams({
                                 province: location,
