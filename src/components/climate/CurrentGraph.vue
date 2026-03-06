@@ -4,7 +4,11 @@
         <div id="trend-plot"></div>
 
         <!-- Error overlay -->
-        <div v-if="data && data.failed" class="overlay error-message">
+        <div v-if="data && data.failed && data.connectionError" class="overlay error-message">
+            Connection error
+        </div>
+
+        <div v-else-if="data && data.failed" class="overlay error-message">
             Backend error
         </div>
 

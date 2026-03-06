@@ -58,7 +58,8 @@
                 loadingData: false,
                 errorLoadingData: false,
                 connectionError: false,
-                reloadParams: null
+                reloadParams: null,
+                emptyPopup: false
             };
         },
         watch: {
@@ -530,7 +531,7 @@
                                 projectedData: this.parameters.projectedData,
                             });
 
-                            if (this.parameters.projectedData !== this.lastProjectedData || location !== this.lastLocation) {
+                            if (this.parameters.projectedData !== this.lastProjectedData || location !== this.lastLocation || this.emptyPopup) {
                                 this.lastProjectedData = this.parameters.projectedData;
 
                                 const res = await fetch(`/api/climate/filtereddata?${params}`);
@@ -546,10 +547,22 @@
                                 });
                             }
                         }
+                        this.emptyPopup = false;
                     }
-                    catch {
-                        content = `<strong>${location}</strong><br/>Backend error`;
-                        this.$emit("data-fetched", { failed: true });
+                    catch (err) {
+                        content = '';
+                        if (location) {
+                            content = `<strong>${location}</strong><br/>`;
+                        }
+                        if (err.name === "TypeError") {
+                            content += `Connection error<br/>Click again to reload`;
+                            this.$emit("data-fetched", { failed: true , connectionError: true });
+                        }
+                        else {
+                            content += `Backend error`;
+                            this.$emit("data-fetched", { failed: true, connectionError: false });
+                        }       
+                        this.emptyPopup = true;
                     }
 
                     if (this.currentPopup) {
