@@ -1,5 +1,5 @@
 <template>
-    <div class="legend">
+    <div class="legend" @click="$emit('changeLegend')">
         <!-- Gradient bar with hover marker + red line -->
         <div class="gradient-bar">
             <div class="gradient-fill" :style="gradientStyle"></div>

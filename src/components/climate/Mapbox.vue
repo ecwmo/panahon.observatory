@@ -4,7 +4,8 @@
         <template v-if="legendStyle">
             <Legend :style="legendStyle"
                     class="legend-overlay"
-                    :hoveredValue="legendHoveredValue" />
+                    :hoveredValue="legendHoveredValue" 
+                    @changeLegend="changeLegend"/>
         </template>
         <template v-else>
             <div v-if="connectionError || loadingData || errorLoadingData" class="missing-message">
@@ -201,6 +202,8 @@
                     const scaling = res.headers.get("X-Scaling");
                     const rampHeader = res.headers.get("X-Ramp");
                     const ramp = rampHeader ? JSON.parse(rampHeader) : [];
+                    const altRampHeader = res.headers.get("X-Ramp");
+                    const altRamp = altRampHeader ? JSON.parse(altRampHeader) : [];
                     const minHeader = res.headers.get("X-Min");
                     const maxHeader = res.headers.get("X-Max");
                     const decimals = res.headers.get("X-Decimals") || 1;
@@ -233,6 +236,8 @@
                         );
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, ramp, thresholds);
+                        this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit };
+                        this._usingAltRamp = false;
                     }
                     this.loadingData = false;
                 }
@@ -266,6 +271,18 @@
                         this.errorLoadingData = true;
                         this.connectionError = false;
                     }  
+                }
+            },
+            changeLegend() {
+                if (this._lastProjected) {
+                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit } = this._lastProjected;
+                    const activeRamp = this._usingAltRamp ? ramp : altRamp;
+                    const { thresholds, enrichedRamp } = this.computeThresholds(
+                        band, activeRamp, scaling, minHeader, maxHeader, decimals
+                    );
+                    this.legendStyle = { ramp: enrichedRamp, unit };
+                    this.jsonSource(jsonData, activeRamp, thresholds);
+                    this._usingAltRamp = !this._usingAltRamp;
                 }
             },
             async reloadClimate()
