@@ -4,7 +4,8 @@
         <template v-if="legendStyle">
             <Legend :style="legendStyle"
                     class="legend-overlay"
-                    :hoveredValue="legendHoveredValue" />
+                    :hoveredValue="legendHoveredValue" 
+                    @changeLegend="changeLegend"/>
         </template>
         <template v-else>
             <div v-if="connectionError || loadingData || errorLoadingData" class="missing-message">
@@ -201,8 +202,12 @@
                     const scaling = res.headers.get("X-Scaling");
                     const rampHeader = res.headers.get("X-Ramp");
                     const ramp = rampHeader ? JSON.parse(rampHeader) : [];
+                    const altRampHeader = res.headers.get("X-AltRamp");
+                    const altRamp = altRampHeader ? JSON.parse(altRampHeader) : [];
                     const minHeader = res.headers.get("X-Min");
                     const maxHeader = res.headers.get("X-Max");
+                    const altMinHeader = res.headers.get("X-AltMin");
+                    const altMaxHeader = res.headers.get("X-AltMax");
                     const decimals = res.headers.get("X-Decimals") || 1;
                     const unit = res.headers.get("X-Unit") || "";
                     this.unit = unit;
@@ -223,6 +228,7 @@
                         this.tifSource(image, band, ramp, thresholds);
                         this.tifBand = band;
                         this.tifImage = image;
+                        this._lastProjected = null;
                     }
                     else {
                         const response = await res.json();
@@ -233,6 +239,8 @@
                         );
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, ramp, thresholds);
+                        this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit };
+                        this._usingAltRamp = false;
                     }
                     this.loadingData = false;
                 }
@@ -266,6 +274,20 @@
                         this.errorLoadingData = true;
                         this.connectionError = false;
                     }  
+                }
+            },
+            changeLegend() {
+                if (this._lastProjected) {
+                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader } = this._lastProjected;
+                    const activeRamp = this._usingAltRamp ? ramp : altRamp;
+                    const activeMinHdr = this._usingAltRamp ? minHeader : altMinHeader;
+                    const activeMaxHdr = this._usingAltRamp ? maxHeader : altMaxHeader;
+                    const { thresholds, enrichedRamp } = this.computeThresholds(
+                        band, activeRamp, scaling, activeMinHdr, activeMaxHdr, decimals
+                    );
+                    this.legendStyle = { ramp: enrichedRamp, unit };
+                    this.jsonSource(jsonData, activeRamp, thresholds);
+                    this._usingAltRamp = !this._usingAltRamp;
                 }
             },
             async reloadClimate()

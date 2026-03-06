@@ -1,18 +1,18 @@
 <template>
-    <div class="legend">
+    <div class="legend" @click="$emit('changeLegend')">
         <!-- Gradient bar with hover marker + red line -->
         <div class="gradient-bar">
             <div class="gradient-fill" :style="gradientStyle"></div>
 
             <!-- Hover pixel marker (inside bar, halfway down, no arrow) -->
-            <div v-if="hoveredValue"
+            <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== '' && !isNaN(hoveredValue)"
                  class="hover-marker"
                  :style="{ left: pointerPosition + '%' }">
                 <span class="hover-label">{{ hoveredValue }}{{ style.unit }}</span>
             </div>
 
             <!-- Red vertical line showing hover position -->
-            <div v-if="hoveredValue"
+            <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== '' && !isNaN(hoveredValue)"
                  class="hover-line"
                  :style="{ left: pointerPosition + '%' }"></div>
 
