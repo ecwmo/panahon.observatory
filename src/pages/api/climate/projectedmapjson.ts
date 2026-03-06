@@ -109,7 +109,7 @@ async function getProvinceAveragesByPeriod(
         min,
         max,
         decimals: 1,
-        unit: 'C',
+        unit: '°C',
       };
       altstyle = {
         scaling: 'linear',
@@ -123,7 +123,7 @@ async function getProvinceAveragesByPeriod(
         min: 0,
         max: 5,
         decimals: 2,
-        unit: 'C',
+        unit: '°C',
       };
 
       console.log('[Snapshot] Using cached temp min/max');
@@ -174,7 +174,7 @@ async function getProvinceAveragesByPeriod(
         min,
         max,
         decimals: 1,
-        unit: 'C',
+        unit: '°C',
       };
       altstyle = {
         scaling: 'linear',
@@ -188,7 +188,7 @@ async function getProvinceAveragesByPeriod(
         min: 0,
         max: 5,
         decimals: 2,
-        unit: 'C',
+        unit: '°C',
       };
 
       console.log('[Snapshot] Recalculating temp min/max');
