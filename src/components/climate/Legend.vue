@@ -5,14 +5,14 @@
             <div class="gradient-fill" :style="gradientStyle"></div>
 
             <!-- Hover pixel marker (inside bar, halfway down, no arrow) -->
-            <div v-if="hoveredValue"
+            <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== ''"
                  class="hover-marker"
                  :style="{ left: pointerPosition + '%' }">
                 <span class="hover-label">{{ hoveredValue }}{{ style.unit }}</span>
             </div>
 
             <!-- Red vertical line showing hover position -->
-            <div v-if="hoveredValue"
+            <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== ''"
                  class="hover-line"
                  :style="{ left: pointerPosition + '%' }"></div>
 
