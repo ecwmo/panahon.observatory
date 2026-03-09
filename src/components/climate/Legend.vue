@@ -1,5 +1,19 @@
 <template>
-    <div class="legend" @click="$emit('changeLegend')">
+    <div class="legend">
+        <!-- Folder tabs if alt style exists -->
+        <div v-if="hasAltStyle" class="legend-header">
+            <label class="legend-title">Select Range:</label>
+            <div class="legend-slider">
+                <button :class="{ active: !usingAltStyle }" @click="$emit('changeLegend', false)">
+                    Global
+                </button>
+                <button :class="{ active: usingAltStyle }" @click="$emit('changeLegend', true)">
+                    Local
+                </button>
+                <div class="slider-bg" :class="{ right: usingAltStyle }"></div>
+            </div>
+        </div>
+
         <!-- Gradient bar with hover marker + red line -->
         <div class="gradient-bar">
             <div class="gradient-fill" :style="gradientStyle"></div>
@@ -54,7 +68,9 @@
         name: "Legend",
         props: {
             style: { type: Object, required: true },
-            hoveredValue: { type: Number, default: null }
+            hoveredValue: { type: Number, default: null },
+            hasAltStyle: { type: Boolean, default: false },
+            usingAltStyle: { type: Boolean, default: false }
         },
         computed: {
             gradientStyle() {
@@ -111,15 +127,68 @@
         font-family: sans-serif;
         background: #f8f9fa;
         border: 1px solid #ccc;
-        padding: 0.5rem; /* smaller padding */
+        padding: 0.5rem;
         width: 100%;
         max-width: 600px;
         position: relative;
     }
 
+    .legend-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .legend-title {
+        font-size: 12px;
+        margin: 0;
+        color: #333;
+    }
+
+    .legend-slider {
+        position: relative;
+        display: inline-flex;
+        background: #ddd;
+        border-radius: 20px;
+        overflow: hidden;
+        width: 140px;
+    }
+
+    .legend-slider button {
+        flex: 1;
+        padding: 4px 0;
+        border: none;
+        background: transparent;
+        font-size: 0.75rem;
+        color: #333;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .legend-slider button.active {
+        color: #fff;
+    }
+
+    .slider-bg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        background: #007bff;
+        border-radius: 20px;
+        transition: transform 0.3s ease;
+        z-index: 0;
+    }
+
+    .slider-bg.right {
+        transform: translateX(100%);
+    }
+
     .gradient-bar {
         position: relative;
-        height: 24px; /* shorter bar */
+        height: 24px;
         border: 1px solid #999;
     }
 
@@ -128,16 +197,15 @@
         width: 100%;
     }
 
-    /* Hover pixel marker inside bar, halfway down */
     .hover-marker {
         position: absolute;
-        top: 50%; /* halfway down the bar */
+        top: 50%;
         transform: translate(-50%, -50%);
         z-index: 1000;
     }
 
     .hover-label {
-        font-size: 0.8rem; /* smaller text */
+        font-size: 0.8rem;
         background: #fff;
         padding: 0 3px;
         border: 1px solid #ccc;
@@ -145,7 +213,6 @@
         white-space: nowrap;
     }
 
-    /* Red vertical line marker */
     .hover-line {
         position: absolute;
         top: 0;
@@ -156,7 +223,6 @@
         z-index: 999;
     }
 
-    /* Threshold tick lines */
     .tick-line {
         position: absolute;
         top: 0;
@@ -166,10 +232,9 @@
         transform: translateX(-50%);
     }
 
-    /* Threshold values with unit */
     .threshold-values {
         position: relative;
-        margin-top: 0.25rem; /* tighter spacing */
+        margin-top: 0.25rem;
         min-height: 1rem;
     }
 
@@ -190,10 +255,9 @@
         transform: translateX(-100%);
     }
 
-    /* Legend labels below threshold values */
     .labels {
         position: relative;
-        margin-top: 0.25rem; /* tighter spacing */
+        margin-top: 0.25rem;
         min-height: 1rem;
     }
 

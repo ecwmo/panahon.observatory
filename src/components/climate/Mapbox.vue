@@ -3,6 +3,8 @@
         <div id="map"></div>
         <template v-if="legendStyle">
             <Legend :style="legendStyle"
+                    :hasAltStyle="hasAltStyle"
+                    :usingAltStyle="_usingAltRamp"
                     class="legend-overlay"
                     :hoveredValue="legendHoveredValue" 
                     @changeLegend="changeLegend"/>
@@ -46,6 +48,7 @@
                 lastPopupLngLat: null,
                 lastProjectedData: null,
                 legendStyle: null,
+                hasAltStyle: false,
 
                 tifBand: null,
                 tifImage: null,
@@ -215,6 +218,8 @@
                     this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
                     this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
 
+                    this.hasAltStyle = altRamp && altMinHeader && altMaxHeader;
+
                     if (newParams.tab === "Current") {
                         const arrayBuffer = await res.arrayBuffer();
                         const tiff = await fromArrayBuffer(arrayBuffer);
@@ -275,8 +280,8 @@
                     }  
                 }
             },
-            changeLegend() {
-                if (this._lastProjected) {
+            changeLegend(usingAlt) {
+                if (this._lastProjected && this._usingAltRamp !== usingAlt) {
                     const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader } = this._lastProjected;
                     const activeRamp = this._usingAltRamp ? ramp : altRamp;
                     const activeMinHdr = this._usingAltRamp ? minHeader : altMinHeader;
@@ -286,7 +291,7 @@
                     );
                     this.legendStyle = { ramp: enrichedRamp, unit };
                     this.jsonSource(jsonData, activeRamp, thresholds);
-                    this._usingAltRamp = !this._usingAltRamp;
+                    this._usingAltRamp = usingAlt;
                 }
             },
             async reloadClimate()
@@ -814,8 +819,7 @@
         z-index: 1;
         box-shadow: 0 0 0 2px #0000001a;
         background-color: white;
-        max-width: min(600px, calc(100% - 70px));
-        height: 87px;
+        max-width: min(450px, calc(100% - 70px));
         border-radius: 4px;
     }
 
