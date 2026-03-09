@@ -5,6 +5,7 @@
             <Legend :style="legendStyle"
                     :hasAltStyle="hasAltStyle"
                     :usingAltStyle="_usingAltRamp"
+                    :discrete="discrete"
                     class="legend-overlay"
                     :hoveredValue="legendHoveredValue" 
                     @changeLegend="changeLegend"/>
@@ -49,6 +50,7 @@
                 lastProjectedData: null,
                 legendStyle: null,
                 hasAltStyle: false,
+                discrete: false,
 
                 tifBand: null,
                 tifImage: null,
@@ -167,6 +169,13 @@
             }
         },
         methods: {
+            arraysNumericallySame(band, thresholds) {
+                if (!Array.isArray(band) || !Array.isArray(thresholds)) return false;
+                return band.every(val => {
+                    const numVal = Number(val);
+                    return thresholds.some(t => Number(t) === numVal);
+                });
+            },
             async renderClimate(newParams) {
                 const savedParams = newParams;
                 try {
@@ -219,6 +228,7 @@
                     this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
 
                     this.hasAltStyle = altRamp && altMinHeader && altMaxHeader;
+                    this.discrete = false;
 
                     if (newParams.tab === "Current") {
                         const arrayBuffer = await res.arrayBuffer();
@@ -245,6 +255,13 @@
                         this.legendStyle = { ramp: enrichedRamp, unit };
                         this.jsonSource(jsonData, this._usingAltRamp ? altRamp : ramp, thresholds);
                         this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit };
+
+                        if (this.arraysNumericallySame(band, thresholds)) {
+                            this.discrete = true;
+                        }
+                        else {
+                            this.discrete = false;
+                        }
                     }
                     this.loadingData = false;
                 }
@@ -292,6 +309,13 @@
                     this.legendStyle = { ramp: enrichedRamp, unit };
                     this.jsonSource(jsonData, activeRamp, thresholds);
                     this._usingAltRamp = usingAlt;
+
+                    if (this.arraysNumericallySame(band, thresholds)) {
+                        this.discrete = true;
+                    }
+                    else {
+                        this.discrete = false;
+                    }
                 }
             },
             async reloadClimate()
@@ -819,7 +843,7 @@
         z-index: 1;
         box-shadow: 0 0 0 2px #0000001a;
         background-color: white;
-        max-width: min(450px, calc(100% - 70px));
+        max-width: min(525px, calc(100% - 70px));
         border-radius: 4px;
     }
 

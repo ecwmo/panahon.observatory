@@ -30,20 +30,24 @@
                  class="hover-line"
                  :style="{ left: pointerPosition + '%' }"></div>
 
-            <!-- Threshold tick lines -->
-            <div v-for="(entry, idx) in style.ramp"
+            <!-- Threshold tick lines (only if not discrete) -->
+            <div v-if="!discrete"
+                 v-for="(entry, idx) in style.ramp"
                  :key="'tick-' + idx"
                  class="tick-line"
                  :style="{ left: uniformTickPosition(idx) + '%' }"></div>
         </div>
 
-        <!-- Threshold values with unit directly below ticks -->
+        <!-- Threshold values with unit directly below segments -->
         <div class="threshold-values">
             <span v-for="(entry, idx) in style.ramp"
                   :key="'threshold-' + idx"
                   class="threshold-value"
-                  :class="{ 'edge-label-left': idx === 0, 'edge-label-right': idx === style.ramp.length - 1 }"
-                  :style="{ left: uniformTickPosition(idx) + '%' }">
+                  :class="{
+                      'edge-label-left': !discrete && idx === 0,
+                      'edge-label-right': !discrete && idx === style.ramp.length - 1
+                  }"
+                  :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.threshold }}{{ style.unit }}
             </span>
         </div>
@@ -53,8 +57,11 @@
             <span v-for="(entry, idx) in style.ramp"
                   :key="'label-' + idx"
                   class="tick-label"
-                  :class="{ 'edge-label-left': idx === 0, 'edge-label-right': idx === style.ramp.length - 1 }"
-                  :style="{ left: uniformTickPosition(idx) + '%' }">
+                  :class="{
+                      'edge-label-left': !discrete && idx === 0,
+                      'edge-label-right': !discrete && idx === style.ramp.length - 1
+                  }"
+                  :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.label }}
             </span>
         </div>
@@ -70,27 +77,38 @@
             style: { type: Object, required: true },
             hoveredValue: { type: Number, default: null },
             hasAltStyle: { type: Boolean, default: false },
-            usingAltStyle: { type: Boolean, default: false }
+            usingAltStyle: { type: Boolean, default: false },
+            discrete: { type: Boolean, default: false }
         },
         computed: {
             gradientStyle() {
                 const ramp = this.style.ramp;
                 const colors = ramp.map(r => r.color);
+                const n = ramp.length;
 
-                // Build chroma scale across ramp colors
-                const scale = chroma.scale(colors).mode("lab");
-
-                // Sample uniformly by index, not by threshold values
-                const steps = 100;
-                const stops = [];
-                for (let i = 0; i <= steps; i++) {
-                    const t = i / steps; // fraction across ramp
-                    stops.push(`${scale(t).hex()} ${t * 100}%`);
+                if (this.discrete) {
+                    const stops = [];
+                    for (let i = 0; i < n; i++) {
+                        const pctStart = (i / n) * 100;
+                        const pctEnd = ((i + 1) / n) * 100;
+                        stops.push(`${colors[i]} ${pctStart}%`, `${colors[i]} ${pctEnd}%`);
+                    }
+                    return {
+                        background: `linear-gradient(to right, ${stops.join(", ")})`
+                    };
                 }
-
-                return {
-                    background: `linear-gradient(to right, ${stops.join(", ")})`
-                };
+                else {
+                    const scale = chroma.scale(colors).mode("lab");
+                    const steps = 100;
+                    const stops = [];
+                    for (let i = 0; i <= steps; i++) {
+                        const t = i / steps;
+                        stops.push(`${scale(t).hex()} ${t * 100}%`);
+                    }
+                    return {
+                        background: `linear-gradient(to right, ${stops.join(", ")})`
+                    };
+                }
             },
             pointerPosition() {
                 if (this.hoveredValue == null) return 0;
@@ -98,16 +116,30 @@
                 const thresholds = this.style.ramp.map(r => r.threshold);
                 const n = thresholds.length;
 
-                if (this.hoveredValue <= thresholds[0]) return 0;
-                if (this.hoveredValue >= thresholds[n - 1]) return 100;
+                if (!this.discrete) {
+                    if (this.hoveredValue <= thresholds[0]) return 0;
+                    if (this.hoveredValue >= thresholds[n - 1]) return 100;
+
+                    for (let i = 0; i < n - 1; i++) {
+                        const low = thresholds[i];
+                        const high = thresholds[i + 1];
+                        if (this.hoveredValue >= low && this.hoveredValue <= high) {
+                            const fracWithinBin = (this.hoveredValue - low) / (high - low);
+                            const fracAcrossLegend = (i + fracWithinBin) / (n - 1);
+                            return fracAcrossLegend * 100;
+                        }
+                    }
+                    return 0;
+                }
+
+                if (this.hoveredValue <= thresholds[0]) return (0.5 / n) * 100;
+                if (this.hoveredValue >= thresholds[n - 1]) return ((n - 0.5) / n) * 100;
 
                 for (let i = 0; i < n - 1; i++) {
                     const low = thresholds[i];
                     const high = thresholds[i + 1];
                     if (this.hoveredValue >= low && this.hoveredValue <= high) {
-                        const fracWithinBin = (this.hoveredValue - low) / (high - low);
-                        const fracAcrossLegend = (i + fracWithinBin) / (n - 1);
-                        return fracAcrossLegend * 100;
+                        return ((i + 0.5) / n) * 100;
                     }
                 }
                 return 0;
@@ -117,6 +149,10 @@
             uniformTickPosition(idx) {
                 const n = this.style.ramp.length;
                 return (idx / (n - 1)) * 100;
+            },
+            discreteCenterPosition(idx) {
+                const n = this.style.ramp.length;
+                return ((idx + 0.5) / n) * 100;
             }
         }
     };
@@ -247,11 +283,11 @@
         line-height: 1;
     }
 
-    .edge-label-left {
+    .threshold-value.edge-label-left {
         transform: translateX(0);
     }
 
-    .edge-label-right {
+    .threshold-value.edge-label-right {
         transform: translateX(-100%);
     }
 
