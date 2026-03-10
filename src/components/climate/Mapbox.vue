@@ -206,6 +206,7 @@
                     this.loadingData = true;
                     this.errorLoadingData = false;
                     this.connectionError = false;
+                    this.legendStyle = null;
                     const res = await fetch(`${endpoint}?${paramString}`);
                     if (!res.ok) {
                         throw new Error(`Bad response: ${res.status}`);
