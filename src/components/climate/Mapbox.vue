@@ -350,9 +350,14 @@
                 let thresholds = [];
 
                 if (scaling === "linear") {
-                    for (let i = 0; i < n; i++) {
-                        const raw = min + (i / (n - 1)) * (max - min);
-                        thresholds.push(Number(raw.toFixed(decimals)));
+                    if (min === max && n === 1) {
+                        thresholds = [Number(min.toFixed(decimals))];
+                    }
+                    else {
+                        for (let i = 0; i < n; i++) {
+                            const raw = min + (i / (n - 1)) * (max - min);
+                            thresholds.push(Number(raw.toFixed(decimals)));
+                        }
                     }
                 }
                 else if (scaling === "fixed") {
@@ -843,7 +848,7 @@
         z-index: 1;
         box-shadow: 0 0 0 2px #0000001a;
         background-color: white;
-        max-width: min(525px, calc(100% - 70px));
+        max-width: min(425px, calc(100% - 70px));
         border-radius: 4px;
     }
 
