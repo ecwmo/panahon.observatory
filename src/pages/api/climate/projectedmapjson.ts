@@ -316,7 +316,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: displayramp,
+        ramp: fullramp,
         min,
         max,
         decimals: 0,
@@ -372,7 +372,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: displayramp,
+        ramp: fullramp,
         min,
         max,
         decimals: 0,
