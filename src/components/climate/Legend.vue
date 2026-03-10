@@ -113,18 +113,19 @@
             pointerPosition() {
                 if (this.hoveredValue == null) return 0;
 
-                const thresholds = this.style.ramp.map(r => r.threshold);
+                const thresholds = this.style.ramp.map(r => Number(r.threshold));
                 const n = thresholds.length;
+                const hv = Number(this.hoveredValue);
 
                 if (!this.discrete) {
-                    if (this.hoveredValue <= thresholds[0]) return 0;
-                    if (this.hoveredValue >= thresholds[n - 1]) return 100;
+                    if (hv <= thresholds[0]) return 0;
+                    if (hv >= thresholds[n - 1]) return 100;
 
                     for (let i = 0; i < n - 1; i++) {
                         const low = thresholds[i];
                         const high = thresholds[i + 1];
-                        if (this.hoveredValue >= low && this.hoveredValue <= high) {
-                            const fracWithinBin = (this.hoveredValue - low) / (high - low);
+                        if (hv >= low && hv <= high) {
+                            const fracWithinBin = (hv - low) / (high - low);
                             const fracAcrossLegend = (i + fracWithinBin) / (n - 1);
                             return fracAcrossLegend * 100;
                         }
@@ -132,16 +133,22 @@
                     return 0;
                 }
 
-                if (this.hoveredValue <= thresholds[0]) return (0.5 / n) * 100;
-                if (this.hoveredValue >= thresholds[n - 1]) return ((n - 0.5) / n) * 100;
+                if (hv <= thresholds[0]) return (0.5 / n) * 100;
+                if (hv >= thresholds[n - 1]) return ((n - 0.5) / n) * 100;
 
-                for (let i = 0; i < n - 1; i++) {
-                    const low = thresholds[i];
-                    const high = thresholds[i + 1];
-                    if (this.hoveredValue >= low && this.hoveredValue <= high) {
+                for (let i = 0; i < n; i++) {
+                    const t = thresholds[i];
+                    if (hv === t) {
                         return ((i + 0.5) / n) * 100;
                     }
                 }
+
+                for (let i = 0; i < n - 1; i++) {
+                    if (thresholds[i] === thresholds[i + 1] && hv === thresholds[i]) {
+                        return ((i + 0.5) / n) * 100;
+                    }
+                }
+
                 return 0;
             }
         },
