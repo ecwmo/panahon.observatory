@@ -30,7 +30,7 @@ const SCENARIO_DICT: Record<string, string> = {
 };
 
 type Style = {
-  scaling: 'linear';
+  scaling: string;
   ramp: { color: string; label: string }[];
   min: number | null;
   max: number | null;
@@ -85,7 +85,7 @@ async function getProvinceAveragesByPeriod(
     throw new Error('Unsupported projectedData');
   }
 
- const fileContent = fs.readFileSync(csvPath, 'utf-8');
+  const fileContent = fs.readFileSync(csvPath, 'utf-8');
 
   const records: ProvinceData[] = parse(fileContent, {
     columns: true,
@@ -147,6 +147,34 @@ async function getProvinceAveragesByPeriod(
 
     const existing = snapshot[fileName];
 
+    const uniqueAveCount = new Set(
+      specificProvinceAverages.map(v => Number(v.toFixed(1)))
+    ).size;
+
+    const fullramp = [
+      { color: '#fff7f7', label: 'Lowest Anomaly' },
+      { color: '#efc6c6', label: '' },
+      { color: '#d66b6b', label: '' },
+      { color: '#b52121', label: '' },
+      { color: '#6b0808', label: 'Highest Anomaly' }
+    ];
+
+    const displayramp = [];
+    const maxIndex = fullramp.length - 1;
+
+    if (uniqueAveCount === 1) {
+      displayramp.push(fullramp[0]);
+      console.log("Only one value for selected scenario")
+    } else {
+      // We never need more than fullramp.length colors
+      const steps = Math.min(uniqueAveCount, fullramp.length);
+
+      for (let i = 0; i < steps; i++) {
+        const index = Math.round(i * maxIndex / (steps - 1));
+        displayramp.push(fullramp[index]);
+      }
+    }
+
     if (existing && existing.datemodified === currentModified) {
       const min = existing.min;
       const max = existing.max;
@@ -155,13 +183,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: [
-          { color: '#fff7f7', label: 'Lowest Anomaly' },
-          { color: '#efc6c6', label: '' },
-          { color: '#d66b6b', label: '' },
-          { color: '#b52121', label: '' },
-          { color: '#6b0808', label: 'Highest Anomaly' }
-        ],
+        ramp: fullramp,
         min,
         max,
         decimals: 1,
@@ -169,13 +191,7 @@ async function getProvinceAveragesByPeriod(
       };
       altstyle = {
         scaling: 'linear',
-        ramp: [
-          { color: '#fff7f7', label: 'Alt Lowest Anomaly' },
-          { color: '#efc6c6', label: '' },
-          { color: '#d66b6b', label: '' },
-          { color: '#b52121', label: '' },
-          { color: '#6b0808', label: 'Alt Highest Anomaly' }
-        ],
+        ramp: displayramp,
         altmin,
         altmax,
         decimals: 2,
@@ -225,13 +241,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: [
-          { color: '#fff7f7', label: 'Lowest Anomaly' },
-          { color: '#efc6c6', label: '' },
-          { color: '#d66b6b', label: '' },
-          { color: '#b52121', label: '' },
-          { color: '#6b0808', label: 'Highest Anomaly' }
-        ],
+        ramp: fullramp,
         min,
         max,
         decimals: 1,
@@ -239,13 +249,7 @@ async function getProvinceAveragesByPeriod(
       };
       altstyle = {
         scaling: 'linear',
-        ramp: [
-          { color: '#fff7f7', label: 'Alt Lowest Anomaly' },
-          { color: '#efc6c6', label: '' },
-          { color: '#d66b6b', label: '' },
-          { color: '#b52121', label: '' },
-          { color: '#6b0808', label: 'Alt Highest Anomaly' }
-        ],
+        ramp: displayramp,
         altmin,
         altmax,
         decimals: 2,
@@ -276,6 +280,34 @@ async function getProvinceAveragesByPeriod(
 
     const existing = snapshot[fileName];
 
+    const uniqueAveCount = new Set(
+      specificProvinceAverages.map(v => Number(v.toFixed(1)))
+    ).size;
+
+    const fullramp = [
+      { color: '#f7fbff', label: 'Lowest Anomaly' },
+      { color: '#c6dbef', label: '' },
+      { color: '#6baed6', label: '' },
+      { color: '#2171b5', label: '' },
+      { color: '#08306b', label: 'Highest Anomaly' }
+    ];
+
+    const displayramp = [];
+    const maxIndex = fullramp.length - 1;
+
+    if (uniqueAveCount === 1) {
+      displayramp.push(fullramp[0]);
+      console.log("Only one value for selected scenario")
+    } else {
+      // We never need more than fullramp.length colors
+      const steps = Math.min(uniqueAveCount, fullramp.length);
+
+      for (let i = 0; i < steps; i++) {
+        const index = Math.round(i * maxIndex / (steps - 1));
+        displayramp.push(fullramp[index]);
+      }
+    }
+
     if (existing && existing.datemodified === currentModified) {
       const min = existing.min;
       const max = existing.max;
@@ -284,13 +316,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: [
-          { color: '#f7fbff', label: 'Lowest Anomaly' },
-          { color: '#c6dbef', label: '' },
-          { color: '#6baed6', label: '' },
-          { color: '#2171b5', label: '' },
-          { color: '#08306b', label: 'Highest Anomaly' }
-        ],
+        ramp: displayramp,
         min,
         max,
         decimals: 0,
@@ -298,13 +324,7 @@ async function getProvinceAveragesByPeriod(
       };
       altstyle = {
         scaling: 'linear',
-        ramp: [
-          { color: '#f7fbff', label: 'Alt Lowest Anomaly' },
-          { color: '#c6dbef', label: '' },
-          { color: '#6baed6', label: '' },
-          { color: '#2171b5', label: '' },
-          { color: '#08306b', label: 'Alt Highest Anomaly' }
-        ],
+        ramp: displayramp,
         altmin,
         altmax,
         decimals: 1,
@@ -352,13 +372,7 @@ async function getProvinceAveragesByPeriod(
 
       style = {
         scaling: 'linear',
-        ramp: [
-          { color: '#f7fbff', label: 'Lowest Anomaly' },
-          { color: '#c6dbef', label: '' },
-          { color: '#6baed6', label: '' },
-          { color: '#2171b5', label: '' },
-          { color: '#08306b', label: 'Highest Anomaly' }
-        ],
+        ramp: displayramp,
         min,
         max,
         decimals: 0,
@@ -366,13 +380,7 @@ async function getProvinceAveragesByPeriod(
       };
       altstyle = {
         scaling: 'linear',
-        ramp: [
-          { color: '#f7fbff', label: 'Alt Lowest Anomaly' },
-          { color: '#c6dbef', label: '' },
-          { color: '#6baed6', label: '' },
-          { color: '#2171b5', label: '' },
-          { color: '#08306b', label: 'Alt Highest Anomaly' }
-        ],
+        ramp: displayramp,
         altmin,
         altmax,
         decimals: 1,
