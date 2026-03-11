@@ -3,29 +3,75 @@ import path from 'path';
 import { access, readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
 
-const STYLE_FILENAME = 'style.json';
-
 const DATA_TYPES = [
     {
         key: 'Rain',
         baseDir: path.join(resourceDir, 'climate/current/rain'),
         prefix: 'rain_wrf_anomaly_',
+        style: {
+            scaling: 'linear',
+            min: '0',
+            max: '3000',
+            decimals: '0',
+            unit: 'mm',
+            ramp: [
+                { color: '#C7EAE5', label: 'Light Rainfall', value: 0 },
+                { color: '#5AB4AC', label: 'Moderate Rainfall', value: 1500 },
+                { color: '#01665E', label: 'High Rainfall', value: 3000 },
+            ],
+        },
     },
     {
         key: 'Rain Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
         prefix: 'anom_rain_wrf_anomaly_',
+        style: {
+            scaling: 'fixed',
+            min: '-400',
+            max: '400',
+            decimals: '0',
+            unit: 'mm',
+            ramp: [
+                { color: '#A6611A', label: 'Drier Than Baseline', value: -400 },
+                { color: '#F5F5F5', label: 'Normal', value: 0 },
+                { color: '#018571', label: 'Wetter Than Baseline', value: 400 },
+            ],
+        },
     },
     {
         key: 'Temperature',
         baseDir: path.join(resourceDir, 'climate/current/temp'),
         prefix: 'temp_wrf_anomaly_',
+        style: {
+            scaling: 'linear',
+            min: '25',
+            max: '32',
+            decimals: '1',
+            unit: '\u00B0C',
+            ramp: [
+                { color: '#FDDBC7', label: 'Low Temperature', value: 25 },
+                { color: '#EF8A62', label: 'Moderate Temperature', value: 28.5 },
+                { color: '#B2182B', label: 'High Temperature', value: 32 },
+            ],
+        },
     },
     {
         key: 'Temperature Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
         prefix: 'anom_temp_wrf_anomaly_',
-    }
+        style: {
+            scaling: 'fixed',
+            min: '-5',
+            max: '5',
+            decimals: '1',
+            unit: '\u00B0C',
+            ramp: [
+                { color: '#0571B0', label: 'Colder Than Baseline', value: -5 },
+                { color: '#F7F7F7', label: 'Normal', value: 0 },
+                { color: '#CA0020', label: 'Hotter Than Baseline', value: 5 },
+            ],
+        },
+    },
 ];
 
 export const GET: APIRoute = async ({ request }) => {
@@ -58,16 +104,8 @@ export const GET: APIRoute = async ({ request }) => {
         await access(filePath);
         const buffer = await readFile(filePath);
 
-        const stylePath = path.join(config.baseDir, STYLE_FILENAME);
-        let style: any = null;
-        try {
-            await access(stylePath);
-            const styleRaw = await readFile(stylePath, 'utf-8');
-            style = JSON.parse(styleRaw);
-        }
-        catch {
-            style = null;
-        }
+        const styleRaw = Buffer.from(JSON.stringify(config.style || {}), 'utf-8').toString();
+        const style = JSON.parse(styleRaw);
 
         return new Response(buffer, {
             status: 200,
