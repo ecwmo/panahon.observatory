@@ -2,7 +2,8 @@
     <div class="map-container">
         <div id="map"></div>
         <template v-if="legendStyle">
-            <Legend :style="legendStyle"
+            <Legend ref="legendRef"
+                    :style="legendStyle"
                     :hasAltStyle="hasAltStyle"
                     :usingAltStyle="_usingAltRamp"
                     :discrete="discrete"
@@ -697,13 +698,13 @@
                 const src = this.map.getSource("tif-highlight");
                 if (src) src.setData({ type: "FeatureCollection", features });
             },
-            flyToWithOffset(lngLat, zoom, offsetY = 87) {
-                const point = this.map.project(lngLat);
-                point.y -= offsetY;
-                const adjustedLngLat = this.map.unproject(point);
+            flyToWithOffset(lngLat, zoom) {
+                const legendEl = this.$refs.legendRef?.$el;
+                const offsetY = legendEl.offsetHeight;
                 this.map.flyTo({
-                    center: adjustedLngLat,
-                    zoom: Math.max(this.map.getZoom(), zoom)
+                    center: lngLat,
+                    zoom: Math.max(this.map.getZoom(), zoom),
+                    offset: [0, offsetY]
                 });
             }
         },
