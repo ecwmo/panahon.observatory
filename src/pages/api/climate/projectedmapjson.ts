@@ -152,11 +152,11 @@ async function getProvinceAveragesByPeriod(
     ).size;
 
     const fullramp = [
-      { color: '#fff7f7', label: 'Lowest Anomaly' },
-      { color: '#efc6c6', label: '' },
-      { color: '#d66b6b', label: '' },
-      { color: '#b52121', label: '' },
-      { color: '#6b0808', label: 'Highest Anomaly' }
+      { color: '#F7F7F7', label: 'Lowest Anomaly' },
+      { color: '#FDBDC7', label: '' },
+      { color: '#F4A582', label: '' },
+      { color: '#D6604D', label: '' },
+      { color: '#B2182B', label: 'Highest Anomaly' }
     ];
 
     const displayramp = [];
@@ -285,11 +285,11 @@ async function getProvinceAveragesByPeriod(
     ).size;
 
     const fullramp = [
-      { color: '#f7fbff', label: 'Lowest Anomaly' },
-      { color: '#c6dbef', label: '' },
-      { color: '#6baed6', label: '' },
-      { color: '#2171b5', label: '' },
-      { color: '#08306b', label: 'Highest Anomaly' }
+      { color: '#F5F5F5', label: 'Lowest Anomaly' },
+      { color: '#C7EAE5', label: '' },
+      { color: '#80CDC1', label: '' },
+      { color: '#35978F', label: '' },
+      { color: '#01665E', label: 'Highest Anomaly' }
     ];
 
     const displayramp = [];
