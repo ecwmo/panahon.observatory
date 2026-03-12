@@ -257,7 +257,7 @@
                         this.jsonSource(jsonData, this._usingAltRamp ? altRamp : ramp, thresholds);
                         this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit };
 
-                        if (this.arraysNumericallySame(band, thresholds)) {
+                        if (this._usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
                             this.discrete = true;
                         }
                         else {
@@ -311,7 +311,7 @@
                     this.jsonSource(jsonData, activeRamp, thresholds);
                     this._usingAltRamp = usingAlt;
 
-                    if (this.arraysNumericallySame(band, thresholds)) {
+                    if (this._usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
                         this.discrete = true;
                     }
                     else {
