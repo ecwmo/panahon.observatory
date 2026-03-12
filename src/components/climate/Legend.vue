@@ -5,13 +5,20 @@
             <label class="legend-title">Select Range:</label>
             <div class="legend-slider">
                 <button :class="{ active: !usingAltStyle }" @click="$emit('changeLegend', false)">
-                    Global
+                    All Years
                 </button>
                 <button :class="{ active: usingAltStyle }" @click="$emit('changeLegend', true)">
-                    Local
+                    Displayed Map
                 </button>
                 <div class="slider-bg" :class="{ right: usingAltStyle }"></div>
             </div>
+            <span class="info-icon">
+                &#9432;
+                <span class="tooltip">
+                    All Years: min/max based on lowest/highest yearly average value<br />
+                    Displayed Map: min/max based on lowest/highest selected period-scenario average
+                </span>
+            </span>
         </div>
 
         <!-- Gradient bar with hover marker + red line -->
@@ -195,7 +202,7 @@
         background: #ddd;
         border-radius: 20px;
         overflow: hidden;
-        width: 140px;
+        width: 200px;
     }
 
     .legend-slider button {
@@ -227,6 +234,43 @@
 
     .slider-bg.right {
         transform: translateX(100%);
+    }
+
+    .info-icon {
+        position: relative;
+        cursor: pointer;
+        font-family: "Segoe UI Symbol", "Noto Sans Symbols", sans-serif;
+        font-size: 22px;
+        color: #333;
+    }
+
+    .tooltip {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-left: 8px;
+        transform: translateY(-50%);
+        background: #5A6C7D;
+        color: #fff;
+        padding: 6px 8px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 2;
+        max-width: 500px;
+    }
+
+    @media (max-width: 720px) {
+        .tooltip {
+            white-space: normal;
+            width: 250px;
+        }
+    }
+
+    .info-icon:hover .tooltip {
+        opacity: 1;
     }
 
     .gradient-bar {
