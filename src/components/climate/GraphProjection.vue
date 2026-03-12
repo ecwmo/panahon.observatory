@@ -236,10 +236,11 @@ async function renderChart() {
   ]
 
   const boxData = experimentData.map(({ exp, color, visibleY }) => ({
-    y: visibleY.filter((v) => v !== null).map((v) => Number(v.toFixed(2))),
+    y: visibleY.filter((v) => v !== null).map((v) => Number(v.toFixed(1))),
     type: 'box',
     name: exp,
     legendgroup: exp,
+    showlegend: false,
     boxpoints: 'outliers',
     marker: { color },
     line: { color, width: 1 },
@@ -279,8 +280,14 @@ async function renderChart() {
       showticklabels: true,
       automargin: false,
     },
-    legend: true,
-    showlegend: false,
+    showlegend: true,
+    legend: {
+      orientation: 'h',
+      x: 0.5,
+      xanchor: 'center',
+      y: 1.05,
+      yanchor: 'top'
+    },
     autosize: true,
     yaxis: {
       title: yAxisTitle,
@@ -544,7 +551,7 @@ function computeHoverValues(data: FilteredDataItem[], selectedProvince: string):
       const count = (result[exp] as any)[countKey] || 0
 
       if (count > 0) {
-        result[exp][key]! = Number((result[exp][key]! / count).toFixed(2))
+        result[exp][key]! = Number((result[exp][key]! / count).toFixed(1))
       } else {
         result[exp][key] = null
       }
