@@ -131,7 +131,7 @@
                     const options = [];
                     let current = new Date(start);
                     while (current <= end) {
-                        const monthName = current.toLocaleString("default", { month: "long" });
+                        const monthName = current.toLocaleString("default", { month: "short" });
                         const year = current.getFullYear();
                         options.push(`${monthName} ${year}`);
                         current.setMonth(current.getMonth() + 1);
@@ -266,5 +266,10 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         color: black;
+    }
+
+    option {
+        text-align: left;
+        font-family: monospace;
     }
 </style>

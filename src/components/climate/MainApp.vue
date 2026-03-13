@@ -116,7 +116,7 @@
     }
 
     .rightSide {
-        flex: 4;
+        flex: 8;
         display: flex;
         min-height: 0;
     }

@@ -9,15 +9,17 @@ const DATA_TYPES = [
         baseDir: path.join(resourceDir, 'climate/current/rain'),
         prefix: 'rain_wrf_anomaly_',
         style: {
-            scaling: 'linear',
+            scaling: 'fixed',
             min: '0',
             max: '3000',
             decimals: '0',
             unit: 'mm',
             ramp: [
                 { color: '#C7EAE5', label: 'Light Rainfall', value: 0 },
-                { color: '#5AB4AC', label: 'Moderate Rainfall', value: 1500 },
-                { color: '#01665E', label: 'High Rainfall', value: 3000 },
+                { color: '#80CDC1', label: '', value: 50 },
+                { color: '#35978F', label: '', value: 250 },
+                { color: '#01665E', label: '', value: 1500 },
+                { color: '#003C30', label: 'Extreme Rainfall', value: 3000 },
             ],
         },
     },
@@ -27,14 +29,17 @@ const DATA_TYPES = [
         prefix: 'anom_rain_wrf_anomaly_',
         style: {
             scaling: 'fixed',
-            min: '-400',
+            min: '-100',
             max: '400',
             decimals: '0',
-            unit: 'mm',
+            unit: '%',
             ramp: [
-                { color: '#A6611A', label: 'Drier Than Baseline', value: -400 },
-                { color: '#F5F5F5', label: 'Normal', value: 0 },
-                { color: '#018571', label: 'Wetter Than Baseline', value: 400 },
+                { color: '#A6611A', label: 'Drier Than Baseline', value: -100 },
+                { color: '#F5F5F5', label: '', value: 0 },
+                { color: '#C7EAE5', label: '', value: 100 },
+                { color: '#80CDC1', label: '', value: 200 },
+                { color: '#35978F', label: '', value: 300 },
+                { color: '#01665E', label: 'Wetter Than Baseline', value: 400 },
             ],
         },
     },
@@ -97,6 +102,7 @@ export const GET: APIRoute = async ({ request }) => {
     try {
         const parsed = new Date(`${pastPeriod} 1`);
         const year = parsed.getFullYear();
+        const monthName = parsed.toLocaleString('default', { month: 'long' });
         const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
         const fileName = `${config.prefix}${year}-${month}.tif`;
         const filePath = path.join(config.baseDir, fileName);
@@ -106,6 +112,8 @@ export const GET: APIRoute = async ({ request }) => {
 
         const styleRaw = Buffer.from(JSON.stringify(config.style || {}), 'utf-8').toString();
         const style = JSON.parse(styleRaw);
+
+        const title = `${config.key} (${monthName} ${year})`;
 
         return new Response(buffer, {
             status: 200,
@@ -118,6 +126,7 @@ export const GET: APIRoute = async ({ request }) => {
                 'X-Max': style?.max,
                 'X-Decimals': style?.decimals,
                 'X-Unit': style?.unit,
+                'X-Title': title
             }
         });
     }

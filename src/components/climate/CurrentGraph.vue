@@ -143,9 +143,8 @@
                         x: months,
                         y: values,
                         type: "scatter",
-                        mode: "lines+markers",
-                        line: { color: hexToRgba(posColor, 0.7) },
-                        marker: { size: 8, color: values.map(v => v < 0 ? negColor : posColor), opacity: 0.7 },
+                        mode: "lines",
+                        line: { color: hexToRgba(posColor, 0.7), width: 3 },
                         hovertemplate: "%{y}<extra></extra>",
                         name: "Current",
                         showlegend: numericValues.length > 0
@@ -155,9 +154,8 @@
                         x: baselineMonths,
                         y: baselineValues,
                         type: "scatter",
-                        mode: "lines+markers",
-                        line: { color: hexToRgba(newVal.baselinePositiveColor, 0.7) },
-                        marker: { size: 8, color: baselineValues.map(v => v < 0 ? newVal.baselineNegativeColor : newVal.baselinePositiveColor), opacity: 0.7 },
+                        mode: "lines",
+                        line: { color: hexToRgba(newVal.baselinePositiveColor, 0.3), width: 1 },
                         hovertemplate: "%{y}<extra></extra>",
                         name: "Baseline",
                         showlegend: baselineNumeric.length > 0

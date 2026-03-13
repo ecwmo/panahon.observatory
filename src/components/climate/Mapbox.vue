@@ -58,6 +58,8 @@
                 legendHoveredValue: null,
                 provincialValueMap: {},
                 unit: null,
+                title: null,
+                altTitle: null,
 
                 hoverFeature: null,
                 selectedFeature: null,
@@ -224,7 +226,11 @@
                     const altMaxHeader = res.headers.get("X-AltMax");
                     const decimals = res.headers.get("X-Decimals") || 1;
                     const unit = res.headers.get("X-Unit") || "";
+                    const title = res.headers.get("X-Title") || "Test Title";
+                    const altTitle = res.headers.get("X-AltTitle") || "Test Alt Title";
                     this.unit = unit;
+                    this.title = title;
+                    this.altTitle = altTitle;
 
                     this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
                     this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
@@ -241,7 +247,7 @@
                         const { thresholds, enrichedRamp } = this.computeThresholds(
                             band, ramp, scaling, minHeader, maxHeader, decimals
                         );
-                        this.legendStyle = { ramp: enrichedRamp, unit };
+                        this.legendStyle = { ramp: enrichedRamp, unit, title };
                         this.tifSource(image, band, ramp, thresholds);
                         this.tifBand = band;
                         this.tifImage = image;
@@ -254,9 +260,9 @@
                         const { thresholds, enrichedRamp } = this.computeThresholds(
                             band, this._usingAltRamp ? altRamp : ramp, scaling, this._usingAltRamp ? altMinHeader : minHeader, this._usingAltRamp ? altMaxHeader : maxHeader, decimals
                         );
-                        this.legendStyle = { ramp: enrichedRamp, unit };
+                        this.legendStyle = { ramp: enrichedRamp, unit, title: this._usingAltRamp ? altTitle : title };
                         this.jsonSource(jsonData, this._usingAltRamp ? altRamp : ramp, thresholds);
-                        this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit };
+                        this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit, title, altTitle };
 
                         if (this._usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
                             this.discrete = true;
@@ -301,23 +307,23 @@
             },
             changeLegend(usingAlt) {
                 if (this._lastProjected && this._usingAltRamp !== usingAlt) {
-                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader } = this._lastProjected;
-                    const activeRamp = this._usingAltRamp ? ramp : altRamp;
-                    const activeMinHdr = this._usingAltRamp ? minHeader : altMinHeader;
-                    const activeMaxHdr = this._usingAltRamp ? maxHeader : altMaxHeader;
+                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader, title, altTitle } = this._lastProjected;
+                    const activeRamp = usingAlt ? altRamp : ramp;
+                    const activeMinHdr = usingAlt ? altMinHeader : minHeader;
+                    const activeMaxHdr = usingAlt ? altMaxHeader : maxHeader;
+                    const activeTitle = usingAlt ? altTitle : title;
                     const { thresholds, enrichedRamp } = this.computeThresholds(
                         band, activeRamp, scaling, activeMinHdr, activeMaxHdr, decimals
                     );
-                    this.legendStyle = { ramp: enrichedRamp, unit };
+                    this.legendStyle = { ramp: enrichedRamp, unit, title: activeTitle };
                     this.jsonSource(jsonData, activeRamp, thresholds);
-                    this._usingAltRamp = usingAlt;
-
-                    if (this._usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
+                    if (usingAlt && this.arraysNumericallySame(band, thresholds)) {
                         this.discrete = true;
                     }
                     else {
                         this.discrete = false;
                     }
+                    this._usingAltRamp = usingAlt;
                 }
             },
             async reloadClimate()

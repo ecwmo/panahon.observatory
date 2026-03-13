@@ -24,7 +24,7 @@ const DATA_TYPES = [
         key: 'Rain Anomaly',
         baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
         prefix: 'anom_rain_wrf_anomaly_',
-        measurement: 'Rainfall (mm)',
+        measurement: 'Rainfall Change (%)',
         name: 'Grid Rainfall Anomaly Graph',
         decimals: 0,
         graph: 'bar',

@@ -2,7 +2,7 @@
     <div class="legend">
         <!-- Folder tabs if alt style exists -->
         <div v-if="hasAltStyle" class="legend-header">
-            <label class="legend-title">Select Range:</label>
+            <label class="legend-range">Select Range:</label>
             <div class="legend-slider">
                 <button :class="{ active: !usingAltStyle }" @click="$emit('changeLegend', false)">
                     All Years
@@ -20,6 +20,8 @@
                 </span>
             </span>
         </div>
+
+        <div v-if="style.title" class="legend-title">{{ style.title }}</div>
 
         <!-- Gradient bar with hover marker + red line -->
         <div class="gradient-bar">
@@ -183,6 +185,15 @@
         position: relative;
     }
 
+    .legend-title {
+        font-size: 1.0rem;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .legend-header {
         display: flex;
         align-items: center;
@@ -190,8 +201,8 @@
         gap: 0.5rem;
     }
 
-    .legend-title {
-        font-size: 12px;
+    .legend-range {
+        font-size: 0.8rem;
         margin: 0;
         color: #333;
     }
@@ -242,6 +253,7 @@
         font-family: "Segoe UI Symbol", "Noto Sans Symbols", sans-serif;
         font-size: 22px;
         color: #333;
+        padding-bottom: 3px;
     }
 
     .tooltip {
@@ -256,10 +268,11 @@
         border-radius: 4px;
         opacity: 0;
         transition: opacity 0.2s;
-        font-size: 12px;
+        font-size: 0.8rem;
         white-space: nowrap;
         z-index: 2;
         max-width: 500px;
+        pointer-events: none;
     }
 
     @media (max-width: 720px) {
