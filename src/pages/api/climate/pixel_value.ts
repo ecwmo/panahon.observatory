@@ -18,7 +18,9 @@ const DATA_TYPES = [
         baselineDir: path.join(resourceDir, 'climate/current/rain_baseline'),
         baselinePattern: '{month}_gsmap_2001-2020_clim.tif',
         baselineNegativeColor: '#666666',
-        baselinePositiveColor: '#666666'
+        baselinePositiveColor: '#666666',
+        primaryTooltip: 'Observed monthly average rainfall.',
+        secondaryTooltip: 'Historical monthly average rainfall (e.g., January = mean of all Januarys).'
     },
     {
         key: 'Rain Anomaly',
@@ -31,7 +33,9 @@ const DATA_TYPES = [
         negativeColor: '#A6611A',
         positiveColor: '#018571',
         negativeLegend: 'Drier Than Baseline',
-        positiveLegend: 'Wetter Than Baseline'
+        positiveLegend: 'Wetter Than Baseline',
+        primaryTooltip: 'Rainfall less than the historical average.',
+        secondaryTooltip: 'Rainfall more than the historical average.'
     },
     {
         key: 'Temperature',
@@ -46,7 +50,9 @@ const DATA_TYPES = [
         baselineDir: path.join(resourceDir, 'climate/current/temp_baseline'),
         baselinePattern: '{month}_aphrodite_1971-2000_clim.tif',
         baselineNegativeColor: '#666666',
-        baselinePositiveColor: '#666666'
+        baselinePositiveColor: '#666666',
+        primaryTooltip: 'Observed monthly average temperature.',
+        secondaryTooltip: 'Historical monthly average temperature (e.g., January = mean of all Januarys).'
     },
     {
         key: 'Temperature Anomaly',
@@ -59,7 +65,9 @@ const DATA_TYPES = [
         negativeColor: '#0571B0',
         positiveColor: '#CA0020',
         negativeLegend: 'Colder Than Baseline',
-        positiveLegend: 'Hotter Than Baseline'
+        positiveLegend: 'Hotter Than Baseline',
+        primaryTooltip: 'Temperature less than the historical average.',
+        secondaryTooltip: 'Temperature more than the historical average.'
     }
 ];
 
@@ -193,7 +201,9 @@ export const GET: APIRoute = async ({ request }) => {
             baselinePositiveColor: config.baselinePositiveColor,
             baselineNegativeColor: config.baselineNegativeColor,
             positiveLegend: config.positiveLegend,
-            negativeLegend: config.negativeLegend
+            negativeLegend: config.negativeLegend,
+            primaryTooltip: config.primaryTooltip,
+            secondaryTooltip: config.secondaryTooltip
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );

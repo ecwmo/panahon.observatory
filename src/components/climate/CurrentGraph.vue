@@ -81,7 +81,8 @@
                         marker: { color: negColor, opacity: 0.7 },
                         hovertemplate: "%{y}<extra></extra>",
                         name: newVal.negativeLegend || "Negative",
-                        showlegend: numericValues.some(v => v < 0)
+                        showlegend: numericValues.some(v => v < 0),
+                        meta: { tooltip: newVal.primaryTooltip }
                     };
 
                     const posTrace = {
@@ -91,7 +92,8 @@
                         marker: { color: posColor, opacity: 0.7 },
                         hovertemplate: "%{y}<extra></extra>",
                         name: newVal.positiveLegend || "Positive",
-                        showlegend: numericValues.some(v => v >= 0)
+                        showlegend: numericValues.some(v => v >= 0),
+                        meta: { tooltip: newVal.secondaryTooltip }
                     };
 
                     const nullIndices = values
@@ -145,9 +147,28 @@
                         type: "scatter",
                         mode: "lines",
                         line: { color: hexToRgba(posColor, 0.7), width: 3 },
-                        hovertemplate: "%{y}<extra></extra>",
                         name: "Current",
-                        showlegend: numericValues.length > 0
+                        legendgroup: "Current",              
+                        showlegend: numericValues.length > 0,
+                        meta: { tooltip: newVal.primaryTooltip }
+                    };
+
+                    const markerSizes = values.map((v, i) => {
+                        if (v === null) return 0;
+                        const prev = i > 0 ? values[i - 1] : null;
+                        const next = i < values.length - 1 ? values[i + 1] : null;
+                        return (prev === null && next === null) ? 6 : 0;
+                    });
+
+                    const gapTrace = {
+                        x: months,
+                        y: values,
+                        type: "scatter",
+                        mode: "markers",
+                        marker: { size: markerSizes, color: posColor, opacity: 0.7 },
+                        hovertemplate: "%{y}<extra></extra>",
+                        legendgroup: "Current",
+                        showlegend: false
                     };
 
                     const baselineTrace = {
@@ -158,10 +179,11 @@
                         line: { color: hexToRgba(newVal.baselinePositiveColor, 0.3), width: 1 },
                         hovertemplate: "%{y}<extra></extra>",
                         name: "Baseline",
-                        showlegend: baselineNumeric.length > 0
+                        showlegend: baselineNumeric.length > 0,
+                        meta: { tooltip: newVal.secondaryTooltip }
                     };
 
-                    traces.push(trendTrace, baselineTrace);
+                    traces.push(trendTrace, baselineTrace, gapTrace);
                 }
 
                 const layout = {
@@ -201,6 +223,12 @@
                 if (plotEl && plotEl.offsetParent !== null) {
                     Plotly.Plots.resize(plotEl);
                 }
+
+                const legendToggles = plotEl.querySelectorAll(".legendtoggle");
+                legendToggles.forEach((group, i) => {
+                    const tooltip = traces[i].meta?.tooltip || `Toggle ${traces[i].name}`;
+                    group.insertAdjacentHTML("afterbegin", `<title>${tooltip}</title>`);
+                });
 
                 rendering.value = false;
             };
