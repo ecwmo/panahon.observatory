@@ -162,7 +162,7 @@
                         "source-layer": this.sourceLayer,
                         paint: {
                             "line-color": "#ff0000",
-                            "line-width": 2,
+                            "line-width": 1,
                             "line-opacity": 1.0
                         },
                         filter: ["==", ["get", this.admProperty], newVal]
@@ -531,6 +531,10 @@
 
                 this.map.on("mousemove", this._hoverHandler);
 
+                if (this.map.getLayer("dynamic-layer-outline")) {
+                    this.map.moveLayer("dynamic-layer-outline");
+                }
+
                 if (this.map.getLayer("dynamic-layer-highlight")) {
                     this.map.moveLayer("dynamic-layer-highlight");
                 }
@@ -741,7 +745,7 @@
                     type: "line",
                     source: "dynamic-source",
                     "source-layer": this.sourceLayer,
-                    paint: { "line-color": "#1c3d5a", "line-width": 2, "line-opacity": 1.0 },
+                    paint: { "line-color": "#1c3d5a", "line-width": 1, "line-opacity": 1.0 },
                 });
                 this.map.addSource("tif-highlight", {
                     type: "geojson",
