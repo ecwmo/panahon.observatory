@@ -706,7 +706,7 @@
             },
             flyToWithOffset(lngLat, zoom) {
                 const legendEl = this.$refs.legendRef?.$el;
-                const offsetY = legendEl.offsetHeight;
+                const offsetY = legendEl.offsetHeight - 65;
                 this.map.flyTo({
                     center: lngLat,
                     zoom: Math.max(this.map.getZoom(), zoom),
@@ -853,7 +853,7 @@
         position: absolute;
         top: 10px;
         left: 10px;
-        z-index: 1;
+        z-index: 2;
         box-shadow: 0 0 0 2px #0000001a;
         background-color: white;
         max-width: min(425px, calc(100% - 70px));

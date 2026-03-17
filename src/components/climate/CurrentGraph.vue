@@ -1,7 +1,15 @@
-<template>
+﻿<template>
     <div class="graph-panel">
         <!-- Plot container always present -->
         <div id="trend-plot"></div>
+
+        <div class="legend-info" v-if="legendInfo?.length">
+            <ul>
+                <li v-for="(item, i) in legendInfo" :key="i">
+                    <strong>{{ item.name }}</strong>: {{ item.tooltip }}
+                </li>
+            </ul>
+        </div>
 
         <!-- Error overlay -->
         <div v-if="data && data.failed && data.connectionError" class="overlay error-message">
@@ -32,6 +40,7 @@
             let plotEl = null;
             let handleResize = null;
             const rendering = ref(false);
+            const legendInfo = ref([]);
 
             const renderPlot = async (newVal) => {
                 if (!newVal || !newVal.trend || !Plotly || !plotEl) return;
@@ -217,17 +226,27 @@
                     ...(newVal.graph === "bar" ? { barmode: "overlay" } : {})
                 };
 
+                const infoList = await traces
+                    .filter(t => t.showlegend && t.name)
+                    .map(t => ({
+                        name: t.name,
+                        tooltip: t.meta?.tooltip || `Toggle ${t.name}`
+                    }));
+                legendInfo.value = infoList;
+
                 await Plotly.newPlot(plotEl, traces, layout, { responsive: true });
 
                 await nextTick();
                 if (plotEl && plotEl.offsetParent !== null) {
-                    Plotly.Plots.resize(plotEl);
+                    await Plotly.Plots.resize(plotEl);
                 }
 
                 const legendToggles = plotEl.querySelectorAll(".legendtoggle");
                 legendToggles.forEach((group, i) => {
-                    const tooltip = traces[i].meta?.tooltip || `Toggle ${traces[i].name}`;
-                    group.insertAdjacentHTML("afterbegin", `<title>${tooltip}</title>`);
+                    const tooltip = infoList[i]?.tooltip;
+                    if (tooltip) {
+                        group.insertAdjacentHTML("afterbegin", `<title>${tooltip}</title>`);
+                    }
                 });
 
                 rendering.value = false;
@@ -269,7 +288,7 @@
                 { immediate: true }
             );
 
-            return { rendering };
+            return { rendering, legendInfo };
         }
     };
 </script>
@@ -303,7 +322,7 @@
         align-items: center;
         justify-content: center;
         font-size: 1.2rem;
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 1);
     }
 
     .error-message {
@@ -312,5 +331,13 @@
 
     .loading-message {
         color: #666;
+    }
+
+    .legend-info {
+        background: #fff;
+        border-top: 1px solid #ccc;
+        color: black;
+        white-space: normal;
+        word-break: break-word;
     }
 </style>

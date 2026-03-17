@@ -150,7 +150,7 @@
     }
 
     .map-container {
-        min-height: 0;
+        min-height: 325px;
     }
 
     .panel-container {
