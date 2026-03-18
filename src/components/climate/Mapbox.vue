@@ -60,6 +60,7 @@
                 unit: null,
                 title: null,
                 altTitle: null,
+                _usingAltRamp: false,
 
                 hoverFeature: null,
                 selectedFeature: null,
@@ -235,7 +236,7 @@
                     this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
                     this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
 
-                    this.hasAltStyle = altRamp && altMinHeader && altMaxHeader;
+                    this.hasAltStyle = Boolean(altRamp.length && altMinHeader && altMaxHeader);
                     this.discrete = false;
 
                     if (newParams.tab === "Current") {

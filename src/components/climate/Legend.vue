@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-    import { computed } from "vue";
+    import { computed, defineComponent } from "vue";
     import chroma from "chroma-js";
 
     interface RampEntry {
