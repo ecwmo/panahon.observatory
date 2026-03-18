@@ -1,74 +1,72 @@
 <template>
     <div class="legend">
-        <!-- Folder tabs if alt style exists -->
-        <div v-if="hasAltStyle" class="legend-header">
-            <label class="legend-range">Select Range:</label>
-            <div class="legend-slider">
+        <!-- Header -->
+        <div v-if="hasAltStyle" class="legend__header">
+            <label class="legend__header__range">Select Range:</label>
+            <div class="legend__header__slider">
                 <button :class="{ active: !usingAltStyle }" @click="$emit('changeLegend', false)">
                     All Years
                 </button>
                 <button :class="{ active: usingAltStyle }" @click="$emit('changeLegend', true)">
                     Displayed Map
                 </button>
-                <div class="slider-bg" :class="{ right: usingAltStyle }"></div>
+                <div class="legend__header__slider-bg" :class="{ right: usingAltStyle }"></div>
             </div>
-            <span class="info-icon">
+            <span class="legend__header__info">
                 &#9432;
-                <span class="tooltip">
+                <span class="legend__header__tooltip">
                     All Years: min/max based on lowest/highest yearly average value<br />
                     Displayed Map: min/max based on lowest/highest selected period-scenario average
                 </span>
             </span>
         </div>
 
-        <div v-if="style.title" class="legend-title">{{ style.title }}</div>
+        <!-- Title -->
+        <div v-if="style.title" class="legend__title">{{ style.title }}</div>
 
-        <!-- Gradient bar with hover marker + red line -->
-        <div class="gradient-bar">
-            <div class="gradient-fill" :style="gradientStyle"></div>
+        <!-- Gradient bar -->
+        <div class="legend__gradient">
+            <div class="legend__gradient__fill" :style="gradientStyle"></div>
 
-            <!-- Hover pixel marker (inside bar, halfway down, no arrow) -->
             <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== '' && !isNaN(hoveredValue)"
-                 class="hover-marker"
+                 class="legend__gradient__marker"
                  :style="{ left: pointerPosition + '%' }">
-                <span class="hover-label">{{ hoveredValue }}{{ style.unit }}</span>
+                <span class="legend__gradient__marker-label">{{ hoveredValue }}{{ style.unit }}</span>
             </div>
 
-            <!-- Red vertical line showing hover position -->
             <div v-if="hoveredValue !== null && hoveredValue !== undefined && hoveredValue !== '' && !isNaN(hoveredValue)"
-                 class="hover-line"
+                 class="legend__gradient__line"
                  :style="{ left: pointerPosition + '%' }"></div>
 
-            <!-- Threshold tick lines (only if not discrete) -->
             <div v-if="!discrete"
                  v-for="(entry, idx) in style.ramp"
                  :key="'tick-' + idx"
-                 class="tick-line"
+                 class="legend__gradient__tick"
                  :style="{ left: uniformTickPosition(idx) + '%' }"></div>
         </div>
 
-        <!-- Threshold values with unit directly below segments -->
-        <div class="threshold-values">
+        <!-- Threshold values -->
+        <div class="legend__thresholds">
             <span v-for="(entry, idx) in style.ramp"
                   :key="'threshold-' + idx"
-                  class="threshold-value"
+                  class="legend__thresholds__value"
                   :class="{
-                      'edge-label-left': !discrete && idx === 0,
-                      'edge-label-right': !discrete && idx === style.ramp.length - 1
+                      'legend__thresholds__value--left': !discrete && idx === 0,
+                      'legend__thresholds__value--right': !discrete && idx === style.ramp.length - 1
                   }"
                   :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.threshold }}{{ style.unit }}
             </span>
         </div>
 
-        <!-- Legend labels below threshold values -->
-        <div class="labels">
+        <!-- Labels -->
+        <div class="legend__labels">
             <span v-for="(entry, idx) in style.ramp"
                   :key="'label-' + idx"
-                  class="tick-label"
+                  class="legend__labels__text"
                   :class="{
-                      'edge-label-left': !discrete && idx === 0,
-                      'edge-label-right': !discrete && idx === style.ramp.length - 1
+                      'legend__labels__text--left': !discrete && idx === 0,
+                      'legend__labels__text--right': !discrete && idx === style.ramp.length - 1
                   }"
                   :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.label }}
@@ -77,34 +75,48 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+    import { computed } from "vue";
     import chroma from "chroma-js";
 
-    export default {
+    interface RampEntry {
+        threshold: number;
+        color: string;
+        label?: string;
+    }
+
+    interface LegendStyle {
+        title?: string;
+        unit: string;
+        ramp: RampEntry[];
+    }
+
+    export default defineComponent({
         name: "Legend",
         props: {
-            style: { type: Object, required: true },
+            style: {
+                type: Object as () => LegendStyle,
+                required: true
+            },
             hoveredValue: { type: Number, default: null },
             hasAltStyle: { type: Boolean, default: false },
             usingAltStyle: { type: Boolean, default: false },
             discrete: { type: Boolean, default: false }
         },
-        computed: {
-            gradientStyle() {
-                const ramp = this.style.ramp;
+        setup(props, { emit }) {
+            const gradientStyle = computed(() => {
+                const ramp = props.style.ramp;
                 const colors = ramp.map(r => r.color);
                 const n = ramp.length;
 
-                if (this.discrete) {
+                if (props.discrete) {
                     const stops = [];
                     for (let i = 0; i < n; i++) {
                         const pctStart = (i / n) * 100;
                         const pctEnd = ((i + 1) / n) * 100;
                         stops.push(`${colors[i]} ${pctStart}%`, `${colors[i]} ${pctEnd}%`);
                     }
-                    return {
-                        background: `linear-gradient(to right, ${stops.join(", ")})`
-                    };
+                    return { background: `linear-gradient(to right, ${stops.join(", ")})` };
                 }
                 else {
                     const scale = chroma.scale(colors).mode("lab");
@@ -114,22 +126,19 @@
                         const t = i / steps;
                         stops.push(`${scale(t).hex()} ${t * 100}%`);
                     }
-                    return {
-                        background: `linear-gradient(to right, ${stops.join(", ")})`
-                    };
+                    return { background: `linear-gradient(to right, ${stops.join(", ")})` };
                 }
-            },
-            pointerPosition() {
-                if (this.hoveredValue == null) return 0;
+            });
 
-                const thresholds = this.style.ramp.map(r => Number(r.threshold));
+            const pointerPosition = computed(() => {
+                if (props.hoveredValue == null) return 0;
+                const thresholds = props.style.ramp.map(r => Number(r.threshold));
                 const n = thresholds.length;
-                const hv = Number(this.hoveredValue);
+                const hv = Number(props.hoveredValue);
 
-                if (!this.discrete) {
+                if (!props.discrete) {
                     if (hv <= thresholds[0]) return 0;
                     if (hv >= thresholds[n - 1]) return 100;
-
                     for (let i = 0; i < n - 1; i++) {
                         const low = thresholds[i];
                         const high = thresholds[i + 1];
@@ -146,10 +155,7 @@
                 if (hv >= thresholds[n - 1]) return ((n - 0.5) / n) * 100;
 
                 for (let i = 0; i < n; i++) {
-                    const t = thresholds[i];
-                    if (hv === t) {
-                        return ((i + 0.5) / n) * 100;
-                    }
+                    if (hv === thresholds[i]) return ((i + 0.5) / n) * 100;
                 }
 
                 for (let i = 0; i < n - 1; i++) {
@@ -157,24 +163,31 @@
                         return ((i + 0.5) / n) * 100;
                     }
                 }
-
                 return 0;
-            }
-        },
-        methods: {
-            uniformTickPosition(idx) {
-                const n = this.style.ramp.length;
+            });
+
+            const uniformTickPosition = (idx) => {
+                const n = props.style.ramp.length;
                 return (idx / (n - 1)) * 100;
-            },
-            discreteCenterPosition(idx) {
-                const n = this.style.ramp.length;
+            };
+
+            const discreteCenterPosition = (idx) => {
+                const n = props.style.ramp.length;
                 return ((idx + 0.5) / n) * 100;
-            }
+            };
+
+            return {
+                gradientStyle,
+                pointerPosition,
+                uniformTickPosition,
+                discreteCenterPosition
+            };
         }
-    };
+    });
 </script>
 
 <style scoped>
+/* ================= FULL OBJECT ================= */
     .legend {
         font-family: sans-serif;
         background: #f8f9fa;
@@ -185,7 +198,8 @@
         position: relative;
     }
 
-    .legend-title {
+/* ================= TITLE ================= */
+    .legend__title {
         font-size: 1.0rem;
         font-weight: 600;
         margin: 0;
@@ -194,20 +208,21 @@
         justify-content: center;
     }
 
-    .legend-header {
+/* ================= HEADER ================= */
+    .legend__header {
         display: flex;
         align-items: center;
         margin-bottom: 0.5rem;
         gap: 0.5rem;
     }
 
-    .legend-range {
+    .legend__header__range {
         font-size: 0.8rem;
         margin: 0;
         color: #333;
     }
 
-    .legend-slider {
+    .legend__header__slider {
         position: relative;
         display: inline-flex;
         background: #ddd;
@@ -216,7 +231,7 @@
         width: 200px;
     }
 
-    .legend-slider button {
+    .legend__header__slider button {
         flex: 1;
         padding: 4px 0;
         border: none;
@@ -227,11 +242,11 @@
         z-index: 1;
     }
 
-    .legend-slider button.active {
+    .legend__header__slider button.active {
         color: #fff;
     }
 
-    .slider-bg {
+    .legend__header__slider-bg {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -243,11 +258,11 @@
         z-index: 0;
     }
 
-    .slider-bg.right {
+    .legend__header__slider-bg.right {
         transform: translateX(100%);
     }
 
-    .info-icon {
+    .legend__header__info {
         position: relative;
         cursor: pointer;
         font-family: "Segoe UI Symbol", "Noto Sans Symbols", sans-serif;
@@ -256,7 +271,7 @@
         padding-bottom: 3px;
     }
 
-    .tooltip {
+    .legend__header__tooltip {
         position: absolute;
         top: 50%;
         left: 100%;
@@ -276,35 +291,36 @@
     }
 
     @media (max-width: 720px) {
-        .tooltip {
+        .legend__header__tooltip {
             white-space: normal;
             width: 250px;
         }
     }
 
-    .info-icon:hover .tooltip {
+    .legend__header__info:hover .legend__header__tooltip {
         opacity: 1;
     }
 
-    .gradient-bar {
+/* ================= GRADIENT BAR ================= */
+    .legend__gradient {
         position: relative;
         height: 24px;
         border: 1px solid #999;
     }
 
-    .gradient-fill {
+    .legend__gradient__fill {
         height: 100%;
         width: 100%;
     }
 
-    .hover-marker {
+    .legend__gradient__marker {
         position: absolute;
         top: 50%;
         transform: translate(-50%, -50%);
         z-index: 1000;
     }
 
-    .hover-label {
+    .legend__gradient__marker-label {
         font-size: 0.8rem;
         background: #fff;
         padding: 0 3px;
@@ -313,7 +329,7 @@
         white-space: nowrap;
     }
 
-    .hover-line {
+    .legend__gradient__line {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -323,7 +339,7 @@
         z-index: 999;
     }
 
-    .tick-line {
+    .legend__gradient__tick {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -332,13 +348,14 @@
         transform: translateX(-50%);
     }
 
-    .threshold-values {
+/* ================= THRESHOLD VALUES ================= */
+    .legend__thresholds {
         position: relative;
         margin-top: 0.25rem;
         min-height: 1rem;
     }
 
-    .threshold-value {
+    .legend__thresholds__value {
         position: absolute;
         font-size: 0.8rem;
         transform: translateX(-50%);
@@ -347,21 +364,22 @@
         line-height: 1;
     }
 
-    .threshold-value.edge-label-left {
+    .legend__thresholds__value--left {
         transform: translateX(0);
     }
 
-    .threshold-value.edge-label-right {
+    .legend__thresholds__value--right {
         transform: translateX(-100%);
     }
 
-    .labels {
+/* ================= LABELS ================= */
+    .legend__labels {
         position: relative;
         margin-top: 0.25rem;
         min-height: 1rem;
     }
 
-    .tick-label {
+    .legend__labels__text {
         position: absolute;
         font-size: 0.8rem;
         transform: translateX(-50%);
@@ -370,14 +388,15 @@
         line-height: 1;
     }
 
-    .tick-label.edge-label-left {
+    .legend__labels__text--left {
         transform: translateX(0);
     }
 
-    .tick-label.edge-label-right {
+    .legend__labels__text--right {
         transform: translateX(-100%);
     }
 
+/* ================= GLOBAL ================= */
     * {
         color: black;
     }
