@@ -8,7 +8,7 @@
         </div>
         <div class="rightSide" :class="parameters.tab === 'Current' ? 'row-layout' : 'column-layout'">
             <div class="map-container">
-                <Mapbox @data-fetched="handleData"
+                <Mapbox @current-data-fetched="handleCurrentData"
                         @projected-data-fetched="handleProjectedData"
                         :parameters="parameters"
                         :token="token"
@@ -19,88 +19,77 @@
                         :selected-location="selectedLocation"
                         @map-ready="onMapReady" />
             </div>
-            <div v-if="selectedLocation && parameters.tab === 'Current' && latestData" ref="panel" class="panel-container">
-                <CurrentGraph v-if="panelReady" :data="latestDataSafe" />
+            <div v-if="selectedLocation && parameters.tab === 'Current' && currentData" ref="panel" class="panel-container">
+                <CurrentGraph v-if="panelReady" :data="currentData" />
             </div>
             <div v-if="selectedLocation?.name && parameters.tab === 'Projected' && filteredData" ref="panel" class="panel-container">
-                <GraphProjection :selectedProvince="selectedLocation?.name" :filteredData="filteredData" :projectedData="parameters.projectedData" :yMin="projectedMin" :yMax="projectedMax" />
+                <GraphProjection :selectedProvince="selectedLocation?.name"
+                                 :filteredData="filteredData"
+                                 :projectedData="parameters.projectedData"
+                                 :yMin="projectedMin"
+                                 :yMax="projectedMax" />
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    import { nextTick } from 'vue';
+<script setup lang="ts">
+    import { ref, nextTick, onMounted } from 'vue';
     import ClimateSelector from './ClimateSelector.vue';
     import Mapbox from './Mapbox.vue';
     import CurrentGraph from './CurrentGraph.vue';
     import GraphProjection from './GraphProjection.vue';
 
-    export default {
-        name: 'MainApp',
-        components: { ClimateSelector, Mapbox, CurrentGraph, GraphProjection },
-        props: {
-            token: { type: String, required: true },
-            tileset: { type: String, required: true },
-            sourceLayer: { type: String, required: true },
-            admProperty: { type: String, required: true },
-        },
-        data() {
-            return {
-                parameters: {},
-                latestData: null,
-                filteredData: null,
-                projectedMin: null,
-                projectedMax: null,
-                showSelector: false,
-                selectedLocation: null,
-                panelReady: false,
-                mapReady: false
-            };
-        },
-        computed: {
-            latestDataSafe() {
-                return this.latestData;
-            },
-        },
-        methods: {
-            onMapReady() {
-                this.mapReady = true;
-            },
-            handleData(data) {
-                this.latestData = data;
-            },
-            handleSelection(data) {
-                this.parameters = data || {};
-            },
-            async onLocationChanged(loc) {
-                let changeData = true;
+    defineProps<{
+        token: string;
+        tileset: string;
+        sourceLayer: string;
+        admProperty: string;
+    }>();
 
-                if (this.selectedLocation?.name === loc?.name) {
-                    changeData = false;
-                }
+    const parameters = ref <any> ({});
+    const currentData = ref <any> (null);
+    const filteredData = ref <any> (null);
+    const projectedMin = ref <number | null> (null);
+    const projectedMax = ref <number | null> (null);
 
-                this.selectedLocation = loc;
-                this.panelReady = false;
+    const showSelector = ref(false);
+    const selectedLocation = ref <any> (null);
+    const panelReady = ref(false);
+    const mapReady = ref(false);
 
-                await nextTick();
+    function onMapReady(): void {
+        mapReady.value = true;
+    }
 
-                requestAnimationFrame(() => {
-                    this.panelReady = true;
-                });
-            },
-            handleProjectedData(payload) {
-                this.filteredData = payload.data;
-                this.projectedMin = payload.yMin;
-                this.projectedMax = payload.yMax;
-            },
-        },
-        mounted() {
-            this.$nextTick(() => {
-                this.showSelector = true;
+    function handleSelection(data: any): void {
+        parameters.value = data || {};
+    }
+
+    function handleCurrentData(data: any): void {
+        currentData.value = data;
+    }
+
+    function handleProjectedData(payload: { data: any; yMin: number; yMax: number }): void {
+        filteredData.value = payload.data;
+        projectedMin.value = payload.yMin;
+        projectedMax.value = payload.yMax;
+    }
+
+    async function onLocationChanged(loc: any): Promise<void> {
+        if (selectedLocation.value?.name !== loc?.name) {
+            selectedLocation.value = loc;
+            panelReady.value = false;
+            await nextTick();
+            requestAnimationFrame(() => {
+                panelReady.value = true;
             });
-        },
-    };
+        }
+    }
+
+    onMounted(() => {
+        showSelector.value = true;
+    });
 </script>
 
 <style scoped>

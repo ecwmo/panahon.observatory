@@ -580,7 +580,7 @@
 
                             const data = await res.json();
                             this.fetchedData = data;
-                            this.$emit("data-fetched", data);
+                            this.$emit("current-data-fetched", data);
                             content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined ? `${data.value}${this.unit}` : "N/A"}`;
                         }
                         else if (this.parameters.tab === "Projected") {
@@ -588,7 +588,7 @@
                                 if (this.currentPopup) {
                                     this.currentPopup.remove();
                                     this.currentPopup = null;
-                                    this.$emit("data-fetched", null);
+                                    this.$emit("current-data-fetched", null);
                                 }
                                 return;
                             }
@@ -624,11 +624,11 @@
                         }
                         if (err.name === "TypeError") {
                             content += `Connection error<br/>Click again to reload`;
-                            this.$emit("data-fetched", { failed: true , connectionError: true });
+                            this.$emit("current-data-fetched", { failed: true , connectionError: true });
                         }
                         else {
                             content += `Backend error`;
-                            this.$emit("data-fetched", { failed: true, connectionError: false });
+                            this.$emit("current-data-fetched", { failed: true, connectionError: false });
                         }       
                         this.emptyPopup = true;
                     }
