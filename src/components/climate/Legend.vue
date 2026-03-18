@@ -48,13 +48,13 @@
         <!-- Threshold values -->
         <div class="legend__thresholds">
             <span v-for="(entry, idx) in style.ramp"
-                  :key="'threshold-' + idx"
-                  class="legend__thresholds__value"
-                  :class="{
-                      'legend__thresholds__value--left': !discrete && idx === 0,
-                      'legend__thresholds__value--right': !discrete && idx === style.ramp.length - 1
-                  }"
-                  :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
+                :key="'threshold-' + idx"
+                class="legend__thresholds__value"
+                :class="{
+                    'legend__thresholds__value--left': !discrete && idx === 0,
+                    'legend__thresholds__value--right': !discrete && idx === style.ramp.length - 1
+                }"
+                :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.threshold }}{{ style.unit }}
             </span>
         </div>
@@ -62,13 +62,13 @@
         <!-- Labels -->
         <div class="legend__labels">
             <span v-for="(entry, idx) in style.ramp"
-                  :key="'label-' + idx"
-                  class="legend__labels__text"
-                  :class="{
-                      'legend__labels__text--left': !discrete && idx === 0,
-                      'legend__labels__text--right': !discrete && idx === style.ramp.length - 1
-                  }"
-                  :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
+                :key="'label-' + idx"
+                class="legend__labels__text"
+                :class="{
+                    'legend__labels__text--left': !discrete && idx === 0,
+                    'legend__labels__text--right': !discrete && idx === style.ramp.length - 1
+                }"
+                :style="{ left: (discrete ? discreteCenterPosition(idx) : uniformTickPosition(idx)) + '%' }">
                 {{ entry.label }}
             </span>
         </div>
