@@ -149,14 +149,28 @@ async function renderChart() {
 
     const visibleY: (number | null)[] = []
     const fadedY: (number | null)[] = []
+    const miscY: (number | null)[] = []
 
     labels.forEach((yearStr) => {
       const year = Number(yearStr)
       const value = grouped[exp][yearStr] ?? null
 
+      const timeframe = getTimeframeFromYear(year)
       if (selectedTimeFrame.value === 'All') {
-        visibleY.push(value)
-        fadedY.push(null)
+        if (year === 1995 || year === 2095) {
+          visibleY.push(value)
+          fadedY.push(null)
+          miscY.push(value)
+        }
+        if (timeframe != null) {
+          visibleY.push(value)
+          fadedY.push(null)
+          miscY.push(null)
+        } else {
+          visibleY.push(null)
+          fadedY.push(null)
+          miscY.push(value)
+        }
         return
       }
 
@@ -166,21 +180,21 @@ async function renderChart() {
 
       if (inSelected) {
         visibleY.push(value)
-        fadedY.push(null)
+        fadedY.push(value)
       } else {
         visibleY.push(null)
         fadedY.push(value)
       }
     })
 
-    return { exp, color, visibleY, fadedY }
+    return { exp, color, visibleY, fadedY, miscY }
   })
 
   const experimentDataNational = displayNationalData(labels)
 
   const line1 = [
     // Provincial traces
-    ...experimentData.flatMap(({ exp, color, visibleY, fadedY }) => [
+    ...experimentData.flatMap(({ exp, color, visibleY, fadedY, miscY }) => [
       {
         x: labels,
         y: visibleY,
@@ -204,10 +218,22 @@ async function renderChart() {
         opacity: 0.15,
         hoverinfo: 'skip',
       },
+      {
+        x: labels,
+        y: miscY,
+        type: 'scatter',
+        mode: 'lines',
+        showlegend: false,
+        legendgroup: exp,
+        line: { color, width: 1 },
+        meta: { baseOpacity: 1, isMisc: true },
+        opacity: 1,
+        hoverinfo: 'skip',
+      },
     ]),
     // National traces (dashed lines)
     ...(selectedNational.value
-      ? experimentDataNational.flatMap(({ exp, color, visibleY, fadedY }) => [
+      ? experimentDataNational.flatMap(({ exp, color, visibleY, fadedY, miscY }) => [
           {
             x: labels,
             y: visibleY,
@@ -226,9 +252,21 @@ async function renderChart() {
             mode: 'lines',
             showlegend: false,
             legendgroup: exp + '_national',
-            line: { color, width: 1, dash: 'dash' },
+            line: { color, width: 1, dash: 'dot' },
             meta: { baseOpacity: 0.15 },
             opacity: 0.15,
+            hoverinfo: 'skip',
+          },
+          {
+            x: labels,
+            y: miscY,
+            type: 'scatter',
+            mode: 'lines',
+            showlegend: false,
+            legendgroup: exp + '_national',
+            line: { color, width: 1, dash: 'dot' },
+            meta: { baseOpacity: 1, isMisc: true },
+            opacity: 1,
             hoverinfo: 'skip',
           },
         ])
@@ -334,7 +372,10 @@ async function renderChart() {
   function fadeOthers(activeGroup) {
     const opacities = plot.data.map((trace) => {
       const base = trace.meta?.baseOpacity ?? 1
-
+      if (trace.meta?.isMisc) {
+        // miscY lines always fade when hovering anything
+        return 0.15
+      }
       if (trace.legendgroup === activeGroup) {
         return base
       }
@@ -475,14 +516,23 @@ function displayNationalData(labels: string[]) {
 
     const visibleY: (number | null)[] = []
     const fadedY: (number | null)[] = []
+    const miscY: (number | null)[] = []
 
     labels.forEach((yearStr) => {
       const year = Number(yearStr)
       const value = groupedNational[exp][yearStr] ?? null
 
+      const timeframe = getTimeframeFromYear(year)
       if (selectedTimeFrame.value === 'All') {
-        visibleY.push(value)
-        fadedY.push(null)
+        if (timeframe != null) {
+          visibleY.push(value)
+          fadedY.push(null)
+          miscY.push(null)
+        } else {
+          visibleY.push(null)
+          fadedY.push(null)
+          miscY.push(value)
+        }
         return
       }
 
@@ -498,7 +548,7 @@ function displayNationalData(labels: string[]) {
         fadedY.push(value)
       }
     })
-    return { exp, color, visibleY, fadedY }
+    return { exp, color, visibleY, fadedY, miscY }
   })
   return experimentDataNational
 }
