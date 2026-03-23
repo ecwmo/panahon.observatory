@@ -282,6 +282,7 @@
                 () => props.data,
                 (newVal) => {
                     if (newVal && !newVal.failed) {
+                        rendering.value = true;
                         renderPlot(newVal);
                     }
                 },
