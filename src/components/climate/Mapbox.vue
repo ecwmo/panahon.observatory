@@ -225,6 +225,8 @@
                     const maxHeader = res.headers.get("X-Max");
                     const altMinHeader = res.headers.get("X-AltMin");
                     const altMaxHeader = res.headers.get("X-AltMax");
+                    const graphMinHeader = res.headers.get("X-GraphMin");
+                    const graphMaxHeader = res.headers.get("X-GraphMax");
                     const decimals = res.headers.get("X-Decimals") || 1;
                     const unit = res.headers.get("X-Unit") || "";
                     const title = res.headers.get("X-Title") || "Test Title";
@@ -233,8 +235,8 @@
                     this.title = title;
                     this.altTitle = altTitle;
 
-                    this.projectedMin = minHeader !== null ? parseFloat(minHeader) : Math.min(...band);
-                    this.projectedMax = maxHeader !== null ? parseFloat(maxHeader) : Math.max(...band);
+                    this.projectedMin = graphMinHeader !== null ? parseFloat(graphMinHeader) : Math.min(...band);
+                    this.projectedMax = graphMaxHeader !== null ? parseFloat(graphMaxHeader) : Math.max(...band);
 
                     this.hasAltStyle = Boolean(altRamp.length && altMinHeader && altMaxHeader);
                     this.discrete = false;

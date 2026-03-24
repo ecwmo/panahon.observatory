@@ -36,6 +36,8 @@ type Style = {
   max: number | null;
   altmin: number | null;
   altmax: number | null;
+  graphmin: number | null;
+  graphmax: number | null;
 };
 
 const SNAPSHOT_FILENAME = 'snapshotprojected.json';
@@ -44,6 +46,8 @@ type FileSnapshot = {
   datemodified: number;
   min: number;
   max: number;
+  graphmin: number;
+  graphmax: number;
   altmin: number;
   altmax: number;
 };
@@ -122,7 +126,6 @@ async function getProvinceAveragesByPeriod(
     averageAnomaly: values.reduce((sum, v) => sum + v, 0) / values.length
   }));
   const specificProvinceAverages = provinces.map(p => p.averageAnomaly);
-  const anomalies = provinces.map(p => p.averageAnomaly);
 
   //CREATE STYLE
   if (projectedData === 'Temperature Anomaly') {
@@ -180,12 +183,16 @@ async function getProvinceAveragesByPeriod(
       const max = existing.max;
       const altmin = existing.altmin;
       const altmax = existing.altmax;
+      const graphmin = existing.graphmin;
+      const graphmax = existing.graphmax;
 
       style = {
         scaling: 'linear',
         ramp: fullramp,
         min,
         max,
+        graphmin,
+        graphmax,
         decimals: 1,
         unit: '°C',
       };
@@ -210,21 +217,47 @@ async function getProvinceAveragesByPeriod(
       });
 
       const groupMap = new Map<string, number[]>();
+      const groupMapYearly = new Map<string, number[]>();
 
       for (const r of records) {
-        const key = `${r.province}|${r.year}|${r.experiment}`;
-        if (!groupMap.has(key)) {
-          groupMap.set(key, []);
+        const year = Number(r.year);
+
+        // Find which period the entry belongs to
+        const periodEntry = Object.entries(PERIODS).find(
+          ([_, range]) => year >= range.start && year <= range.end
+        );
+        if (periodEntry) {
+
+          const [periodName] = periodEntry;
+
+          const key = `${r.province}|${r.experiment}|${periodName}`;
+
+          if (!groupMap.has(key)) {
+            groupMap.set(key, []);
+          }
+
+          groupMap.get(key)!.push(Number(r.anomaly));
         }
-        groupMap.get(key)!.push(Number(r.anomaly));
+
+        const keyYearly = `${r.province}|${r.year}|${r.experiment}`;
+        if (!groupMapYearly.has(keyYearly)) {
+          groupMapYearly.set(keyYearly, []);
+        }
+        groupMapYearly.get(keyYearly)!.push(Number(r.anomaly));
       }
 
       const averages = Array.from(groupMap.values()).map(values =>
         values.reduce((a, b) => a + b, 0) / values.length
       );
 
+      const averagesYearly = Array.from(groupMapYearly.values()).map(values =>
+        values.reduce((a, b) => a + b, 0) / values.length
+      );
+
       const min = Math.min(...averages);
       const max = Math.max(...averages);
+      const graphmin = Math.min(...averagesYearly);
+      const graphmax = Math.max(...averagesYearly);
       const altmin = Math.min(...specificProvinceAverages);
       const altmax = Math.max(...specificProvinceAverages);
 
@@ -233,6 +266,8 @@ async function getProvinceAveragesByPeriod(
         datemodified: currentModified,
         min,
         max,
+        graphmin,
+        graphmax,
         altmin,
         altmax,
       };
@@ -244,6 +279,8 @@ async function getProvinceAveragesByPeriod(
         ramp: fullramp,
         min,
         max,
+        graphmin,
+        graphmax,
         decimals: 1,
         unit: '°C',
       };
@@ -311,6 +348,8 @@ async function getProvinceAveragesByPeriod(
     if (existing && existing.datemodified === currentModified) {
       const min = existing.min;
       const max = existing.max;
+      const graphmin = existing.graphmin;
+      const graphmax = existing.graphmax;
       const altmin = existing.altmin;
       const altmax = existing.altmax;
 
@@ -319,8 +358,10 @@ async function getProvinceAveragesByPeriod(
         ramp: fullramp,
         min,
         max,
+        graphmin,
+        graphmax,
         decimals: 0,
-        unit: 'mm',
+        unit: '%',
       };
       altstyle = {
         scaling: 'linear',
@@ -328,7 +369,7 @@ async function getProvinceAveragesByPeriod(
         altmin,
         altmax,
         decimals: 1,
-        unit: 'mm',
+        unit: '%',
       };
 
       console.log('[Snapshot] Using cached prep min/max');
@@ -342,21 +383,45 @@ async function getProvinceAveragesByPeriod(
       });
 
       const groupMap = new Map<string, number[]>();
+      const groupMapYearly = new Map<string, number[]>();
 
       for (const r of records) {
-        const key = `${r.province}|${r.year}|${r.experiment}`;
-        if (!groupMap.has(key)) {
-          groupMap.set(key, []);
+        const year = Number(r.year);
+
+        // Find which period the entry belongs to
+        const periodEntry = Object.entries(PERIODS).find(
+          ([_, range]) => year >= range.start && year <= range.end
+        );
+        if (periodEntry) {
+
+          const [periodName] = periodEntry;
+
+          const key = `${r.province}|${r.experiment}|${periodName}`;
+
+          if (!groupMap.has(key)) {
+            groupMap.set(key, []);
+          }
+
+          groupMap.get(key)!.push(Number(r.anomaly));
         }
-        groupMap.get(key)!.push(Number(r.anomaly));
+        const keyYearly = `${r.province}|${r.year}|${r.experiment}`;
+        if (!groupMapYearly.has(keyYearly)) {
+          groupMapYearly.set(keyYearly, []);
+        }
+        groupMapYearly.get(keyYearly)!.push(Number(r.anomaly));
       }
 
       const averages = Array.from(groupMap.values()).map(values =>
         values.reduce((a, b) => a + b, 0) / values.length
       );
+      const averagesYearly = Array.from(groupMapYearly.values()).map(values =>
+        values.reduce((a, b) => a + b, 0) / values.length
+      );
 
       const min = Math.min(...averages);
       const max = Math.max(...averages);
+      const graphmin = Math.min(...averagesYearly);
+      const graphmax = Math.max(...averagesYearly);
       const altmin = Math.min(...specificProvinceAverages);
       const altmax = Math.max(...specificProvinceAverages);
 
@@ -364,6 +429,8 @@ async function getProvinceAveragesByPeriod(
         datemodified: currentModified,
         min,
         max,
+        graphmin,
+        graphmax,
         altmin,
         altmax
       };
@@ -375,8 +442,10 @@ async function getProvinceAveragesByPeriod(
         ramp: fullramp,
         min,
         max,
+        graphmin,
+        graphmax,
         decimals: 0,
-        unit: 'mm',
+        unit: '%',
       };
       altstyle = {
         scaling: 'linear',
@@ -384,7 +453,7 @@ async function getProvinceAveragesByPeriod(
         altmin,
         altmax,
         decimals: 1,
-        unit: 'mm',
+        unit: '%',
       };
 
       console.log('[Snapshot] Recalculating prep min/max');
@@ -426,6 +495,8 @@ export const GET: APIRoute = async ({ url }) => {
         'X-AltRamp': JSON.stringify(altstyle.ramp || []),
         'X-Min': String(style.min),
         'X-Max': String(style.max),
+        'X-GraphMin': String(style.graphmin),
+        'X-GraphMax': String(style.graphmax),
         'X-AltMin': String(altstyle.min),
         'X-AltMax': String(altstyle.max),
         'X-Decimals': String(style.decimals),

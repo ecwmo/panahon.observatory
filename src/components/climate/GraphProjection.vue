@@ -296,9 +296,9 @@ async function renderChart() {
     hoverTitle = 'Average temperature anomaly'
     hoverUnits = '°C'
   } else if (props.projectedData === 'Rain Anomaly') {
-    yAxisTitle = 'Rainfall Anomaly (mm)'
+    yAxisTitle = 'Rainfall Anomaly (%)'
     hoverTitle = 'Average rain anomaly'
-    hoverUnits = 'mm'
+    hoverUnits = '%'
 
   } else {
     yAxisTitle = props.projectedData || ''
