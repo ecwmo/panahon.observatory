@@ -305,7 +305,7 @@ async function renderChart() {
   }
 
   const layout = {
-    margin: { t: 60, b: 30, l: 70, r: 80 },
+    margin: { t: 60, b: 30, l: 70, r: 40 },
     title: `Historical and Projected ${props.projectedData} for the province of ${props.selectedProvince ?? 'Unknown'}`,
     grid: {
       rows: 1,
@@ -314,7 +314,7 @@ async function renderChart() {
     },
     xaxis: {
       title: '',
-      domain: [0, 0.61],
+      domain: [0, 0.93],
       showticklabels: true,
       automargin: false,
     },
@@ -337,15 +337,15 @@ async function renderChart() {
     },
     xaxis2: {
       title: '',
-      domain: [0.72, 1],
-      showticklabels: true,
+      domain: [0.94, 1],
+      showticklabels: false,
       automargin: false,
     },
     yaxis2: {
       matches: 'y',
       side: 'right',
       title: {
-        text: yAxisTitle,
+        text: '',
         font: {
           size: 14,
           family: 'Arial, sans-serif',
@@ -359,6 +359,7 @@ async function renderChart() {
       zeroline: false,
       matches: 'y',
       showticklabels: false,
+      showgrid: false,
     },
     boxmode: 'group',
   }
@@ -701,40 +702,15 @@ watch(selectedNational, () => {
   font-weight: bold;
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  color: #111827; /* text-gray-900 */
-}
-
-/* Body cells */
-.data-table td {
-  background-color: transparent; /* transparent */
-  color: #ffffff; /* white text */
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  text-align: center;
-}
-/* Header */
-.data-table th {
-  background-color: #ffffff; /* white */
-  color: #000000; /* black text */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  text-align: center;
-}
-
 #boxPlot {
   background-color: #ffffff;
 }
 .line-chart {
-  flex: 7;
+  flex: 8;
   height: 100%;
 }
 .box-plot {
-  flex: 3; /* Take 3 parts of horizontal space in flex container */
+  flex: 2; /* Take 3 parts of horizontal space in flex container */
   height: 100%; /* Fill the height of parent container */
 }
 
