@@ -3,7 +3,7 @@
         <div class="leftSide">
             <ClimateSelector v-if="showSelector"
                              @selection-changed="handleSelection"
-                             :external-location="selectedLocation"
+                             :external-location="externalLocation"
                              :mapReady="mapReady" />
         </div>
         <div class="rightSide" :class="parameters.tab === 'Current' ? 'row-layout' : 'column-layout'">
@@ -16,16 +16,15 @@
                         :source-layer="sourceLayer"
                         :adm-property="admProperty"
                         @location-changed="onLocationChanged"
-                        :selected-location="selectedLocation"
                         @map-ready="onMapReady" />
             </div>
             <div v-if="selectedLocation && parameters.tab === 'Current' && currentData" ref="panel" class="panel-container">
-                <CurrentGraph v-if="panelReady" :data="currentData" />
+                <CurrentGraph :data="currentData" />
             </div>
-            <div v-if="selectedLocation?.name && parameters.tab === 'Projected' && filteredData" ref="panel" class="panel-container">
-                <GraphProjection :selectedProvince="selectedLocation?.name"
+            <div v-if="selectedProvince && parameters.tab === 'Projected' && filteredData" ref="panel" class="panel-container">
+                <GraphProjection :selectedProvince="selectedProvince"
                                  :filteredData="filteredData"
-                                 :projectedData="parameters.projectedData"
+                                 :projectedData="projectedData"
                                  :yMin="projectedMin"
                                  :yMax="projectedMax" />
             </div>
@@ -34,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, nextTick, onMounted } from 'vue';
+    import { ref, nextTick, onMounted, computed } from 'vue';
     import ClimateSelector from './ClimateSelector.vue';
     import Mapbox from './Mapbox.vue';
     import CurrentGraph from './CurrentGraph.vue';
@@ -54,9 +53,13 @@
     const projectedMax = ref <number | null> (null);
 
     const showSelector = ref(false);
-    const selectedLocation = ref <any> (null);
+    const externalLocation = ref <any> (null);
     const panelReady = ref(false);
     const mapReady = ref(false);
+
+    const selectedLocation = computed(() => parameters.value.location);
+    const selectedProvince = computed(() => parameters.value.location?.name);
+    const projectedData = computed(() => parameters.value?.projectedData);
 
     function onMapReady(): void {
         mapReady.value = true;
@@ -77,13 +80,14 @@
     }
 
     async function onLocationChanged(loc: any): Promise<void> {
-        if (selectedLocation.value?.name !== loc?.name) {
-            selectedLocation.value = loc;
-            panelReady.value = false;
-            await nextTick();
-            requestAnimationFrame(() => {
-                panelReady.value = true;
-            });
+        if (externalLocation.value?.name !== loc?.name) {
+            externalLocation.value = loc;
+        }
+        if (parameters.value.location?.name !== loc?.name) {
+            parameters.value = {
+                ...parameters.value,
+                location: loc
+            };
         }
     }
 

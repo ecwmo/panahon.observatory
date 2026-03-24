@@ -37,7 +37,6 @@
             sourceLayer: { type: String, required: true },
             admProperty: { type: String, required: true },
             parameters: { type: Object, default: () => ({}) },
-            selectedLocation: { type: Object, default: () => ({}) }
         },
         data() {
             return {
@@ -78,12 +77,8 @@
                 if (newVal?.source === "external") return;
 
                 // 2) Extract params and locations safely
-                const newParams = { ...newVal };
-                const oldParams = { ...oldVal };
-                const newLocation = newParams.location || null;
-                const oldLocation = oldParams.location || null;
-                delete newParams.location;
-                delete oldParams.location;
+                const { location: newLocation, ...newParams } = newVal || {};
+                const { location: oldLocation, ...oldParams } = oldVal || {};
 
                 // 3) If only non-location params changed, render and optionally refresh popup
                 const keysToCheck = [
@@ -138,14 +133,6 @@
 
                 // 6) If tab changed, resize and keep the last popup centered
                 if (newParams.tab !== oldParams.tab) {
-                    this.$nextTick(() => {
-                        this.map.resize();
-                    });
-                }
-            },
-            selectedLocation(newVal, oldVal) {
-                // Keep panel layout stable when selection appears/disappears
-                if ((!oldVal && newVal) || (!newVal && oldVal)) {
                     this.$nextTick(() => {
                         this.map.resize();
                     });
@@ -235,8 +222,8 @@
                     this.title = title;
                     this.altTitle = altTitle;
 
-                    this.projectedMin = graphMinHeader !== null ? parseFloat(graphMinHeader) : Math.min(...band);
-                    this.projectedMax = graphMaxHeader !== null ? parseFloat(graphMaxHeader) : Math.max(...band);
+                    this.projectedMin = graphMinHeader !== null ? parseFloat(graphMinHeader) : null;
+                    this.projectedMax = graphMaxHeader !== null ? parseFloat(graphMaxHeader) : null;
 
                     this.hasAltStyle = Boolean(altRamp.length && altMinHeader && altMaxHeader);
                     this.discrete = false;
@@ -802,6 +789,9 @@
                         this.admValue = null;
                     }
                     this.$emit("location-changed", null);
+                    Promise.resolve().then(() => {
+                        this.map.resize();
+                    });
                     this.selectedFeature = null;
                     return;
                 }
@@ -826,6 +816,9 @@
                         .setHTML(`Polygon has no property "${this.admProperty}"`)
                         .addTo(this.map);
                     this.$emit("location-changed", null);
+                    Promise.resolve().then(() => {
+                        this.map.resize();
+                    });
                     return;
                 }
 
