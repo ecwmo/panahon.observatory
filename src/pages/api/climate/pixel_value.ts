@@ -82,12 +82,13 @@ async function fileExists(filePath: string): Promise<boolean> {
 }
 
 async function getRasterValue(filePath: string, lat: number, lon: number): Promise<number | null> {
+    let tiff;
     try {
         if (!(await fileExists(filePath))) {
             return null;
         }
 
-        const tiff = await fromFile(filePath);
+        tiff = await fromFile(filePath);
         const image = await tiff.getImage();
         const rasters = await image.readRasters({ window: null });
 
@@ -107,6 +108,15 @@ async function getRasterValue(filePath: string, lat: number, lon: number): Promi
     catch (err) {
         console.error('Raster read error:', err);
         return null;
+    }
+    finally {
+        if (tiff) {
+            try {
+                tiff.close();
+            } catch (err) {
+                console.warn('Error closing GeoTIFF:', err);
+            }
+        }
     }
 }
 
