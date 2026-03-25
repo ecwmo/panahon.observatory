@@ -578,11 +578,11 @@
                             content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined ? `${data.value}${this.unit}` : "N/A"}`;
                         }
                         else if (this.parameters.tab === "Projected") {
+                            this.$emit("current-data-fetched", null);
                             if (location === null) {
                                 if (this.currentPopup) {
                                     this.currentPopup.remove();
                                     this.currentPopup = null;
-                                    this.$emit("current-data-fetched", null);
                                 }
                                 return;
                             }
