@@ -550,6 +550,11 @@
                     try {
                         let res;
                         if (this.parameters.tab === "Current") {
+                            this.$emit("projected-data-fetched", {
+                                data: null,
+                                yMin: null,
+                                yMax: null,
+                            });
                             this.lastProjectedData = null;
 
                             const toSend = {

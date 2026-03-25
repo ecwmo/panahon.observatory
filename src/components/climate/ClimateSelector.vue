@@ -109,7 +109,7 @@
             location: { name: string; lat: number; lon: number } | null;
             pastData: string;
             pastPeriod: string;
-            source: 'manual' | 'external';
+            source: 'manual';
         }
         | {
             tab: 'Projected';
@@ -117,7 +117,7 @@
             projectedData: string;
             projectedPeriod: string;
             scenario: string;
-            source: 'manual' | 'external';
+            source: 'manual';
         }): void;
     }>();
 
@@ -176,7 +176,6 @@
     watch(() => props.externalLocation, newLoc => {
         suppressEmit.value = true;
         locationName.value = newLoc?.name ?? null;
-        emitSelection('external');
         nextTick(() => { suppressEmit.value = false; });
     });
 

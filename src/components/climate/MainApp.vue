@@ -18,7 +18,7 @@
                         @location-changed="onLocationChanged"
                         @map-ready="onMapReady" />
             </div>
-            <div v-if="selectedLocation && parameters.tab === 'Current' && currentData" ref="panel" class="panel-container">
+            <div v-if="selectedLocationValid && parameters.tab === 'Current' && currentData" ref="panel" class="panel-container">
                 <CurrentGraph :data="currentData" />
             </div>
             <div v-if="selectedProvince && parameters.tab === 'Projected' && filteredData" ref="panel" class="panel-container">
@@ -57,7 +57,7 @@
     const panelReady = ref(false);
     const mapReady = ref(false);
 
-    const selectedLocation = computed(() => parameters.value.location);
+    const selectedLocationValid = ref(false);
     const selectedProvince = computed(() => parameters.value.location?.name);
     const projectedData = computed(() => parameters.value?.projectedData);
 
@@ -83,11 +83,13 @@
         if (externalLocation.value?.name !== loc?.name) {
             externalLocation.value = loc;
         }
-        if (parameters.value.location?.name !== loc?.name) {
-            parameters.value = {
-                ...parameters.value,
-                location: loc
-            };
+        parameters.value.location = loc;
+        parameters.value.source = 'external';
+        if (loc !== null) {
+            selectedLocationValid.value = true;
+        }
+        else {
+            selectedLocationValid.value = false;
         }
     }
 
