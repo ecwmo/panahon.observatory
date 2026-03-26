@@ -5,7 +5,7 @@
             <Legend ref="legendRef"
                     :style="legendStyle"
                     :hasAltStyle="hasAltStyle"
-                    :usingAltStyle="_usingAltRamp"
+                    :usingAltStyle="usingAltRamp"
                     :discrete="discrete"
                     class="legend-overlay"
                     :hoveredValue="legendHoveredValue" 
@@ -40,33 +40,47 @@
         },
         data() {
             return {
-                fetchedData: null,
+                // Mapbox Map Object
                 map: null,
-                currentPopup: null,
+
+                // Used To Highlight Selected Province
                 admValue: null,
+
+                // Prevent Mapbox Location Loops
                 suppressEmit: false,
+
+                // Popup Logic Helpers
+                currentPopup: null,
                 lastLocation: null,
                 lastPopupLngLat: null,
-                lastProjectedData: null,
+                lastProjectedParameter: null,
+
+                // Legend Setup
+                lastProjectedResult: null,
+                usingAltRamp: false,
                 legendStyle: null,
                 hasAltStyle: false,
                 discrete: false,
 
+                // Legend Hovered Value Helpers
+                legendHoveredValue: null,
                 tifBand: null,
                 tifImage: null,
-                legendHoveredValue: null,
                 provincialValueMap: {},
-                unit: null,
-                title: null,
-                altTitle: null,
-                _usingAltRamp: false,
 
+                // Legend / Popup Display
+                unit: null,
+
+                // Grid Selection
                 hoverFeature: null,
                 selectedFeature: null,
 
+                // Connection States
                 loadingData: false,
                 errorLoadingData: false,
                 connectionError: false,
+
+                // Failed Connection Helpers
                 reloadParams: null,
                 emptyPopup: false
             };
@@ -126,12 +140,7 @@
                     }
                 }
 
-                // 5) If nothing changed at all, restore last popup
-                if (!paramsChanged && !locationChanged) {
-                    this.restoreLastPopup();
-                }
-
-                // 6) If tab changed, resize and keep the last popup centered
+                // 5) If tab changed, resize and keep the last popup centered
                 if (newParams.tab !== oldParams.tab) {
                     this.$nextTick(() => {
                         this.map.resize();
@@ -219,8 +228,6 @@
                     const title = res.headers.get("X-Title") || "Test Title";
                     const altTitle = res.headers.get("X-AltTitle") || "Test Alt Title";
                     this.unit = unit;
-                    this.title = title;
-                    this.altTitle = altTitle;
 
                     this.projectedMin = graphMinHeader !== null ? parseFloat(graphMinHeader) : null;
                     this.projectedMax = graphMaxHeader !== null ? parseFloat(graphMaxHeader) : null;
@@ -241,20 +248,20 @@
                         this.tifSource(image, band, ramp, thresholds);
                         this.tifBand = band;
                         this.tifImage = image;
-                        this._lastProjected = null;
+                        this.lastProjectedResult = null;
                     }
                     else {
                         const response = await res.json();
                         const jsonData = response.map(d => [d.province, Number(d.averageAnomaly.toFixed(decimals))]);
                         const band = jsonData.map(d => d[1]);
                         const { thresholds, enrichedRamp } = this.computeThresholds(
-                            band, this._usingAltRamp ? altRamp : ramp, scaling, this._usingAltRamp ? altMinHeader : minHeader, this._usingAltRamp ? altMaxHeader : maxHeader, decimals
+                            band, this.usingAltRamp ? altRamp : ramp, scaling, this.usingAltRamp ? altMinHeader : minHeader, this.usingAltRamp ? altMaxHeader : maxHeader, decimals
                         );
-                        this.legendStyle = { ramp: enrichedRamp, unit, title: this._usingAltRamp ? altTitle : title };
-                        this.jsonSource(jsonData, this._usingAltRamp ? altRamp : ramp, thresholds);
-                        this._lastProjected = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit, title, altTitle };
+                        this.legendStyle = { ramp: enrichedRamp, unit, title: this.usingAltRamp ? altTitle : title };
+                        this.jsonSource(jsonData, this.usingAltRamp ? altRamp : ramp, thresholds);
+                        this.lastProjectedResult = { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, altMinHeader, altMaxHeader, decimals, unit, title, altTitle };
 
-                        if (this._usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
+                        if (this.usingAltRamp && this.arraysNumericallySame(band, thresholds)) {
                             this.discrete = true;
                         }
                         else {
@@ -296,8 +303,8 @@
                 }
             },
             changeLegend(usingAlt) {
-                if (this._lastProjected && this._usingAltRamp !== usingAlt) {
-                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader, title, altTitle } = this._lastProjected;
+                if (this.lastProjectedResult && this.usingAltRamp !== usingAlt) {
+                    const { jsonData, band, ramp, altRamp, scaling, minHeader, maxHeader, decimals, unit, altMinHeader, altMaxHeader, title, altTitle } = this.lastProjectedResult;
                     const activeRamp = usingAlt ? altRamp : ramp;
                     const activeMinHdr = usingAlt ? altMinHeader : minHeader;
                     const activeMaxHdr = usingAlt ? altMaxHeader : maxHeader;
@@ -313,7 +320,7 @@
                     else {
                         this.discrete = false;
                     }
-                    this._usingAltRamp = usingAlt;
+                    this.usingAltRamp = usingAlt;
                 }
             },
             async reloadClimate()
@@ -555,7 +562,7 @@
                                 yMin: null,
                                 yMax: null,
                             });
-                            this.lastProjectedData = null;
+                            this.lastProjectedParameter = null;
 
                             const toSend = {
                                 pastData: this.parameters.pastData,
@@ -573,7 +580,6 @@
                             if (!contentType.includes("application/json")) throw new Error("Invalid response");
 
                             const data = await res.json();
-                            this.fetchedData = data;
                             this.$emit("current-data-fetched", data);
                             content = `${location ? `<strong>${location}</strong><br/>` : ''}Grid Value: ${data.value !== null && data.value !== undefined ? `${data.value}${this.unit}` : "N/A"}`;
                         }
@@ -593,8 +599,8 @@
                                 projectedData: this.parameters.projectedData,
                             });
 
-                            if (this.parameters.projectedData !== this.lastProjectedData || location !== this.lastLocation || this.emptyPopup) {
-                                this.lastProjectedData = this.parameters.projectedData;
+                            if (this.parameters.projectedData !== this.lastProjectedParameter || location !== this.lastLocation || this.emptyPopup) {
+                                this.lastProjectedParameter = this.parameters.projectedData;
 
                                 const res = await fetch(`/api/climate/filtereddata?${params}`);
 
@@ -655,17 +661,6 @@
                 }
                 catch (err) {
                     console.error("Popup fetch error:", err);
-                }
-            },
-            restoreLastPopup() {
-                if (this.lastLocation && this.lastPopupLngLat) {
-                    this.flyToWithOffset(this.lastPopupLngLat, 7);
-                    const onMoveEnd = () => {
-                        this.fetchPopupData(this.lastLocation, this.lastPopupLngLat);
-                        this.map.off("moveend", onMoveEnd);
-                        this.suppressEmit = false;
-                    };
-                    this.map.on("moveend", onMoveEnd);
                 }
             },
             lockPixelHover(lngLat) {
