@@ -111,6 +111,20 @@ const timeFrames = {
   all: [2015, 2094],
 } as const
 
+const legendMap: Record<string, string> = {
+  historical: 'Historical',
+  ssp126: 'SSP1 - 2.6',
+  ssp245: 'SSP2 - 4.5',
+  ssp585: 'SSP5 - 8.5',
+}
+
+const legendMapNational: Record<string, string> = {
+  historical_national: 'Historical (PH)',
+  ssp126_national: 'SSP1 - 2.6 (PH)',
+  ssp245_national: 'SSP2 - 4.5 (PH)',
+  ssp585_national: 'SSP5 - 8.5 (PH)',
+}
+
 async function renderChart() {
   console.log('RenderChart called')
   if (!Plotly) {
@@ -200,7 +214,7 @@ async function renderChart() {
         y: visibleY,
         type: 'scatter',
         mode: 'lines',
-        name: exp,
+        name: legendMap[exp] || exp,
         legendgroup: exp,
         line: { color, width: 1 },
         meta: { baseOpacity: 1 },
@@ -239,7 +253,7 @@ async function renderChart() {
             y: visibleY,
             type: 'scatter',
             mode: 'lines',
-            name: `${exp} (National)`,
+            name: (legendMap[exp] || exp) + ' (PH)',
             legendgroup: exp + '_national',
             line: { color, width: 1, dash: 'dot' },
             meta: { baseOpacity: 1 },
@@ -443,7 +457,6 @@ async function renderChart() {
         : timeframe ?? 'N/A'
 
     const isNational = trace.legendgroup?.endsWith('_national')
-    const expNational = exp.replace('_national', '')
     let hoverText: string
     if (isNational) {
       hoverText =
@@ -451,7 +464,7 @@ async function renderChart() {
         //`Y value = ${y?.toFixed(2) ?? 'N/A'}°C<br>` +
         //`X value = ${x?.toFixed(2) ?? 'N/A'}°C<br>` +
         `Timeframe = ${timeframeLabel}<br>` +
-        `Scenario = ${expNational}<br>` +
+        `Scenario = ${legendMapNational[exp] || exp}<br>` +
         `${hoverTitle} = ${avg ?? 'N/A'} ${hoverUnits}<extra></extra>`
     } else {
       hoverText =
@@ -459,7 +472,7 @@ async function renderChart() {
         //`Y value = ${y?.toFixed(2) ?? 'N/A'}°C<br>` +
         //`X value = ${x?.toFixed(2) ?? 'N/A'}°C<br>` +
         `Timeframe = ${timeframeLabel}<br>` +
-        `Scenario = ${exp}<br>` +
+        `Scenario = ${legendMap[exp] || exp}<br>` +
         `${hoverTitle} = ${avg ?? 'N/A'} ${hoverUnits}<extra></extra>`
     }
     Plotly.restyle(plot, { hovertemplate: hoverText }, [point.curveNumber])
