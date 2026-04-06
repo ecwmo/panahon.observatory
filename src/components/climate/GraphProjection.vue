@@ -23,10 +23,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import Chart from 'chart.js/auto'
 let Plotly: any = null
 
-// Define props
+// ===================== TYPES =====================
 interface FilteredDataItem {
   province: string
   year: string
@@ -34,18 +33,16 @@ interface FilteredDataItem {
   experiment: string
 }
 
-const hasBackendError = computed(() => {
-  return (props.filteredData as any)?.failed === true
-})
-
 interface ExperimentAverages {
   historical: number | null
   mid: number | null
   far: number | null
 }
-type HoverValues = Record<string, ExperimentAverages>
-const hoverValues = ref<HoverValues>({})
 
+type HoverValues = Record<string, ExperimentAverages>
+
+
+// ===================== PROPS =====================
 const props = defineProps({
   selectedProvince: String,
   filteredData: {
@@ -63,32 +60,21 @@ const props = defineProps({
   },
 })
 
-const mapBackground = ref<'historical' | 'mid' | 'far' | null>(null)
-const hoveredDatasetRef = ref<number | null>(null)
+
+// ===================== STATE =====================
+
+const hoverValues = ref<HoverValues>({})
 const selectedNational = ref(false)
+const selectedTimeFrame = ref('All')
 
-const colorPalette = [
-  'rgb(56, 56, 56)',
-  'rgb(125, 212, 43)',
-  'rgb(243, 124, 27)',
-  'rgb(233, 45, 39)',
-  'rgb(141, 75, 8)',
-  'rgb(154, 19, 207)',
-]
+// ===================== COMPUTED =====================
 
-const mapColor = computed(() => {
-  switch (mapBackground.value) {
-    case 'historical':
-      return '#bdbdbd'
-    case 'mid':
-      return '#f4a3c4'
-    case 'far':
-      return '#d32f2f'
-    default:
-      return 'transparent'
-  }
+// Detect backend error flag
+const hasBackendError = computed(() => {
+  return (props.filteredData as any)?.failed === true
 })
 
+// Get min/max year range from dataset
 const yearRange = computed(() => {
   const years = props.filteredData.map((d) => Number(d.year)).filter((y) => !Number.isNaN(y))
 
@@ -102,6 +88,8 @@ const yearRange = computed(() => {
   }
 })
 
+
+// ===================== CONSTANTS =====================
 const timeFrames = {
   historical: [1995, 2014],
   P1: [2015, 2034],
@@ -111,6 +99,7 @@ const timeFrames = {
   all: [2015, 2094],
 } as const
 
+// Display labels
 const legendMap: Record<string, string> = {
   historical: 'Historical',
   ssp126: 'SSP1 - 2.6',
@@ -125,14 +114,23 @@ const legendMapNational: Record<string, string> = {
   ssp585_national: 'SSP5 - 8.5 (PH)',
 }
 
+// Colors for traces
+const colorPalette = [
+  'rgb(56, 56, 56)',
+  'rgb(125, 212, 43)',
+  'rgb(243, 124, 27)',
+  'rgb(233, 45, 39)',
+  'rgb(141, 75, 8)',
+  'rgb(154, 19, 207)',
+]
+
+// ===================== MAIN CHART =====================
 async function renderChart() {
-  console.log('RenderChart called')
+  // console.log('RenderChart called')
   if (!Plotly) {
     console.warn('Plotly not loaded yet')
     return
   }
-
-  console.log('Start renderChart')
 
   const labels = Array.from({ length: yearRange.value.end - yearRange.value.start + 1 }, (_, i) =>
     String(yearRange.value.start + i)
@@ -158,6 +156,7 @@ async function renderChart() {
 
   const selected = selectedTimeFrame.value
 
+  // ===================== BUILD LINE DATA =====================
   const experimentData = experiments.map((exp, i) => {
     const color = colorPalette[i % colorPalette.length]
 
@@ -301,6 +300,7 @@ async function renderChart() {
     width: 0.4,
   }))
 
+  // ===================== AXIS LABEL =====================
   let yAxisTitle = ''
   let hoverTitle = ''
   let hoverUnits = ''
@@ -318,6 +318,7 @@ async function renderChart() {
     yAxisTitle = props.projectedData || ''
   }
 
+  // ===================== LAYOUT =====================
   const layout = {
     margin: { t: 60, b: 30, l: 70, r: 40 },
     title: `Historical and Projected ${props.projectedData} for the province of ${props.selectedProvince ?? 'Unknown'}`,
@@ -371,15 +372,15 @@ async function renderChart() {
       autorange: false,
       fixedrange: true,
       zeroline: false,
-      matches: 'y',
       showticklabels: false,
       showgrid: false,
     },
     boxmode: 'group',
   }
 
+  // ===================== DRAW =====================
   Plotly.newPlot('plot', [...line1, ...boxData], layout, { responsive: true, displayModeBar: false })
-  console.log('Created new combination plot')
+  // console.log('Created new combination plot')
 
   const plot = document.getElementById('plot')
 
@@ -643,7 +644,7 @@ const keys = [
   { value: 'P3', label: '2055-2074' },
   { value: 'P4', label: '2075-2094' },
 ]
-const selectedTimeFrame = ref('All')
+
 
 // On mounted, render chart
 onMounted(async () => {

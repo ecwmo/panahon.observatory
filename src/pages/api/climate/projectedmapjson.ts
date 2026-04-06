@@ -53,6 +53,10 @@ type FileSnapshot = {
 };
 type SnapshotFile = Record<string, FileSnapshot>;
 
+/**
+ * Returns last modified timestamps of all CSV files in a directory.
+ * Used to detect changes for caching.
+ */
 async function getSnapshot(dir: string) {
   const files = await readdir(dir);
   const csvs = files.filter(f => f.endsWith('.csv'));
@@ -64,7 +68,10 @@ async function getSnapshot(dir: string) {
   return snapshot;
 }
 
-
+/**
+ * Computes average anomaly per province for a given data type, period, scenario, and optional model.
+ * Also builds style metadata (color ramps, min/max), using cached values if the source file is unchanged.
+ */
 async function getProvinceAveragesByPeriod(
   projectedData: string,
   projectedPeriod: string,
@@ -201,7 +208,7 @@ async function getProvinceAveragesByPeriod(
         ramp: displayramp,
         altmin,
         altmax,
-        decimals: 2,
+        decimals: 1,
         unit: '°C',
       };
 
@@ -414,9 +421,10 @@ async function getProvinceAveragesByPeriod(
       const averages = Array.from(groupMap.values()).map(values =>
         values.reduce((a, b) => a + b, 0) / values.length
       );
-      const averagesYearly = Array.from(groupMapYearly.values()).map(values =>
-        values.reduce((a, b) => a + b, 0) / values.length
-      );
+      const averagesYearly = Array.from(groupMapYearly
+        .values()).map(values =>
+          values.reduce((a, b) => a + b, 0) / values.length
+        );
 
       const min = Math.min(...averages);
       const max = Math.max(...averages);
