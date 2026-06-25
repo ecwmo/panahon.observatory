@@ -20,9 +20,9 @@ export const GET: APIRoute = async () => {
         const provinces = rows.map(line => {
             const cols = line.split(',');
             return {
-                ADM2_EN: cols[0].trim(),
-                Lat: parseFloat(cols[1]),
-                Lon: parseFloat(cols[2]),
+                name: cols[0].trim(),
+                lat: parseFloat(cols[1]),
+                lon: parseFloat(cols[2]),
             };
         });
 

@@ -11,10 +11,10 @@
             <!-- Location -->
             <div class="section">
                 <h4>Location</h4>
-                <select v-model="location">
-                    <option v-show="!location" :value="null">Select Province</option>
-                    <option v-for="prov in provinces" :key="prov.ADM2_EN" :value="prov">
-                        {{ prov.ADM2_EN }}
+                <select v-model="locationName">
+                    <option v-show="!locationName" :value="null">Select Province</option>
+                    <option v-for="prov in provinces" :key="prov.name" :value="prov.name">
+                        {{ prov.name }}
                     </option>
                 </select>
             </div>
@@ -23,15 +23,13 @@
             <div class="section" v-if="tab === 'Current'">
                 <h4>Data</h4>
                 <select v-model="pastData">
-                    <option>Temperature Anomaly</option>
-                    <option>Rain Anomaly</option>
+                    <option v-for="opt in currentDataOptions" :key="opt" :value="opt">{{ opt }}</option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Data</h4>
                 <select v-model="projectedData">
-                    <option>Temperature Anomaly</option>
-                    <option>Rain Anomaly</option>
+                    <option v-for="opt in projectedDataOptions" :key="opt" :value="opt">{{ opt }}</option>
                 </select>
             </div>
 
@@ -39,16 +37,13 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Period</h4>
                 <select v-model="projectedPeriod">
-                    <option>2001 - 2050</option>
-                    <option>2051 - 2100</option>
+                    <option v-for="opt in projectedPeriodOptions" :key="opt" :value="opt">{{ opt }}</option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Current'">
                 <h4>Period</h4>
                 <select v-model="pastPeriod">
-                    <option v-for="month in months" :key="month" :value="month">
-                        {{ month }}
-                    </option>
+                    <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
                 </select>
             </div>
 
@@ -56,106 +51,166 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Scenario</h4>
                 <select v-model="scenario">
-                    <option>SSP1 - 2.6</option>
-                    <option>SSP2 - 4.5</option>
-                    <option>SSP5 - 8.5</option>
+                    <option v-for="opt in availableScenarios" :key="opt" :value="opt">{{ opt }}</option>
                 </select>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "ClimateSelector",
-        props: {
-            externalLocation: { type: Object, default: null }
-        },
-        data() {
-            return {
-                tab: "Current",
-                location: null,
-                pastData: "Temperature Anomaly",
-                projectedData: "Temperature Anomaly",
-                pastPeriod: "",
-                projectedPeriod: "2001 - 2050",
-                scenario: "SSP5 - 8.5",
-                months: [],
-                provinces: [],
-                suppressEmit: false
-            };
-        },
-        created() {
-            const start = new Date(2022, 11);
-            const end = new Date(2025, 11);
-            const options = [];
+<script setup lang="ts">
+    import { ref, computed, watch, nextTick, onMounted } from 'vue';
+
+    // --- Props ---
+    const props = defineProps<{
+        externalLocation?: { name?: string } | null;
+        mapReady?: boolean;
+    }>();
+
+    // --- Shared state ---
+    const tab = ref <'Current' | 'Projected'>('Current');
+    const locationName = ref<string | null>(null);
+    const provinces = ref< { name: string; lat: number; lon: number }[]>([]);
+    const suppressEmit = ref(false);
+    const initialized = ref(false);
+
+    // --- Current parameters ---
+    const currentDataOptions = ['Temperature', 'Temperature Anomaly', 'Rain', 'Rain Anomaly'];
+    const pastData = ref(currentDataOptions[0]);
+    const months = ref <string[]>([]);
+    const pastPeriod = ref('');
+
+    // --- Projected parameters ---
+    const projectedDataOptions = ['Temperature Anomaly', 'Rain Anomaly'];
+    const projectedPeriodOptions = [
+        'Historical: 1995 - 2014',
+        '2015 - 2034',
+        '2035 - 2054',
+        '2055 - 2074',
+        '2075 - 2094'
+    ];
+    const scenarioOptions = ['Historical', 'SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'];
+
+    const projectedData = ref(projectedDataOptions[0]);
+    const projectedPeriod = ref(projectedPeriodOptions[0]);
+    const scenario = ref(scenarioOptions[0]);
+
+    // --- Computed ---
+    const availableScenarios = computed(() =>
+        projectedPeriod.value === 'Historical: 1995 - 2014'
+            ? ['Historical']
+            : scenarioOptions.filter(s => s !== 'Historical')
+    );
+
+    // --- Emit ---
+    const emit = defineEmits<{(e: 'selection-changed', payload:
+        | {
+            tab: 'Current';
+            location: { name: string; lat: number; lon: number } | null;
+            pastData: string;
+            pastPeriod: string;
+            source: 'manual';
+        }
+        | {
+            tab: 'Projected';
+            location: { name: string; lat: number; lon: number } | null;
+            projectedData: string;
+            projectedPeriod: string;
+            scenario: string;
+            source: 'manual';
+        }): void;
+    }>();
+
+    function emitSelection(source: 'manual' | 'external'): void {
+        if (!initialized.value) return;
+        const selectedProv = provinces.value.find(p => p.name === locationName.value) || null;
+        if (tab.value === 'Current') {
+            emit('selection-changed', {
+                tab: 'Current',
+                location: selectedProv,
+                pastData: pastData.value,
+                pastPeriod: pastPeriod.value,
+                source
+            });
+        }
+        else {
+            emit('selection-changed', {
+                tab: 'Projected',
+                location: selectedProv,
+                projectedData: projectedData.value,
+                projectedPeriod: projectedPeriod.value,
+                scenario: scenario.value,
+                source
+            });
+        }
+    }
+
+    // --- Setup helpers ---
+    async function setupMonths(): Promise<void> {
+        const res = await fetch('/api/climate/months');
+        const data = await res.json();
+        if (data.success) {
+            const start = new Date(data.start);
+            const end = new Date(data.end);
+            const options: string[] = [];
             let current = new Date(start);
             while (current <= end) {
-                const monthName = current.toLocaleString("default", { month: "long" });
+                const monthName = current.toLocaleString('default', { month: 'short' });
                 const year = current.getFullYear();
                 options.push(`${monthName} ${year}`);
                 current.setMonth(current.getMonth() + 1);
             }
-            this.months = options;
-            this.pastPeriod = this.months[this.months.length - 1];
-            fetch("/api/climate/provinces")
-                .then(res => res.json())
-                .then(data => {
-                    this.provinces = data;
-                })
-                .catch(err => console.error("Error fetching provinces:", err));
-        },
-        methods: {
-            emitSelection() {
-                this.$emit("selection-changed", {
-                    tab: this.tab,
-                    location: this.location,
-                    pastData: this.pastData,
-                    projectedData: this.projectedData,
-                    pastPeriod: this.pastPeriod,
-                    projectedPeriod: this.projectedPeriod,
-                    scenario: this.scenario
-                });
-            }
-        },
-        watch: {
-            externalLocation(newLoc) {
-                if (newLoc && newLoc.ADM2_EN) {
-                    const match = this.provinces.find(p => p.ADM2_EN === newLoc.ADM2_EN);
-                    if (match && (!this.location || this.location.ADM2_EN !== match.ADM2_EN)) {
-                        this.suppressEmit = true;
-                        this.location = match;
-                    }
-                } else {
-                    // blank externalLocation -> clear selection
-                    this.suppressEmit = true;
-                    this.location = null;
-                }
-            },
-            location(newVal, oldVal) {
-                if (this.suppressEmit) {
-                    this.suppressEmit = false;
-                    return;
-                }
-                if (!oldVal || !newVal || newVal.ADM2_EN !== oldVal.ADM2_EN) {
-                    this.emitSelection();
-                }
-                if (!newVal && oldVal)
-                {
-                    this.emitSelection();
-                }
-            },
-            tab: "emitSelection",
-            pastData: "emitSelection",
-            projectedData: "emitSelection",
-            pastPeriod: "emitSelection",
-            projectedPeriod: "emitSelection",
-            scenario: "emitSelection"
-        },
-        mounted() {
-            this.emitSelection();
+            months.value = options;
+            pastPeriod.value = months.value[months.value.length - 1];
         }
-    };
+    }
+
+    async function setupProvinces(): Promise<void> {
+        const res = await fetch('/api/climate/provinces');
+        provinces.value = await res.json();
+    }
+
+    // --- Watchers ---
+    watch(() => props.mapReady, () => emitSelection('manual'));
+
+    watch(() => props.externalLocation, newLoc => {
+        suppressEmit.value = true;
+        locationName.value = newLoc?.name ?? null;
+        nextTick(() => { suppressEmit.value = false; });
+    });
+
+    watch(locationName, (newVal, oldVal) => {
+        if (newVal !== oldVal && !suppressEmit.value) {
+            emitSelection('manual');
+        }
+    });
+
+    watch([tab, pastData, projectedData, pastPeriod, scenario], () => {
+        if (!suppressEmit.value) emitSelection('manual');
+    });
+
+    watch(projectedPeriod, newPeriod => {
+        let scenarioChange = false;
+        if (newPeriod === 'Historical: 1995 - 2014') {
+            scenario.value = 'Historical';
+            scenarioChange = true;
+        }
+        else if (!['SSP1 - 2.6', 'SSP2 - 4.5', 'SSP5 - 8.5'].includes(scenario.value)) {
+            scenario.value = 'SSP1 - 2.6';
+            scenarioChange = true;
+        }
+        if (!scenarioChange) {
+            emitSelection('manual');
+        }
+    });
+
+    // --- Lifecycle ---
+    onMounted(async () => {
+        await setupMonths();
+        await setupProvinces();
+        initialized.value = true;
+        emitSelection('manual');
+    });
 </script>
 
 <style scoped>
@@ -210,5 +265,10 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         color: black;
+    }
+
+    option {
+        text-align: left;
+        font-family: monospace;
     }
 </style>
