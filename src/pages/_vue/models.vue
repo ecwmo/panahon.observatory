@@ -3,7 +3,10 @@
     <div class="flex flex-col">
       <!-- Forecast Interval -->
       <Transition name="fade" mode="out-in">
-        <div v-if="isMultTime" class="flex flex-col items-center space-y-2 px-6">
+        <div
+          v-if="isMultTime && (activeVariable.allowedTimesteps ? activeVariable.allowedTimesteps.length > 1 : true)"
+          class="flex flex-col items-center space-y-2 px-6"
+        >
           <h3 class="text-center text-2xl font-semibold mt-4 mb-2">Interval</h3>
           <RowGroupBtns v-model="timestep" :items="imageTimesteps" class="text-xs" />
         </div>
@@ -71,7 +74,7 @@
           :src="imageQueries[0].data?.src"
           :alt="imageQueries[0].data?.alt"
           height="650"
-          :width="activeVariable.val === 'wrf-ts' ? 800 : 500"
+          :width="activeVariable.val === 'wrf-ts' ? 800 : activeVariable.val === 'weatherchart' ? 900 : 500"
           @load="handleImageLoad"
         />
       </Transition>
@@ -89,7 +92,7 @@
   import { useQueries } from '@tanstack/vue-query'
   import axios from 'axios'
   import { addHours, format, formatRelative, parse } from 'date-fns'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { z } from 'zod'
 
   import ModelCaption from '@/components/ModelCaption.vue'
@@ -127,6 +130,17 @@
     !isExtreme.value ? activeVariable.value.val : (activeExtremeVariable.value ?? activeVariable.value.val),
   )
 
+  const activePrefix = computed(() => activeVariable.value?.prefix ?? 'wrf')
+
+  watch(
+    () => activeVariable.value?.allowedTimesteps,
+    (allowedTS) => {
+      if (allowedTS?.length === 1) {
+        timestep.value = imageTimesteps.find((ts) => ts.val === allowedTS[0])?.val ?? imageTimesteps[1].val
+      }
+    },
+  )
+
   const parseDateFromImageFile = (s?: string) => {
     const dtStr = `${s?.match(/_([\d_-]+)/)?.[1]} +08`
     return parse(dtStr, 'yyyy-MM-dd_H X', new Date())
@@ -137,11 +151,12 @@
     timestep?: number
     timeIdx?: number
     locName?: string
+    prefix?: string
   }
-  const fetchModelImage = async ({ varName, timestep, timeIdx, locName }: FetchModelImageOpts) => {
+  const fetchModelImage = async ({ varName, timestep, timeIdx, locName, prefix }: FetchModelImageOpts) => {
     const path =
       timestep !== undefined
-        ? `${timestep}/${varName}/${timeIdx}`
+        ? `${timestep}/${varName}/${timeIdx}?prefix=${prefix}`
         : locName !== undefined
           ? `${locName}/${varName}`
           : varName
@@ -165,7 +180,12 @@
         return {
           queryKey: ['models', 'images', { varName: activeVariableName.value, timestep, index }],
           queryFn: () =>
-            fetchModelImage({ varName: activeVariableName.value, timestep: timestep.value, timeIdx: index }),
+            fetchModelImage({
+              varName: activeVariableName.value,
+              timestep: timestep.value,
+              timeIdx: index,
+              prefix: activePrefix.value,
+            }),
         }
       })
     } else if (isMultLoc.value) {

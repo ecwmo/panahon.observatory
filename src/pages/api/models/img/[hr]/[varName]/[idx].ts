@@ -14,6 +14,8 @@ export const GET: APIRoute = async ({ params, request }) => {
   const dtStr2 = format(dt, 'yyyy-MM-dd_HH')
   const dtStr3 = format(addHours(dt, dt.getTimezoneOffset() / 60), 'yyyyMMdd/HH')
 
+  const prefix = searchParams.has('prefix') ? searchParams.get('prefix') : 'wrf'
+
   let fName = ''
   if (params.hr && params.idx && params.varName) {
     const { hr: imgFreq, varName, idx } = params
@@ -21,10 +23,10 @@ export const GET: APIRoute = async ({ params, request }) => {
 
     switch (varName) {
       case 'ari':
-        fName = `${resourcePath}/model/img/wrf-${h}hr_ari_${dtStr2}PHT.png`
+        fName = `${resourcePath}/model/img/${prefix}-${h}hr_ari_${dtStr2}PHT.png`
         break
       default:
-        fName = `${resourcePath}/model/img/${+imgFreq}hrly/${dtStr3}/wrf-${h}hr_${varName}_${dtStr2}PHT.png`
+        fName = `${resourcePath}/model/img/${+imgFreq}hrly/${dtStr3}/${prefix}-${h}hr_${varName}_${dtStr2}PHT.png`
     }
   }
   return new Response(fName)

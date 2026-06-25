@@ -14,6 +14,8 @@ export type MetField = {
   multTime?: boolean
   multLoc?: boolean
   headerName?: string
+  prefix?: string
+  allowedTimesteps?: number[]
 }
 export const metFields: MetField[] = [
   {
@@ -30,6 +32,13 @@ export const metFields: MetField[] = [
   },
   { val: 'rh', text: 'Relative Humidity' },
   { val: 'wind', text: 'Winds' },
+  {
+    val: 'weatherchart',
+    text: 'Weather Chart',
+    headerName: 'Surface Weather Chart',
+    prefix: 'gfs',
+    allowedTimesteps: [3],
+  },
   {
     val: 'wrf-ts',
     text: 'Hourly Forecasts',
