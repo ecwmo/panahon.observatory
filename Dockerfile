@@ -1,7 +1,7 @@
 FROM node:lts as base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.5.3 --activate
 
 FROM base as deps
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libgif-dev \
   librsvg2-dev \
   && rm -rf /var/lib/apt/lists/*
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY prisma ./prisma
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpx prisma@6.11.1 generate
