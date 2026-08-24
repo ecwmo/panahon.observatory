@@ -1,0 +1,8 @@
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': false
+  canvas: false
+  esbuild: false
+  prisma: false
+  sharp: false
+  vue-demi: false
