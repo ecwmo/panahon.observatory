@@ -1,13 +1,11 @@
 import type { APIRoute } from 'astro';
-import path from 'path';
 import { access, readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
+import { loadClimateConfig, resourcePath } from '@/lib/climate';
 
 const DATA_TYPES = [
     {
         key: 'Rain',
-        baseDir: path.join(resourceDir, 'climate/current/rain'),
-        prefix: 'rain_wrf_anomaly_',
         style: {
             scaling: 'fixed',
             min: '0',
@@ -25,8 +23,6 @@ const DATA_TYPES = [
     },
     {
         key: 'Rain Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
-        prefix: 'anom_rain_wrf_anomaly_',
         style: {
             scaling: 'fixed',
             min: '-100',
@@ -45,8 +41,6 @@ const DATA_TYPES = [
     },
     {
         key: 'Temperature',
-        baseDir: path.join(resourceDir, 'climate/current/temp'),
-        prefix: 'temp_wrf_anomaly_',
         style: {
             scaling: 'linear',
             min: '25',
@@ -62,8 +56,6 @@ const DATA_TYPES = [
     },
     {
         key: 'Temperature Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
-        prefix: 'anom_temp_wrf_anomaly_',
         style: {
             scaling: 'fixed',
             min: '-5',
@@ -91,8 +83,8 @@ export const GET: APIRoute = async ({ request }) => {
         );
     }
 
-    const config = DATA_TYPES.find(d => d.key === pastData);
-    if (!config) {
+    const displayConfig = DATA_TYPES.find(d => d.key === pastData);
+    if (!displayConfig) {
         return new Response(
             JSON.stringify({ error: 'Invalid pastData parameter' }),
             { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -100,20 +92,23 @@ export const GET: APIRoute = async ({ request }) => {
     }
 
     try {
+        const climateConfig = loadClimateConfig(resourceDir);
+        const dataConfig = climateConfig.climate.current[pastData];
+        if (!dataConfig) throw new Error('Missing current climate configuration');
         const parsed = new Date(`${pastPeriod} 1`);
         const year = parsed.getFullYear();
         const monthName = parsed.toLocaleString('default', { month: 'long' });
         const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
-        const fileName = `${config.prefix}${year}-${month}.tif`;
-        const filePath = path.join(config.baseDir, fileName);
+        const fileName = `${dataConfig.prefix}${year}-${month}.tif`;
+        const filePath = resourcePath(resourceDir, `${dataConfig.directory}/${fileName}`);
 
         await access(filePath);
         const buffer = await readFile(filePath);
 
-        const styleRaw = Buffer.from(JSON.stringify(config.style || {}), 'utf-8').toString();
+        const styleRaw = Buffer.from(JSON.stringify(displayConfig.style || {}), 'utf-8').toString();
         const style = JSON.parse(styleRaw);
 
-        const title = `${config.key} (${monthName} ${year})`;
+        const title = `${displayConfig.key} (${monthName} ${year})`;
 
         return new Response(buffer, {
             status: 200,

@@ -37,7 +37,9 @@
             <div class="section" v-if="tab === 'Projected'">
                 <h4>Period</h4>
                 <select v-model="projectedPeriod">
-                    <option v-for="opt in projectedPeriodOptions" :key="opt" :value="opt">{{ opt }}</option>
+                    <option v-for="opt in projectedPeriodOptions" :key="opt" :value="opt">
+                        {{ opt.replace(/^Historical:\s*/, '') }}
+                    </option>
                 </select>
             </div>
             <div class="section" v-if="tab === 'Current'">
@@ -48,7 +50,7 @@
             </div>
 
             <!-- Scenario -->
-            <div class="section" v-if="tab === 'Projected'">
+            <div class="section" v-if="tab === 'Projected' && projectedPeriod !== 'Historical: 1995 - 2014'">
                 <h4>Scenario</h4>
                 <select v-model="scenario">
                     <option v-for="opt in availableScenarios" :key="opt" :value="opt">{{ opt }}</option>

@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
-import path from 'path';
 import { readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
+import { loadClimateConfig, resourcePath } from '@/lib/climate';
 
 export const GET: APIRoute = async () => {
     try {
-        // Path to CSV
-        const filePath = path.join(resourceDir, 'climate/provinces/provinces.csv');
+        const config = loadClimateConfig(resourceDir);
+        const filePath = resourcePath(resourceDir, config.climate.provinces.file);
 
         // Read file
         const buffer = await readFile(filePath, 'utf-8');

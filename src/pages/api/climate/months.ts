@@ -1,30 +1,7 @@
 import type { APIRoute } from 'astro';
-import path from 'path';
 import { readdir } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
-
-const DATA_TYPES = [
-    {
-        key: 'Rain',
-        baseDir: path.join(resourceDir, 'climate/current/rain'),
-        prefix: 'rain_wrf_anomaly_',
-    },
-    {
-        key: 'Rain Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
-        prefix: 'anom_rain_wrf_anomaly_',
-    },
-    {
-        key: 'Temperature',
-        baseDir: path.join(resourceDir, 'climate/current/temp'),
-        prefix: 'temp_wrf_anomaly_',
-    },
-    {
-        key: 'Temperature Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
-        prefix: 'anom_temp_wrf_anomaly_',
-    },
-];
+import { loadClimateConfig, resourcePath } from '@/lib/climate';
 
 function parseDateFromFilename(filename: string, prefix: string): Date | null {
     if (!filename.startsWith(prefix) || !filename.endsWith('.tif')) return null;
@@ -36,16 +13,18 @@ function parseDateFromFilename(filename: string, prefix: string): Date | null {
 
 export const GET: APIRoute = async () => {
     const allDates: Date[] = [];
+    const climate = loadClimateConfig(resourceDir).climate;
 
-    for (const c of DATA_TYPES) {
+    for (const [key, data] of Object.entries(climate.current)) {
+        const baseDir = resourcePath(resourceDir, data.directory);
         try {
-            const files = await readdir(c.baseDir);
+            const files = await readdir(baseDir);
             for (const f of files) {
-                const d = parseDateFromFilename(f, c.prefix);
+                const d = parseDateFromFilename(f, data.prefix);
                 if (d) allDates.push(d);
             }
         } catch (err) {
-            console.error(`Error reading ${c.baseDir}:`, err);
+            console.error(`Error reading ${key} data at ${baseDir}:`, err);
         }
     }
 

@@ -225,8 +225,8 @@
                     const graphMaxHeader = res.headers.get("X-GraphMax");
                     const decimals = res.headers.get("X-Decimals") || 1;
                     const unit = res.headers.get("X-Unit") || "";
-                    const title = res.headers.get("X-Title") || "Test Title";
-                    const altTitle = res.headers.get("X-AltTitle") || "Test Alt Title";
+                    const title = res.headers.get("X-Title") || newParams.projectedData;
+                    const altTitle = res.headers.get("X-AltTitle") || title;
                     this.unit = unit;
 
                     this.projectedMin = graphMinHeader !== null ? parseFloat(graphMinHeader) : null;

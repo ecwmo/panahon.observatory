@@ -173,6 +173,9 @@ public/resources/*
 !public/resources/static/
 !public/resources/reports/report.json.sample
 !public/resources/station/weather.json
+!public/resources/climate/
+public/resources/climate/*
+!public/resources/climate/config_example.json
 
 .env.development
 .env.production
@@ -182,3 +185,4 @@ public/resources/*
 
 # Ignore Visual Studio cache and workspace files
 .vs/
+.opencode/

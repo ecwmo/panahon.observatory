@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import fs from 'fs';
-import path from 'path';
 import { parse } from 'csv-parse/sync';
+import { loadClimateConfig, projectedCsvPath } from '@/lib/climate';
+import { resourceDir } from '@/lib/helper/pages';
 
 interface ProvinceData {
   province: string;
@@ -15,12 +16,9 @@ interface ProvinceData {
 // Function to filter CSV
 function getFilteredData(selectedProvince: string, projectedData: string, selectedModel: string) {
   let csvPath: string;
-
-  if (projectedData === 'Temperature Anomaly') {
-    csvPath = path.resolve('public/resources/climate/projected/tmean_v2.csv');
-  } else if (projectedData === 'Rain Anomaly') {
-    csvPath = path.resolve('public/resources/climate/projected/pr_v2.csv');
-  } else {
+  try {
+    csvPath = projectedCsvPath(resourceDir, loadClimateConfig(resourceDir), projectedData);
+  } catch {
     console.error('Invalid selectedMap value:', projectedData);
     return;
   }

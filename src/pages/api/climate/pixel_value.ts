@@ -1,22 +1,18 @@
 ﻿import type { APIRoute } from 'astro';
-import path from 'path';
 import fs from 'fs/promises';
 import { fromFile } from 'geotiff';
 import { resourceDir } from '@/lib/helper/pages';
+import { loadClimateConfig, resourcePath } from '@/lib/climate';
 
 const DATA_TYPES = [
     {
         key: 'Rain',
-        baseDir: path.join(resourceDir, 'climate/current/rain'),
-        prefix: 'rain_wrf_anomaly_',
         measurement: 'Rainfall (mm)',
         name: 'Grid Rainfall Trend',
         decimals: 0,
         graph: 'line',
         negativeColor: '#01665E',
         positiveColor: '#01665E',
-        baselineDir: path.join(resourceDir, 'climate/current/rain_baseline'),
-        baselinePattern: '{month}_gsmap_2001-2020_clim.tif',
         baselineNegativeColor: '#666666',
         baselinePositiveColor: '#666666',
         primaryTooltip: 'Observed monthly average rainfall.',
@@ -24,8 +20,6 @@ const DATA_TYPES = [
     },
     {
         key: 'Rain Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_rain'),
-        prefix: 'anom_rain_wrf_anomaly_',
         measurement: 'Rainfall Change (%)',
         name: 'Grid Rainfall Anomaly Graph',
         decimals: 0,
@@ -39,16 +33,12 @@ const DATA_TYPES = [
     },
     {
         key: 'Temperature',
-        baseDir: path.join(resourceDir, 'climate/current/temp'),
-        prefix: 'temp_wrf_anomaly_',
         measurement: 'Temperature (\u00B0C)',
         name: 'Grid Temperature Trend',
         decimals: 1,
         graph: 'line',
         negativeColor: '#B2182B',
         positiveColor: '#B2182B',
-        baselineDir: path.join(resourceDir, 'climate/current/temp_baseline'),
-        baselinePattern: '{month}_aphrodite_1971-2000_clim.tif',
         baselineNegativeColor: '#666666',
         baselinePositiveColor: '#666666',
         primaryTooltip: 'Observed monthly average temperature.',
@@ -56,8 +46,6 @@ const DATA_TYPES = [
     },
     {
         key: 'Temperature Anomaly',
-        baseDir: path.join(resourceDir, 'climate/current/anom_temp'),
-        prefix: 'anom_temp_wrf_anomaly_',
         measurement: 'Temperature (\u00B0C)',
         name: 'Grid Temperature Anomaly Graph',
         decimals: 1,
@@ -146,13 +134,22 @@ export const GET: APIRoute = async ({ request }) => {
         );
     }
 
+    const climateConfig = loadClimateConfig(resourceDir);
+    const dataConfig = climateConfig.climate.current[pastData];
+    if (!dataConfig) {
+        return new Response(
+            JSON.stringify({ error: 'Missing current climate configuration' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
+
     let value: number | null = null;
 
     const parsed = new Date(`${pastPeriod} 1`);
     const year = parsed.getFullYear();
     const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
-    const fileName = `${config.prefix}${year}-${month}.tif`;
-    const filePath = path.join(config.baseDir, fileName);
+    const fileName = `${dataConfig.prefix}${year}-${month}.tif`;
+    const filePath = resourcePath(resourceDir, `${dataConfig.directory}/${fileName}`);
 
     const rawValue = await getRasterValue(filePath, lat, lon);
     if (rawValue !== null) {
@@ -165,8 +162,8 @@ export const GET: APIRoute = async ({ request }) => {
         const monthAbbr = d.toLocaleString('default', { month: 'short' });
         const y = d.getFullYear();
         const m = (d.getMonth() + 1).toString().padStart(2, '0');
-        const trendFileName = `${config.prefix}${y}-${m}.tif`;
-        const trendFilePath = path.join(config.baseDir, trendFileName);
+        const trendFileName = `${dataConfig.prefix}${y}-${m}.tif`;
+        const trendFilePath = resourcePath(resourceDir, `${dataConfig.directory}/${trendFileName}`);
 
         let v: number | null = null;
         if (await fileExists(trendFilePath)) {
@@ -178,13 +175,13 @@ export const GET: APIRoute = async ({ request }) => {
     trend = trend.reverse();
 
     let baseline: (string | number)[][] = [];
-    if (config.baselineDir && config.baselinePattern) {
+    if (dataConfig.baselineDirectory && dataConfig.baselinePattern) {
         for (let i = 0; i < 13; i++) {
             const d = new Date(parsed.getFullYear(), parsed.getMonth() - i, 1);
             const monthAbbr = d.toLocaleString('default', { month: 'short' });
             const monthNum = (d.getMonth() + 1).toString().padStart(2, '0');
-            const baselineFileName = config.baselinePattern.replace('{month}', monthNum);
-            const baselineFilePath = path.join(config.baselineDir, baselineFileName);
+            const baselineFileName = dataConfig.baselinePattern.replace('{month}', monthNum);
+            const baselineFilePath = resourcePath(resourceDir, `${dataConfig.baselineDirectory}/${baselineFileName}`);
 
             let v: number | null = null;
             if (await fileExists(baselineFilePath)) {

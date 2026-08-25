@@ -1,0 +1,40 @@
+{
+  "climate": {
+    "provinces": { "file": "climate/provinces/provinces.csv" },
+    "current": {
+      "Rain": {
+        "directory": "climate/current/rain",
+        "prefix": "rain_wrf_anomaly_",
+        "baselineDirectory": "climate/current/rain_baseline",
+        "baselinePattern": "{month}_gsmap_2001-2020_clim.tif"
+      },
+      "Rain Anomaly": { "directory": "climate/current/anom_rain", "prefix": "anom_rain_wrf_anomaly_" },
+      "Temperature": {
+        "directory": "climate/current/temp",
+        "prefix": "temp_wrf_anomaly_",
+        "baselineDirectory": "climate/current/temp_baseline",
+        "baselinePattern": "{month}_aphrodite_1971-2000_clim.tif"
+      },
+      "Temperature Anomaly": { "directory": "climate/current/anom_temp", "prefix": "anom_temp_wrf_anomaly_" }
+    },
+    "projected": {
+      "files": {
+        "Temperature Anomaly": "climate/projected/tmean_v2.csv",
+        "Rain Anomaly": "climate/projected/pr_v2.csv"
+      },
+      "periods": {
+        "Historical: 1995 - 2014": { "start": 1995, "end": 2014 },
+        "2015 - 2034": { "start": 2015, "end": 2034 },
+        "2035 - 2054": { "start": 2035, "end": 2054 },
+        "2055 - 2074": { "start": 2055, "end": 2074 },
+        "2075 - 2094": { "start": 2075, "end": 2094 }
+      },
+      "scenarios": {
+        "Historical": "historical",
+        "SSP1 - 2.6": "ssp126",
+        "SSP2 - 4.5": "ssp245",
+        "SSP5 - 8.5": "ssp585"
+      }
+    }
+  }
+}
