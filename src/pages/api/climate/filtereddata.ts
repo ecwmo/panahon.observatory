@@ -32,62 +32,23 @@ function getFilteredData(selectedProvince: string, projectedData: string, select
   });
 
   let filtered = records.filter(r => r.province === selectedProvince || r.province === "PH");
-  const yearExperimentMap = {}
-
-
   if (!selectedModel || selectedModel === 'Multi-model') {
-    // Compute average across all models for each year & experiment
-    const yearExperimentMap: Record<
-      string, // province
-      Record<string, Record<string, number[]>> // year -> experiment -> values
-    > = {};
-
-    filtered.forEach(r => {
-      if (!yearExperimentMap[r.year]) yearExperimentMap[r.year] = {};
-      if (!yearExperimentMap[r.year][r.experiment]) {
-        yearExperimentMap[r.year][r.experiment] = [];
-      }
-      yearExperimentMap[r.year][r.experiment].push(Number(r.anomaly));
-    });
-
-    const mapped = filtered.map(r => ({
-      province: r.province,
-      year: r.year,
-      data: Number(r.anomaly),
-      experiment: r.experiment
-    }));
-
-    function computeProvinceAverages(province: string) {
-      const provinceData = filtered.filter(r => r.province === province);
-
-      const map: Record<string, Record<string, number[]>> = {};
-
-      provinceData.forEach(r => {
-        if (!map[r.year]) map[r.year] = {};
-        if (!map[r.year][r.experiment]) map[r.year][r.experiment] = [];
-        map[r.year][r.experiment].push(Number(r.anomaly));
-      });
-
-      // Compute averages and push to mapped
-      Object.keys(map).forEach(year => {
-        Object.keys(map[year]).forEach(experiment => {
-          const values = map[year][experiment];
-          const avg = values.reduce((sum, v) => sum + v, 0) / values.length;
-
-          mapped.push({
-            province,     // <--- keep province separate
-            year,
-            data: avg,
-            experiment
-          });
-        });
-      });
-
-      return map; // optional: could assign to yearExperimentMap if needed
+    const groups = new Map<string, { province: string; year: string; experiment: string; values: number[] }>();
+    for (const record of filtered) {
+      const key = `${record.province}|${record.year}|${record.experiment}`;
+      const group = groups.get(key) ?? { province: record.province, year: record.year, experiment: record.experiment, values: [] };
+      group.values.push(Number(record.anomaly));
+      groups.set(key, group);
     }
-    const selectedMap = computeProvinceAverages(selectedProvince);
-    const phMap = computeProvinceAverages('PH');
-    return { mapped };
+
+    return {
+      mapped: Array.from(groups.values(), group => ({
+        province: group.province,
+        year: group.year,
+        data: group.values.reduce((sum, value) => sum + value, 0) / group.values.length,
+        experiment: group.experiment,
+      })),
+    };
   }
 
 
@@ -103,7 +64,7 @@ function getFilteredData(selectedProvince: string, projectedData: string, select
 
   return {
     mapped,
-    yearExperimentMap
+    yearExperimentMap: {}
   };
   //return filtered.map(r => ({
   //  year: r.year,
