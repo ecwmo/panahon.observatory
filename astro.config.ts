@@ -35,6 +35,9 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       base: basePath,
+      workbox: {
+        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
+      },
       includeAssets: ['favicon.ico'],
       manifest: {
         name: 'Manila Observatory - Panahon',
