@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import { fromFile } from 'geotiff';
 import { resourceDir } from '@/lib/helper/pages';
-import { loadClimateConfig, resourcePath } from '@/lib/climate';
+import { loadClimateConfig, rasterPixelIndex, resourcePath } from '@/lib/climate';
 
 const DATA_TYPES = [
     {
@@ -80,16 +80,13 @@ async function getRasterValue(filePath: string, lat: number, lon: number): Promi
         const image = await tiff.getImage();
         const rasters = await image.readRasters({ window: null });
 
-        const [originX, originY] = image.getOrigin();
-        const [resX, resY] = image.getResolution();
         const width = image.getWidth();
         const height = image.getHeight();
 
-        const x = Math.floor((lon - originX) / resX);
-        const y = Math.floor((lat - originY) / resY);
+        const pixel = rasterPixelIndex(image.getBoundingBox(), width, height, lat, lon);
 
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            return rasters[0][y * width + x];
+        if (pixel) {
+            return rasters[0][pixel.y * width + pixel.x];
         }
         return null;
     }

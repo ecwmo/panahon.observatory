@@ -36,3 +36,19 @@ export function projectedCsvPath(resourceDirectory: string, config: ClimateConfi
 
   return resourcePath(resourceDirectory, relativePath)
 }
+
+export function rasterPixelIndex(
+  bounds: [number, number, number, number],
+  width: number,
+  height: number,
+  lat: number,
+  lon: number
+) {
+  const [minX, minY, maxX, maxY] = bounds
+  if (lon < minX || lon >= maxX || lat < minY || lat >= maxY) return null
+
+  return {
+    x: Math.floor(((lon - minX) / (maxX - minX)) * width),
+    y: Math.floor(((maxY - lat) / (maxY - minY)) * height),
+  }
+}

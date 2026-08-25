@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { projectedCsvPath } from '@/lib/climate'
+import { projectedCsvPath, rasterPixelIndex } from '@/lib/climate'
 
 const config = {
   climate: {
@@ -25,5 +25,15 @@ describe('projectedCsvPath', () => {
 
   test('rejects unsupported data types', () => {
     expect(() => projectedCsvPath('/resources', config, 'Rain')).toThrow('Unsupported projectedData')
+  })
+})
+
+describe('rasterPixelIndex', () => {
+  test('maps north-up coordinates from the northern edge', () => {
+    expect(rasterPixelIndex([120, 10, 130, 20], 100, 100, 19, 121)).toEqual({ x: 10, y: 10 })
+  })
+
+  test('rejects coordinates outside the raster bounds', () => {
+    expect(rasterPixelIndex([120, 10, 130, 20], 100, 100, 20, 121)).toBeNull()
   })
 })
