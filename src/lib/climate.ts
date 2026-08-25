@@ -52,3 +52,19 @@ export function rasterPixelIndex(
     y: Math.floor(((maxY - lat) / (maxY - minY)) * height),
   }
 }
+
+const monthIndexes: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+}
+
+export function parseClimateMonth(value: string) {
+  const match = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})$/.exec(value)
+  if (!match) return null
+
+  return new Date(Date.UTC(Number(match[2]), monthIndexes[match[1]], 1))
+}
+
+export function isValidCoordinate(lat: number, lon: number) {
+  return Number.isFinite(lat) && Number.isFinite(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
+}

@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import { fromFile } from 'geotiff';
 import { resourceDir } from '@/lib/helper/pages';
-import { loadClimateConfig, rasterPixelIndex, resourcePath } from '@/lib/climate';
+import { isValidCoordinate, loadClimateConfig, parseClimateMonth, rasterPixelIndex, resourcePath } from '@/lib/climate';
 
 const DATA_TYPES = [
     {
@@ -116,9 +116,17 @@ export const GET: APIRoute = async ({ request }) => {
     const pastData = url.searchParams.get('pastData');
     const pastPeriod = url.searchParams.get('pastPeriod');
 
-    if (isNaN(lat) || isNaN(lon) || !pastData || !pastPeriod) {
+    if (!isValidCoordinate(lat, lon) || !pastData || !pastPeriod) {
         return new Response(
             JSON.stringify({ error: 'Missing location, lat, lon, pastData or pastPeriod parameter' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
+
+    const parsed = parseClimateMonth(pastPeriod);
+    if (!parsed) {
+        return new Response(
+            JSON.stringify({ error: 'Invalid pastPeriod parameter' }),
             { status: 400, headers: { 'Content-Type': 'application/json' } }
         );
     }
@@ -142,8 +150,7 @@ export const GET: APIRoute = async ({ request }) => {
 
     let value: number | null = null;
 
-    const parsed = new Date(`${pastPeriod} 1`);
-    const year = parsed.getFullYear();
+    const year = parsed.getUTCFullYear();
     const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
     const fileName = `${dataConfig.prefix}${year}-${month}.tif`;
     const filePath = resourcePath(resourceDir, `${dataConfig.directory}/${fileName}`);

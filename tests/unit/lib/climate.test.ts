@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { projectedCsvPath, rasterPixelIndex } from '@/lib/climate'
+import { isValidCoordinate, parseClimateMonth, projectedCsvPath, rasterPixelIndex } from '@/lib/climate'
 
 const config = {
   climate: {
@@ -36,4 +36,21 @@ describe('rasterPixelIndex', () => {
   test('rejects coordinates outside the raster bounds', () => {
     expect(rasterPixelIndex([120, 10, 130, 20], 100, 100, 20, 121)).toBeNull()
   })
+})
+
+describe('parseClimateMonth', () => {
+  test('accepts the selector month format', () => {
+    expect(parseClimateMonth('Jan 2026')?.toISOString()).toBe('2026-01-01T00:00:00.000Z')
+  })
+
+  test('rejects malformed dates', () => {
+    expect(parseClimateMonth('January 2026')).toBeNull()
+    expect(parseClimateMonth('2026-01')).toBeNull()
+  })
+})
+
+test('isValidCoordinate enforces geographic bounds', () => {
+  expect(isValidCoordinate(14.6, 121)).toBe(true)
+  expect(isValidCoordinate(91, 121)).toBe(false)
+  expect(isValidCoordinate(14.6, Infinity)).toBe(false)
 })

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { access, readFile } from 'node:fs/promises';
 import { resourceDir } from '@/lib/helper/pages';
-import { loadClimateConfig, resourcePath } from '@/lib/climate';
+import { loadClimateConfig, parseClimateMonth, resourcePath } from '@/lib/climate';
 
 const DATA_TYPES = [
     {
@@ -83,6 +83,14 @@ export const GET: APIRoute = async ({ request }) => {
         );
     }
 
+    const parsed = parseClimateMonth(pastPeriod);
+    if (!parsed) {
+        return new Response(JSON.stringify({ error: 'Invalid pastPeriod parameter' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
     const displayConfig = DATA_TYPES.find(d => d.key === pastData);
     if (!displayConfig) {
         return new Response(
@@ -95,8 +103,7 @@ export const GET: APIRoute = async ({ request }) => {
         const climateConfig = loadClimateConfig(resourceDir);
         const dataConfig = climateConfig.climate.current[pastData];
         if (!dataConfig) throw new Error('Missing current climate configuration');
-        const parsed = new Date(`${pastPeriod} 1`);
-        const year = parsed.getFullYear();
+        const year = parsed.getUTCFullYear();
         const monthName = parsed.toLocaleString('default', { month: 'long' });
         const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
         const fileName = `${dataConfig.prefix}${year}-${month}.tif`;
