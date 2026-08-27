@@ -1,6 +1,6 @@
 import { atom, computed } from 'nanostores'
 
-const imgSrcPath = '/resources/climate/img'
+const imgSrcPath = '/resources/climate/old/img'
 
 type Item = {
   val: string

@@ -67,7 +67,7 @@
     setActiveScenario,
     setActiveVariable,
     variables,
-  } from '@/stores/climate'
+  } from '@/stores/oldClimate'
 
   const activeScenario = useStore($activeScenario)
   const activeDecade = useStore($activeDecade)
