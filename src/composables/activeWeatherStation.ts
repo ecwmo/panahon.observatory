@@ -6,7 +6,6 @@ import { computed, unref } from 'vue'
 
 import { heatIndex } from '@/lib/weather'
 import { stationObsLatest } from '@/schemas/station'
-import { apiRoute } from '@/stores/routes'
 import { setActiveStation } from '@/stores/station'
 
 type StationInfo = {
@@ -30,10 +29,10 @@ export const useActiveWeatherStation = ({ id, pt }: StationInfo) => {
   })
 
   const getStationObs = async () => {
-    const url = !isNaN(+stnID.value)
-      ? `${apiRoute()}/stations/${+stnID.value}/observations/latest`
-      : `${apiRoute()}/stations/nearest/observations/latest?pt=${stnLocStr.value}`
-    const { data } = await axios.get(url)
+    const url = new URL('/api/stations/observations/latest', window.location.origin)
+    if (!isNaN(+stnID.value)) url.searchParams.set('stationId', String(+stnID.value))
+    else url.searchParams.set('pt', stnLocStr.value)
+    const { data } = await axios.get(url.toString())
     const dat = stationObsLatest.parse(data)
     dat.obs.hi = dat.obs.hi ?? heatIndex(dat.obs.temp ?? 0, dat.obs.rh ?? 0)
     setActiveStation(dat)
